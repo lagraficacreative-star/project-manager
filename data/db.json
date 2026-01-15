@@ -1,0 +1,715 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Redise\u00f1o Logo",
+      "scope": "design",
+      "status": "in_progress",
+      "priority": "high",
+      "client": "LaGr\u00e0fica",
+      "assignee": "neus",
+      "boardId": "b_design",
+      "columnId": "in_progress"
+    },
+    {
+      "id": 2,
+      "title": "Landing Page Evento",
+      "scope": "web",
+      "status": "todo",
+      "priority": "medium",
+      "client": "Ayto. BCN",
+      "assignee": "montse",
+      "boardId": "b_web",
+      "columnId": "todo"
+    },
+    {
+      "id": 3,
+      "title": "Reels Enero",
+      "scope": "social",
+      "status": "review",
+      "priority": "low",
+      "client": "Caf\u00e9 365",
+      "assignee": "alba",
+      "boardId": "b_social",
+      "columnId": "in_progress"
+    },
+    {
+      "title": "dfsdsdf",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "todo",
+      "id": 1768391621774
+    },
+    {
+      "id": 1768393859319,
+      "title": "Novetats de 2025/000012282 Ajuntament de Matar\u00f3",
+      "description": "Departament d'Innovaci\u00f3, Universitats i Empresa | Perfils de contractant | Portal de contractacions | Generalitat de Catalunya\nbody {font-family:Verdana,Arial,Helvetica,sans-serif; font-size:62.5%;}\n#marc-web{ font-size: 1.1em; margin: 0 0.91em 0 0; overflow: hidden;}\nh1 {clear: both; font-size: 1em; height: 11.36em; margin-bottom: 1em; padding: 0; position: relative;}\nh1 img { border: none;}\n#contingut {margin: 0; overflow: hidden; padding: 0;}\nh2 {color: #660303;\tclear: both; font-size: 1.55em; margin: 0 0 0.5em 0;}\n.perfils-contractant h3 {color: #660303; font-size: 1.18em; margin: 0; padding: 0;}\na {color: #ac2115; text-decoration: none;}\nul#llista-licitacions {list-style: none; margin-left: 0; padding: 0;}\nul#llista-licitacions li {background: url(https://contractaciopublica.cat/images/pscp/dl-bullet.png) no-repeat 0 0.4em; font-weight: bold; margin:0.5em 0; padding-left: 1em;}\nul#llista-licitacions li a {color: #ac2115; text-decoration: none;}\nul#links-subscripcio {margin-top: 2em; padding-left: 0; margin-left: -0.5em;}\nul#links-subscripcio li {border-right: 1px solid; display: inline; font-weight: bold; padding: 0 0.5em;}\nul#links-subscripcio li.ultim {border: none;}\nul#links-subscripcio li a {color: #666; text-decoration: none;}\nSr/Sra. TORRELLES TEIXID\u00d3 MONTSERRAT\nA la Plataforma de Serveis de Contractaci\u00f3 P\u00fablica s&#39;han produ\u00eft les seg\u00fcents novetats en relaci\u00f3 a l&#39;expedient  Contractaci\u00f3 del  servei de creaci\u00f3, disseny i maquetaci\u00f3 de material gr\u00e0fic dels projectes i programes de les diferents seccions del Servei de Cultura .\nAjuntament de Matar\u00f3 ha publicat  , amb data 14/01/2026 12:03, una resposta  al Tauler d&#39;avisos\nAccedir a la Plataforma de Serveis de Contractaci\u00f3 P\u00fablica\nDonar-se de baixa de totes les comunicacions d&#39;aquest expedient",
+      "scope": "tenders",
+      "status": "pending",
+      "priority": "medium",
+      "client": "plataforma.contractacio@gencat.cat",
+      "assignee": "montse",
+      "boardId": "b_management",
+      "columnId": "pending",
+      "origin": "email",
+      "date": "2026-01-14",
+      "email_ref": "montse_74",
+      "attachments": []
+    },
+    {
+      "id": 1768394857133,
+      "title": "IMPORTANT: Av\u00eds de notificaci\u00f3 de l'ens Consell Comarcal del Baix Ebre",
+      "description": "Av\u00eds de notificaci\u00f3 electr\u00f2nica\n#outlook a { padding: 0; }\n.ReadMsgBody { width: 100%; }\n.ExternalClass { width: 100%; }\n.ExternalClass * { line-height: 100%; }\nbody {\nmargin: 0;\npadding: 0;\n-webkit-text-size-adjust: 100%;\n-ms-text-size-adjust: 100%;\n}\ntable, td {\nborder-collapse: collapse;\nmso-table-lspace: 0pt;\nmso-table-rspace: 0pt;\n}\nimg {\nborder: 0;\nheight: auto;\nline-height: 100%;\noutline: none;\ntext-decoration: none;\n-ms-interpolation-mode: bicubic;\n}\np {\ndisplay: block;\nmargin: 13px 0;\n}\n@media only screen and (max-width:480px) {\n@-ms-viewport { width: 320px; }\n@viewport { width: 320px; }\n}\n96\n.outlook-group-fix { width:100% !important; }\n@media only screen and (min-width:480px) {\n.mj-column-per-100 {\nwidth: 100% !important;\nmax-width: 100%;\n}\n.mj-column-per-20 {\nwidth: 20% !important;\nmax-width: 20%;\n}\n.mj-column-per-70 {\nwidth: 70% !important;\nmax-width: 70%;\n}\n}\n@media only screen and (max-width:480px) {\ntable.full-width-mobile {\nwidth: 100% !important;\n}\ntd.full-width-mobile {\nwidth: auto !important;\n}\n}\n@media (min-width: 380px) {\n.logo-column {\nwidth: 10% !important;\n}\n}\n.data-table td, .data-table th {\npadding-bottom: 8px;\n}\n.data-table td {\npadding-left: 20px;\n}\n@media (max-width: 768px) {\n.data-table tr, .data-table td, .data-table th {\ndisplay: block;\n}\n.data-table td, .data-table th {\npadding-bottom: 0;\npadding-left: 0;\n}\n.data-table tr {\nmargin-top: 12px;\n}\n}\nConsell Comarcal del Baix Ebre\nHola,\nHas rebut una notificaci\u00f3 electr\u00f2nica.\nIdentifica't per accedir-hi\nDades de l'enviament\n&nbsp;\nDestinatari\nLAGRAFICA CREATIVE EXPERIENCE S.L. (******603)\nEmissor\nConsell Comarcal del Baix Ebre\nAssumpte\nNotificaci\u00f3 -- Expedient 4404/2025 Contractacions Serveis (SIA 3054137, S\u00e8rie 1403)\nData de lliurament\n14/01/2026 a les 13:46 h\nAcc\u00e9s fins\n26/01/2026 a les 23:59 h\nMecanisme d'acc\u00e9s\nCodi d'un sol \u00fas, idCAT M\u00f2bil o certificat digital.\nId. Notificaci\u00f3\n199781257\n&nbsp;\nNecessites ajuda? Consulta el nostre portal de suport.\nAquest missatge de correu electr\u00f2nic procedeix d'una adre\u00e7a exclusivament d'enviament. No responguis aquest missatge.",
+      "scope": "tenders",
+      "status": "pending",
+      "priority": "medium",
+      "client": "Consell Comarcal del Baix Ebre <norespongueu@enotum.cat>",
+      "assignee": "montse",
+      "boardId": "b_management",
+      "columnId": "pending",
+      "origin": "email",
+      "date": "2026-01-14",
+      "email_ref": "montse_78",
+      "attachments": []
+    },
+    {
+      "id": 1768396563546,
+      "title": "Re: [External] URGENT",
+      "description": "Bones Alba\r\n\r\nAqui tens!\r\n\r\nEl mi\u00e9, 14 ene 2026 a las 10:01, alba@lagrafica.com (<alba@lagrafica.com>)\r\nescribi\u00f3:\r\n\r\n> Bones,\r\n>\r\n> Necessito que em firmeu aquest docuement urgent!\r\n>\r\n>\r\n>\r\n>\r\n> \u2014\r\n>\r\n> *ALBA PUIGGROS*\r\n> *Project Manager*\r\n>\r\n>\r\n>\r\n>\r\n> alba <alba@lagrafica.com>@lagrafica.com <alba@lagrafica.com>\r\n>\r\n>  973 21 63 63\r\n>\r\n> Manuel Gaya i Tom\u00e0s, 11 baixos, Lleida\r\n>\r\n>\r\n>\r\n>\r\n>\r\n>\r\n> AVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su\r\n> destinatario. Puede contener informaci\u00f3n confidencial sometida a secreto\r\n> profesional. Si no es usted el destinatario debe saber que la informaci\u00f3n\r\n> contenida en este mensaje es reservada y su utilizaci\u00f3n o divulgaci\u00f3n con\r\n> cualquier fin est\u00e1 prohibida. Si ha recibido este documento por error, le\r\n> rogamos que nos lo comunique y proceda a su destrucci\u00f3n. LAGRAFICA CREATIVE\r\n> EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de\r\n> conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su\r\n> correo electr\u00f3nico as\u00ed como otros datos de car\u00e1cter personal son tratados\r\n> con la finalidad de mantener un canal de comunicaci\u00f3n electr\u00f3nica con usted\r\n> y poder atender cualquier informaci\u00f3n, duda, petici\u00f3n o consulta que\r\n> precise por esta misma v\u00eda. Podr\u00e1 ejercer sus derechos de acceso,\r\n> rectificaci\u00f3n, limitaci\u00f3n de tratamiento, supresi\u00f3n, portabilidad y\r\n> oposici\u00f3n al tratamiento de sus datos de car\u00e1cter personal as\u00ed como revocar\r\n> los consentimientos que en su caso haya prestado u obtener m\u00e1s informaci\u00f3n,\r\n> dirigiendo su petici\u00f3n a alba@lagrafica.com <neus@lagrafica.com>\r\n>\r\n>\r\n\r\n-- \r\n*Gerard Gimeno Farr\u00e9*\r\nGestor Pymes Digital Lleida\r\n661.474.431 \u2013 *gerard.gimeno*@bbva.com <gerard.gimeno@bbva.com>\r\nCBC Lleida - 9643 Rambla de Ferran 30 - Planta 1\u00aa - 25007 - Lleida\r\n\r\nAbans d\u2019imprimir aquest missatge, si us plau comprova que sigui necessari\r\n\r\n\r\n*  \u20acuropean Financial Advisor (EFA)TM*\r\n\r\n*  TEL\u00c8FON NET CASH 91 224 98 02*\r\n\r\n\r\n*Si t' agrada la meva gesti\u00f3... Posa'm un 9-10 en les Enquestes*\r\n\r\n\r\n\r\n[image: Descarrega-te'n les apps] [image: BBVA. El teu banc sempre a m\u00e0,\r\nsiguis on siguis]\r\n<https://www.bbva.es/sistema/redireccion.jsp?diren=app-bbva-espana> [image:\r\nBBVA Net Cash. Sempre connectat a la teva empresa]\r\n<https://www.bbva.es/sistema/redireccion.jsp?diren=app-netcash>\r\n\r\n-- \r\n\r\n\r\n\"Este mensaje est\u00e1\r\ndirigido de manera exclusiva a su destinatario y puede \r\ncontener informaci\u00f3n\r\nprivada y confidencial. No lo reenv\u00ede, copie o \r\ndistribuya a terceros que no\r\ndeban conocer su contenido.\u00a0En caso de haberlo \r\nrecibido por error,\u00a0\u00a0rogamos\r\nlo notifique al remitente y proceda a su \r\nborrado, as\u00ed como al de cualquier\r\ndocumento que pudiera adjuntarse.\r\n\r\n\r\n\r\n\u00a0Por \r\nfavor tenga en cuenta que\r\nlos correos enviados v\u00eda Internet no permiten \r\ngarantizar la confidencialidad de\r\nlos mensajes ni su transmisi\u00f3n de forma \r\n\u00edntegra.\r\n\r\n\r\n\r\n\u00a0Las opiniones expresadas en el\r\npresente correo pertenecen \r\n\u00fanicamente al remitente y no representan\r\nnecesariamente la opini\u00f3n del \r\nGrupo BBVA.\"\r\n\r\n\r\n\r\n\u00a0\"This\r\nmessage is intended exclusively for the adressee and \r\nmay contain privileged and\r\nconfidential information. Please, do not \r\ndisseminate, copy or distribute it to\r\nthird parties who should not receive \r\nit. In case you have received it by\r\nmistake, please inform the sender and \r\ndelete the message and attachments from\r\nyour system.\r\n\r\n\r\n\r\n\u00a0Please\r\nkeep in \r\nmind that e-mails sent by Internet do not allow to guarantee neither\r\nthe \r\nconfidentiality or the integrity of the messages sent.\"\r\n",
+      "scope": "budgets",
+      "status": "pending",
+      "priority": "medium",
+      "client": "GERARD GIMENO FARRE <gerard.gimeno@bbva.com>",
+      "assignee": "montse",
+      "boardId": "b_management",
+      "columnId": "pending",
+      "origin": "email",
+      "date": "2026-01-14",
+      "email_ref": "alba_298",
+      "attachments": [
+        {
+          "filename": "20260114135455083.pdf"
+        }
+      ]
+    },
+    {
+      "id": 1768409436656,
+      "title": "Oferta activada",
+      "description": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\nDepartament d'Innovaci&oacute;, Universitats i Empresa | Perfils de contractant | Portal de contractacions | Generalitat de Catalunya\nh1 {font-family: Arial, Helvetica, sans-serif; font-size: 1em; color: #050000; height: 113px;\nbackground: url(\"https://sobredigital.contractaciopublica.cat/ecofin_sobre/images/pscp/banner.gif\") repeat-x;\nposition: relative;\tpadding: 0; margin-bottom: 1em; clear: both; }\nh1 img { display: none; height: 8em;width:1173px;}\nh1.emailLogo { margin-top:0; padding-top: 0; }\nh2.generalitat { border-bottom: 2px red solid; padding-bottom: 15px; width:1173px;}\nh1 a {color: #050000;}\nh1 span{position: absolute; top: 0; left: 0;\nbackground: url(\"https://sobredigital.contractaciopublica.cat/ecofin_sobre/images/pscp/portal-logo.gif\") no-repeat 0em 0em;\ndisplay: block; padding-top: 25px; min-height: 88px; padding-left: 110px; width: 6.5em; font-size: 2em; }\nbody {font-family:Verdana,Arial,Helvetica,sans-serif; font-size:100%;}\n#marc-web{ font-size: 1em; margin: 0 0.91em 0 0; overflow: hidden;}\n#contingut {margin: 0; overflow: hidden; padding: 0;}\nh2 {color: #660303;\tclear: both; font-size: 1.55em; margin: 0 0 0.5em 0;}\n.mail-body h3 {color: #660303; font-size: 1.18em; margin: 0; padding: 0;}\nul#llista-body {list-style: none; margin-left: 0; padding: 0;}\nul#llista-body li {background: url(\"https://sobredigital.contractaciopublica.cat/ecofin_sobre/images/pscp/dl-bullet.png\") no-repeat 0 0.4em; font-weight: bold; margin:0.5em 0; padding-left: 1em;}\nul#llista-body li a {color: #ac2115; text-decoration: none;}\nul#mail-links {margin-top: 2em; padding-left: 0; margin-left: -0.5em;}\nul#mail-links li {border-right: 1px solid; display: inline; font-weight: bold; padding: 0 0.5em;}\nul#mail-links li.ultim {border: none;}\nul#mail-links li a {color: #666; text-decoration: none;}\n.link {\ncolor: #C00000;\n}\nLicitaci\u00f3 electr\u00f2nica\nDenominaci\u00f3 del contracte: F25.061S - Servei de difusi\u00f3 i divulgaci\u00f3 cient\u00edfica per al projecte de recerca RETOS245779LLOV de l'AECC del grup de recerca \"Investigaci\u00f3 translacional en oncologia hep\u00e0tica\", en funci\u00f3 de les necessitats, de Fundaci\u00f3 de Recerca Cl\u00ednic Barcelona \u2013 Institut d'Investigacions Biom\u00e8diques August Pi i Sunyer\n\u00d2rgan de contractaci\u00f3: Fundaci\u00f3 de Recerca Cl\u00ednic Barcelona - Institut d'Investigacions Biom\u00e8diques August Pi i Sunyer\nCodi de l'expedient: F25.061S\nTipus de contracte: Serveis\nProcediment d'adjudicaci\u00f3: Obert simplificat\nTermini de presentaci\u00f3 d'ofertes: 16/01/2026 14:00:00\nNom o ra\u00f3 social de l'empresa: LA GR\u00c0FICA CREATIVE EXPERIENCE S.L.\nSenyor/Senyora,\nL'oferta s'ha activat correctament. Ja podeu continuar amb la presentaci\u00f3 de l'oferta.\n\u00c9s molt important que no elimineu aquest correu at\u00e8s que \u00e9s l'\u00fanic mitj\u00e0 que teniu per accedir a l'espai web de sobre digital. Si elimineu el correu, haureu de tornar a omplir el formulari d'alta i tornar a iniciar tota la preparaci\u00f3 de l'oferta.\nD'altra banda, us informem que amb l'activaci\u00f3 d'aquest enlla\u00e7 us donareu d'alta autom\u00e0ticament com a subscriptor d'aquesta licitaci\u00f3.\nDisposeu de temps fins al 16/01/2026 14:00:00 per presentar la vostra oferta.\nPreparaci\u00f3 de l'oferta\nUs recordem que no es poden incloure enlla\u00e7os actius a la documentaci\u00f3 de l'oferta.\nCordialment,\nPlataforma de Serveis de Contractaci\u00f3 P\u00fablica\nLicitaci\u00f3 electr\u00f2nica",
+      "scope": "tenders",
+      "status": "pending",
+      "priority": "medium",
+      "client": "plataforma.contractacio@gencat.cat",
+      "assignee": "montse",
+      "boardId": "b_management",
+      "columnId": "pending",
+      "origin": "email",
+      "date": "2026-01-14",
+      "email_ref": "montse_129",
+      "attachments": []
+    },
+    {
+      "id": 1768409436655,
+      "title": "Activaci\u00f3 oferta",
+      "description": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\nDepartament d'Innovaci&oacute;, Universitats i Empresa | Perfils de contractant | Portal de contractacions | Generalitat de Catalunya\nh1 {font-family: Arial, Helvetica, sans-serif; font-size: 1em; color: #050000; height: 113px;\nbackground: url(\"https://sobredigital.contractaciopublica.cat/ecofin_sobre/images/pscp/banner.gif\") repeat-x;\nposition: relative;\tpadding: 0; margin-bottom: 1em; clear: both; }\nh1 img { display: none; height: 8em;width:1173px;}\nh1.emailLogo { margin-top:0; padding-top: 0; }\nh2.generalitat { border-bottom: 2px red solid; padding-bottom: 15px; width:1173px;}\nh1 a {color: #050000;}\nh1 span{position: absolute; top: 0; left: 0;\nbackground: url(\"https://sobredigital.contractaciopublica.cat/ecofin_sobre/images/pscp/portal-logo.gif\") no-repeat 0em 0em;\ndisplay: block; padding-top: 25px; min-height: 88px; padding-left: 110px; width: 6.5em; font-size: 2em; }\nbody {font-family:Verdana,Arial,Helvetica,sans-serif; font-size:100%;}\n#marc-web{ font-size: 1em; margin: 0 0.91em 0 0; overflow: hidden;}\n#contingut {margin: 0; overflow: hidden; padding: 0;}\nh2 {color: #660303;\tclear: both; font-size: 1.55em; margin: 0 0 0.5em 0;}\n.mail-body h3 {color: #660303; font-size: 1.18em; margin: 0; padding: 0;}\nul#llista-body {list-style: none; margin-left: 0; padding: 0;}\nul#llista-body li {background: url(\"https://sobredigital.contractaciopublica.cat/ecofin_sobre/images/pscp/dl-bullet.png\") no-repeat 0 0.4em; font-weight: bold; margin:0.5em 0; padding-left: 1em;}\nul#llista-body li a {color: #ac2115; text-decoration: none;}\nul#mail-links {margin-top: 2em; padding-left: 0; margin-left: -0.5em;}\nul#mail-links li {border-right: 1px solid; display: inline; font-weight: bold; padding: 0 0.5em;}\nul#mail-links li.ultim {border: none;}\nul#mail-links li a {color: #666; text-decoration: none;}\n.link {\ncolor: #C00000;\n}\nLicitaci\u00f3 electr\u00f2nica\nDenominaci\u00f3 del contracte: F25.061S - Servei de difusi\u00f3 i divulgaci\u00f3 cient\u00edfica per al projecte de recerca RETOS245779LLOV de l'AECC del grup de recerca \"Investigaci\u00f3 translacional en oncologia hep\u00e0tica\", en funci\u00f3 de les necessitats, de Fundaci\u00f3 de Recerca Cl\u00ednic Barcelona \u2013 Institut d'Investigacions Biom\u00e8diques August Pi i Sunyer\n\u00d2rgan de contractaci\u00f3: Fundaci\u00f3 de Recerca Cl\u00ednic Barcelona - Institut d'Investigacions Biom\u00e8diques August Pi i Sunyer\nCodi de l'expedient: F25.061S\nTipus de contracte: Serveis\nProcediment d'adjudicaci\u00f3: Obert simplificat\nTermini de presentaci\u00f3 d'ofertes: 16/01/2026 14:00:00\nNom o ra\u00f3 social de l'empresa: LA GR\u00c0FICA CREATIVE EXPERIENCE S.L.\nSenyor/Senyora,\nA continuaci\u00f3 teniu l'enlla\u00e7 d'activaci\u00f3 per continuar amb la presentaci\u00f3 de la vostra oferta.\nEl correu actual, juntament amb els altres que heu informat al formulari, s'utilitzaran per comunicar qualsevol canvi.\nActivar oferta\nCordialment,\nPlataforma de Serveis de Contractaci\u00f3 P\u00fablica\nLicitaci\u00f3 electr\u00f2nica",
+      "scope": "tenders",
+      "status": "pending",
+      "priority": "medium",
+      "client": "plataforma.contractacio@gencat.cat",
+      "assignee": "montse",
+      "boardId": "b_management",
+      "columnId": "pending",
+      "origin": "email",
+      "date": "2026-01-14",
+      "email_ref": "montse_128",
+      "attachments": []
+    },
+    {
+      "id": 1768409436653,
+      "title": "baixa temeraria baix ebre",
+      "description": "Adjunto proposta\r\n\r\n",
+      "scope": "tenders",
+      "status": "pending",
+      "priority": "medium",
+      "client": "administracio <admin@lagrafica.com>",
+      "assignee": "montse",
+      "boardId": "b_management",
+      "columnId": "pending",
+      "origin": "email",
+      "date": "2026-01-14",
+      "email_ref": "montse_126",
+      "attachments": [
+        {
+          "filename": "Justificacio_baixa_temeraria_LaGrafica_COMPLETA_v1.docx"
+        }
+      ]
+    }
+  ],
+  "members": [
+    {
+      "id": "montse",
+      "name": "Montse",
+      "email": "montse@lagrafica.com",
+      "role": "Director",
+      "avatar": "M"
+    },
+    {
+      "id": "neus",
+      "name": "Neus",
+      "email": "neus@lagrafica.com",
+      "role": "Design",
+      "avatar": "N"
+    },
+    {
+      "id": "alba",
+      "name": "Alba",
+      "email": "alba@lagrafica.com",
+      "role": "Social",
+      "avatar": "A"
+    },
+    {
+      "id": "ateixido",
+      "name": "A. Teixid\u00f3",
+      "email": "ateixido@lagrafica.com",
+      "role": "Web",
+      "avatar": "T"
+    },
+    {
+      "id": "omar",
+      "name": "Omar",
+      "email": "omar@lagrafica.com",
+      "role": "Dev",
+      "avatar": "O"
+    },
+    {
+      "id": "web",
+      "name": "Web General",
+      "email": "web@lagrafica.com",
+      "role": "Admin",
+      "avatar": "W"
+    }
+  ],
+  "emails": [],
+  "processed_emails": [
+    "montse_75",
+    "montse_74",
+    "montse_73",
+    "montse_72",
+    "montse_71",
+    "montse_70",
+    "montse_69",
+    "montse_68",
+    "montse_67",
+    "montse_66",
+    "montse_65",
+    "montse_64",
+    "montse_63",
+    "montse_62",
+    "montse_61",
+    "montse_60",
+    "montse_59",
+    "montse_58",
+    "montse_57",
+    "montse_56",
+    "neus_3663",
+    "neus_3662",
+    "neus_3661",
+    "neus_3660",
+    "neus_3659",
+    "neus_3658",
+    "neus_3657",
+    "neus_3656",
+    "neus_3655",
+    "neus_3654",
+    "neus_3653",
+    "neus_3652",
+    "neus_3651",
+    "neus_3650",
+    "neus_3649",
+    "neus_3648",
+    "neus_3647",
+    "neus_3646",
+    "neus_3645",
+    "neus_3644",
+    "alba_294",
+    "alba_293",
+    "alba_292",
+    "alba_291",
+    "alba_290",
+    "alba_289",
+    "alba_288",
+    "alba_287",
+    "alba_286",
+    "alba_285",
+    "alba_284",
+    "alba_283",
+    "alba_282",
+    "alba_281",
+    "alba_280",
+    "alba_279",
+    "alba_278",
+    "alba_277",
+    "alba_276",
+    "alba_275",
+    "ateixido_755",
+    "ateixido_754",
+    "ateixido_753",
+    "ateixido_752",
+    "ateixido_751",
+    "ateixido_750",
+    "ateixido_749",
+    "ateixido_748",
+    "ateixido_747",
+    "ateixido_746",
+    "ateixido_745",
+    "ateixido_744",
+    "ateixido_743",
+    "ateixido_742",
+    "ateixido_741",
+    "ateixido_740",
+    "ateixido_739",
+    "ateixido_738",
+    "ateixido_737",
+    "ateixido_736",
+    "omar_839",
+    "omar_838",
+    "omar_837",
+    "omar_836",
+    "omar_835",
+    "omar_834",
+    "omar_833",
+    "omar_832",
+    "omar_831",
+    "omar_830",
+    "montse_76",
+    "neus_3664",
+    "alba_295",
+    "montse_77",
+    "montse_80",
+    "montse_79",
+    "montse_78",
+    "montse_81",
+    "alba_297",
+    "alba_296",
+    "montse_82",
+    "montse_89",
+    "montse_88",
+    "montse_87",
+    "montse_86",
+    "montse_85",
+    "montse_84",
+    "montse_83",
+    "neus_3667",
+    "neus_3666",
+    "neus_3665",
+    "alba_299",
+    "alba_298",
+    "montse_92",
+    "montse_91",
+    "montse_90",
+    "neus_3669",
+    "neus_3668",
+    "alba_300",
+    "alba_301",
+    "montse_94",
+    "montse_93",
+    "alba_302",
+    "montse_95",
+    "alba_303",
+    "montse_96",
+    "montse_98",
+    "montse_97",
+    "alba_304",
+    "montse_99",
+    "alba_305",
+    "ateixido_756",
+    "montse_100",
+    "montse_101",
+    "montse_102",
+    "alba_306",
+    "montse_106",
+    "montse_105",
+    "montse_104",
+    "montse_103",
+    "montse_108",
+    "montse_107",
+    "alba_307",
+    "montse_110",
+    "montse_109",
+    "alba_308",
+    "montse_116",
+    "montse_115",
+    "montse_114",
+    "montse_113",
+    "montse_112",
+    "montse_111",
+    "montse_121",
+    "montse_120",
+    "montse_119",
+    "montse_118",
+    "montse_117",
+    "alba_309",
+    "montse_135",
+    "montse_134",
+    "montse_133",
+    "montse_132",
+    "montse_131",
+    "montse_130",
+    "montse_129",
+    "montse_128",
+    "montse_127",
+    "montse_126",
+    "montse_125",
+    "montse_124",
+    "montse_123",
+    "montse_122",
+    "neus_3672",
+    "neus_3671",
+    "neus_3670",
+    "alba_311",
+    "alba_310",
+    "montse_136",
+    "neus_3673"
+  ],
+  "notes": {
+    "montse": [
+      {
+        "id": 1,
+        "text": "Preparar reuni\u00f3n Licitaciones",
+        "done": false
+      }
+    ],
+    "neus": [
+      {
+        "id": 1,
+        "text": "Revisar artes finales",
+        "done": false
+      }
+    ],
+    "alba": [
+      {
+        "id": 1,
+        "text": "Programar posts Instagram",
+        "done": false
+      }
+    ],
+    "ateixido": [
+      {
+        "id": 1,
+        "text": "Actualizar WordPress clientes",
+        "done": false
+      }
+    ],
+    "omar": [
+      {
+        "id": 1,
+        "text": "Backup servidores",
+        "done": false
+      }
+    ],
+    "web": []
+  },
+  "clients": [],
+  "columns": [
+    {
+      "id": "pending",
+      "title": "Pendiente"
+    },
+    {
+      "id": "todo",
+      "title": "Para hacer"
+    },
+    {
+      "id": "in_progress",
+      "title": "En proceso"
+    },
+    {
+      "id": "done",
+      "title": "Acabado"
+    }
+  ],
+  "boards": [
+    {
+      "id": "b_design",
+      "title": "Disseny Gr\u00e0fic",
+      "columns": [
+        {
+          "id": "pending",
+          "title": "Pendiente"
+        },
+        {
+          "id": "todo",
+          "title": "Para hacer"
+        },
+        {
+          "id": "in_progress",
+          "title": "En proceso"
+        },
+        {
+          "id": "done",
+          "title": "Acabado"
+        }
+      ]
+    },
+    {
+      "id": "b_social",
+      "title": "Xarxes Socials",
+      "columns": [
+        {
+          "id": "pending",
+          "title": "Pendiente"
+        },
+        {
+          "id": "todo",
+          "title": "Para hacer"
+        },
+        {
+          "id": "in_progress",
+          "title": "En proceso"
+        },
+        {
+          "id": "done",
+          "title": "Acabado"
+        }
+      ]
+    },
+    {
+      "id": "b_web",
+      "title": "Desenvolupament Web",
+      "columns": [
+        {
+          "id": "pending",
+          "title": "Pendiente"
+        },
+        {
+          "id": "todo",
+          "title": "Para hacer"
+        },
+        {
+          "id": "in_progress",
+          "title": "En proceso"
+        },
+        {
+          "id": "done",
+          "title": "Acabado"
+        }
+      ]
+    },
+    {
+      "id": "b_ai",
+      "title": "Projectes IA",
+      "columns": [
+        {
+          "id": "pending",
+          "title": "Pendiente"
+        },
+        {
+          "id": "todo",
+          "title": "Para hacer"
+        },
+        {
+          "id": "in_progress",
+          "title": "En proceso"
+        },
+        {
+          "id": "done",
+          "title": "Acabado"
+        }
+      ]
+    },
+    {
+      "id": "b_lleida",
+      "title": "Lleida en verd",
+      "columns": [
+        {
+          "id": "pending",
+          "title": "Pendiente"
+        },
+        {
+          "id": "todo",
+          "title": "Para hacer"
+        },
+        {
+          "id": "in_progress",
+          "title": "En proceso"
+        },
+        {
+          "id": "done",
+          "title": "Acabado"
+        }
+      ]
+    },
+    {
+      "id": "b_animac",
+      "title": "Animac",
+      "columns": [
+        {
+          "id": "pending",
+          "title": "Pendiente"
+        },
+        {
+          "id": "todo",
+          "title": "Para hacer"
+        },
+        {
+          "id": "in_progress",
+          "title": "En proceso"
+        },
+        {
+          "id": "done",
+          "title": "Acabado"
+        }
+      ]
+    },
+    {
+      "id": "b_imo",
+      "title": "Imo",
+      "columns": [
+        {
+          "id": "pending",
+          "title": "Pendiente"
+        },
+        {
+          "id": "todo",
+          "title": "Para hacer"
+        },
+        {
+          "id": "in_progress",
+          "title": "En proceso"
+        },
+        {
+          "id": "done",
+          "title": "Acabado"
+        }
+      ]
+    },
+    {
+      "id": "b_diba",
+      "title": "Diputaci\u00f3 BCN",
+      "columns": [
+        {
+          "id": "pending",
+          "title": "Pendiente"
+        },
+        {
+          "id": "todo",
+          "title": "Para hacer"
+        },
+        {
+          "id": "in_progress",
+          "title": "En proceso"
+        },
+        {
+          "id": "done",
+          "title": "Acabado"
+        }
+      ]
+    },
+    {
+      "id": "b_management",
+      "title": "Gesti\u00f3 Interna",
+      "columns": [
+        {
+          "id": "pending",
+          "title": "Pendiente"
+        },
+        {
+          "id": "todo",
+          "title": "Para hacer"
+        },
+        {
+          "id": "in_progress",
+          "title": "En proceso"
+        },
+        {
+          "id": "done",
+          "title": "Acabado"
+        }
+      ]
+    },
+    {
+      "id": "b_budget",
+      "title": "Pressupostos",
+      "columns": [
+        {
+          "id": "pending",
+          "title": "Pendiente"
+        },
+        {
+          "id": "todo",
+          "title": "Para hacer"
+        },
+        {
+          "id": "in_progress",
+          "title": "En proceso"
+        },
+        {
+          "id": "done",
+          "title": "Acabado"
+        }
+      ]
+    },
+    {
+      "id": "b_billing",
+      "title": "Facturaci\u00f3",
+      "columns": [
+        {
+          "id": "pending",
+          "title": "Pendiente"
+        },
+        {
+          "id": "todo",
+          "title": "Para hacer"
+        },
+        {
+          "id": "in_progress",
+          "title": "En proceso"
+        },
+        {
+          "id": "done",
+          "title": "Acabado"
+        }
+      ]
+    },
+    {
+      "id": "b_tenders",
+      "title": "Licitacions",
+      "columns": [
+        {
+          "id": "pending",
+          "title": "Pendiente"
+        },
+        {
+          "id": "todo",
+          "title": "Para hacer"
+        },
+        {
+          "id": "in_progress",
+          "title": "En proceso"
+        },
+        {
+          "id": "done",
+          "title": "Acabado"
+        }
+      ]
+    }
+  ]
+}

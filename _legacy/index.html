@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProjectManager - Premium Workspace</title>
+    <!-- Google Fonts: Outfit for a modern, clean look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar glass">
+            <div class="logo">
+                <i class="fa-solid fa-layer-group"></i>
+                <span>Manager</span>
+            </div>
+
+            <nav>
+                <div class="nav-section">
+                    <h3>Principal</h3>
+                    <a href="#" class="nav-item active" data-view="dashboard">
+                        <i class="fa-solid fa-table-columns"></i> Dashboard
+                    </a>
+                    <a href="#" class="nav-item" data-view="projects">
+                        <i class="fa-solid fa-list-check"></i> Proyectos
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Ámbitos</h3>
+                    <a href="#" class="nav-item" data-scope="design">
+                        <i class="fa-solid fa-pen-nib"></i> Diseño
+                    </a>
+                    <a href="#" class="nav-item" data-scope="web">
+                        <i class="fa-solid fa-code"></i> Web
+                    </a>
+                    <a href="#" class="nav-item" data-scope="social">
+                        <i class="fa-solid fa-hashtag"></i> Redes Sociales
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Equipo</h3>
+                    <div class="team-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </nav>
+
+            <div class="user-profile glass-light">
+                <div class="avatar">M</div>
+                <div class="info">
+                    <span class="name">Montse</span>
+                    <span class="role">Admin</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-bar glass">
+                <div class="search-bar">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" placeholder="Buscar tarea, proyecto o miembro...">
+                </div>
+                <div class="actions">
+                    <button class="btn-icon"><i class="fa-solid fa-bell"></i></button>
+                    <button class="btn-primary" id="btn-new-task">
+                        <i class="fa-solid fa-plus"></i> Nueva Tarea
+                    </button>
+                </div>
+            </header>
+
+            <div id="view-container" class="view-container">
+                <!-- Dynamic Content Loads Here -->
+                <div class="welcome-screen">
+                    <h1>Bienvenida al Espacio de Trabajo</h1>
+                    <p>Selecciona un proyecto o ámbito para empezar.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals (Hidden by default) -->
+    <div id="task-modal" class="modal-overlay hidden">
+        <div class="modal glass-modal">
+            <div class="modal-header">
+                <h2>Nueva Tarea</h2>
+                <button class="btn-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="task-title" placeholder="¿Qué hay que hacer?" class="input-lg">
+                <div class="form-row">
+                    <select id="task-assignee" class="input-std">
+                        <option value="">Asignar a...</option>
+                        <!-- Populated by JS -->
+                    </select>
+                    <select id="task-scope" class="input-std">
+                        <option value="design">Diseño</option>
+                        <option value="web">Web</option>
+                        <option value="social">Redes Sociales</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <input type="date" id="task-date" class="input-std">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary btn-close-modal">Cancelar</button>
+                <button class="btn-primary" id="btn-save-task">Crear Tarea</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

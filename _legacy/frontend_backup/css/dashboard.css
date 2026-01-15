@@ -1,0 +1,189 @@
+/* Dashhboard Stats */
+.dashboard-head {
+    margin-bottom: 2rem;
+}
+
+.dashboard-head h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.icon-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.icon-box.blue {
+    background: linear-gradient(135deg, #f06543, #d94e33);
+}
+
+.icon-box.red {
+    background: linear-gradient(135deg, #fb923c, #f97316);
+}
+
+.icon-box.purple {
+    background: linear-gradient(135deg, #9ca3af, #6b7280);
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-info .value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.stat-info .label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Activity List */
+.section-title {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.activity-list {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.dot.design {
+    background-color: #f06543;
+}
+
+.dot.web {
+    background-color: #9ca3af;
+}
+
+.dot.social {
+    background-color: #fb923c;
+}
+
+.dot.kit {
+    background-color: #eab308;
+}
+
+.dot.tenders {
+    background-color: #0891b2;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+}
+
+.time {
+    font-size: 0.8rem;
+    color: #9ca3af;
+}
+
+/* Team Sidebar */
+.team-member {
+    padding: 0.5rem 0.75rem;
+}
+
+.avatar-xs {
+    width: 24px;
+    height: 24px;
+    background: #e5e7eb;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+/* Drive Section */
+.drive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.drive-link-card {
+    background: white;
+    padding: 1.25rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.drive-link-card:hover {
+    transform: translateY(-3px);
+    border-color: #4285F4;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.drive-link-card i {
+    font-size: 1.5rem;
+}
+
+.drive-link-card span {
+    font-size: 0.85rem;
+    font-weight: 600;
+}

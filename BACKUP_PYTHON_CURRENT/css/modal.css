@@ -1,0 +1,329 @@
+/* Modal Enhancements */
+.modal {
+    width: 700px;
+    max-width: 95vw;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+}
+
+.modal-body {
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.input-lg {
+    font-size: 1.25rem;
+    padding: 0.75rem;
+    font-weight: 500;
+}
+
+.form-section {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 0.75rem;
+    border: 1px solid #e2e8f0;
+}
+
+textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.input-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon input {
+    padding-left: 2.5rem;
+    /* Space for icon if we put one inside, though label has icon now */
+}
+
+/* Tracking Row (Timer & Calendar) */
+.tracking-row {
+    background: #fdfdfd;
+    border: 1px solid #e1e4e8;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    /* Ensure horizontal alignment */
+    /* justify-content: space-between;  Removed to use gap */
+    gap: 2rem;
+}
+
+.tracking-row .form-group {
+    margin-bottom: 0;
+    /* Override default */
+}
+
+/* Timer */
+.timer-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #1e293b;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    width: fit-content;
+}
+
+.timer-display {
+    font-family: 'Courier New', monospace;
+    font-size: 1.5rem;
+    color: #00ff9d;
+    /* Retro digital green */
+    font-weight: 700;
+    width: 120px;
+    text-align: center;
+}
+
+.btn-timer {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+}
+
+.btn-timer.active {
+    background: #ef4444;
+    color: white;
+    animation: pulse 1s infinite;
+}
+
+.btn-timer:not(.active) {
+    background: #10b981;
+    color: white;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    }
+
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    }
+}
+
+/* Calendar Box */
+.calendar-box {
+    flex: 1;
+    /* Take remaining space */
+}
+
+.date-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+#input-due-date {
+    flex: 1;
+}
+
+.btn-gcal {
+    background: white;
+    border: 1px solid #d1d5db;
+    width: 42px;
+    /* Match input height roughly */
+    border-radius: 0.5rem;
+    cursor: pointer;
+    color: #4285F4;
+    /* Google Blue */
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s;
+}
+
+.btn-gcal:active {
+    transform: scale(0.95);
+}
+
+/* Timeline / Email History */
+.timeline-section {
+    background: white;
+    border: 1px solid #e2e8f0;
+}
+
+.timeline-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 0.5rem;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.timeline-item:last-child {
+    border-bottom: none;
+}
+
+.timeline-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.timeline-icon.client {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+/* Blue for client */
+.timeline-icon.internal {
+    background: #fce7f3;
+    color: #db2777;
+}
+
+/* Pink for internal */
+.timeline-icon.system {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+/* Grey for system */
+
+.timeline-content {
+    flex: 1;
+}
+
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+    font-size: 0.85rem;
+}
+
+.timeline-author {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.timeline-date {
+    color: #9ca3af;
+    font-size: 0.75rem;
+}
+
+.timeline-body {
+    font-size: 0.9rem;
+    color: #4b5563;
+    line-height: 1.4;
+    background: #f8fafc;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+/* Split Sections (Checklist & Attachments) */
+.split-sections {
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.half {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    min-height: 200px;
+}
+
+/* Checklist */
+.checklist-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.check-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.check-item input[type="checkbox"] {
+    width: auto;
+    cursor: pointer;
+}
+
+.check-item.done span {
+    text-decoration: line-through;
+    color: #9ca3af;
+}
+
+.add-check-row {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.add-check-row button {
+    background: #e5e7eb;
+    border: none;
+    width: 36px;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+/* Attachments */
+.attachments-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 0.75rem;
+}
+
+.attachment-item {
+    background: #f1f5f9;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+.upload-box {
+    border: 2px dashed #cbd5e1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    gap: 0.25rem;
+    height: 80px;
+}

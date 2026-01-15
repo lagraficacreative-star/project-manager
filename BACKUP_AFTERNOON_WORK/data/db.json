@@ -1,0 +1,115 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Redise\u00f1o Logo",
+      "scope": "design",
+      "status": "in_progress",
+      "priority": "high",
+      "client": "LaGr\u00e0fica",
+      "assignee": "neus"
+    },
+    {
+      "id": 2,
+      "title": "Landing Page Evento",
+      "scope": "web",
+      "status": "todo",
+      "priority": "medium",
+      "client": "Ayto. BCN",
+      "assignee": "montse"
+    },
+    {
+      "id": 3,
+      "title": "Reels Enero",
+      "scope": "social",
+      "status": "review",
+      "priority": "low",
+      "client": "Caf\u00e9 365",
+      "assignee": "alba"
+    }
+  ],
+  "members": [
+    {
+      "id": "montse",
+      "name": "Montse",
+      "email": "montse@lagrafica.com",
+      "role": "Director",
+      "avatar": "M"
+    },
+    {
+      "id": "neus",
+      "name": "Neus",
+      "email": "neus@lagrafica.com",
+      "role": "Design",
+      "avatar": "N"
+    },
+    {
+      "id": "alba",
+      "name": "Alba",
+      "email": "alba@lagrafica.com",
+      "role": "Social",
+      "avatar": "A"
+    },
+    {
+      "id": "ateixido",
+      "name": "A. Teixid\u00f3",
+      "email": "ateixido@lagrafica.com",
+      "role": "Web",
+      "avatar": "T"
+    },
+    {
+      "id": "omar",
+      "name": "Omar",
+      "email": "omar@lagrafica.com",
+      "role": "Dev",
+      "avatar": "O"
+    },
+    {
+      "id": "web",
+      "name": "Web General",
+      "email": "web@lagrafica.com",
+      "role": "Admin",
+      "avatar": "W"
+    }
+  ],
+  "emails": [],
+  "processed_emails": [],
+  "notes": {
+    "montse": [
+      {
+        "id": 1,
+        "text": "Preparar reuni\u00f3n Licitaciones",
+        "done": false
+      }
+    ],
+    "neus": [
+      {
+        "id": 1,
+        "text": "Revisar artes finales",
+        "done": false
+      }
+    ],
+    "alba": [
+      {
+        "id": 1,
+        "text": "Programar posts Instagram",
+        "done": false
+      }
+    ],
+    "ateixido": [
+      {
+        "id": 1,
+        "text": "Actualizar WordPress clientes",
+        "done": false
+      }
+    ],
+    "omar": [
+      {
+        "id": 1,
+        "text": "Backup servidores",
+        "done": false
+      }
+    ],
+    "web": []
+  }
+}

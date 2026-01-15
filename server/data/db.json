@@ -1,0 +1,963 @@
+{
+  "users": [
+    {
+      "id": "montse",
+      "name": "Montse",
+      "role": "admin",
+      "avatar": "M",
+      "vacationDaysUsed": 1,
+      "avatarImage": "/avatars/montse.jpg"
+    },
+    {
+      "id": "neus",
+      "name": "Neus",
+      "role": "team",
+      "avatar": "N",
+      "avatarImage": "/avatars/neus.jpg"
+    },
+    {
+      "id": "omar",
+      "name": "Omar",
+      "role": "team",
+      "avatar": "O",
+      "avatarImage": "/avatars/omar.png",
+      "vacationDaysUsed": 1
+    },
+    {
+      "id": "albat",
+      "name": "Alba T",
+      "role": "team",
+      "avatar": "AT",
+      "avatarImage": "/avatars/albat.jpg"
+    },
+    {
+      "id": "albap",
+      "name": "Alba P",
+      "role": "team",
+      "avatar": "AP",
+      "avatarImage": "/avatars/albap.jpg"
+    },
+    {
+      "id": "ines",
+      "name": "Ines",
+      "role": "team",
+      "avatar": "I"
+    },
+    {
+      "id": "maribel",
+      "name": "Maribel",
+      "role": "team",
+      "avatar": "Ma",
+      "avatarImage": "/avatars/maribel.jpg"
+    }
+  ],
+  "boards": [
+    {
+      "id": "b_design",
+      "title": "Disseny gràfic",
+      "columns": [
+        {
+          "id": "c_todo",
+          "title": "Pendiente"
+        },
+        {
+          "id": "col_1768371678168",
+          "title": "dfdsfds"
+        },
+        {
+          "id": "col_1768373031074",
+          "title": "fdsfds"
+        }
+      ]
+    },
+    {
+      "id": "b_social",
+      "title": "Xarxes socials",
+      "columns": [
+        {
+          "id": "c_todo",
+          "title": "Pendiente"
+        },
+        {
+          "id": "c_doing",
+          "title": "En curso"
+        },
+        {
+          "id": "c_done",
+          "title": "Hecho"
+        }
+      ]
+    },
+    {
+      "id": "b_web",
+      "title": "Web",
+      "columns": [
+        {
+          "id": "c_todo",
+          "title": "Pendiente"
+        },
+        {
+          "id": "c_doing",
+          "title": "En curso"
+        },
+        {
+          "id": "c_done",
+          "title": "Hecho"
+        }
+      ]
+    },
+    {
+      "id": "b_tenders",
+      "title": "Licitacions",
+      "columns": [
+        {
+          "id": "c_todo",
+          "title": "Pendiente"
+        },
+        {
+          "id": "c_doing",
+          "title": "En curso"
+        },
+        {
+          "id": "c_done",
+          "title": "Hecho"
+        }
+      ]
+    },
+    {
+      "id": "board_1768294811952",
+      "title": "Gestió",
+      "columns": [
+        {
+          "id": "col_1_1768294811952",
+          "title": "To Do"
+        },
+        {
+          "id": "col_2_1768294811952",
+          "title": "In Progress"
+        },
+        {
+          "id": "col_3_1768294811952",
+          "title": "Done"
+        }
+      ]
+    },
+    {
+      "id": "b_ai",
+      "title": "Projectes IA",
+      "columns": [
+        {
+          "id": "c_todo_b_ai",
+          "title": "Pendiente"
+        },
+        {
+          "id": "c_doing_b_ai",
+          "title": "En curso"
+        },
+        {
+          "id": "c_done_b_ai",
+          "title": "Hecho"
+        }
+      ]
+    },
+    {
+      "id": "b_lleida",
+      "title": "Lleida en verd",
+      "columns": [
+        {
+          "id": "c_todo_b_lleida",
+          "title": "Pendiente"
+        },
+        {
+          "id": "c_doing_b_lleida",
+          "title": "En curso"
+        },
+        {
+          "id": "c_done_b_lleida",
+          "title": "Hecho"
+        }
+      ]
+    },
+    {
+      "id": "b_animac",
+      "title": "Animac",
+      "columns": [
+        {
+          "id": "c_todo_b_animac",
+          "title": "Pendiente"
+        },
+        {
+          "id": "c_doing_b_animac",
+          "title": "En curso"
+        },
+        {
+          "id": "c_done_b_animac",
+          "title": "Hecho"
+        }
+      ]
+    },
+    {
+      "id": "b_imo",
+      "title": "Imo",
+      "columns": [
+        {
+          "id": "c_todo_b_imo",
+          "title": "Pendiente"
+        },
+        {
+          "id": "c_doing_b_imo",
+          "title": "En curso"
+        },
+        {
+          "id": "c_done_b_imo",
+          "title": "Hecho"
+        }
+      ]
+    },
+    {
+      "id": "b_diba",
+      "title": "Diba",
+      "columns": [
+        {
+          "id": "c_todo_b_diba",
+          "title": "Pendiente"
+        },
+        {
+          "id": "c_doing_b_diba",
+          "title": "En curso"
+        },
+        {
+          "id": "c_done_b_diba",
+          "title": "Hecho"
+        }
+      ]
+    },
+    {
+      "id": "b_management",
+      "title": "Gestió",
+      "columns": [
+        {
+          "id": "c_todo_b_management",
+          "title": "Pendiente"
+        },
+        {
+          "id": "c_doing_b_management",
+          "title": "En curso"
+        },
+        {
+          "id": "c_done_b_management",
+          "title": "Hecho"
+        }
+      ]
+    },
+    {
+      "id": "b_budget",
+      "title": "Pressupostos",
+      "columns": [
+        {
+          "id": "c_todo_b_budget",
+          "title": "Pendiente"
+        },
+        {
+          "id": "c_doing_b_budget",
+          "title": "En curso"
+        },
+        {
+          "id": "c_done_b_budget",
+          "title": "Hecho"
+        }
+      ]
+    },
+    {
+      "id": "b_billing",
+      "title": "Facturació",
+      "columns": [
+        {
+          "id": "c_todo_b_billing",
+          "title": "Pendiente"
+        },
+        {
+          "id": "c_doing_b_billing",
+          "title": "En curso"
+        },
+        {
+          "id": "c_done_b_billing",
+          "title": "Hecho"
+        }
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "id": "card_1768294826578",
+      "title": "cvxcxvx",
+      "description": "cvcxvcxvx",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "",
+      "boardId": "b_social",
+      "columnId": "c_doing",
+      "createdAt": "2026-01-13T09:00:26.578Z"
+    },
+    {
+      "id": "card_1768303940927",
+      "title": "Test Card",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [
+        {
+          "id": 1768372070155,
+          "user": "Montse",
+          "start": "2026-01-14T06:27:43.415Z",
+          "end": "2026-01-14T06:27:50.155Z",
+          "duration": 6740
+        },
+        {
+          "id": 1768372111387,
+          "user": "Montse",
+          "start": "2026-01-14T06:28:18.381Z",
+          "end": "2026-01-14T06:28:31.387Z",
+          "duration": 13006
+        }
+      ],
+      "activeTimerStart": null,
+      "descriptionBlocks": [],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "c_doing",
+      "createdAt": "2026-01-13T11:32:20.927Z"
+    },
+    {
+      "id": "card_1768304047245",
+      "title": "Fourth Card",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "c_doing",
+      "createdAt": "2026-01-13T11:34:07.245Z"
+    },
+    {
+      "id": "card_1768304117004",
+      "title": "Sixth Card",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "c_doing",
+      "createdAt": "2026-01-13T11:35:17.004Z"
+    },
+    {
+      "id": "card_1768304162902",
+      "title": "Seventh Card",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [
+        {
+          "id": 1768369859127,
+          "user": "Montse",
+          "start": "2026-01-14T05:50:56.469Z",
+          "end": "2026-01-14T05:50:59.127Z",
+          "duration": 2658
+        }
+      ],
+      "activeTimerStart": null,
+      "descriptionBlocks": [],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "c_done",
+      "createdAt": "2026-01-13T11:36:02.902Z"
+    },
+    {
+      "id": "card_1768316297311",
+      "title": "REUNIÓ INICI MEMÒRIA 2025- Tancament memòria 2024Tasks",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "omar",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [
+        {
+          "id": 1768370022858,
+          "user": "Montse",
+          "start": "2026-01-14T05:53:35.260Z",
+          "end": "2026-01-14T05:53:42.858Z",
+          "duration": 7598
+        }
+      ],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1768312610039,
+          "text": "De: Comunicats aralleida <aralleida@aralleida.cat>\nFecha: Tue, 13 Jan 2026 13:04:12 +0000\n\n",
+          "author": "Sistema",
+          "date": "2026-01-13T13:56:50.039Z"
+        }
+      ],
+      "checklists": [
+        {
+          "id": 1768381135846,
+          "title": "Tasks",
+          "items": [
+            {
+              "id": 1768381156598,
+              "text": "Item 1",
+              "done": true
+            },
+            {
+              "id": 1768385728740,
+              "text": "dfdfds",
+              "done": false
+            }
+          ]
+        },
+        {
+          "id": 1768385737473,
+          "title": "nou",
+          "items": []
+        }
+      ],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "provider": "",
+        "description": "dgdgfdfs\n",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "col_1768371678168",
+      "createdAt": "2026-01-13T14:58:17.311Z"
+    },
+    {
+      "id": "card_1768318000049",
+      "title": "RE: comunicat birding",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "omar",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1768317991874,
+          "text": "De: Ramon Iglesias Palau <riglesias@aralleida.cat>\nFecha: Tue, 13 Jan 2026 09:10:03 +0000\n\nGenial, moltes gràcies,\r\nel Gerard ara fa l’enviament\r\n\r\n[cid:image001.jpg@01DC8474.C79D9BA0]\r\n[cid:image002.jpg@01DC8474.C79D9BA0]<https://www.youtube.com/watch?v=Sa_mDtmzltw>\r\n\r\nDe: Omar <omar@lagrafica.com>\r\nEnviado el: dimarts, 13 de gener de 2026 10:01\r\nPara: Ramon Iglesias Palau <riglesias@aralleida.cat>; Gerard Balcells Regue <gbalcells@aralleida.cat>\r\nCC: montse@lagrafica.com; alba@lagrafica.com; Marisol Fo <mfo@aralleida.cat>\r\nAsunto: Re: comunicat birding\r\n\r\n\r\nBones, th'e enviat un test\r\nEl 13/01/2026 a las 9:39, Ramon Iglesias Palau escribió:\r\nUs animem a enviar-nos les vostres propostes de temes a tractar al Birding Fòrum 2026.\r\n--\r\nOMAR LEÓN\r\nWEBDEVELOPER\r\n[ICONO MAIL]web@lagrafica.com <https://mailto:web@lagrafica.com>\r\n[ICONO TEL] 973 21 63 63\r\n[ICONO ON] Manuel Gaya i Tomàs, 11 baixos, Lleida\r\n[LOGO laGráfica]\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD:  Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier información, duda, petición o consulta que precise por esta misma vía. Podrá ejercer sus derechos de acceso, rectificación, limitación de tratamiento, supresión, portabilidad y oposición al tratamiento de sus datos de carácter personal así como revocar los consentimientos que en su caso haya prestado u obtener más información, dirigiendo su petición a  web@lagrafica.com<https://mailto:web@lagrafica.com>\r\n\r\n[https://s-install.avcdn.net/ipm/preview/icons/icon-envelope-tick-round-orange-animated-no-repeat-v1.gif]<https://www.avast.com/sig-email?utm_medium=email&utm_source=link&utm_campaign=sig-email&utm_content=emailclient>\r\nLibre de virus.www.avast.com<https://www.avast.com/sig-email?utm_medium=email&utm_source=link&utm_campaign=sig-email&utm_content=emailclient>\r\n\r\n",
+          "author": "Sistema",
+          "date": "2026-01-13T15:26:31.874Z"
+        }
+      ],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "c_todo",
+      "createdAt": "2026-01-13T15:26:40.049Z"
+    },
+    {
+      "id": "card_1768323896035",
+      "title": "New Test Card",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "c_todo",
+      "createdAt": "2026-01-13T17:04:56.035Z"
+    },
+    {
+      "id": "card_1768369884863",
+      "title": "No dejes escapar a tus nuevos clientes",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "montse",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1768369883031,
+          "text": "De: PrestaShop Marketplace <info@emailing.prestashop.com>\nFecha: Wed, 14 Jan 2026 06:17:56 +0100\n\nEl pico de tráfico de las fiestas ha terminado, pero la aventura no ha hecho más que empezar: ¡es hora de convertir a tus nuevos compradores en clientes fieles! Descubre 3 palancas concretas para transformar cada compra en una relación duradera, reforzar la confianza y fidelizar de forma eficaz.\r\n\r\nVisualiza nuestra versión online (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02rR5m_5PW6N1X8z6lZ3kQW3ZChH02zBn4DW4rWmv61Z0rL1N3slH28pQKhTW3f-p143BnFT_W7HHPFL4_8YZYW2GmY5x45XJXnW7ZF26h91x6CmW347ClR7cMsvqW3ckmHZ8KC3LjN7H-fMW812HvW7jJ7Js60M-J8W2K3gn08jwHj9N11hWkbYFDXZW7PYdqV18Kv7KW5WC-MB6XhMcwW2p6WhN5BwZzwN4rW0thDv9D2W7lpq372c7d-gW7TCp118FpmmCW8nlXFb6ztb54W5wS2Q08SQDwJW2CTSqz38g5P7N3GYm0PFm4LlW9hHj6n10YNXPW1DlrT441N5kgVdQHJk5xbN6-W3S4hgq1sZ1-1W2jgXVv7HYHpjW7gy_sp4xFvH8N1F9lgXp1hLzV3MCkS4-WH8yW9g4fx84H-xd9W2VZmfM6m5kk2W3qxqjx1h6hMKW7-XzFV798CyvW6YY9Nq2v7Z85W5pptSd4H5z_9W3q_x9f4Khmg_f2_LvKx04 ) . Añade info@emailing.prestashop.com (mailto:info@emailing.prestashop.com) a tus contactos para asegurarte de que recibes nuestros correos electrónicos.\r\n\r\nHEADER_MARKETPLACE (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02s63gP0xW7lCdLW6lZ3p1N4pkdYhzZwB2W84qm764grXHWW57T7vf6vyvKxN1q5J1dkszDDW3HF6cx3ykNLmN6Gb3zTtB3sxN97VLR1KBFKSW6nBbdF66zsykW2dt6wB4dnpSrW2K7Rf18ws4_7N1Y69J-BJHQhW27vbb44yjRB_W4FVy4H2VBNCWW7yvMlq3_8Gw3W4384qY1-nDQ5W3ZTk7Z1s4vDXW7xJPKT8Gg77qW2FBcLp5_9jvQW77XRF41r7yjWW85y-BS6b5nMWVrs5w13Bq5L6VKGMTj48wGX2W21KmqX5FcHWCW19GDkK3dDHLPf8NXQ4-04 )\r\n\r\nPrestaShop Marketplace – Enero\r\n\r\nTu guía mensual para un e-commerce más inteligente\r\n\r\nNOVEDADES DE ESTE MES\r\n\r\n- Foco: Cuando el tráfico se dispara con las promociones, convierte a los nuevos compradores en clientes fieles.\r\n- Encuesta del mes: ¿Qué palanca de fidelización vas a priorizar este primer trimestre?\r\n- Buzz de la comunidad: Lo que dicen los comerciantes, agencias y desarrolladores\r\n\r\nCuando el tráfico se dispara con las promociones, convierte a los nuevos compradores en clientes fieles.\r\n\r\nEste mes, rompe con el ciclo de ventas efímeras y construye un crecimiento sostenible. Descubre 3 formas de convertir a tus compradores en clientes fieles durante periodos de alta actividad promocional.\r\n\r\nPaso 1: Capitaliza su entusiasmo con prueba social\r\n\r\nUn cliente satisfecho es tu mejor vendedor. No te limites a la compra, pídele una reseña. Al recopilar opiniones detalladas y fotos, generas confianza en nuevos compradores y demuestras a tu nuevo cliente que su opinión cuenta. Este es el primer pilar de la confianza.\r\n\r\nMódulos recomendados:\r\n\r\n- Product Reviews - Reseñas, Rating, Google Snippets, Q&A: (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02qY5fkwKW50kH_H6lZ3kMW8BPG0t99wrDgW3ZHwBv9ddsVwN1vYxpQfFQzNN1n6cG3rGmk5W4gSWRL32gNRXW1_BSVb4QJMD8W97Klw-5xmTXQW486T6j7WGC91N4DZjt_Tx893W3pXl6g1tmQjZW18ZsnR3cP7nTW6N_CXC18m2mgW5M5W3g3tDcd2W5PTZBs8H-69LW6YjX402W5KSrW2t-fjN1lfC_ZW4lzPL760LHm5W4kCHjs4kDftMMQZZkP3JnyJW7yW9Tb4xf86VW6RGS2B2hzq9nVfGX_C8ZRWfTW7fnGCs68sCqvW2_Xldx2F95VyW9b7Ssk97nFr8W2KF9YR8Y5BgfW8Qczk96nVRDHN7FNKtw8dl01W2pvsql5sMd8FW4DC-nM1_Jw4yVvVV6_93L6WhN6m7PDFQhMb_f1vKwfK04 ) Recopila reseñas, valoraciones, preguntas y respuestas, fotos y vídeos para aumentar la visibilidad y las conversiones.\r\n- Integración sencilla de Trusted Shops: (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02t03gP0xW95jsWP6lZ3ngW8TmMbH96BLP1W2_RhJx1J6C9xW1KpnyV3H_Vb-W6-8hRh31hqwsW4r9Fxm6SJYydW2yKNkC4Rj1GyN18n8Y1Sd20DN7HdLws596xgW1xC55j2XN7xjW37gKj859MZgrW4-q3Kn2SBc2pW2DGBqd4S5HB0W95KhmT96m_WqW8NK4911sGK1gN13MFDGQxq_qW7wsyGn1ZYxjsVjNcPG6GmRjxW7dGk_X3jkBPmW5Qt3935ZYFKFW1fBXtg67QTrcW9bT_2d5kHS6yW3FqtpT27rFNNW1FCc7J1QgmqDW2KDJYd90_sGDW17zsLV46fV0pW311rmP5F6GDCW1T6sh16gfYrrW6R3TsP1H5y7_N1RhMT73z4FqW4z5_9c7M4Xp8f123vgx04 )  Recopila reseñas certificadas y refuerza la confianza para aumentar las ventas.\r\n\r\nPaso 2: No te quedes callado, automatiza los recordatorios\r\n\r\nEl silencio es enemigo de la fidelización. Se ha bombardeado a tus clientes con mensajes promocionales. Desmárcate con una comunicación personalizada. Un e-mail de agradecimiento bien pensado o una recomendación basada en su primera compra puede marcar la diferencia. La automatización no es una opción, sino tu mejor aliada para seguir  presente en la mente del consumidor.\r\n\r\nMódulos recomendados:\r\n\r\n- PrestaShop Automation with Klaviyo (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02qY5fkwKW50kH_H6lZ3krW67V1Dl2Fn-btW2mvrL815LFjMW39Qn6S2wqTwxW5pldQN7Qxnl9N4JyP_pBq00GVRFqPy3T8T2QW6qPzx-34S-zhW6pnDrQ7Rq97lW25n0_-5FpQ3cW89TQfK6jYhZtW8HDWBc68_N74VLk8zw2C8bx7W6zlG0N2625mlW3_mLyh4VnyZ7W3cjQty9gSGG5W1WN0Dm64tFbMW90KGhm7sM6rxW4NwZ8B3V3F-DW2R3Gt34GSGjtW4v723P6zcJW4N6mph3NMDPytW8GlMx17NTZxmN4qNs-MwNkD1W73JvzJ7VVhRyVQwWfk9g-WKKW2mkDB_3WFMy5W6pG3qZ4WvbRyW2L4_xd5mXS-5W3Wss3y7gvTG3W1jpS122R-YvCW2YwTD524q_z7V7wp3M2bxkNXf5Lt64M04 ) : Automatiza e-mails y SMS, centraliza los datos de tu e-commerce y personaliza cada campaña.\r\n- MailerLite: (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02sK3gP0xW8wLKSR6lZ3nTW497l6W5Bm_7NW6yyZ2c89V3fqW89JQYy4xxM5tW1yfFPD4-4_gLW466ykG2PL4QgN1qzZ_MlDLD9W8mbj7C30sqQRW4ys-w55wKjY2Vx1LBZ20sYVFW6Vjbps1g2VH6W5zLT2V55bDq3N8JsjtVcbMJ_W9dJmx17_08KdN8cgWnhncxD2W6YPpyC8QdmnDN82XgN2QFqm2W3V5b_M36BrZVW4Q48115R31n4N1WrJNNbPZLHW4pRFYJ8n0nMRW2ZXTpb89msJGW8sSdPF33cLJQW8CC8dy58SPnRW3klKGm5bJS3LW1w-8Bh4k7pTcW4N6cvp2xSPJ4Vczt262znRBfW1K1Tw28rV7JBf1NczyY04 ) Subscribe a tus clientes a la newsletter, sincroniza los datos de e-commerce y personaliza tus campañas de marketing.\r\n\r\nPaso 3: Recompensa el engagement para crear el hábito\r\n\r\n¿Por qué volverían a comprar en tu tienda frente a otras? Dales una razón. Un programa de fidelización o un sistema de referidos transforma la compra en una experiencia donde todos ganan. Para productos consumibles o servicios, considera la suscripción: es la mejor forma de garantizar ingresos recurrentes y simplificar la vida de tus clientes.\r\n\r\nMódulos recomendados:\r\n\r\n- All-in-one Rewards: Fidelidad Padrinaje Afiliación. (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02qY5fkwKW50kH_H6lZ3p7N2kBjscpbz0tW8x_xvZ5C1DTxW7PHT098QWNL5W11g-q77Gb_XHW4nDbgC8x3ScJN8jg0lRK1M6nW7kdWpN1yvGLQW33ML-v37ZHZcW84Vlkq1DFL2BW78Tpg26GKbz7W2PvC6C343ytqW6S-l-N1Chn3yW4Cx9-S66Jn32W8lvTZQ335cfXW2qzw8N5ybR-1VdTtVY5d8PmdW2CH5K88wLzLJW4SjY6g2xR3pnVJltGh4h7VGkW3sJpz53KypdFW2ZRnXg1Ln7XGN6NTHrV6ld42W8YscTb9jPVgZW37S2LF6gXnq8W7tvbw14flYxSW1pcjZT51x8C9W7qqh426t5X8bW4cmlJ-4p9Bd0VgvJ9Y44hf6xW1vz1-37F35hhW22kVqf2WkSG5W4gZp06190k0qf3Hv30404 ) ..: Configura un sistema completo de recompensas.\r\n- Productos de Suscripción | Pagos recurrentes (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02qY5fkwKW50kH_H6lZ3kHW2RpPp393MlmZW5wNz0p6xgMG9W3kynx9156wlXW2sPdxH1gWQVFW6ygW1G2GFMZyW7XzmYw1Xw_DKVWxbP_6fl59MW43_Flf2Y__FsW1htnzN2l3X1NW272fDk5xm502W4ynPl-29vNS3N3WYJDQ1vw1bW64ZG076d3nYrW25ttzB953TT-V7ZnMQ1hNFCFW4nBTXw6QQnjHVx2CbT3ZwhjHV78vBN59s87HW7g4kMH65ZJ4FW1-Lqh54V89L1W4VWSMM8cNHYFMYJgrKzNDQCW63bnRx5ksXFPW63L9kq7cj-cmW4sbsPq3gRTWwW7gCYSg9bjlCsVG5nHD164-wxW8F3Wp93MH6nJN3H95sbd9wNXW5kM4GS47c1v0W7qthGd1mjHC2W96YZJD3_tzyLf6xyxFR04 ) : Genera ingresos recurrentes ofreciendo productos y servicios por suscripción.\r\n\r\nDESCUBRIR OTROS MODULOS ►\r\n(https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02s63gP0xW7lCdLW6lZ3lgW7n95Dt5M6ZKLN6sl6_hmVnP_W4BN_sC78Qr54VDjJ0M66WbbgW4Xq1LD1HQj_sW2xk2FT13hB5MW5mnc5B2jNzbkN8ynlyvz782nW296Czb7tTXszW2FsyNx5927mVW7ggJBw2frJrYW2FVKCG5vpzD9W10Vr4R6w14_LN80DRC16Jwz-W3R2PYD3mCDXPW6T_9911qvdKRW1CKx_W4748K_W6nl8H_4hkKPwW3mzCkC3SJgmcW36wJqw6-0-wDVG6gzT79_bZRW7Tkg0C5WWxJ3W1dt0KW2BqQCfW2ZZmBZ1P1khRf54sGZY04 )\r\n\r\nENCUESTA DEL MES\r\n\r\n¿Qué palanca de fidelización vas a priorizar este primer trimestre?\r\n\r\nAutomatizar mis emails de seguimiento y newsletters  (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02t03prCCW95jsWP6lZ3mfW6DT--x8mPQfMW6568cK5kPXhsW34rBgs3nm8C2W53Zwm_5gjDmwW37SSTP2SQCVzVZFzDz44gV6qW4JYm9Y16CJvqW2WYK0F5xWQY3W10YWW57kBtW_W2CdnZp6gQwKVW2FvC8-8RMmPKW20jnb43sLSbNW2YpTpn5Y1JGgW7kB5Xl93mvHkW6Lgvl580Zr-4W2MVQ4v6r1JwjW93z5mZ1xYvP_W8ycGl98xrVg0W6dVlQ87bGpd1W6DGgBn25j6L5W5vRffv6gqr6DW3sLgZQ3_XvPRW8hMvZf6hHynKW4638WS8Mjz0hW6lWl5Z3kySW9W7Zwggl6Ttp4pW5vr3mC1kGJgdW8BtnD-3D1hnxW3B2rM76BJx6nW2ZnrxH6fVlDcf4znTTn04 )\r\n\r\nImplementar un sistema de suscripciones recurrentes  (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02t03prCCW95jsWP6lZ3mfW6DT--x8mPQfMW6568cK5kPXhsW34rBgs3nm8C2W53Zwm_5gjDmwW37SSTP2SQCVzVZFzDz44gV6qW4JYm9Y16CJvqW2WYK0F5xWQY3W10YWW57kBtW_W2CdnZp6gQwKVW2FvC8-8RMmPKW20jnb43sLSbNW2YpTpn5Y1JGgW7kB5Xl93mvHkW6Lgvl580Zr-4W2MVQ4v6r1JwjW93z5mZ1xYvP_W8ycGl98xrVg0W6dVlQ87bGpd1W6DGgBn25j6L5W5vRffv6gqr6DW3sLgZQ3_XvPRW8hMvZf6hHynKW4638WS8Mjz0hW6lWl5Z3kySW9W7Zwggl6Ttp4pW5vr3mC1kGJgdW8BtnD-3D1hnxW3B2rM76BJx6nW2ZnrxH6fVlDcf4znTTn04 )\r\n\r\nDesarrollar mi programa de patrocinio y fidelización  (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02t03prCCW95jsWP6lZ3mfW6DT--x8mPQfMW6568cK5kPXhsW34rBgs3nm8C2W53Zwm_5gjDmwW37SSTP2SQCVzVZFzDz44gV6qW4JYm9Y16CJvqW2WYK0F5xWQY3W10YWW57kBtW_W2CdnZp6gQwKVW2FvC8-8RMmPKW20jnb43sLSbNW2YpTpn5Y1JGgW7kB5Xl93mvHkW6Lgvl580Zr-4W2MVQ4v6r1JwjW93z5mZ1xYvP_W8ycGl98xrVg0W6dVlQ87bGpd1W6DGgBn25j6L5W5vRffv6gqr6DW3sLgZQ3_XvPRW8hMvZf6hHynKW4638WS8Mjz0hW6lWl5Z3kySW9W7Zwggl6Ttp4pW5vr3mC1kGJgdW8BtnD-3D1hnxW3B2rM76BJx6nW2ZnrxH6fVlDcf4znTTn04 )\r\n\r\nOtro  (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02t03prCCW95jsWP6lZ3mfW6DT--x8mPQfMW6568cK5kPXhsW34rBgs3nm8C2W53Zwm_5gjDmwW37SSTP2SQCVzVZFzDz44gV6qW4JYm9Y16CJvqW2WYK0F5xWQY3W10YWW57kBtW_W2CdnZp6gQwKVW2FvC8-8RMmPKW20jnb43sLSbNW2YpTpn5Y1JGgW7kB5Xl93mvHkW6Lgvl580Zr-4W2MVQ4v6r1JwjW93z5mZ1xYvP_W8ycGl98xrVg0W6dVlQ87bGpd1W6DGgBn25j6L5W5vRffv6gqr6DW3sLgZQ3_XvPRW8hMvZf6hHynKW4638WS8Mjz0hW6lWl5Z3kySW9W7Zwggl6Ttp4pW5vr3mC1kGJgdW8BtnD-3D1hnxW3B2rM76BJx6nW2ZnrxH6fVlDcf4znTTn04 )\r\n\r\nCompartiremos los resultados en la próxima newsletter para que puedas ver la comparativa con otras empresas de e-commerce.\r\n\r\nNUESTROS PARTNERS\r\n\r\nMás métodos de pago online\r\n\r\nEupago permite aceptar Google Pay, Apple Pay, tarjeta, MB WAY y Multibanco con una sola integración rápida y segura para tu ecommerce.\r\n\r\nDESCARGAR ►\r\n(https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02t03gP0xW95jsWP6lZ3nPN7jQzQDzHnZRW8vtFVF8Q4Tf8W4dj6RJ82Z8SbW7R51kP5m12pJW11MWKb2WhnvDW6DBDCr3nB0Q2W8-C4qq23KSw8VSWxBq68wRKZW3XX5gP4fR3zPW2Hs76Z8vfQMyW4jph9k8PS5kRW6n-Vlz5JfSrcN4M-dfnygGwJW6_MBWX95bctSVTLcVC4x2d1yW7xBzNM8PmlnNW6WjPqF3yqNsTW6XYKts3ZXnYNW8cgWn65F22wjW7z52315crJyXW4jHb6R5V7LVCN5KMZFhc_8v_W8Fbp4P1LX3CMW3xsPgj36D741W8l95KM1SNS40W7XjpYG55cyJRW63gsTH8FLpX2W66qs_k3bt4CWW4h34Y-4l-f3hW2p2QbR2VL6vdd_1shg04 )\r\n\r\n¿Cómo puntuarías esta newsletter?\r\n\r\n★ ★ ★ ★ ★ (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02t03prCCW95jsWP6lZ3pMN1NTM4l2Mvm5W191DVX8kmkw6W1ZFcz076jNTbW207C0p1C1mcdW5xzmmF1qnWqRW1D2HJn3mLjx6W8Y4nnr7WNJgDW73hCx15Bc6MnW11wntL2nl-SPW8mFnx08vGF87W1l55x-4gvgJGW7cr2GT3F7RhgW8lpnTN8lVWc1W6fhrv71C76W4VMbb-R2F--3tW8gCHBw6F3q0yW7JDjTn1_T5hFW7HlsYN3tNdVCW5Fn74D4t-TnkW5Jd8QP30gfHZW2HqnTh4-nVlMW3Lj1yD5jHw92W5WKynp6wcd9zW1vjbdL8S0CMyW7j8qRj26pK32W9jtGMg2vPL2QV5vCk36yvx3NN5mQB7195mHtW8GZkjJ8L88yrW58xL-D5V4djXf82J4NY04 )\r\n\r\nFormaciones\r\n\r\nPara principiantes o expertos, online o presencial, comerciantes o desarrolladores...\r\n\r\nMás información (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02s63prCCW7lCdLW6lZ3n-W7WqTQ894qKyTW3rsY4K4wb4DdW8-fQq734vQcjW1vKVCx43CQ7rN99dg7hNWjvwN3vLb-6_XW5QW8K48ry37txLZW8NZYjT85wncwW3qcSqY7GwC1SW4CnWHd6g-Rd8W4XKSF76KY502W5nWnLV83S9dBW1XMQdF3r9lcrW6qg_jd2mXXrJW5fDS3V5lZ6_sW6J8zNc36cl8vW3GJmJr1cTvzWW5ndstj4Cb833N7mzhksVsc6hW41rlCY41zQThW2m9q427K8FdpN5zWbxBD1-cmW79ytps6KsqVKW6sWfDm8tw410f2fY8ds04 )\r\n\r\nBusiness Care\r\n\r\nLa suscripción te garantiza un addon siempre actualizado, compatible y seguro.\r\n\r\nMás información (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02sK3prCCW8wLKSR6lZ3nBMFFJqSfYnfnW8gQ7MK13hNrCW17Wbm01y-f0YM2G-9GNfw2xVBDN3v5LXFY9W4dFhr4757PTFW6BGc6x10FBp9N5l4LZvrthJrW1JCS5D185K8YW5d-5T15Y_9DxW6Yr4Xb4ZQ-RvW6B-yTq6KsrCJW2kRFFG2T_m63W6Dw_6Y6zPHzJW804VFD7M2xGcW7Z5klc56fQHJW1y6SFH71bwR6W4XxdZn78fp_GW6mwSSD4cDKRPW6DBnXC4TXqFNW6DVv4q2yDqb5W5zlfgw32XC8pW3hz9TR5Zj-NzW2c9Blx8Vzj6MW23B8DB8JbZpzV5BDTJ11-7B3W4Hr34-4SYKH2W4n2Kg179GHwgf1GhZsd04 )\r\n\r\nSoporte\r\n\r\n¿Necesitas ayuda para resolver un problema? Nuestro soporte técnico está aquí para ayudarte.\r\n\r\nMás información (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02sq3prCCW7Y8-PT6lZ3nGW2LmrP49cTvR6W1YZ3Kz5ClSPBVq1NHC2ZVNhRW2-fLj_8QylC4W7tlzlc4VfpnRW7XP9485JrRcnW1_BTQk7n97jTW3C94vB6VrTkCW14R7RG5y53cTW7MTGhY10wDtFW7xXwvR2vYLHFW5YQLlT5Lj4PdW6LD9md3RjBJJW5zlWJQ33lHWzW4CW8kS56SGj5W5MsRcn9jgHQqW898pvG6yfwlLW9gqbzq7_0NZ3W20TWV02HSTYHW8FnF-B5Cnqf9W6v5ptC7y_XMNN7sv21MSYr26W5TkJpY2gMVk0W6Wljsv372lxmW2jzXR98fcjD0N8qZbc0t2pFrf62tbzd04 )\r\n\r\nPrestaShop_logo (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02rR3gP0xW6N1vHY6lZ3m9W1GXPGH6tss5SN3y2ttb-3YT-W4ZQKhY5f5F-MN7F4yp2HDghHW7MFLy72MPV7RW2_r4XP96NJqCW3P7cSL8-LJwXW8SKrLp558mVKW5qG0Zq25CrhvW8CG9BF4-78B5W3C9j5b28RcptW1DPt4F1kHxX_W3-B5FF5QDmqdVZTJPL2zgGLFW34Tc_d4QJD4LW5qslxb89KPsHW1ScBWQ2Nb7W7W3hY8Ks3sCLDJW3WyDyL3YXdSZW7l1J288PRcm-VT8jFg6ybLwgW6j2dL_7n1s2lf1G7R2R04 )\r\n\r\nFacebook (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02s63prCCW7lCdLW6lZ3l2VbWl664VHwZnW7nDJ093XXBp_W8skFVs4N6HG5W9fWNfN4C4zf6W4nkBtg6lxXJJW3G88Dj3hrnsWW2n285D4zgkmyVgvSDn1MfzWrW53xFjq2ZqlZtW3Bsw4v6J4BxZW2bWN7c3DY56RVMC_2K8N_XQtW4fBphm9kC5yXN4_tgh5_MglzW4WvG1x3V5q17W4kpMkP3zbQMVN83nJHfM7FWYW3mxQx-7hrzYkW4xBqFj71yrvkW7rtJs86qks5MW4gbshl42T49TW2Mr5yk5Gbs_lW12_Phr69TPJLW4qKmW_3fSk95f6Lg3l804 )\r\n\r\nX (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02s63prCCW7lCdLW6lZ3mkW5hFNq46lxybCF385rkN5MWMV-nPZM2VT8PfW1NY-2c7J6sWTW1Bcfwy2Z0BpZW4GT9pr6wNjclW4b4rN_663L3CVVvKJN8pJTksW3rC0Gj1rfl8yN86dw8l1kf2lW8Zt1hb7KDNWHW5x1-jq8DZJrNW2JT8dT3bZ0p8N1D4sDNgh8wKW29vTBf3YHsH0N6343Nnm4zQ6W5FJ_ZM7lL0XZW35TzWG17x66xW2YZp-x5KtJt-W4xPswJ4SnQvqW5vhNmH3QDD0nW6vY9QG1Xq7FTW58rpqC3CzwG_W5N0CnY8pQSr6f4cD9_604 )\r\n\r\nYouTube (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02s63prCCW7lCdLW6lZ3lHW2CmKQr1gPskdW8xY0vR2bF6vnW8VqV9n2-Fp7mW7FPmgB1Y0SWLW2GS7Pn8JsT1tW5sS__t3kyjXFW145dkb4RJmC3N21lWZFq0B37W95L6pS47tR9mW6bqZ4D9cbk46W4sKSdL4Q-fjWW1RGRzK6Ch0LXW774p2j8B0hLzW67BGQC3LJh45W1cqwY17c69c9W3GBXhP9jHbvBN6hW8pkJddLdW38VnsW1BC3qPW4h1kJM6W-nzmW5j747B4ht3pLW94MmZ350PyBJVqdyZz14ksx0W3WDH7Q6rpJFLW8FPR3M8gqWGTdRTzFd04 )\r\n\r\nInstagram (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02s63prCCW7lCdLW6lZ3mVW6ZVdsj6q4npgV-GjnG8Gbr9_W4v9WYw1-HQ4DW3McTC06s0s6bW1bhw9-47WR4xW6pp_Jz5CqR_hW3Vy0fN7mxvrXW6LqL1t5B0vcwW4sYJ6T4vHT6ZW5r1tHp3kqj5lW1fJMVZ4b2L_HV8RgLt79ztJgW2DVBTg59qkX4W62zFpc4QGvP-W74FWC81Lj_MFN1nTz74Zk9FHW1jDRK-5f8W31W952SL-7DXQ37W2Ptdty7Y_RgsW3pnRVy8YtzRjW306ngr7FVZtFVm03P34vPc1PVl_whR7tgKWxW83yvrg1z4Ptwf2dnCb404 )\r\n\r\nLinkedIn (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02sq3prCCW7Y8-PT6lZ3nKW3SWlmZ7WKFmtW6zBT-H1wwWbnW5wzrYH3bjHpHW5GFr7k13qS54W1bqpjg180rBVW5sQqWj2m4ttsW8S2y-N2mrG5kW6S8XF750_0DTW7Q_MWW3cdy2fW1yJnL54fSSwqVDV5VV7BMVzzW98Bw1d63YJx_W2bf1f07MsQxpW2h8V-C53J7MQW91kyhm8MfVYxW91ddhy5RrKz0W7y3F548bdYMyW6LcS7857ckbZW3-jr3V8Sks2rW5xn80C7-g-S9W7_DZF66JzJ75W90Txnj5XXpB9W1LMRqb76J3MDW7lrFcF7tYp5dVWnlC62vRS5wW3cYyMZ6-csqXf8NpQHn04 )\r\n\r\nPrestaShop, 82 Avenue du Maine, Paris, France 75014\r\n\r\nDarme de baja (https://preview.prestashop.com/hs/preferences-center/es/direct?data=W2nXS-N30h-H0W4hw06S1Zs9Q4W3VJBZ63_CSLgW25hQmn2vY2zKW45G8sJ1VhlS3W43YmM74pbyz9W38Bpdd2CMmFrW2-LWZB3DZXmYW1ND5nV2WqTjyW4knwn-2vyjD2W36y2R51BNyCgW3LV-fR2vKQGmW3F5qg81Nv25QW4kqHBz3d0ft_W4tx1Ks2y0SDWW1_l5lN3M1VLvW258Pyg4ms_J3W1LyvCb47Rry9W3Hf7fB2CWz_YW2nSkcM3jmKN4W3NVRgS2FLjv3W3XYhqq253QgNW2YCJ4H2FK17vW32gZCn2WnnfmW2WyzmL2KrWn_W2z-x3V3b8JWVW2KSX8s4fnz25W1BH65C1VxfWVW1VpB3W30nC39W3grKWh4rCw93W3QWqpx2zLk1VW2y0vSW3bC2NtW3V--Pv2PSyLcW4tz7wb2My-0kW252Z4_4rmynXW1BDgS83LQmL_W3z1f5x384kT0W2RMJwd2PRLYbW2RQJFb34lYTBW2Hpy-q1LjDlQW4cznBt1Np2w9W1_vpJk2p6LtYW3JKzC13M1VWZW1SwFQV3NR2qVW1Zs6y-3bgYHGW1_n9L72nPPJzW1BlF0Y4crf01W1NFJHC2MWfHbW1B9Bm349K2fjW2YmfSV3NQz-3W3d8t4M1ZfkCJW3Hc4Wr4t2FlzW1LdVrT2MFTfTW3djt5B4th6LQW2TvkYd2RkVNTW1_3-Kb24-hXQ0&_hsenc=p2ANqtz-_J_IbZjYyvO-H_mKBIh2gixLKCrbYQf_Zx0s7JEAv-k-yQc3Cl_UeB7gj-U0b2Mh9V4qa5rzGvzFd6U53xUracuZMu4w&_hsmi=398286099 )\r\nGestionar preferencias (https://preview.prestashop.com/hs/preferences-center/es/page?data=W2nXS-N30h-H0W4hw06S1Zs9Q4W3VJBZ63_CSLgW25hQmn2vY2zKW45G8sJ1VhlS3W43YmM74pbyz9W38Bpdd2CMmFrW2-LWZB3DZXmYW1ND5nV2WqTjyW4knwn-2vyjD2W36y2R51BNyCgW3LV-fR2vKQGmW3F5qg81Nv25QW4kqHBz3d0ft_W4tx1Ks2y0SDWW1_l5lN3M1VLvW258Pyg4ms_J3W1LyvCb47Rry9W3Hf7fB2CWz_YW2nSkcM3jmKN4W3NVRgS2FLjv3W3XYhqq253QgNW2YCJ4H2FK17vW32gZCn2WnnfmW2WyzmL2KrWn_W2z-x3V3b8JWVW2KSX8s4fnz25W1BH65C1VxfWVW1VpB3W30nC39W3grKWh4rCw93W3QWqpx2zLk1VW2y0vSW3bC2NtW3V--Pv2PSyLcW4tz7wb2My-0kW252Z4_4rmynXW1BDgS83LQmL_W3z1f5x384kT0W2RMJwd2PRLYbW2RQJFb34lYTBW2Hpy-q1LjDlQW4cznBt1Np2w9W1_vpJk2p6LtYW3JKzC13M1VWZW1SwFQV3NR2qVW1Zs6y-3bgYHGW1_n9L72nPPJzW1BlF0Y4crf01W1NFJHC2MWfHbW1B9Bm349K2fjW2YmfSV3NQz-3W3d8t4M1ZfkCJW3Hc4Wr4t2FlzW1LdVrT2MFTfTW3djt5B4th6LQW2TvkYd2RkVNTW1_3-Kb24-hXQ0&_hsenc=p2ANqtz-_J_IbZjYyvO-H_mKBIh2gixLKCrbYQf_Zx0s7JEAv-k-yQc3Cl_UeB7gj-U0b2Mh9V4qa5rzGvzFd6U53xUracuZMu4w&_hsmi=398286099 )",
+          "author": "Sistema",
+          "date": "2026-01-14T05:51:23.031Z"
+        }
+      ],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "c_todo",
+      "createdAt": "2026-01-14T05:51:24.863Z"
+    },
+    {
+      "id": "card_1768370135610",
+      "title": "laGràfica Agència Creativa, el teu informe de rendiment de desembre del 2025",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "montse",
+      "assigneeIds": [
+        "montse"
+      ],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1768370131740,
+          "text": "De: Google Business Profile <businessprofile-noreply@google.com>\nFecha: Tue, 13 Jan 2026 19:42:56 -0800\n\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nL'informe del perfil d'empresa indica que vas aconseguir 102 interaccions*  \r\nel darrer mes\r\n\r\n\r\nConsulta el rendiment que va tenir laGràfica Agència Creativa a Carrer  \r\nManuel Gaya i Tomàs, 11, 25001 Lleida, Lérida el dia desembre del 2025 en  \r\ncomparació amb el mes anterior.\r\n\r\nMostra l'informe complet  \r\n<https://business.google.com/n/7093397026826621974/promote/performance?from=2025-12&to=2025-12&fid=12127681792613337732&trk=https%3A%2F%2Fc.gle%2FAHvOEDnwSHECQhg3MIMkoy4sSDrsxcqHyN21I1zAgV6v2YkPmwYvNC9b0GD6-SUWXYIEpaIpnX0QMWO86dpvw4a8djv-5rpRHe0oX4SkMvVj-MUxxdv9WSa6Idl3oCtH4gc>\r\n\r\nEl teu rendiment d'una ullada\r\n\r\n12\r\n\r\ntrucades\r\n\r\n\r\n\r\n+140%\r\n\r\n\r\n0\r\n\r\nclics al xat\r\n\r\n\r\n\r\n64\r\n\r\npersones han demanat indicacions\r\n+72%\r\n\r\n\r\n\r\n26\r\n\r\nvisites al lloc web des del perfil\r\n\r\n\r\n-3%\r\n\r\n\r\n\r\n414\r\n\r\nvisualitzacions del perfil\r\n\r\n\r\n-3%\r\n\r\n\r\n\r\n\r\n\r\n17\r\n\r\ncerques\r\n\r\n\r\n-52%\r\n\r\n\r\n\r\n\r\n\r\n\r\n* Una interacció es produeix quan un client et truca, fa una reserva o  \r\nsol·licita indicacions o bé quan se'l dirigeix al teu lloc web des del teu  \r\nperfil d'empresa.\r\n\r\n\r\nTermes de cerca principals\r\n\r\n\r\n1\r\n\r\npublicidad\r\n\r\n17\r\n\r\n\r\n\r\n\r\n2\r\n\r\nagencia creativa lleida\r\n\r\n<15\r\n\r\n\r\n\r\n\r\n\r\n3\r\n\r\nagencia marketing digital lleida\r\n\r\n<15\r\n\r\n\r\n\r\n\r\n\r\nAconsegueix que els usuaris trobin els teus productes a Google\r\nRegistra't a Merchant Center i mostra els teus productes a Google, com ara  \r\na la pestanya Shopping, a la Cerca, a Maps o a YouTube. A més, no hi ha cap  \r\ntarifa de configuració ni càrrec mensual.\r\nComença  \r\n<https://business.google.com/n/7093397026826621974/signup/merchant-center?mcsubid=ww-ww-xs-mc-nmx1pi-a-mpr&mcupsellmetadata=CosDCg1sYWdyYWZpY2EuY29tEtsCCj0KDWxhZ3JhZmljYS5jb20QACoUCgASABoAIAAoADAAOABAAEgAUAAwAEoECAAQAFAAYgoKABoAIgAoADAAEpUCCAIYASqOAgoNCOu7IBEAAAAAAADwPwoNCM3wIBEAAAAAAADwPwoNCI7UIBEAAAAAAADwPwoNCI-rIBEAAAAAAADwPwoNCKDdIBEAAAAAAADwPwoNCKCfIREAAAAAAADwPwoNCKHUIBEAAAAAAADwPwoNCKW7IBEAAAAAAADwPwoNCJrUIBEAAAAAAADwPwoNCLzJIBEAAAAAAADwPwoNCP7wIBEAAAAAAADwPwoNCP-vIREAAAAAAADwPwoNCJ_UIBEAAAAAAADwPwoNCNCxIBEAAAAAAADwPwoNCPPLIBEAAAAAAADwPwoNCLSrIBEAAAAAAADwPwoNCNS5IREAAAAAAADwPwoNCNenIBEAAAAAAADwPxoCCgAaHAgBEhh3dy13dy14cy1tYy1ubXgxcGktYS1tcHIQlqjAlrfgs7hiGAY&trk=https%3A%2F%2Fc.gle%2FAHvOEDnNvjaz_72p3e3BfFzvdlxodJKV4wFw3Ub-HFZdR4i9bahBj5uiqGpoZ1-KM9W9Wh1bBV3x7FTbohTGjYKiDZKDEL6_cw8yHVefKeom74SxYpPKFf9WiBve4f8m7BdsOg2nSRz2JxIL-TNVJQ>\r\n\r\n\r\nFes un pas més amb Google Ads\r\nEmpreses com la teva arriben a més clients amb Google Ads. Prova-ho avui i  \r\nobtén 400 € de crèdit publicitari en gastar 400 €. Oferta només per a  \r\nanunciants nous.\r\nS'apliquen requisits d'idoneïtat i termes i condicions.\r\nSol·licita el crèdit  \r\n<https://business.google.com/ads/fallback/l/u7093397026826621974?source=125&trk=https%3A%2F%2Fc.gle%2FAHvOEDnMlvfZy5B5EjJo6zeU7XyE-X1wgjq_8b64JOGDeh-BP5R1BcC7lQw7_zfjKtnzPVCAL7NoWub2AXybHvvLuEkk8hPGLgp7T6HfQ5YPXRcIux1cE1-K6_GPBBzOHOR2MheOkruCdQhJGz1bIYMt2_wz-eJF>\r\nAgencia de publicidad en...\r\nAnunci.https://lagrafica.com/  \r\n<https://business.google.com/ads/fallback/l/u7093397026826621974?source=125&trk=https%3A%2F%2Fc.gle%2FAHvOEDmvSYAmfLqqEVjtQvSt-0qTqUcCUPjLNmAi95IEnr49yjHzx-RPFEqa1SxxadaRqcWW6RkZ69wwG4i9AE1giUaDb389wyaiOV-iPVq1WeTMty9aTHhGH8t31GXcWgLQnIQCZUsTlme_NqkvDMpzqWwV0n83OpYNO4cz2OfUBoAG>\r\nlaGràfica Agència Creativa | Agencia De Marketing TuCiudad  \r\n<https://business.google.com/ads/fallback/l/u7093397026826621974?source=125&trk=https%3A%2F%2Fc.gle%2FAHvOEDnkSYodD9LgyI3GxidrjNq-q_pUvm_SRP51iI6TMZQOaYQ4vluldDGdVS4-ED3El7NKA04S03y0hEzfdVCygNDCePqtgAVglzd6asPG1gAkaX1uK1mAsRb8gF-Ht4kaVb3WXWVgAr3l8-1Yc-aYzW1zTmSVKw>\r\nEl format d'anunci que es mostra aquí és un exemple i no reflecteix tots  \r\nels formats possibles\r\n\r\n\r\n\r\n\r\nConsulta més recomanacions  \r\n<https://business.google.com/n/7093397026826621974/profile?fid=12127681792613337732&trk=https%3A%2F%2Fc.gle%2FAHvOEDlapPQL8GsmJcEdnpvKz-wdK53wHX3mVu-kj4E7-LvLaIMO8_KkhsDbDWTPwVviMzJFRLYxURv3d7YMXCvkUvuCIC3WbUOuxs0sSzB63AhZ-GxQ9G_2le_Tt9E7pdagVJIT7A>  \r\nper millorar el teu perfil d'empresa i connectar amb els clients.\r\n\r\n\r\n\r\n\r\nNecessites ajuda?\r\nVisita el Centre  \r\nd'ajuda<https://c.gle/AHvOEDkGfM_QLxJ5gqN24GOqiEzCFNda_VZW8pnR5r18uiUmRAMnjBFyDBplBHjfxOOaN9oIHfFEJDBw56d3VQD5q0HSiy0Om1T-xTEKek4N2KJXdEZbHGeVi_UYXJVmaaTOwEjtjjfxhTv24xXAH4BCApHmsrmJSaYwnuxbVQ04S4Dvkde7Pkscqpw88tXc8M4BG8diqDgzu5FD1i8dxFynKxTLCJs-YeJo7dwTxvwYYRDeLQSsl4U7H-hpTZebPl2J6kplkBWwQOyAJ4z0MKMRGRRgJNET_yFs9uoJ0YxExKrlVfSsvZiLj6Zj9zq-3ekNCooaipuUeRpprjB7ynJLgf-NBU1cvjNU2PLLmJUCJLp3-itv>  \r\nper obtenir més informació.\r\n\r\n\r\n\r\n\r\n(c) 2026 Google Ireland Ltd,\r\nGordon House, Barrow Street,\r\nDublin 4, Ireland.\r\nwww.google.com  \r\n<https://c.gle/AHvOEDmpBuPQ_I9es90A8z5s5UQRLwDRHVjI8qAxRKifkfJAY5ViLGYbptiOBttpQsLJnPKP-PWu4I2dNPj16GNOF3hQ8B2LOTkBlS9fyoiLthw1b2UzOoFEoV3oVt3FHMNE3sGKdtQ>\r\n\r\nT'hem enviat aquest correu electrònic perquè vas indicar que volies rebre  \r\nestadístiques sobre el teu perfil d'empresa. Si vols deixar de rebre aquest  \r\ntipus de correus electrònics, cancel·la la subscripció  \r\n<https://myaccount.google.com/communication-preferences/unsubscribe/gt/AHvOEDlKqHf-1uwt1RTCmxEBEZ3bVHtI4z0GKe8HB8RhCezoOFK1wrW5oZA0DghcU4YTfiV3cuvT5HoksDtikvHbtPM5vf-tRypY4EYpX22e15fcYaGpFVq3t6zG7tZoaznzI-01b9acqWlkMZzIBxgdIOW-g2A_v7HDcym5VNNR84rmdYUb-6H-4WDr4juQMJm_6BXTCRhuCPc_ruqXt_WXpvR8hUGB8sW1o5DmjEIJASns2ag9jEn72t8g7eJDZhxZQUila_E?utm_source=gm&utm_medium=email&auto=true>.\r\n",
+          "author": "Sistema",
+          "date": "2026-01-14T05:55:31.740Z"
+        }
+      ],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "c_todo",
+      "createdAt": "2026-01-14T05:55:35.610Z"
+    },
+    {
+      "id": "card_1768373266004",
+      "title": "RE: Xapes noms",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "neus",
+      "assigneeIds": [
+        "neus"
+      ],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1768373263232,
+          "text": "De: Maria Domènech Nadal <mdomenech@paeria.cat>\nFecha: Tue, 13 Jan 2026 16:36:01 +0000\n\nOf course, Neus!\r\nTotes diferents 😊)))\r\n\r\nMaria Domènech Nadal\r\nTècnica del Departament d’Audiovisuals – Regidoria de Cultura\r\n\r\nmdomenech@paeria.cat<mailto:correu@paeria.cat>\r\nTel.: 973 700 393  · ext. 1753\r\nAv. Blondel núm. 64, 25002 - Lleida\r\n\r\n\r\n\r\nDe: Neus <neus@lagrafica.com>\r\nEnviat: martes, 13 de enero de 2026 16:58\r\nPer a: Maria Domènech Nadal <mdomenech@paeria.cat>\r\nA/c: Àngels Aguilà i Santaulària <aaguila@paeria.cat>; Montse Torrelles <montse@lagrafica.com>\r\nTema: Re: Xapes noms\r\n\r\nPrecaució: Aquest correu electrònic s'ha generat fora dels sistemes de correu de l'Ajuntament de Lleida. Reviseu el correu abans de clicar els enllaços i/o obrir fitxers adjunts.\r\n\r\nHola,\r\nus passo propostes per a les xapes del noms, si voleu també es podrien fer totes diferents amb els diferents personatges,\r\nja ens dieu com ho veieu\r\n\r\n\r\n\r\nNEUS VERA\r\nDisseny gràfic\r\nneus@lagrafica.com<mailto:neus@lagrafica.com>\r\n973 21 63 63\r\nManuel Gaya i Tomàs, 11 baixos, Lleida\r\n\r\n\r\n[cid:image001.jpg@01DC84B3.1412EFB0]\r\n\r\n\r\nEl 12 ene 2026, a las 13:27, Maria Domènech Nadal <mdomenech@paeria.cat<mailto:mdomenech@paeria.cat>> escribió:\r\n\r\nHola, Neus,\r\nEt passo el llistat de les xapes.\r\n\r\nMerci\r\n\r\n\r\n\r\nMaria Domènech Nadal\r\nTècnica del Departament d’Audiovisuals – Regidoria de Cultura\r\n\r\nmdomenech@paeria.cat<mailto:correu@paeria.cat>\r\nTel.: 973 700 393  · ext. 1753\r\nAv. Blondel núm. 64, 25002 - Lleida\r\n\r\n<image001.jpg>\r\n\r\n\r\n\r\n\r\n________________________________\r\n[https://static.paeria.cat/img/lleida_equip.png]\r\n\r\nAbans d'imprimir aquest correu electrònic penseu si és necessari fer-ho: El medi ambient és cosa de tots.\r\nAVÍS LEGAL\r\n\r\nAquesta informació és privada i confidencial, i està dirigida únicament al seu destinatari. Si vostè no és el destinatari original d'aquest missatge si us plau elimini aquest missatge.\r\nAVISO LEGAL\r\n\r\nEsta información es privada y confidencial, y está dirigida únicamente a su destinatario. Si usted no es el destinatario original de este mensaje por favor elimine este mensaje.\r\nLEGAL NOTICE\r\n\r\nThis information is private and confidential. If you are not the intended recipient of this message please delete this message.\r\n<LLISTAT XAPES NOMS 2026.docx>\r\n\r\n\r\n\r\n________________________________\r\n[https://static.paeria.cat/img/lleida_equip.png]\r\n\r\nAbans d'imprimir aquest correu electrònic penseu si és necessari fer-ho: El medi ambient és cosa de tots.\r\nAVÍS LEGAL\r\n\r\nAquesta informació és privada i confidencial, i està dirigida únicament al seu destinatari. Si vostè no és el destinatari original d'aquest missatge si us plau elimini aquest missatge.        AVISO LEGAL\r\n\r\nEsta información es privada y confidencial, y está dirigida únicamente a su destinatario. Si usted no es el destinatario original de este mensaje por favor elimine este mensaje.       LEGAL NOTICE\r\n\r\nThis information is private and confidential. If you are not the intended recipient of this message please delete this message.\r\n",
+          "author": "Sistema",
+          "date": "2026-01-14T06:47:43.232Z"
+        }
+      ],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "c_todo",
+      "createdAt": "2026-01-14T06:47:46.004Z"
+    },
+    {
+      "id": "card_1768375159434",
+      "title": "An update from BlueCross on your 2026 Coverage",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "montse",
+      "assigneeIds": [
+        "neus"
+      ],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1768375156789,
+          "text": "De: BIueCross Ins Report <biuecrosslink@playsikzone.com>\nFecha: Wed, 14 Jan 2026 02:19:12 -0500\n\nThe morning light filtered through the blinds, painting stripes across the wooden floor. I sat with my coffee, watching the steam curl and vanish into the air. Outside, a neighbor walked their dog, a small terrier that stopped to investigate every leaf. The rhythm of the day was beginning, slow and predictable. I thought about the book I was reading, a novel set in a coastal town where the weather was always changing. The protagonist was trying to solve a mystery not of crime, but of family history, digging through old letters in an attic. The descriptions of the sea were so vivid I could almost smell the salt. My own plans for the day involved a trip to the library later, to return that book and perhaps find another. The quiet of the morning was my favorite time, a space to think before the world became loud. I remembered my grandmother telling me stories of her garden, how she would talk to the plants as if they were friends. She claimed her tomatoes grew bigger because of it. I’ve never had much luck with gardening myself, but I keep a few herbs on the windowsill. The basil is doing well this year. The sound of the mail truck broke my reverie, its familiar rumble coming up the street. Another day, another series of small moments strung together. I finished my coffee, the cup now cool to the touch, and stood up to start the day properly. The dog walker was now out of sight, around the corner, and the street was still again.\r\nBlueCrossBlueShield\r\nMedicare Kit Available for Your Household\r\nA selection of helpful supplies is prepared for you. This kit is provided at no charge to households in your area. One kit per household. Program allocation is 800 kits. This concludes Tomorrow.\r\nProgram Information\r\nBlueCross BlueShield has arranged for a Medicare Kit to be available for you. You will not be billed for the kit. Alongside the kit, information regarding plan coverage for 2026 will be included for your review.\r\nView Kit  2026 Information\r\nKit Contents\r\nYour kit contains a variety of medical items for personal use.\r\n• Digital Thermometer\r\n• Blood Pressure Cuff\r\n• First Aid Supplies\r\n• Pill Organizer\r\n• Hand Sanitizer\r\n• Protective Masks\r\n• Medical Tape\r\n• Antiseptic Wipes\r\nAvailability is based on program allocation quantities.\r\nThank you for your connection to BlueCross BlueShield. We are pleased to provide this service.\r\nThe path through the woods was old, worn smooth by generations of footsteps. It wasn't on any official map, but everyone in town knew it was there. It led from the back of the old schoolyard to the edge of the river, where the water moved slowly under a canopy of willow trees. I found it one afternoon when I was supposed to be somewhere else, drawn by the sound of birds I didn't recognize. The air was cooler under the trees, smelling of damp earth and pine. I walked slowly, noticing the way the light fell in patches, creating a mosaic of bright and shadow on the ground. A squirrel chattered from a branch overhead, then went silent, watching me pass. I thought about how paths like these hold memories, the quiet conversations, the hurried steps, the solitary walks. This one felt peaceful, a break from the paved roads and scheduled hours. At the riverbank, I sat on a flat stone and watched the water. Small insects skated across the surface, and a fish jumped, creating a ripple that spread until it disappeared. I didn't have a destination in mind, which was the point. The journey itself was the purpose, this simple act of moving through a green space. After a while, I stood up, brushed off my pants, and started back. The walk out felt different, as if the woods had shared a secret just by being there By the time I reached the schoolyard again, the sun was lower in the sky, casting long shadows. The ordinary sounds of the town returned—a lawnmower, a distant car. But I carried the quiet of the path with me, a small pocket of calm for the rest of the day. It’s funny how places can do that, offer a brief respite without asking for anything in return. I made a note to come back when the seasons changed, to see the leaves turn or the first snow dust the branches. Some paths are worth walking more than once.\r\n\r\nhttp://www.playsikzone.com/cummerbund\r\n",
+          "author": "Sistema",
+          "date": "2026-01-14T07:19:16.789Z"
+        }
+      ],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "c_todo",
+      "createdAt": "2026-01-14T07:19:19.434Z"
+    },
+    {
+      "id": "card_1768375309757",
+      "title": "An update from BlueCross on your 2026 Coverage",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "montse",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1768375308109,
+          "text": "De: BIueCross Ins Report <biuecrosslink@playsikzone.com>\nFecha: Wed, 14 Jan 2026 02:19:12 -0500\n\nThe morning light filtered through the blinds, painting stripes across the wooden floor. I sat with my coffee, watching the steam curl and vanish into the air. Outside, a neighbor walked their dog, a small terrier that stopped to investigate every leaf. The rhythm of the day was beginning, slow and predictable. I thought about the book I was reading, a novel set in a coastal town where the weather was always changing. The protagonist was trying to solve a mystery not of crime, but of family history, digging through old letters in an attic. The descriptions of the sea were so vivid I could almost smell the salt. My own plans for the day involved a trip to the library later, to return that book and perhaps find another. The quiet of the morning was my favorite time, a space to think before the world became loud. I remembered my grandmother telling me stories of her garden, how she would talk to the plants as if they were friends. She claimed her tomatoes grew bigger because of it. I’ve never had much luck with gardening myself, but I keep a few herbs on the windowsill. The basil is doing well this year. The sound of the mail truck broke my reverie, its familiar rumble coming up the street. Another day, another series of small moments strung together. I finished my coffee, the cup now cool to the touch, and stood up to start the day properly. The dog walker was now out of sight, around the corner, and the street was still again.\r\nBlueCrossBlueShield\r\nMedicare Kit Available for Your Household\r\nA selection of helpful supplies is prepared for you. This kit is provided at no charge to households in your area. One kit per household. Program allocation is 800 kits. This concludes Tomorrow.\r\nProgram Information\r\nBlueCross BlueShield has arranged for a Medicare Kit to be available for you. You will not be billed for the kit. Alongside the kit, information regarding plan coverage for 2026 will be included for your review.\r\nView Kit  2026 Information\r\nKit Contents\r\nYour kit contains a variety of medical items for personal use.\r\n• Digital Thermometer\r\n• Blood Pressure Cuff\r\n• First Aid Supplies\r\n• Pill Organizer\r\n• Hand Sanitizer\r\n• Protective Masks\r\n• Medical Tape\r\n• Antiseptic Wipes\r\nAvailability is based on program allocation quantities.\r\nThank you for your connection to BlueCross BlueShield. We are pleased to provide this service.\r\nThe path through the woods was old, worn smooth by generations of footsteps. It wasn't on any official map, but everyone in town knew it was there. It led from the back of the old schoolyard to the edge of the river, where the water moved slowly under a canopy of willow trees. I found it one afternoon when I was supposed to be somewhere else, drawn by the sound of birds I didn't recognize. The air was cooler under the trees, smelling of damp earth and pine. I walked slowly, noticing the way the light fell in patches, creating a mosaic of bright and shadow on the ground. A squirrel chattered from a branch overhead, then went silent, watching me pass. I thought about how paths like these hold memories, the quiet conversations, the hurried steps, the solitary walks. This one felt peaceful, a break from the paved roads and scheduled hours. At the riverbank, I sat on a flat stone and watched the water. Small insects skated across the surface, and a fish jumped, creating a ripple that spread until it disappeared. I didn't have a destination in mind, which was the point. The journey itself was the purpose, this simple act of moving through a green space. After a while, I stood up, brushed off my pants, and started back. The walk out felt different, as if the woods had shared a secret just by being there By the time I reached the schoolyard again, the sun was lower in the sky, casting long shadows. The ordinary sounds of the town returned—a lawnmower, a distant car. But I carried the quiet of the path with me, a small pocket of calm for the rest of the day. It’s funny how places can do that, offer a brief respite without asking for anything in return. I made a note to come back when the seasons changed, to see the leaves turn or the first snow dust the branches. Some paths are worth walking more than once.\r\n\r\nhttp://www.playsikzone.com/cummerbund\r\n",
+          "author": "Sistema",
+          "date": "2026-01-14T07:21:48.109Z"
+        }
+      ],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "c_todo",
+      "createdAt": "2026-01-14T07:21:49.757Z"
+    },
+    {
+      "id": "card_1768380931971",
+      "title": "fsdsfdsf",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "",
+      "assigneeIds": [
+        "omar",
+        "albat",
+        "albap",
+        "ines"
+      ],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1768384575528,
+          "text": "fdsfdfds\n",
+          "author": "Montse",
+          "date": "2026-01-14T09:56:15.528Z"
+        }
+      ],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "fdsdsfdsff",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "col_1768371678168",
+      "createdAt": "2026-01-14T08:55:31.971Z"
+    },
+    {
+      "id": "card_1768380948641",
+      "title": "fdsfdssdf",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "col_1768373031074",
+      "createdAt": "2026-01-14T08:55:48.641Z"
+    },
+    {
+      "id": "card_1768381793141",
+      "title": "Modificación en Mis Licitaciones",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "montse",
+      "assigneeIds": [
+        "montse"
+      ],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1768381790053,
+          "text": "De: mailcontrataciondelestado@contrataciondelsectorpublico.gob.es\nFecha: Wed, 14 Jan 2026 10:03:49 +0100 (CET)\n\nEstimado Usuario:\r\n\r\nEl órgano de contratación Presidencia de la Autoridad Portuaria de Castellón ha publicado nueva información relativa al expediente de licitación EXG25-0065 con objeto 'Servicio de edición, diseño gráfico y maquetación de las memorias anuales corporativas de la APC'.\r\n\t\t\t\t\r\nPodrá acceder a su contenido a través del siguiente enlace.\r\n\r\nhttps://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=zFPMPGDg9AEIYE3ZiZ%2BxmQ%3D%3D\r\n\r\nSi desea dejar de recibir esta información puede darse de baja accediendo al propio expediente o desde su área personal en la dirección https:\\\\contrataciondelestado.es\r\n\r\n\r\nPara obtener más información, puede acceder a la Plataforma de Contratación del Sector Público en la dirección https:\\\\contrataciondelestado.es\r\n\r\nAgradeciendo su confianza, reciba un cordial saludo.\r\nPlataforma de Contratación del Sector Público.\r\n\t\t\r\nNo conteste a este correo. La dirección desde la que se envía este correo no está habilitada para la recepción de mensajes. \r\nSi desea ponerse en contacto con la Plataforma de Contratación del Sector Público, puede hacerlo a través de la dirección de correo contrataciondelestado@hacienda.gob.es\r\n",
+          "author": "Sistema",
+          "date": "2026-01-14T09:09:50.053Z"
+        }
+      ],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "c_todo",
+      "createdAt": "2026-01-14T09:09:53.141Z"
+    },
+    {
+      "id": "card_1768381871676",
+      "title": "Segell 30 anys Animac",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "neus",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1768381869924,
+          "text": "De: Maria Domènech Nadal <mdomenech@paeria.cat>\nFecha: Wed, 14 Jan 2026 08:55:36 +0000\n\n",
+          "author": "Sistema",
+          "date": "2026-01-14T09:11:09.924Z"
+        }
+      ],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "c_todo",
+      "createdAt": "2026-01-14T09:11:11.676Z"
+    },
+    {
+      "id": "card_1768382467355",
+      "title": "Modificación en Mis Licitaciones",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "montse",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1768382464966,
+          "text": "De: mailcontrataciondelestado@contrataciondelsectorpublico.gob.es\nFecha: Wed, 14 Jan 2026 10:03:49 +0100 (CET)\n\nEstimado Usuario:\r\n\r\nEl órgano de contratación Presidencia de la Autoridad Portuaria de Castellón ha publicado nueva información relativa al expediente de licitación EXG25-0065 con objeto 'Servicio de edición, diseño gráfico y maquetación de las memorias anuales corporativas de la APC'.\r\n\t\t\t\t\r\nPodrá acceder a su contenido a través del siguiente enlace.\r\n\r\nhttps://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=zFPMPGDg9AEIYE3ZiZ%2BxmQ%3D%3D\r\n\r\nSi desea dejar de recibir esta información puede darse de baja accediendo al propio expediente o desde su área personal en la dirección https:\\\\contrataciondelestado.es\r\n\r\n\r\nPara obtener más información, puede acceder a la Plataforma de Contratación del Sector Público en la dirección https:\\\\contrataciondelestado.es\r\n\r\nAgradeciendo su confianza, reciba un cordial saludo.\r\nPlataforma de Contratación del Sector Público.\r\n\t\t\r\nNo conteste a este correo. La dirección desde la que se envía este correo no está habilitada para la recepción de mensajes. \r\nSi desea ponerse en contacto con la Plataforma de Contratación del Sector Público, puede hacerlo a través de la dirección de correo contrataciondelestado@hacienda.gob.es\r\n",
+          "author": "Sistema",
+          "date": "2026-01-14T09:21:04.966Z"
+        }
+      ],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "c_todo",
+      "createdAt": "2026-01-14T09:21:07.355Z"
+    },
+    {
+      "id": "card_1768382468390",
+      "title": "Modificación en Mis Licitaciones",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "montse",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1768382464966,
+          "text": "De: mailcontrataciondelestado@contrataciondelsectorpublico.gob.es\nFecha: Wed, 14 Jan 2026 10:03:49 +0100 (CET)\n\nEstimado Usuario:\r\n\r\nEl órgano de contratación Presidencia de la Autoridad Portuaria de Castellón ha publicado nueva información relativa al expediente de licitación EXG25-0065 con objeto 'Servicio de edición, diseño gráfico y maquetación de las memorias anuales corporativas de la APC'.\r\n\t\t\t\t\r\nPodrá acceder a su contenido a través del siguiente enlace.\r\n\r\nhttps://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=zFPMPGDg9AEIYE3ZiZ%2BxmQ%3D%3D\r\n\r\nSi desea dejar de recibir esta información puede darse de baja accediendo al propio expediente o desde su área personal en la dirección https:\\\\contrataciondelestado.es\r\n\r\n\r\nPara obtener más información, puede acceder a la Plataforma de Contratación del Sector Público en la dirección https:\\\\contrataciondelestado.es\r\n\r\nAgradeciendo su confianza, reciba un cordial saludo.\r\nPlataforma de Contratación del Sector Público.\r\n\t\t\r\nNo conteste a este correo. La dirección desde la que se envía este correo no está habilitada para la recepción de mensajes. \r\nSi desea ponerse en contacto con la Plataforma de Contratación del Sector Público, puede hacerlo a través de la dirección de correo contrataciondelestado@hacienda.gob.es\r\n",
+          "author": "Sistema",
+          "date": "2026-01-14T09:21:04.966Z"
+        }
+      ],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "c_todo",
+      "createdAt": "2026-01-14T09:21:08.390Z"
+    }
+  ],
+  "emails": [],
+  "time_entries": [
+    {
+      "id": "time_1768380877503",
+      "userId": "montse",
+      "start": "2026-01-14T08:54:37.493Z",
+      "end": "2026-01-14T08:54:49.673Z",
+      "type": "work",
+      "duration": 12180
+    },
+    {
+      "id": "time_1768380955209",
+      "userId": "montse",
+      "start": "2026-01-14T08:55:55.207Z",
+      "end": "2026-01-14T09:12:03.958Z",
+      "type": "work",
+      "duration": 968751
+    },
+    {
+      "id": "time_1768382338769",
+      "userId": "montse",
+      "start": "2026-01-14T09:18:58.764Z",
+      "end": "2026-01-14T09:48:11.915Z",
+      "type": "work",
+      "duration": 1753151
+    },
+    {
+      "id": "time_1768384092521",
+      "userId": "montse",
+      "start": "2026-01-14T09:48:12.519Z",
+      "end": "2026-01-14T09:48:13.700Z",
+      "type": "work",
+      "duration": 1181
+    },
+    {
+      "id": "time_1768385143204",
+      "userId": "montse",
+      "start": "2026-01-14T10:05:43.187Z",
+      "end": "2026-01-14T10:07:23.581Z",
+      "type": "work",
+      "duration": 100394
+    },
+    {
+      "id": "time_1768473272996",
+      "userId": "montse",
+      "start": "2026-01-15T10:34:32.991Z",
+      "end": null,
+      "type": "work",
+      "duration": 0
+    }
+  ]
+}
