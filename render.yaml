@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: project-manager
+    env: docker
+    plan: free
+    branch: main
+    envVars:
+      - key: IMAP_HOST
+        sync: false
+      - key: IMAP_PORT
+        sync: false
+      - key: IMAP_SECURE
+        sync: false
+      - key: IMAP_USER_MONTSE
+        sync: false
+      - key: IMAP_PASS_MONTSE
+        sync: false
+      - key: IMAP_USER_NEUS
+        sync: false
+      - key: IMAP_PASS_NEUS
+        sync: false
+      - key: IMAP_USER_ALBA
+        sync: false
+      - key: IMAP_PASS_ALBA
+        sync: false
+      - key: IMAP_USER_ATEIXIDO
+        sync: false
+      - key: IMAP_PASS_ATEIXIDO
+        sync: false
+      - key: IMAP_USER_OMAR
+        sync: false
+      - key: IMAP_PASS_OMAR
+        sync: false
+      - key: IMAP_USER_WEB
+        sync: false
+      - key: IMAP_PASS_WEB
+        sync: false
