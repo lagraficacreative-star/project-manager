@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import Board from './components/Board';
-// import Inbox from './components/Inbox';
+import Inbox from './components/Inbox';
 import HRManagement from './components/HRManagement';
 import CompanyDocs from './components/CompanyDocs';
 import AgendaGPT from './components/AgendaGPT';
@@ -61,9 +61,9 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Dashboard />} />
                         <Route path="/board/:boardId" element={<Board />} />
-                        {/* <Route path="/inbox" element={<Inbox />} /> */}
+                        <Route path="/inbox" element={<Inbox />} />
                         <Route path="/rrhh" element={<HRManagement />} />
-                        {/* <Route path="/docs" element={<CompanyDocs />} /> */}
+                        <Route path="/docs" element={<CompanyDocs />} />
                         {/* <Route path="/agenda" element={<AgendaGPT />} /> */}
                         <Route path="*" element={<Dashboard />} />
                     </Routes>

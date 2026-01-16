@@ -364,8 +364,8 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
 
                     {/* TAB: GENERAL (DETALLES) */}
                     {activeTab === 'general' && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+                            <div className="md:col-span-8 space-y-6">
 
                                 {/* Team Members (Moved from Right Column) */}
                                 <div className="space-y-3">
@@ -483,8 +483,12 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                {/* Timer History */}
+                            {/* This column is now empty or can be removed if no other content is intended for it */}
+                            <div className="md:col-span-4 space-y-6">
+
+                                {/* Timer Section */}
                                 <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm space-y-4">
                                     <h3 className="font-bold text-gray-900 text-sm flex items-center gap-2">
                                         <History size={16} className="text-brand-orange" /> Registro de Tiempo
@@ -575,75 +579,76 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            {/* This column is now empty or can be removed if no other content is intended for it */}
-                            <div>
-                                <h3 className="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                    <CheckSquare size={16} className="text-brand-orange" /> Checklists
-                                </h3>
+                                {/* Checklists Section */}
+                                <div>
+                                    <h3 className="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                        <CheckSquare size={16} className="text-brand-orange" /> Checklists
+                                    </h3>
 
-                                <div className="space-y-6">
-                                    <div className="flex gap-2">
-                                        <input
-                                            type="text"
-                                            value={newChecklistTitle}
-                                            onChange={(e) => setNewChecklistTitle(e.target.value)}
-                                            placeholder="Nombre de la lista..."
-                                            className="flex-1 p-2 border border-gray-200 rounded-lg text-sm"
-                                            onKeyDown={(e) => e.key === 'Enter' && addChecklist()}
-                                        />
-                                        <button type="button" onClick={addChecklist} className="bg-brand-lightgray px-4 rounded-lg hover:bg-brand-orange hover:text-white transition-colors">
-                                            <Plus size={20} />
-                                        </button>
-                                    </div>
+                                    <div className="space-y-6">
+                                        <div className="flex gap-2">
+                                            <input
+                                                type="text"
+                                                value={newChecklistTitle}
+                                                onChange={(e) => setNewChecklistTitle(e.target.value)}
+                                                placeholder="Nombre de la lista..."
+                                                className="flex-1 p-2 border border-gray-200 rounded-lg text-sm"
+                                                onKeyDown={(e) => e.key === 'Enter' && addChecklist()}
+                                            />
+                                            <button type="button" onClick={addChecklist} className="bg-brand-lightgray px-4 rounded-lg hover:bg-brand-orange hover:text-white transition-colors">
+                                                <Plus size={20} />
+                                            </button>
+                                        </div>
 
-                                    <div className="grid grid-cols-1 gap-6">
-                                        {checklists.map(cl => (
-                                            <div key={cl.id} className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
-                                                <h3 className="font-bold text-gray-800 flex items-center gap-2 mb-4">
-                                                    {cl.title}
-                                                    <span className="text-xs font-normal text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full ml-auto">
-                                                        {cl.items.filter(i => i.done).length}/{cl.items.length}
-                                                    </span>
-                                                </h3>
+                                        <div className="grid grid-cols-1 gap-6">
+                                            {checklists.map(cl => (
+                                                <div key={cl.id} className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
+                                                    <h3 className="font-bold text-gray-800 flex items-center gap-2 mb-4">
+                                                        {cl.title}
+                                                        <span className="text-xs font-normal text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full ml-auto">
+                                                            {cl.items.filter(i => i.done).length}/{cl.items.length}
+                                                        </span>
+                                                    </h3>
 
-                                                <div className="space-y-2 mb-4">
-                                                    {cl.items.map(item => (
-                                                        <div key={item.id} className="group flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                                                            <input
-                                                                type="checkbox"
-                                                                checked={item.done}
-                                                                onChange={() => toggleCheckitem(cl.id, item.id)}
-                                                                className="w-4 h-4 text-brand-orange rounded border-gray-300 focus:ring-brand-orange"
-                                                            />
-                                                            <span className={`text-sm flex-1 ${item.done ? 'text-gray-400 line-through' : 'text-gray-700'}`}>
-                                                                {item.text}
-                                                            </span>
-                                                        </div>
-                                                    ))}
+                                                    <div className="space-y-2 mb-4">
+                                                        {cl.items.map(item => (
+                                                            <div key={item.id} className="group flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={item.done}
+                                                                    onChange={() => toggleCheckitem(cl.id, item.id)}
+                                                                    className="w-4 h-4 text-brand-orange rounded border-gray-300 focus:ring-brand-orange"
+                                                                />
+                                                                <span className={`text-sm flex-1 ${item.done ? 'text-gray-400 line-through' : 'text-gray-700'}`}>
+                                                                    {item.text}
+                                                                </span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+
+                                                    <div className="mt-2">
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Añadir elemento..."
+                                                            className="w-full p-2 text-sm border-b border-transparent focus:border-brand-orange bg-transparent focus:ring-0 placeholder-gray-400"
+                                                            onKeyDown={(e) => {
+                                                                if (e.key === 'Enter' && e.target.value.trim()) {
+                                                                    addChecklistItem(cl.id, e.target.value);
+                                                                    e.target.value = '';
+                                                                }
+                                                            }}
+                                                        />
+                                                    </div>
                                                 </div>
-
-                                                <div className="mt-2">
-                                                    <input
-                                                        type="text"
-                                                        placeholder="Añadir elemento..."
-                                                        className="w-full p-2 text-sm border-b border-transparent focus:border-brand-orange bg-transparent focus:ring-0 placeholder-gray-400"
-                                                        onKeyDown={(e) => {
-                                                            if (e.key === 'Enter' && e.target.value.trim()) {
-                                                                addChecklistItem(cl.id, e.target.value);
-                                                                e.target.value = '';
-                                                            }
-                                                        }}
-                                                    />
-                                                </div>
-                                            </div>
-                                        ))}
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     )}
+
 
 
 

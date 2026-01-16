@@ -481,7 +481,7 @@
         "attachments": []
       },
       "boardId": "b_design",
-      "columnId": "col_1768371678168",
+      "columnId": "col_1768373031074",
       "createdAt": "2026-01-13T14:58:17.311Z"
     },
     {
@@ -527,7 +527,14 @@
       "attachments": [],
       "timeLogs": [],
       "activeTimerStart": null,
-      "descriptionBlocks": [],
+      "descriptionBlocks": [
+        {
+          "id": 1768565920979,
+          "text": "sdfdfdsaaf",
+          "author": "Montse",
+          "date": "2026-01-16T12:18:40.979Z"
+        }
+      ],
       "checklists": [],
       "comments": [],
       "economic": {
@@ -717,21 +724,24 @@
       "dueDate": "",
       "responsibleId": "",
       "assigneeIds": [
-        "omar",
-        "albat",
-        "albap",
-        "ines"
+        "montse"
       ],
       "links": [],
       "attachments": [],
       "timeLogs": [],
-      "activeTimerStart": null,
+      "activeTimerStart": "2026-01-16T12:18:08.271Z",
       "descriptionBlocks": [
         {
           "id": 1768384575528,
           "text": "fdsfdfds\n",
           "author": "Montse",
           "date": "2026-01-14T09:56:15.528Z"
+        },
+        {
+          "id": 1768565875103,
+          "text": "adsfdfdg",
+          "author": "Montse",
+          "date": "2026-01-16T12:17:55.103Z"
         }
       ],
       "checklists": [],
@@ -955,9 +965,17 @@
       "id": "time_1768473272996",
       "userId": "montse",
       "start": "2026-01-15T10:34:32.991Z",
-      "end": null,
+      "end": "2026-01-16T12:16:57.218Z",
       "type": "work",
-      "duration": 0
+      "duration": 92544227
+    },
+    {
+      "id": "time_1768565818393",
+      "userId": "montse",
+      "start": "2026-01-16T12:16:58.388Z",
+      "end": "2026-01-16T12:17:15.521Z",
+      "type": "work",
+      "duration": 17133
     }
   ]
 }

@@ -16,11 +16,12 @@ def decode_mime_words(s):
             for word, encoding in decoded_words
         )
     except:
-        return s
+        return str(s)
 
 def fetch_emails(user, password, host="mail-es.securemail.pro", port=993, folder="INBOX"):
     try:
-        # Connect to server
+    # Connect to server
+        host = os.environ.get('IMAP_HOST', host)
         mail = imaplib.IMAP4_SSL(host, port)
         mail.login(user, password)
         
@@ -141,8 +142,10 @@ if __name__ == "__main__":
             sys.exit(1)
         
         uid = sys.argv[4]
+        host_env = os.environ.get('IMAP_HOST', "mail-es.securemail.pro")
         try:
-            mail = imaplib.IMAP4_SSL("mail-es.securemail.pro", 993)
+            port = int(os.environ.get('IMAP_PORT', 993))
+            mail = imaplib.IMAP4_SSL(host_env, port)
             mail.login(username, password)
             mail.select("INBOX")
             

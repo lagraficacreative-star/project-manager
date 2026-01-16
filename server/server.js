@@ -12,7 +12,10 @@ const DB_FILE = path.join(__dirname, 'data', 'db.json');
 
 // --- HELPER: Manual .env Loader ---
 const loadEnv = () => {
-    const envPath = path.join(__dirname, '.env');
+    let envPath = path.join(__dirname, '.env');
+    if (!fs.existsSync(envPath)) {
+        envPath = path.join(__dirname, '..', '.env');
+    }
     if (!fs.existsSync(envPath)) return {};
     const content = fs.readFileSync(envPath, 'utf8');
     const config = {};
@@ -133,7 +136,8 @@ const readDB = () => {
         { id: 'albat', name: 'Alba T', role: 'team', avatar: 'AT', avatarImage: '/avatars/albat.jpg' },
         { id: 'albap', name: 'Alba P', role: 'team', avatar: 'AP', avatarImage: '/avatars/albap.jpg' },
         { id: 'ines', name: 'Ines', role: 'team', avatar: 'I' },
-        { id: 'maribel', name: 'Maribel', role: 'team', avatar: 'Ma', avatarImage: '/avatars/maribel.jpg' }
+        { id: 'maribel', name: 'Maribel', role: 'team', avatar: 'Ma', avatarImage: '/avatars/maribel.jpg' },
+        { id: 'web', name: 'Web', role: 'team', avatar: 'W' }
     ];
 
     updatedUsers.forEach(u => {
@@ -165,17 +169,27 @@ const writeDB = (data) => {
 // --- REAL EMAIL FETCHER (PYTHON BRIDGE) ---
 async function fetchRealEmails(memberId, folder = 'INBOX') {
     const config = loadEnv();
-    const user = config[`IMAP_USER_${memberId.toUpperCase()}`];
-    const pass = config[`IMAP_PASS_${memberId.toUpperCase()}`];
+
+    // Mapping internal IDs to ENV keys
+    const CRED_MAP = {
+        'albat': 'ATEIXIDO',
+        'albap': 'ALBA',
+        'web': 'WEB'
+    };
+
+    const envKey = CRED_MAP[memberId] || memberId.toUpperCase();
+    const user = config[`IMAP_USER_${envKey}`];
+    const pass = config[`IMAP_PASS_${envKey}`];
 
     if (!user || !pass) {
-        console.log(`⚠️ No real credentials for ${memberId}. Using mock data.`);
+        console.log(`⚠️ No real credentials for ${memberId} (Key: ${envKey}). Using mock data.`);
         return null; // Signals fallback to mock data
     }
 
     return new Promise((resolve) => {
         console.log(`📡 [EMAIL FETCH] Connecting to Nominalia for: ${user} in ${folder}...`);
-        const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, folder]);
+        const env = { ...process.env, IMAP_HOST: config.IMAP_HOST, IMAP_PORT: config.IMAP_PORT };
+        const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, folder], { env });
         let dataStr = "";
         let errorStr = "";
 
@@ -208,7 +222,8 @@ async function archiveEmail(memberId, uid) {
     if (!user || !pass) return { error: "No credentials" };
 
     return new Promise((resolve) => {
-        const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, '--archive', uid]);
+        const env = { ...process.env, IMAP_HOST: config.IMAP_HOST, IMAP_PORT: config.IMAP_PORT };
+        const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, '--archive', uid], { env });
         let dataStr = "";
 
         pythonProcess.stdout.on('data', (data) => { dataStr += data.toString(); });

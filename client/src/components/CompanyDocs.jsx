@@ -100,48 +100,6 @@ const ChecklistBlock = () => {
     );
 };
 
-// ... inside CompanyDocs layout ...
-<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-    {folders.map(folder => (
-        // ... existing folder card ...
-        <div key={folder.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-brand-orange/30 transition-all group relative">
-            <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-blue-50 text-blue-500 rounded-xl">
-                    <Folder size={24} />
-                </div>
-                <a
-                    href={folder.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 text-gray-300 hover:text-brand-orange hover:bg-orange-50 rounded-lg transition-colors"
-                >
-                    <ExternalLink size={20} />
-                </a>
-            </div>
-            <h3 className="text-lg font-bold text-gray-800 mb-1">{folder.name}</h3>
-            <p className="text-xs text-gray-400">Enllaç extern segur</p>
-
-            <button
-                onClick={() => setFolders(folders.filter(f => f.id !== folder.id))}
-                className="absolute bottom-4 right-4 p-2 text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-                <Trash2 size={16} />
-            </button>
-        </div>
-    ))}
-
-    {/* Add Button as Blank Card */}
-    <div
-        onClick={() => setIsAdding(true)}
-        className="border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center p-6 text-gray-300 hover:border-brand-orange hover:text-brand-orange hover:bg-orange-50/10 cursor-pointer transition-all min-h-[160px]"
-    >
-        <Plus size={32} className="mb-2" />
-        <span className="text-sm font-bold">Afegir Carpeta</span>
-    </div>
-</div>
-
-{/* Checklists Section */ }
-<ChecklistBlock />
 
 const NotesBlock = () => {
     const [notes, setNotes] = useState(() => localStorage.getItem('companyNotes') || '');
