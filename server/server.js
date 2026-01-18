@@ -202,10 +202,17 @@ async function fetchRealEmails(memberId, folder = 'INBOX') {
 
         pythonProcess.on('close', (code) => {
             if (code !== 0) {
-                console.error(`❌ Python Fetcher Error: ${errorStr}`);
-                resolve({ error: errorStr });
+                console.error(`❌ Python Fetcher Error (Exit Code ${code}): ${errorStr}`);
+                // Try to parse dataStr anyway, as sometimes errors come via stdout
+                try {
+                    const possibleError = JSON.parse(dataStr);
+                    resolve(possibleError);
+                } catch {
+                    resolve({ error: errorStr || "Unknown Python Error" });
+                }
                 return;
             }
+            console.log("🐍 Raw Python Output:", dataStr.substring(0, 200) + "..."); // Log first 200 chars
             try {
                 const emails = JSON.parse(dataStr);
                 resolve(emails);
