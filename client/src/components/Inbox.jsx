@@ -76,6 +76,15 @@ const Inbox = () => {
                     // Tag email with the owner user
                     const userEmails = res.map(e => ({ ...e, ownerId: usersToFetch[index].id, ownerName: usersToFetch[index].name }));
                     allEmails = [...allEmails, ...userEmails];
+                } else if (res && res.error) {
+                    allEmails.push({
+                        id: `error-${Date.now()}-${index}`,
+                        from: 'SISTEMA DE ERROR',
+                        subject: `Falló conexión: ${usersToFetch[index].name}`,
+                        body: `Detalle del error:\n${typeof res.error === 'string' ? res.error : JSON.stringify(res.error)}\n\nPosible causa: Contraseña incorrecta o bloqueo de servidor.`,
+                        date: new Date().toISOString(),
+                        ownerName: usersToFetch[index].name
+                    });
                 }
             });
 
