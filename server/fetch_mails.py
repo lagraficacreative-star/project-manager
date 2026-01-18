@@ -21,7 +21,10 @@ def decode_mime_words(s):
 def fetch_emails(user, password, host="mail-es.securemail.pro", port=993, folder="INBOX"):
     try:
     # Connect to server
-        host = os.environ.get('IMAP_HOST', host)
+        host = os.environ.get('IMAP_HOST')
+        if not host:
+            return {"error": "IMAP_HOST env var is missing in Python script!"}
+            
         mail = imaplib.IMAP4_SSL(host, port)
         mail.login(user, password)
         
