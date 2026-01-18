@@ -178,8 +178,8 @@ async function fetchRealEmails(memberId, folder = 'INBOX') {
     };
 
     const envKey = CRED_MAP[memberId] || memberId.toUpperCase();
-    const user = config[`IMAP_USER_${envKey}`];
-    const pass = config[`IMAP_PASS_${envKey}`];
+    const user = process.env[`IMAP_USER_${envKey}`] || config[`IMAP_USER_${envKey}`];
+    const pass = process.env[`IMAP_PASS_${envKey}`] || config[`IMAP_PASS_${envKey}`];
 
     if (!user || !pass) {
         console.log(`⚠️ No real credentials for ${memberId} (Key: ${envKey}). Using mock data.`);
@@ -188,7 +188,11 @@ async function fetchRealEmails(memberId, folder = 'INBOX') {
 
     return new Promise((resolve) => {
         console.log(`📡 [EMAIL FETCH] Connecting to Nominalia for: ${user} in ${folder}...`);
-        const env = { ...process.env, IMAP_HOST: config.IMAP_HOST, IMAP_PORT: config.IMAP_PORT };
+        const env = {
+            ...process.env,
+            IMAP_HOST: process.env.IMAP_HOST || config.IMAP_HOST,
+            IMAP_PORT: process.env.IMAP_PORT || config.IMAP_PORT
+        };
         const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, folder], { env });
         let dataStr = "";
         let errorStr = "";
