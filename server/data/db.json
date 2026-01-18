@@ -49,6 +49,12 @@
       "role": "team",
       "avatar": "Ma",
       "avatarImage": "/avatars/maribel.jpg"
+    },
+    {
+      "id": "web",
+      "name": "Web",
+      "role": "team",
+      "avatar": "W"
     }
   ],
   "boards": [
