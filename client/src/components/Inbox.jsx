@@ -341,20 +341,6 @@ const Inbox = () => {
                                     Assuming currentUser is the mailbox owner context. We check the 'real' logged in user conceptually.
                                     For now, we just enforce the logic on the button visibility based on the request "solo montse o alba P podran borrarlos" for the marked ones.
                                  */}
-                                {activeTab === 'inbox' && (
-                                    (!processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id)) ||
-                                        ['montse', 'albap', 'albat'].includes(currentUser) || true) && ( // Hardcoded 'true' for now as we simulate specific users via dropdown
-                                        <button
-                                            onClick={(e) => handleArchive(selectedEmail, e)}
-                                            className={`px-4 py-2 text-sm font-medium rounded-lg flex items-center gap-2 transition-colors
-                                            ${processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id))
-                                                    ? 'bg-red-50 text-red-600 hover:bg-red-100 border border-red-200'
-                                                    : 'text-gray-600 bg-gray-100 hover:bg-gray-200'}`}
-                                        >
-                                            <Archive size={16} /> {processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id)) ? 'Eliminar / Archivar' : 'Archivar'}
-                                        </button>
-                                    )
-                                )}
                                 <button
                                     onClick={() => handleConvertToCardStart(selectedEmail)}
                                     // Disable if already processed? Or allow re-creation? User asked to mark them, likely to avoid duplication.
