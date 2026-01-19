@@ -304,7 +304,7 @@ const Inbox = () => {
                                     onClick={() => setSelectedEmail(email)}
                                     className={`p-4 border-b border-gray-50 cursor-pointer transition-colors hover:bg-gray-50 
                                     ${selectedEmail?.id === email.id ? 'bg-orange-50 border-orange-100' : ''}
-                                    ${isProcessed ? 'bg-green-50/30' : ''}`}
+                                    ${isProcessed ? 'bg-green-100 border-green-200' : ''}`}
                                 >
                                     <div className="flex justify-between items-start mb-1">
                                         <span className={`font-bold text-sm truncate pr-2 
