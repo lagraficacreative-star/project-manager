@@ -243,19 +243,15 @@ const Inbox = () => {
                         </button>
                     </div>
 
-                    <div className="flex px-2 translate-y-[1px]">
-                        <button
-                            onClick={() => setActiveTab('inbox')}
-                            className={`flex-1 pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'inbox' ? 'border-brand-orange text-brand-orange' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
-                        >
-                            Entrada
-                        </button>
-                        <button
-                            onClick={() => setActiveTab('converted')}
-                            className={`flex-1 pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'converted' ? 'border-brand-orange text-brand-orange' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
-                        >
-                            Convertidos <span className="text-xs bg-gray-100 px-1 rounded-full text-gray-400 ml-1">{processedIds.length}</span>
-                        </button>
+                    <div className="flex px-4 py-2 bg-gray-50 border-b border-gray-100 items-center justify-between">
+                        <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                            {emails.length} Correos
+                        </span>
+                        <div className="flex items-center gap-2">
+                            <span className="flex items-center gap-1 text-[10px] text-gray-400">
+                                <div className="w-2 h-2 rounded-full bg-green-500"></div> Ficha Creada
+                            </span>
+                        </div>
                     </div>
                 </div>
 
@@ -277,16 +273,11 @@ const Inbox = () => {
                         console.log("Rendering Email List. ActiveTab:", activeTab, "ProcessedCount:", processedIds.length);
 
                         const filteredEmails = emails.filter(email => {
-                            // Use composite ID to avoid collisions and ensure uniqueness
-                            // If ownerId is missing (legacy/error), fallback to just id
-                            const uniqueId = email.ownerId ? `${email.ownerId}-${email.id}` : String(email.id);
-                            const isProcessed = processedIds.includes(uniqueId);
-
-                            if (activeTab === 'inbox') return !isProcessed;
-                            if (activeTab === 'converted') return isProcessed;
-
+                            // Show ALL emails (processed and unprocessed) in one list
                             return true;
-                        }); console.log("Emails after filter:", filteredEmails.length);
+                        });
+
+                        console.log("Emails after filter:", filteredEmails.length);
 
                         if (filteredEmails.length === 0 && !loading) {
                             return (
@@ -305,7 +296,7 @@ const Inbox = () => {
                                     onClick={() => setSelectedEmail(email)}
                                     className={`p-4 border-b border-gray-50 cursor-pointer transition-colors hover:bg-gray-50 
                                     ${selectedEmail?.id === email.id ? 'bg-orange-50 border-orange-100' : ''}
-                                    ${isProcessed ? 'bg-green-100 border-green-200' : ''}`}
+                                    ${isProcessed ? 'bg-green-50/20' : ''}`}
                                 >
                                     <div className="flex justify-between items-start mb-1">
                                         <span className={`font-bold text-sm truncate pr-2 
@@ -318,9 +309,7 @@ const Inbox = () => {
                                     </div>
                                     <h4 className="text-sm font-medium text-gray-700 truncate mb-1 flex items-center gap-2">
                                         {isProcessed && (
-                                            <span className="flex items-center gap-1 text-[10px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full font-bold border border-green-200">
-                                                <CheckCircle size={10} /> FICHA CREADA
-                                            </span>
+                                            <div className="shrink-0 w-3 h-3 rounded-full bg-green-500 shadow-sm" title="Ficha Creada"></div>
                                         )}
                                         <span className="truncate">{email.subject}</span>
                                     </h4>
