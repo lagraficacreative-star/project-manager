@@ -248,7 +248,13 @@ const Inbox = () => {
                             onClick={() => setActiveTab('inbox')}
                             className={`flex-1 pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'inbox' ? 'border-brand-orange text-brand-orange' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
                         >
-                            Correos Recientes <span className="text-xs bg-gray-100 px-2 rounded-full text-gray-400 ml-1">{emails.length}</span>
+                            Entrada
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('converted')}
+                            className={`flex-1 pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'converted' ? 'border-brand-orange text-brand-orange' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                        >
+                            Convertidos <span className="text-xs bg-gray-100 px-1 rounded-full text-gray-400 ml-1">{processedIds.length}</span>
                         </button>
                     </div>
                 </div>
@@ -274,18 +280,13 @@ const Inbox = () => {
                             // Use composite ID to avoid collisions and ensure uniqueness
                             // If ownerId is missing (legacy/error), fallback to just id
                             const uniqueId = email.ownerId ? `${email.ownerId}-${email.id}` : String(email.id);
-                            // const isProcessed = processedIds.includes(uniqueId); // We now WANT to show processed ones
+                            const isProcessed = processedIds.includes(uniqueId);
 
-                            if (activeTab === 'inbox') return true; // Show ALL (both processed and unprocessed)
-                            // if (activeTab === 'archived') return isProcessed; // Deprecated "Archived" tab logic for now, or maybe only show "Archived from server"?
-                            // For this task, user wants to see them in Inbox. 
-                            // Let's keep 'archived' tab for things effectively REMOVED from inbox if we had that feature. 
-                            // But for now, let's just show everything in Inbox.
+                            if (activeTab === 'inbox') return !isProcessed;
+                            if (activeTab === 'converted') return isProcessed;
 
                             return true;
-                        });
-
-                        console.log("Emails after filter:", filteredEmails.length);
+                        }); console.log("Emails after filter:", filteredEmails.length);
 
                         if (filteredEmails.length === 0 && !loading) {
                             return (
