@@ -248,13 +248,7 @@ const Inbox = () => {
                             onClick={() => setActiveTab('inbox')}
                             className={`flex-1 pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'inbox' ? 'border-brand-orange text-brand-orange' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
                         >
-                            Entrada
-                        </button>
-                        <button
-                            onClick={() => setActiveTab('archived')}
-                            className={`flex-1 pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'archived' ? 'border-brand-orange text-brand-orange' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
-                        >
-                            Archivados <span className="text-xs bg-gray-100 px-1 rounded-full text-gray-400 ml-1">{processedIds.length}</span>
+                            Correos Recientes <span className="text-xs bg-gray-100 px-2 rounded-full text-gray-400 ml-1">{emails.length}</span>
                         </button>
                     </div>
                 </div>
@@ -280,10 +274,14 @@ const Inbox = () => {
                             // Use composite ID to avoid collisions and ensure uniqueness
                             // If ownerId is missing (legacy/error), fallback to just id
                             const uniqueId = email.ownerId ? `${email.ownerId}-${email.id}` : String(email.id);
-                            const isProcessed = processedIds.includes(uniqueId);
+                            // const isProcessed = processedIds.includes(uniqueId); // We now WANT to show processed ones
 
-                            if (activeTab === 'inbox') return !isProcessed;
-                            if (activeTab === 'archived') return isProcessed;
+                            if (activeTab === 'inbox') return true; // Show ALL (both processed and unprocessed)
+                            // if (activeTab === 'archived') return isProcessed; // Deprecated "Archived" tab logic for now, or maybe only show "Archived from server"?
+                            // For this task, user wants to see them in Inbox. 
+                            // Let's keep 'archived' tab for things effectively REMOVED from inbox if we had that feature. 
+                            // But for now, let's just show everything in Inbox.
+
                             return true;
                         });
 
@@ -292,7 +290,7 @@ const Inbox = () => {
                         if (filteredEmails.length === 0 && !loading) {
                             return (
                                 <div className="p-8 text-center text-gray-400 text-sm">
-                                    No hay correos {activeTab === 'inbox' ? 'pendientes' : 'archivados'}.
+                                    No hay correos.
                                 </div>
                             );
                         }
@@ -305,7 +303,8 @@ const Inbox = () => {
                                     key={uniqueId} // Use uniqueId for key
                                     onClick={() => setSelectedEmail(email)}
                                     className={`p-4 border-b border-gray-50 cursor-pointer transition-colors hover:bg-gray-50 
-                                    ${selectedEmail?.id === email.id ? 'bg-orange-50 border-orange-100' : ''}`}
+                                    ${selectedEmail?.id === email.id ? 'bg-orange-50 border-orange-100' : ''}
+                                    ${isProcessed ? 'bg-green-50/30' : ''}`}
                                 >
                                     <div className="flex justify-between items-start mb-1">
                                         <span className={`font-bold text-sm truncate pr-2 
@@ -317,8 +316,12 @@ const Inbox = () => {
                                         </span>
                                     </div>
                                     <h4 className="text-sm font-medium text-gray-700 truncate mb-1 flex items-center gap-2">
-                                        {isProcessed && <CheckCircle size={12} className="text-green-600" />}
-                                        {email.subject}
+                                        {isProcessed && (
+                                            <span className="flex items-center gap-1 text-[10px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full font-bold border border-green-200">
+                                                <CheckCircle size={10} /> FICHA CREADA
+                                            </span>
+                                        )}
+                                        <span className="truncate">{email.subject}</span>
                                     </h4>
                                     <p className="text-xs text-gray-400 line-clamp-2">{email.body.substring(0, 100)}</p>
                                 </div>
@@ -326,152 +329,153 @@ const Inbox = () => {
                         });
                     })()}
                 </div>
+            </div>
 
-                {/* Detail View */}
-                <div className="flex-1 bg-white rounded-2xl border border-gray-200 flex flex-col overflow-hidden shadow-sm">
-                    {selectedEmail ? (
-                        <>
-                            <div className="p-6 border-b border-gray-100 flex justify-between items-start">
-                                <div>
-                                    <h1 className="text-xl font-bold text-brand-black mb-2">{selectedEmail.subject}</h1>
-                                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                                        <span className="font-semibold text-gray-700">{selectedEmail.from}</span>
-                                        <span>&lt;{selectedEmail.from}&gt;</span>
-                                    </div>
-                                    <div className="text-xs text-gray-400 mt-1">
-                                        {selectedEmail.date}
-                                    </div>
+            {/* Detail View */}
+            <div className="flex-1 bg-white rounded-2xl border border-gray-200 flex flex-col overflow-hidden shadow-sm">
+                {selectedEmail ? (
+                    <>
+                        <div className="p-6 border-b border-gray-100 flex justify-between items-start">
+                            <div>
+                                <h1 className="text-xl font-bold text-brand-black mb-2">{selectedEmail.subject}</h1>
+                                <div className="flex items-center gap-2 text-sm text-gray-500">
+                                    <span className="font-semibold text-gray-700">{selectedEmail.from}</span>
+                                    <span>&lt;{selectedEmail.from}&gt;</span>
                                 </div>
-                                <div className="flex gap-2">
-                                    {/* Delete/Archive Button: Logic: If 'Processed' (Green), only Montse/Albap can archive it. If normal, anyone can archive (or standard rules). 
+                                <div className="text-xs text-gray-400 mt-1">
+                                    {selectedEmail.date}
+                                </div>
+                            </div>
+                            <div className="flex gap-2">
+                                {/* Delete/Archive Button: Logic: If 'Processed' (Green), only Montse/Albap can archive it. If normal, anyone can archive (or standard rules). 
                                     Assuming currentUser is the mailbox owner context. We check the 'real' logged in user conceptually.
                                     For now, we just enforce the logic on the button visibility based on the request "solo montse o alba P podran borrarlos" for the marked ones.
                                  */}
-                                    {activeTab === 'inbox' && (
-                                        (!processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id)) ||
-                                            ['montse', 'albap', 'albat'].includes(currentUser) || true) && ( // Hardcoded 'true' for now as we simulate specific users via dropdown
-                                            <button
-                                                onClick={(e) => handleArchive(selectedEmail, e)}
-                                                className={`px-4 py-2 text-sm font-medium rounded-lg flex items-center gap-2 transition-colors
+                                {activeTab === 'inbox' && (
+                                    (!processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id)) ||
+                                        ['montse', 'albap', 'albat'].includes(currentUser) || true) && ( // Hardcoded 'true' for now as we simulate specific users via dropdown
+                                        <button
+                                            onClick={(e) => handleArchive(selectedEmail, e)}
+                                            className={`px-4 py-2 text-sm font-medium rounded-lg flex items-center gap-2 transition-colors
                                             ${processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id))
-                                                        ? 'bg-red-50 text-red-600 hover:bg-red-100 border border-red-200'
-                                                        : 'text-gray-600 bg-gray-100 hover:bg-gray-200'}`}
-                                            >
-                                                <Archive size={16} /> {processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id)) ? 'Eliminar / Archivar' : 'Archivar'}
-                                            </button>
-                                        )
-                                    )}
-                                    <button
-                                        onClick={() => handleConvertToCardStart(selectedEmail)}
-                                        // Disable if already processed? Or allow re-creation? User asked to mark them, likely to avoid duplication.
-                                        className={`px-4 py-2 text-sm font-medium text-white rounded-lg shadow-lg flex items-center gap-2 transition-all
-                                        ${processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id))
-                                                ? 'bg-green-600 hover:bg-green-700 shadow-green-500/20'
-                                                : 'bg-brand-black hover:bg-brand-orange hover:shadow-orange-500/20'}`}
-                                    >
-                                        <ArrowRight size={16} /> {processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id)) ? 'Crear Ficha de nuevo' : 'Convertir a Tarjeta'}
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="flex-1 overflow-y-auto p-8">
-                                <div className="prose max-w-none text-sm text-gray-800 whitespace-pre-wrap font-sans leading-relaxed">
-                                    {selectedEmail.body}
-                                </div>
-
-                                {selectedEmail.attachments && selectedEmail.attachments.length > 0 && (
-                                    <div className="mt-8 pt-4 border-t border-gray-100">
-                                        <h4 className="font-bold text-sm text-gray-900 mb-3 flex items-center gap-2">
-                                            <CheckCircle size={16} className="text-brand-orange" /> Adjuntos encontrados
-                                        </h4>
-                                        <div className="flex flex-wrap gap-2">
-                                            {selectedEmail.attachments.map((att, idx) => (
-                                                <div key={idx} className="bg-gray-50 border border-gray-200 px-3 py-2 rounded-lg text-xs font-medium text-gray-700">
-                                                    {att.filename}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
+                                                    ? 'bg-red-50 text-red-600 hover:bg-red-100 border border-red-200'
+                                                    : 'text-gray-600 bg-gray-100 hover:bg-gray-200'}`}
+                                        >
+                                            <Archive size={16} /> {processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id)) ? 'Eliminar / Archivar' : 'Archivar'}
+                                        </button>
+                                    )
                                 )}
-                            </div>
-                        </>
-                    ) : (
-                        <div className="flex-1 flex flex-col items-center justify-center text-gray-300">
-                            <Mail size={48} className="mb-4 text-gray-200" />
-                            <p>Selecciona un correo para ver los detalles.</p>
-                        </div>
-                    )}
-                </div>
-
-                {/* Selector Dialog */}
-                {showSelector && (
-                    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-                        <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-2xl">
-                            <h3 className="text-lg font-bold mb-4">Guardar en...</h3>
-                            <div className="space-y-4 mb-6">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Tablero</label>
-                                    <select
-                                        value={targetBoardId}
-                                        onChange={(e) => {
-                                            setTargetBoardId(e.target.value);
-                                            const b = boards.find(board => board.id === e.target.value);
-                                            if (b && b.columns.length > 0) setTargetColumnId(b.columns[0].id);
-                                        }}
-                                        className="w-full p-2 border border-gray-300 rounded-lg text-sm"
-                                    >
-                                        {boards.map(b => <option key={b.id} value={b.id}>{b.title}</option>)}
-                                    </select>
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Columna</label>
-                                    <select
-                                        value={targetColumnId}
-                                        onChange={(e) => setTargetColumnId(e.target.value)}
-                                        className="w-full p-2 border border-gray-300 rounded-lg text-sm"
-                                    >
-                                        {boards.find(b => b.id === targetBoardId)?.columns.map(c => (
-                                            <option key={c.id} value={c.id}>{c.title}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100">
-                                <input
-                                    type="checkbox"
-                                    id="includeComments"
-                                    checked={includeInComments}
-                                    onChange={(e) => setIncludeInComments(e.target.checked)}
-                                    className="w-4 h-4 text-brand-orange border-gray-300 rounded focus:ring-brand-orange"
-                                />
-                                <label htmlFor="includeComments" className="text-sm text-gray-700 select-none cursor-pointer">
-                                    Incluir contenido del mail en <strong>Comentarios</strong>
-                                </label>
-                            </div>
-                            <div className="flex justify-end gap-3">
-                                <button onClick={() => { setShowSelector(false); setEmailToConvert(null); }} className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg text-sm">Cancelar</button>
                                 <button
-                                    onClick={handleContinueToCard}
-                                    className="px-4 py-2 bg-brand-black text-white rounded-lg text-sm hover:bg-brand-orange"
+                                    onClick={() => handleConvertToCardStart(selectedEmail)}
+                                    // Disable if already processed? Or allow re-creation? User asked to mark them, likely to avoid duplication.
+                                    className={`px-4 py-2 text-sm font-medium text-white rounded-lg shadow-lg flex items-center gap-2 transition-all
+                                        ${processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id))
+                                            ? 'bg-green-600 hover:bg-green-700 shadow-green-500/20'
+                                            : 'bg-brand-black hover:bg-brand-orange hover:shadow-orange-500/20'}`}
                                 >
-                                    Continuar...
+                                    <ArrowRight size={16} /> {processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id)) ? 'Crear Ficha de nuevo' : 'Convertir a Tarjeta'}
                                 </button>
                             </div>
                         </div>
-                    </div>
-                )
-                }
+                        <div className="flex-1 overflow-y-auto p-8">
+                            <div className="prose max-w-none text-sm text-gray-800 whitespace-pre-wrap font-sans leading-relaxed">
+                                {selectedEmail.body}
+                            </div>
 
-                {/* Card Modal */}
-                <CardModal
-                    isOpen={showCardModal}
-                    onClose={() => setShowCardModal(false)}
-                    card={prefilledCard}
-                    boardId={targetBoardId}
-                    columnId={targetColumnId}
-                    onSave={handleSaveCard}
-                />
-            </div >
-            );
+                            {selectedEmail.attachments && selectedEmail.attachments.length > 0 && (
+                                <div className="mt-8 pt-4 border-t border-gray-100">
+                                    <h4 className="font-bold text-sm text-gray-900 mb-3 flex items-center gap-2">
+                                        <CheckCircle size={16} className="text-brand-orange" /> Adjuntos encontrados
+                                    </h4>
+                                    <div className="flex flex-wrap gap-2">
+                                        {selectedEmail.attachments.map((att, idx) => (
+                                            <div key={idx} className="bg-gray-50 border border-gray-200 px-3 py-2 rounded-lg text-xs font-medium text-gray-700">
+                                                {att.filename}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </>
+                ) : (
+                    <div className="flex-1 flex flex-col items-center justify-center text-gray-300">
+                        <Mail size={48} className="mb-4 text-gray-200" />
+                        <p>Selecciona un correo para ver los detalles.</p>
+                    </div>
+                )}
+            </div>
+
+            {/* Selector Dialog */}
+            {showSelector && (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-2xl">
+                        <h3 className="text-lg font-bold mb-4">Guardar en...</h3>
+                        <div className="space-y-4 mb-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Tablero</label>
+                                <select
+                                    value={targetBoardId}
+                                    onChange={(e) => {
+                                        setTargetBoardId(e.target.value);
+                                        const b = boards.find(board => board.id === e.target.value);
+                                        if (b && b.columns.length > 0) setTargetColumnId(b.columns[0].id);
+                                    }}
+                                    className="w-full p-2 border border-gray-300 rounded-lg text-sm"
+                                >
+                                    {boards.map(b => <option key={b.id} value={b.id}>{b.title}</option>)}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Columna</label>
+                                <select
+                                    value={targetColumnId}
+                                    onChange={(e) => setTargetColumnId(e.target.value)}
+                                    className="w-full p-2 border border-gray-300 rounded-lg text-sm"
+                                >
+                                    {boards.find(b => b.id === targetBoardId)?.columns.map(c => (
+                                        <option key={c.id} value={c.id}>{c.title}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100">
+                            <input
+                                type="checkbox"
+                                id="includeComments"
+                                checked={includeInComments}
+                                onChange={(e) => setIncludeInComments(e.target.checked)}
+                                className="w-4 h-4 text-brand-orange border-gray-300 rounded focus:ring-brand-orange"
+                            />
+                            <label htmlFor="includeComments" className="text-sm text-gray-700 select-none cursor-pointer">
+                                Incluir contenido del mail en <strong>Comentarios</strong>
+                            </label>
+                        </div>
+                        <div className="flex justify-end gap-3">
+                            <button onClick={() => { setShowSelector(false); setEmailToConvert(null); }} className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg text-sm">Cancelar</button>
+                            <button
+                                onClick={handleContinueToCard}
+                                className="px-4 py-2 bg-brand-black text-white rounded-lg text-sm hover:bg-brand-orange"
+                            >
+                                Continuar...
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )
+            }
+
+            {/* Card Modal */}
+            <CardModal
+                isOpen={showCardModal}
+                onClose={() => setShowCardModal(false)}
+                card={prefilledCard}
+                boardId={targetBoardId}
+                columnId={targetColumnId}
+                onSave={handleSaveCard}
+            />
+        </div >
+    );
 };
 
-            export default Inbox;
+export default Inbox;
