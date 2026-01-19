@@ -227,42 +227,43 @@ const Calendar = () => {
 
                 <div className="mb-6">
                     <button
-                        onClick={() => setSelectedDate(new Date()); setShowEventModal(true)}
-                    className="w-full bg-brand-black text-white px-4 py-3 rounded-xl text-xs font-bold shadow-lg hover:bg-brand-orange transition-colors flex items-center justify-center gap-2"
+                        onClick={() => { setSelectedDate(new Date()); setShowEventModal(true); }}
+                        className="w-full bg-brand-black text-white px-4 py-3 rounded-xl text-xs font-bold shadow-lg hover:bg-brand-orange transition-colors flex items-center justify-center gap-2"
                     >
-                    <Plus size={16} /> <span>Crear Evento</span>
-                </button>
-            </div>
-
-            <div className="flex-1">
-                <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-xs font-bold text-gray-500">MIEMBROS</h3>
-                    <button onClick={toggleAllUsers} className="text-[10px] text-brand-orange font-bold hover:underline">
-                        {visibleUserIds.length === users.length ? 'Ocultar Todos' : 'Ver Todos'}
+                        <Plus size={16} /> <span>Crear Evento</span>
                     </button>
                 </div>
 
-                <div className="space-y-3">
-                    {users.map(u => {
-                        const isVisible = visibleUserIds.includes(u.id);
-                        return (
-                            <div
-                                key={u.id}
-                                onClick={() => toggleUserVisibility(u.id)}
-                                className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-all ${isVisible ? 'bg-white shadow-sm border border-gray-100' : 'opacity-60 hover:opacity-100'}`}
-                            >
-                                <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${isVisible ? 'bg-brand-orange border-brand-orange' : 'border-gray-300'}`}>
-                                    {isVisible && <User size={10} className="text-white" />}
-                                </div>
-                                <div className="flex-1 flex items-center gap-2">
-                                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white ${u.id === 'montse' ? 'bg-brand-orange' : 'bg-gray-400'}`}>
-                                        {u.avatar || u.name.charAt(0)}
+                <div className="flex-1">
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-xs font-bold text-gray-500">MIEMBROS</h3>
+                        <button onClick={toggleAllUsers} className="text-[10px] text-brand-orange font-bold hover:underline">
+                            {visibleUserIds.length === users.length ? 'Ocultar Todos' : 'Ver Todos'}
+                        </button>
+                    </div>
+
+                    <div className="space-y-3">
+                        {users.map(u => {
+                            const isVisible = visibleUserIds.includes(u.id);
+                            return (
+                                <div
+                                    key={u.id}
+                                    onClick={() => toggleUserVisibility(u.id)}
+                                    className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-all ${isVisible ? 'bg-white shadow-sm border border-gray-100' : 'opacity-60 hover:opacity-100'}`}
+                                >
+                                    <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${isVisible ? 'bg-brand-orange border-brand-orange' : 'border-gray-300'}`}>
+                                        {isVisible && <User size={10} className="text-white" />}
                                     </div>
-                                    <span className={`text-xs font-medium ${isVisible ? 'text-gray-800' : 'text-gray-500'}`}>{u.name}</span>
+                                    <div className="flex-1 flex items-center gap-2">
+                                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white ${u.id === 'montse' ? 'bg-brand-orange' : 'bg-gray-400'}`}>
+                                            {u.avatar || u.name.charAt(0)}
+                                        </div>
+                                        <span className={`text-xs font-medium ${isVisible ? 'text-gray-800' : 'text-gray-500'}`}>{u.name}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
             {/* MAIN CALENDAR AREA */}
