@@ -7,7 +7,9 @@ import HRManagement from './components/HRManagement';
 import CompanyDocs from './components/CompanyDocs';
 import AgendaGPT from './components/AgendaGPT';
 import { api } from './api';
-import { LayoutDashboard, Inbox as InboxIcon, Users, Book } from 'lucide-react';
+import Calendar from './components/Calendar';
+import ChatWidget from './components/ChatWidget';
+import { LayoutDashboard, Inbox as InboxIcon, Users, Book, Calendar as CalIcon, Folder } from 'lucide-react';
 
 function App() {
     const [users, setUsers] = useState([]);
@@ -15,6 +17,9 @@ function App() {
     useEffect(() => {
         api.getUsers().then(data => setUsers(data || [])).catch(console.error);
     }, []);
+
+    // Assume current user is Montse for now (simulated session)
+    const currentUser = users.find(u => u.id === 'montse') || { name: 'Montse', id: 'montse' };
 
     return (
         <Router>
@@ -35,8 +40,11 @@ function App() {
                             <Link to="/rrhh" className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-brand-orange transition-colors">
                                 <Users size={18} /> Equip
                             </Link>
-                            <Link to="/agenda" className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-brand-orange transition-colors">
-                                <Book size={18} /> Agenda
+                            <Link to="/calendar" className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-brand-orange transition-colors">
+                                <CalIcon size={18} /> Calendario
+                            </Link>
+                            <Link to="/docs" className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-brand-orange transition-colors">
+                                <Folder size={18} /> Docs
                             </Link>
                         </nav>
 
@@ -57,16 +65,18 @@ function App() {
                     </div>
                 </header>
 
-                <main className="p-6 flex-1 overflow-auto">
+                <main className="p-6 flex-1 overflow-auto relative">
                     <Routes>
                         <Route path="/" element={<Dashboard />} />
                         <Route path="/board/:boardId" element={<Board />} />
                         <Route path="/inbox" element={<Inbox />} />
                         <Route path="/rrhh" element={<HRManagement />} />
                         <Route path="/docs" element={<CompanyDocs />} />
-                        {/* <Route path="/agenda" element={<AgendaGPT />} /> */}
+                        <Route path="/calendar" element={<Calendar />} />
                         <Route path="*" element={<Dashboard />} />
                     </Routes>
+
+                    <ChatWidget currentUser={currentUser} />
                 </main>
             </div>
         </Router>

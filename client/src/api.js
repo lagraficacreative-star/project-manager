@@ -108,6 +108,18 @@ export const api = {
         });
         return res.json();
     },
+    getProcessedEmails: async () => {
+        const res = await fetch(`${API_URL}/emails/processed`);
+        return res.json();
+    },
+    markEmailAsProcessed: async (uid) => {
+        const res = await fetch(`${API_URL}/emails/mark-processed`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ uid })
+        });
+        return res.json();
+    },
 
     // Full Data (for initial load if needed)
     getData: async () => {
@@ -129,6 +141,66 @@ export const api = {
             method: 'POST',
             body: formData
         });
+        return res.json();
+    },
+
+    // --- NEW FEATURES ---
+
+    // Chat
+    getMessages: async () => {
+        const res = await fetch(`${API_URL}/messages`);
+        return res.json();
+    },
+    sendMessage: async (text, author) => {
+        const res = await fetch(`${API_URL}/messages`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text, author })
+        });
+        return res.json();
+    },
+
+    // Documents
+    getDocuments: async () => {
+        const res = await fetch(`${API_URL}/documents`);
+        return res.json();
+    },
+    createDocument: async (docData) => { // { name, type, parentId, content, url }
+        const res = await fetch(`${API_URL}/documents`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(docData)
+        });
+        return res.json();
+    },
+    updateDocument: async (id, data) => {
+        const res = await fetch(`${API_URL}/documents/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        return res.json();
+    },
+    deleteDocument: async (id) => {
+        const res = await fetch(`${API_URL}/documents/${id}`, { method: 'DELETE' });
+        return res.json();
+    },
+
+    // Events
+    getEvents: async () => {
+        const res = await fetch(`${API_URL}/events`);
+        return res.json();
+    },
+    createEvent: async (eventData) => {
+        const res = await fetch(`${API_URL}/events`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(eventData)
+        });
+        return res.json();
+    },
+    deleteEvent: async (id) => {
+        const res = await fetch(`${API_URL}/events/${id}`, { method: 'DELETE' });
         return res.json();
     }
 };

@@ -33,14 +33,23 @@ def fetch_emails(user, password, host="mail-es.securemail.pro", port=993, folder
         status, messages = mail.select(folder_quoted)
         
         if status != "OK":
-            return {"error": f"Folder {folder} not found"}
+            # Fallback: Try with INBOX. prefix if not present
+            if not folder.startswith("INBOX.") and "Archivo" in folder:
+                 fallback = f"INBOX.{folder}"
+                 folder_quoted_fb = f'"{fallback}"'
+                 status, messages = mail.select(folder_quoted_fb)
+
+        # If still not found, return empty list (effectively "no emails" because folder doesn't exist yet)
+        if status != "OK":
+            return []
 
         # Calculate date for 48h ago (or longer if archive, but let's keep it tight for now, maybe 30 days for Archive?)
         days_ago = 30 if "Archivo" in folder else 2
         date_cutoff = (datetime.now() - timedelta(days=days_ago)).strftime("%d-%b-%Y")
         
         # Search for all emails since date_cutoff
-        status, messages = mail.search(None, f'(SINCE "{date_cutoff}")')
+        # Search for all emails since date_cutoff using UID
+        status, messages = mail.uid('search', None, f'(SINCE "{date_cutoff}")')
         if status != "OK":
             return []
 
@@ -52,7 +61,7 @@ def fetch_emails(user, password, host="mail-es.securemail.pro", port=993, folder
         for i in reversed(email_ids):
             if count >= 20: break
             
-            res, msg_data = mail.fetch(i, "(RFC822)")
+            res, msg_data = mail.uid('fetch', i, "(RFC822)")
             for response_part in msg_data:
                 if isinstance(response_part, tuple):
                     msg = email.message_from_bytes(response_part[1])
@@ -152,19 +161,39 @@ if __name__ == "__main__":
             mail.login(username, password)
             mail.select("INBOX")
             
-            # Ensure folder exists
-            try:
-                mail.create("Archivo_Fichas")
-                mail.create("Archivo_Fichas/Correos_Procesados")
-            except: pass
+            # Define folder candidates
+            folder_candidates = [
+                ("Archivo_Fichas", "Archivo_Fichas/Correos_Procesados"),
+                ("INBOX.Archivo_Fichas", "INBOX.Archivo_Fichas.Correos_Procesados")
+            ]
             
-            res, data = mail.copy(uid, "Archivo_Fichas/Correos_Procesados")
-            if res == 'OK':
-                mail.store(uid, '+FLAGS', '\\Deleted')
-                mail.expunge()
-                print(json.dumps({"status": "moved", "uid": uid}))
-            else:
-                print(json.dumps({"error": f"Copy failed: {res}"}))
+            success = False
+            last_error = ""
+
+            for root_folder, target_folder in folder_candidates:
+                try:
+                    # Try to create
+                    try:
+                        mail.create(root_folder)
+                        mail.create(target_folder)
+                    except:
+                        pass
+                    
+                    # Try to copy using UID
+                    res, data = mail.uid('copy', uid, target_folder)
+                    if res == 'OK':
+                        mail.uid('store', uid, '+FLAGS', '\\Deleted')
+                        mail.expunge()
+                        print(json.dumps({"status": "moved", "uid": uid, "folder": target_folder}))
+                        success = True
+                        break
+                    else:
+                        last_error = f"Failed to copy to {target_folder}: {res}"
+                except Exception as ex:
+                    last_error = str(ex)
+            
+            if not success:
+                print(json.dumps({"error": f"Copy failed. Last error: {last_error}"}))
             
             mail.close()
             mail.logout()

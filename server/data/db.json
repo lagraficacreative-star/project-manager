@@ -291,6 +291,42 @@
           "title": "Hecho"
         }
       ]
+    },
+    {
+      "id": "b_fiscal",
+      "title": "Fiscalidad",
+      "columns": [
+        {
+          "id": "c_todo_b_fiscal",
+          "title": "Pendiente"
+        },
+        {
+          "id": "c_doing_b_fiscal",
+          "title": "En curso"
+        },
+        {
+          "id": "c_done_b_fiscal",
+          "title": "Hecho"
+        }
+      ]
+    },
+    {
+      "id": "b_accounting",
+      "title": "Contabilidad",
+      "columns": [
+        {
+          "id": "c_todo_b_accounting",
+          "title": "Pendiente"
+        },
+        {
+          "id": "c_doing_b_accounting",
+          "title": "En curso"
+        },
+        {
+          "id": "c_done_b_accounting",
+          "title": "Hecho"
+        }
+      ]
     }
   ],
   "cards": [
@@ -982,6 +1018,116 @@
       "end": "2026-01-16T12:17:15.521Z",
       "type": "work",
       "duration": 17133
+    }
+  ],
+  "documents": [
+    {
+      "id": "folder_Fiscalidad",
+      "name": "Fiscalidad",
+      "type": "folder",
+      "parentId": null
+    },
+    {
+      "id": "folder_Contabilidad",
+      "name": "Contabilidad",
+      "type": "folder",
+      "parentId": null
+    },
+    {
+      "id": "folder_Clientes",
+      "name": "Clientes",
+      "type": "folder",
+      "parentId": null
+    },
+    {
+      "id": "folder_board_b_design",
+      "name": "Disseny gràfic",
+      "type": "folder",
+      "parentId": "folder_Clientes"
+    },
+    {
+      "id": "folder_board_b_social",
+      "name": "Xarxes socials",
+      "type": "folder",
+      "parentId": "folder_Clientes"
+    },
+    {
+      "id": "folder_board_b_web",
+      "name": "Web",
+      "type": "folder",
+      "parentId": "folder_Clientes"
+    },
+    {
+      "id": "folder_board_b_tenders",
+      "name": "Licitacions",
+      "type": "folder",
+      "parentId": "folder_Clientes"
+    },
+    {
+      "id": "folder_board_board_1768294811952",
+      "name": "Gestió",
+      "type": "folder",
+      "parentId": "folder_Clientes"
+    },
+    {
+      "id": "folder_board_b_ai",
+      "name": "Projectes IA",
+      "type": "folder",
+      "parentId": "folder_Clientes"
+    },
+    {
+      "id": "folder_board_b_lleida",
+      "name": "Lleida en verd",
+      "type": "folder",
+      "parentId": "folder_Clientes"
+    },
+    {
+      "id": "folder_board_b_animac",
+      "name": "Animac",
+      "type": "folder",
+      "parentId": "folder_Clientes"
+    },
+    {
+      "id": "folder_board_b_imo",
+      "name": "Imo",
+      "type": "folder",
+      "parentId": "folder_Clientes"
+    },
+    {
+      "id": "folder_board_b_diba",
+      "name": "Diba",
+      "type": "folder",
+      "parentId": "folder_Clientes"
+    },
+    {
+      "id": "folder_board_b_management",
+      "name": "Gestió",
+      "type": "folder",
+      "parentId": "folder_Clientes"
+    },
+    {
+      "id": "folder_board_b_budget",
+      "name": "Pressupostos",
+      "type": "folder",
+      "parentId": "folder_Clientes"
+    },
+    {
+      "id": "folder_board_b_billing",
+      "name": "Facturació",
+      "type": "folder",
+      "parentId": "folder_Clientes"
+    },
+    {
+      "id": "folder_board_b_fiscal",
+      "name": "Fiscalidad",
+      "type": "folder",
+      "parentId": "folder_Clientes"
+    },
+    {
+      "id": "folder_board_b_accounting",
+      "name": "Contabilidad",
+      "type": "folder",
+      "parentId": "folder_Clientes"
     }
   ]
 }

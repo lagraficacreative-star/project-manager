@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../api';
-import { Trash2, Edit2, Plus, Layout, Palette, Code, Smartphone, Clipboard, DollarSign, Receipt, Mail, Send, Calendar, Clock, Bell, Search, Mic, ChevronRight, Square, Play, Bot, Briefcase, FileText, Gavel, Archive, Check, Lock } from 'lucide-react';
+import { Trash2, Edit2, Plus, Layout, Palette, Code, Smartphone, Clipboard, DollarSign, Receipt, Mail, Send, Calendar, Clock, Bell, Search, Mic, ChevronRight, Square, Play, Bot, Briefcase, FileText, Gavel, Archive, Check, Lock, Calculator } from 'lucide-react';
 
 // ... (previous imports)
 
@@ -295,9 +295,26 @@ const Dashboard = () => {
                 {/* MEMBER SELECTION (Centeredish) */}
                 <div className="flex items-center gap-4 bg-white px-6 py-2 rounded-2xl shadow-sm border border-gray-100">
                     <span className="text-xs font-bold text-gray-400 uppercase tracking-wider hidden md:block">Filtrar per equip:</span>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4 py-2 overflow-x-auto">
+                        {/* ALL MEMBERS BUTTON */}
+                        <div
+                            onClick={() => setSelectedUsers([])}
+                            className="flex flex-col items-center gap-2 cursor-pointer group min-w-[80px]"
+                            title="Ver Todos"
+                        >
+                            <div className={`w-20 h-20 rounded-full border-4 transition-all duration-300 flex items-center justify-center font-bold text-xs uppercase tracking-wider
+                                ${selectedUsers.length === 0
+                                    ? 'bg-brand-orange text-white border-brand-orange scale-110 shadow-xl ring-4 ring-brand-orange/30'
+                                    : 'bg-white text-gray-400 border-gray-200 hover:border-brand-orange hover:text-brand-orange hover:scale-105 active:scale-95'}
+                            `}>
+                                TODOS
+                            </div>
+                            <span className={`text-[10px] font-bold text-center ${selectedUsers.length === 0 ? 'text-brand-orange' : 'text-gray-400'}`}>
+                                EQUIPO
+                            </span>
+                        </div>
+
                         {users.map((u, index) => {
-                            // Deterministic color fallback
                             const colors = ['bg-orange-500', 'bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-pink-500', 'bg-indigo-500'];
                             const colorClass = colors[index % colors.length];
 
@@ -305,22 +322,22 @@ const Dashboard = () => {
                                 <div
                                     key={u.id}
                                     onClick={() => toggleUserFilter(u.id)}
-                                    className="flex flex-col items-center gap-1 cursor-pointer group min-w-[40px]"
+                                    className="flex flex-col items-center gap-2 cursor-pointer group min-w-[80px]"
                                     title={u.name}
                                 >
-                                    <div className={`w-10 h-10 rounded-full overflow-hidden border-2 transition-all relative flex items-center justify-center text-white
+                                    <div className={`w-20 h-20 rounded-full overflow-hidden border-4 transition-all duration-300 relative flex items-center justify-center text-white
                                         ${selectedUsers.includes(u.id)
-                                            ? 'border-brand-orange ring-2 ring-brand-orange/30 scale-105'
-                                            : 'border-white ring-1 ring-gray-100'}
+                                            ? 'border-brand-orange ring-4 ring-brand-orange/40 scale-110 z-10 shadow-2xl'
+                                            : 'border-white ring-1 ring-gray-100 grayscale hover:grayscale-0 hover:scale-105 active:scale-95'}
                                         ${!u.avatarImage ? colorClass : ''}
                                     `}>
                                         {u.avatarImage ? (
                                             <img src={u.avatarImage} alt={u.name} className="w-full h-full object-cover" />
                                         ) : (
-                                            <span className="text-xs font-bold">{u.avatar || u.name.charAt(0)}</span>
+                                            <span className="text-sm font-bold">{u.avatar || u.name.charAt(0)}</span>
                                         )}
                                     </div>
-                                    <span className={`text-[9px] font-bold text-center truncate w-full ${selectedUsers.includes(u.id) ? 'text-brand-orange' : 'text-gray-400'}`}>
+                                    <span className={`text-[10px] font-bold text-center truncate w-full ${selectedUsers.includes(u.id) ? 'text-brand-orange' : 'text-gray-400'}`}>
                                         {u.name.split(' ')[0]}
                                     </span>
                                 </div>
@@ -391,6 +408,8 @@ const Dashboard = () => {
                                             <DepartmentCard title="Pressupostos" icon={DollarSign} count={getCount('b_budget')} onClick={() => navigate('/board/b_budget')} />
                                             <DepartmentCard title="Facturació" icon={Receipt} count={getCount('b_billing')} onClick={() => navigate('/board/b_billing')} />
                                             <DepartmentCard title="Licitacions" icon={Gavel} count={getCount('b_tenders')} onClick={() => navigate('/board/b_tenders')} />
+                                            <DepartmentCard title="Fiscalitat" icon={FileText} count={getCount('b_fiscal')} onClick={() => navigate('/board/b_fiscal')} />
+                                            <DepartmentCard title="Comptabilitat" icon={Calculator} count={getCount('b_accounting')} onClick={() => navigate('/board/b_accounting')} />
                                         </div>
                                     ) : (
                                         <div className="flex flex-col items-center justify-center py-10 gap-4">
@@ -428,8 +447,8 @@ const Dashboard = () => {
                         );
                     })()}
 
-                    {/* Calendar Mock */}
-                    <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex-1 min-h-[300px] flex flex-col relative overflow-hidden">
+                    {/* Calendar Widget Link */}
+                    <div onClick={() => navigate('/calendar')} className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex-1 min-h-[300px] flex flex-col relative overflow-hidden cursor-pointer hover:border-brand-orange/30 transition-all group">
                         <div className="flex items-center justify-between mb-4 z-10">
                             <div className="flex items-center gap-2">
                                 <button className="px-3 py-1 bg-gray-100 rounded-lg text-xs font-bold text-gray-600">Hoy</button>
@@ -463,50 +482,7 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    {/* laGràficaProjects Chat Widget */}
-                    <div className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 min-h-[300px] flex flex-col relative group">
-                        {/* Header */}
-                        <div className="bg-white p-4 border-b border-gray-100 flex items-center gap-3 z-10">
-                            <div className="w-8 h-8 bg-green-50 rounded-full flex items-center justify-center">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Google_Chat_icon_%282020%29.svg/1024px-Google_Chat_icon_%282020%29.svg.png" alt="GC" className="w-5 h-5" />
-                            </div>
-                            <div>
-                                <h2 className="text-sm font-bold text-gray-800">laGràficaProjects</h2>
-                                <div className="flex items-center gap-1">
-                                    <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                                    <span className="text-[10px] text-gray-400">En línia</span>
-                                </div>
-                            </div>
-                        </div>
 
-                        {/* Visual Placeholder (Fake Chat) to give context */}
-                        <div className="absolute inset-0 pt-16 px-4 space-y-3 opacity-30 pointer-events-none bg-gray-50">
-                            <div className="flex gap-2">
-                                <div className="w-6 h-6 rounded-full bg-gray-200"></div>
-                                <div className="bg-white p-2 rounded-lg rounded-tl-none shadow-sm w-32 h-8"></div>
-                            </div>
-                            <div className="flex gap-2 justify-end">
-                                <div className="bg-green-100 p-2 rounded-lg rounded-tr-none shadow-sm w-40 h-10"></div>
-                                <div className="w-6 h-6 rounded-full bg-green-200"></div>
-                            </div>
-                            <div className="flex gap-2">
-                                <div className="w-6 h-6 rounded-full bg-gray-200"></div>
-                                <div className="bg-white p-2 rounded-lg rounded-tl-none shadow-sm w-56 h-12"></div>
-                            </div>
-                        </div>
-
-                        {/* Action Overlay */}
-                        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pt-10 bg-white/60 backdrop-blur-[2px] transition-all group-hover:bg-white/40">
-                            <p className="text-xs text-gray-500 mb-4 font-medium">Per seguretat, Google Chat s'obra en finestra independent</p>
-                            <button
-                                onClick={() => window.open('https://chat.google.com', 'laGraficaChat', 'width=600,height=700,menubar=no,toolbar=no,location=no,status=no')}
-                                className="bg-[#00AC47] hover:bg-[#008f3b] text-white px-6 py-3 rounded-xl font-bold transition-all shadow-xl hover:shadow-green-500/30 flex items-center gap-2 transform hover:scale-105 active:scale-95"
-                            >
-                                <Send size={18} />
-                                Obrir Xat d'Equip
-                            </button>
-                        </div>
-                    </div>
 
                 </div>
 
@@ -530,19 +506,44 @@ const Dashboard = () => {
                                     <div>
                                         <p className="text-xs font-bold text-brand-black">TU (Montse)</p>
                                         <p className={`text-[10px] font-mono ${activeEntry ? 'text-green-600 font-bold' : 'text-gray-400'}`}>
-                                            {activeEntry ? formatTime(elapsedTime) : 'DESCONNECTAT'}
+                                            {activeEntry ? (activeEntry.type === 'vacation' ? 'VACACIONES' : formatTime(elapsedTime)) : 'DESCONNECTAT'}
                                         </p>
                                     </div>
                                 </div>
-                                <button
-                                    onClick={activeEntry ? handleClockOut : handleClockIn}
-                                    className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all shadow-sm
+                                <div className="flex gap-1">
+                                    <button
+                                        onClick={async () => {
+                                            if (activeEntry) {
+                                                await handleClockOut();
+                                            } else {
+                                                // Start Vacation
+                                                try {
+                                                    const entry = await api.createTimeEntry({
+                                                        userId: CURRENT_USER_ID,
+                                                        start: new Date().toISOString(),
+                                                        type: 'vacation'
+                                                    });
+                                                    setActiveEntry(entry);
+                                                } catch (e) {
+                                                    console.error(e);
+                                                }
+                                            }
+                                        }}
+                                        title={activeEntry?.type === 'vacation' ? "Fin Vacaciones" : "Marcar Vacaciones"}
+                                        className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all shadow-sm ${activeEntry?.type === 'vacation' ? 'bg-purple-500 text-white' : 'bg-purple-50 text-purple-400 hover:bg-purple-500 hover:text-white'}`}
+                                    >
+                                        V
+                                    </button>
+                                    <button
+                                        onClick={activeEntry ? handleClockOut : handleClockIn}
+                                        className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all shadow-sm
                                         ${activeEntry
-                                            ? 'bg-red-100 text-red-500 hover:bg-red-500 hover:text-white'
-                                            : 'bg-green-100 text-green-500 hover:bg-green-500 hover:text-white'}`}
-                                >
-                                    {activeEntry ? <Square size={12} fill="currentColor" /> : <Play size={12} fill="currentColor" />}
-                                </button>
+                                                ? 'bg-red-100 text-red-500 hover:bg-red-500 hover:text-white'
+                                                : 'bg-green-100 text-green-500 hover:bg-green-500 hover:text-white'}`}
+                                    >
+                                        {activeEntry ? <Square size={12} fill="currentColor" /> : <Play size={12} fill="currentColor" />}
+                                    </button>
+                                </div>
                             </div>
 
                             {[

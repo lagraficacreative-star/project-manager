@@ -83,7 +83,14 @@ const readDB = () => {
                     attachments: []
                 }
             ],
-            time_entries: []
+            time_entries: [],
+            messages: [],
+            documents: [],
+            time_entries: [],
+            messages: [],
+            documents: [],
+            events: [],
+            processed_emails: []
         };
         fs.mkdirSync(path.dirname(DB_FILE), { recursive: true });
     } else {
@@ -108,7 +115,9 @@ const readDB = () => {
         { id: 'b_management', title: 'Gestió' },
         { id: 'b_budget', title: 'Pressupostos' },
         { id: 'b_billing', title: 'Facturació' },
-        { id: 'b_tenders', title: 'Licitacions' }
+        { id: 'b_tenders', title: 'Licitacions' },
+        { id: 'b_fiscal', title: 'Fiscalidad' },
+        { id: 'b_accounting', title: 'Contabilidad' }
     ];
 
     let changed = false;
@@ -225,25 +234,54 @@ async function fetchRealEmails(memberId, folder = 'INBOX') {
 }
 
 // --- EMAIL ARCHIVER ---
+// --- EMAIL ARCHIVER ---
 async function archiveEmail(memberId, uid) {
     const config = loadEnv();
-    const user = config[`IMAP_USER_${memberId.toUpperCase()}`];
-    const pass = config[`IMAP_PASS_${memberId.toUpperCase()}`];
 
-    if (!user || !pass) return { error: "No credentials" };
+    // Mapping internal IDs to ENV keys (Must match fetchRealEmails)
+    const CRED_MAP = {
+        'albat': 'ATEIXIDO',
+        'albap': 'ALBA',
+        'web': 'WEB'
+    };
+
+    const envKey = CRED_MAP[memberId] || memberId.toUpperCase();
+    const user = process.env[`IMAP_USER_${envKey}`] || config[`IMAP_USER_${envKey}`];
+    const pass = process.env[`IMAP_PASS_${envKey}`] || config[`IMAP_PASS_${envKey}`];
+
+    if (!user || !pass) {
+        console.error(`❌ Archive Error: No credentials for ${memberId} (Key: ${envKey})`);
+        return { error: "No credentials" };
+    }
 
     return new Promise((resolve) => {
-        const env = { ...process.env, IMAP_HOST: config.IMAP_HOST, IMAP_PORT: config.IMAP_PORT };
-        const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, '--archive', uid], { env });
+        const env = {
+            ...process.env,
+            IMAP_HOST: process.env.IMAP_HOST || config.IMAP_HOST,
+            IMAP_PORT: process.env.IMAP_PORT || config.IMAP_PORT
+        };
+
+        console.log(`📦 [ARCHIVE] Archiving email ${uid} for ${user}...`);
+
+        const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, '--archive', String(uid)], { env });
         let dataStr = "";
+        let errorStr = "";
 
         pythonProcess.stdout.on('data', (data) => { dataStr += data.toString(); });
+        pythonProcess.stderr.on('data', (data) => { errorStr += data.toString(); });
 
         pythonProcess.on('close', (code) => {
+            if (code !== 0) {
+                console.error(`❌ Archive Script Error (Exit Code ${code}): ${errorStr}`);
+                resolve({ error: errorStr });
+                return;
+            }
             try {
                 const result = JSON.parse(dataStr);
+                console.log("✅ Archive Result:", result);
                 resolve(result);
             } catch (err) {
+                console.error("❌ Archive Parse Error:", err, "Raw:", dataStr);
                 resolve({ error: "Parse error" });
             }
         });
@@ -268,6 +306,24 @@ app.post('/api/emails/archive', async (req, res) => {
     const { userId, uid } = req.body;
     const result = await archiveEmail(userId, uid);
     res.json(result);
+});
+
+app.get('/api/emails/processed', (req, res) => {
+    const db = readDB();
+    res.json(db.processed_emails || []);
+});
+
+app.post('/api/emails/mark-processed', (req, res) => {
+    const { uid } = req.body;
+    const db = readDB();
+    if (!db.processed_emails) db.processed_emails = [];
+    if (!db.processed_emails.includes(String(uid))) {
+        db.processed_emails.push(String(uid));
+        // Keep list reasonable size
+        if (db.processed_emails.length > 500) db.processed_emails.shift();
+        writeDB(db);
+    }
+    res.json({ success: true });
 });
 
 
@@ -470,6 +526,128 @@ app.put('/api/time_entries/:id', (req, res) => {
 
     writeDB(db);
     res.json(db.time_entries[entryIndex]);
+});
+
+// --- MESSAGES (CHAT) ---
+app.get('/api/messages', (req, res) => {
+    const db = readDB();
+    res.json(db.messages || []);
+});
+app.post('/api/messages', (req, res) => {
+    const db = readDB();
+    const { text, author, channel } = req.body;
+    if (!db.messages) db.messages = [];
+    const newMsg = {
+        id: Date.now(),
+        text,
+        author,
+        channel: channel || 'general',
+        timestamp: new Date().toISOString()
+    };
+    db.messages.push(newMsg);
+    // Keep only last 100 messages to prevent bloat
+    if (db.messages.length > 200) db.messages = db.messages.slice(-100);
+    writeDB(db);
+    res.json(newMsg);
+});
+
+// --- DOCUMENTS (DRIVE) ---
+app.get('/api/documents', (req, res) => {
+    const db = readDB();
+    // Default Folders if they don't exist
+    if (!db.documents) db.documents = [];
+
+    // Ensure Root Folders
+    const roots = ['Fiscalidad', 'Contabilidad', 'Clientes'];
+    let changed = false;
+    roots.forEach(name => {
+        if (!db.documents.find(d => d.name === name && d.type === 'folder' && !d.parentId)) {
+            db.documents.push({ id: 'folder_' + name, name, type: 'folder', parentId: null });
+            changed = true;
+        }
+    });
+    // Ensure Board Folders
+    db.boards.forEach(b => {
+        const boardFolderId = 'folder_board_' + b.id;
+        if (!db.documents.find(d => d.id === boardFolderId)) {
+            db.documents.push({ id: boardFolderId, name: b.title, type: 'folder', parentId: 'folder_Clientes' }); // Put board folders under Clientes for now
+            changed = true;
+        }
+    });
+
+    if (changed) writeDB(db);
+
+    res.json(db.documents);
+});
+app.post('/api/documents', (req, res) => {
+    const db = readDB();
+    const { name, type, parentId, content, url } = req.body; // type: folder, file, doc
+    const newDoc = {
+        id: 'doc_' + Date.now(),
+        name,
+        type,
+        parentId,
+        content: content || '',
+        url: url || '',
+        createdAt: new Date().toISOString()
+    };
+    if (!db.documents) db.documents = [];
+    db.documents.push(newDoc);
+    writeDB(db);
+    res.json(newDoc);
+});
+app.put('/api/documents/:id', (req, res) => {
+    const db = readDB();
+    const { id } = req.params;
+    const { content, name } = req.body;
+    const idx = db.documents.findIndex(d => d.id === id);
+    if (idx === -1) return res.status(404).json({ error: "Doc not found" });
+
+    if (content !== undefined) db.documents[idx].content = content;
+    if (name) db.documents[idx].name = name;
+
+    writeDB(db);
+    res.json(db.documents[idx]);
+});
+app.delete('/api/documents/:id', (req, res) => {
+    const db = readDB();
+    const { id } = req.params;
+    if (!db.documents) return res.json({ success: true });
+
+    // Recursive delete helper (if it's a folder)
+    const idsToDelete = [id];
+    const findChildren = (pid) => {
+        db.documents.filter(d => d.parentId === pid).forEach(child => {
+            idsToDelete.push(child.id);
+            if (child.type === 'folder') findChildren(child.id);
+        });
+    };
+    findChildren(id);
+
+    db.documents = db.documents.filter(d => !idsToDelete.includes(d.id));
+    writeDB(db);
+    res.json({ success: true });
+});
+
+// --- EVENTS (CALENDAR) ---
+app.get('/api/events', (req, res) => {
+    const db = readDB();
+    res.json(db.events || []);
+});
+app.post('/api/events', (req, res) => {
+    const db = readDB();
+    const event = req.body; // { title, start, end, allDay, type/calendarId }
+    if (!db.events) db.events = [];
+    const newEvent = { ...event, id: 'evt_' + Date.now() };
+    db.events.push(newEvent);
+    writeDB(db);
+    res.json(newEvent);
+});
+app.delete('/api/events/:id', (req, res) => {
+    const db = readDB();
+    db.events = (db.events || []).filter(e => e.id !== req.params.id);
+    writeDB(db);
+    res.json({ success: true });
 });
 // --- ARCHIVE UTILS ---
 app.post('/api/archive-notice', (req, res) => {

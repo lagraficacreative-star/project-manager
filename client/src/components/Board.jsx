@@ -286,11 +286,11 @@ const Board = () => {
                             <div
                                 key={u.id}
                                 onClick={() => toggleUserFilter(u.id)}
-                                className="flex flex-col items-center gap-1 cursor-pointer group min-w-[50px]"
+                                className="flex flex-col items-center gap-1 cursor-pointer group min-w-[60px]"
                                 title={u.name}
                             >
-                                <div className={`w-10 h-10 rounded-full overflow-hidden border-2 transition-all relative
-                                    ${selectedUsers.includes(u.id) ? 'border-brand-orange ring-2 ring-brand-orange/30 scale-105' : 'border-gray-100 group-hover:border-brand-orange/50'}`}>
+                                <div className={`w-14 h-14 rounded-full overflow-hidden border-2 transition-all relative
+                                    ${selectedUsers.includes(u.id) ? 'border-brand-orange ring-2 ring-brand-orange/30 scale-110 shadow-md' : 'border-gray-100 group-hover:border-brand-orange/50 grayscale hover:grayscale-0'}`}>
                                     {u.avatarImage ? (
                                         <img src={u.avatarImage} alt={u.name} className="w-full h-full object-cover" />
                                     ) : (

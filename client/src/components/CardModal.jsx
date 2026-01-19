@@ -5,6 +5,9 @@ import { X, Calendar, User, AlignLeft, Flag, CheckSquare, MessageSquare, Plus, C
 const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
     if (!isOpen) return null;
 
+    // Mock Current User for Permission checks (In real app, pass this as prop)
+    const currentUser = { id: 'montse', role: 'admin' };
+
     // Tabs
     const [activeTab, setActiveTab] = useState('general');
     const [users, setUsers] = useState([]);
@@ -719,16 +722,29 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
                                 </h3>
                                 {comments.length === 0 && <p className="text-sm text-gray-400 italic">No hay comentarios aún.</p>}
                                 {comments.map(comment => (
-                                    <div key={comment.id} className="flex gap-3">
+                                    <div key={comment.id} className="flex gap-3 group">
                                         <div className="w-8 h-8 rounded-full bg-brand-black text-white flex items-center justify-center text-xs font-bold shrink-0">
                                             {comment.author.charAt(0)}
                                         </div>
-                                        <div className="bg-white p-3 rounded-lg rounded-tl-none border border-gray-100 shadow-sm flex-1">
+                                        <div className={`p-3 rounded-lg rounded-tl-none border shadow-sm flex-1 relative ${comment.author === 'Sistema (Email)' ? 'bg-green-50 border-green-200' : 'bg-white border-gray-100'}`}>
                                             <div className="flex justify-between items-center mb-1">
-                                                <span className="text-xs font-bold text-gray-900">{comment.author}</span>
+                                                <span className={`text-xs font-bold ${comment.author === 'Sistema (Email)' ? 'text-green-700' : 'text-gray-900'}`}>{comment.author}</span>
                                                 <span className="text-[10px] text-gray-400">{new Date(comment.date).toLocaleString()}</span>
                                             </div>
-                                            <p className="text-sm text-gray-700">{comment.text}</p>
+                                            <p className="text-sm text-gray-700 whitespace-pre-wrap">{comment.text}</p>
+
+                                            {/* Delete Button (Only for admins/owners) */}
+                                            <button
+                                                onClick={() => {
+                                                    if (confirm("¿Eliminar este comentario?")) {
+                                                        setComments(prev => prev.filter(c => c.id !== comment.id));
+                                                    }
+                                                }}
+                                                className="absolute top-2 right-2 p-1 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                title="Eliminar comentario"
+                                            >
+                                                <Trash2 size={14} />
+                                            </button>
                                         </div>
                                     </div>
                                 ))}
