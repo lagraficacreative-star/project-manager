@@ -117,13 +117,16 @@ const readDB = () => {
         { id: 'b_budget', title: 'Pressupostos' },
         { id: 'b_billing', title: 'Facturació' },
         { id: 'b_tenders', title: 'Licitacions' },
-        { id: 'b_fiscal', title: 'Fiscalidad' },
-        { id: 'b_accounting', title: 'Contabilidad' }
+        { id: 'b_accounting', title: 'Contabilidad' },
+        { id: 'b_laboral', title: 'Laboral' },
+        { id: 'b_rates', title: 'Tarifas' },
+        { id: 'b_expenses', title: 'Gastos' },
+        { id: 'b_income', title: 'Ingresos' }
     ];
 
     let changed = false;
     requiredBoards.forEach(req => {
-        if (!data.boards.find(b => b.id === req.id)) { // Check by ID primarily to avoid duplicates if titles change
+        if (!data.boards.find(b => b.id === req.id)) {
             data.boards.push({
                 id: req.id,
                 title: req.title,
@@ -136,6 +139,12 @@ const readDB = () => {
             changed = true;
         }
     });
+
+    // Remove Fiscalidad board
+    if (data.boards.some(b => b.id === 'b_fiscal')) {
+        data.boards = data.boards.filter(b => b.id !== 'b_fiscal');
+        changed = true;
+    }
 
     // Ensure Users are Up-to-Date (Adding Maribel and Images)
     // Ensure Users are Up-to-Date (Adding Maribel and Images)
@@ -153,17 +162,70 @@ const readDB = () => {
     updatedUsers.forEach(u => {
         const idx = data.users.findIndex(existing => existing.id === u.id);
         if (idx >= 0) {
-            // Update existing
             if (data.users[idx].avatarImage !== u.avatarImage) {
                 data.users[idx] = { ...data.users[idx], ...u };
                 changed = true;
             }
         } else {
-            // Add new
             data.users.push(u);
             changed = true;
         }
     });
+
+    // Ensure Required Folders Exist
+    const requiredFolders = [
+        { id: 'folder_Laboral', name: 'Laboral', parentId: null },
+        { id: 'folder_Tarifas', name: 'Tarifas', parentId: null },
+        { id: 'folder_Gastos', name: 'Gastos', parentId: null },
+        { id: 'folder_Ingresos', name: 'Ingresos', parentId: null },
+        { id: 'folder_Contabilidad', name: 'Contabilidad', parentId: null },
+        { id: 'folder_Clientes', name: 'Clientes', parentId: null }
+    ];
+
+    requiredFolders.forEach(folder => {
+        if (!data.documents.find(d => d.id === folder.id)) {
+            data.documents.push({ ...folder, type: 'folder' });
+            changed = true;
+        }
+
+        // Ensure standard subfolders exist for each main category
+        const subfolders = ['Formularios', 'Documentos Drive', 'Adjuntos', 'Documentos'];
+        subfolders.forEach(sub => {
+            const subId = `folder_${folder.id}_${sub.replace(/\s+/g, '_')}`;
+            if (!data.documents.find(d => d.id === subId)) {
+                data.documents.push({
+                    id: subId,
+                    name: sub,
+                    type: 'folder',
+                    parentId: folder.id
+                });
+                changed = true;
+            }
+        });
+    });
+
+    // Also for each Board folder under Clientes
+    data.documents.filter(d => d.parentId === 'folder_Clientes' && d.type === 'folder').forEach(boardFolder => {
+        const subfolders = ['Formularios', 'Documentos Drive', 'Adjuntos', 'Documentos'];
+        subfolders.forEach(sub => {
+            const subId = `folder_${boardFolder.id}_${sub.replace(/\s+/g, '_')}`;
+            if (!data.documents.find(d => d.id === subId)) {
+                data.documents.push({
+                    id: subId,
+                    name: sub,
+                    type: 'folder',
+                    parentId: boardFolder.id
+                });
+                changed = true;
+            }
+        });
+    });
+
+    // Remove Fiscalidad if exists
+    if (data.documents.some(d => d.id === 'folder_Fiscalidad')) {
+        data.documents = data.documents.filter(d => d.id !== 'folder_Fiscalidad' && d.parentId !== 'folder_Fiscalidad');
+        changed = true;
+    }
 
     if (changed) {
         writeDB(data);
