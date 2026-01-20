@@ -90,7 +90,8 @@ const readDB = () => {
             messages: [],
             documents: [],
             events: [],
-            processed_emails: []
+            processed_emails: [],
+            deleted_emails: []
         };
         fs.mkdirSync(path.dirname(DB_FILE), { recursive: true });
     } else {
@@ -326,6 +327,74 @@ app.post('/api/emails/mark-processed', (req, res) => {
     res.json({ success: true });
 });
 
+app.get('/api/emails/deleted', (req, res) => {
+    const db = readDB();
+    res.json(db.deleted_emails || []);
+});
+
+app.post('/api/emails/delete-local', (req, res) => {
+    const { uid } = req.body;
+    const db = readDB();
+    if (!db.deleted_emails) db.deleted_emails = [];
+    if (!db.deleted_emails.includes(String(uid))) {
+        db.deleted_emails.push(String(uid));
+        writeDB(db);
+    }
+    res.json({ success: true });
+});
+
+app.post('/api/emails/save-attachments', (req, res) => {
+    const { memberId, attachments } = req.body;
+    const db = readDB();
+    if (!db.documents) db.documents = [];
+
+    const rootId = 'folder_projects_lagrafica';
+    if (!db.documents.find(d => d.id === rootId)) {
+        db.documents.push({ id: rootId, name: 'projects-lagrafica', type: 'folder', parentId: null });
+    }
+
+    const mapping = {
+        'neus': ['EN DISSENY'],
+        'montse': ['EN DISSENY', 'IA'],
+        'albap': ['EN DISSENY'],
+        'ines': ['EN DISSENY'],
+        'albat': ['EN XARXES'],
+        'omar': ['EN WEB']
+    };
+
+    const categories = ['EN DISSENY', 'EN XARXES', 'EN WEB', 'IA'];
+    categories.forEach(cat => {
+        const catId = 'folder_' + cat.replace(/\s+/g, '_');
+        if (!db.documents.find(d => d.id === catId)) {
+            db.documents.push({ id: catId, name: cat, type: 'folder', parentId: rootId });
+        }
+    });
+
+    const targetCats = mapping[memberId] || ['EN DISSENY'];
+    targetCats.forEach(cat => {
+        const catId = 'folder_' + cat.replace(/\s+/g, '_');
+        const memberFolderName = db.users.find(u => u.id === memberId)?.name || memberId;
+        const memberFolderId = `folder_${catId}_${memberId}`;
+        if (!db.documents.find(d => d.id === memberFolderId)) {
+            db.documents.push({ id: memberFolderId, name: memberFolderName, type: 'folder', parentId: catId });
+        }
+
+        attachments.forEach(att => {
+            const docId = 'doc_att_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+            db.documents.push({
+                id: docId,
+                name: att.filename,
+                type: 'file',
+                url: att.url,
+                parentId: memberFolderId,
+                createdAt: new Date().toISOString()
+            });
+        });
+    });
+
+    writeDB(db);
+    res.json({ success: true });
+});
 
 // --- API ROUTES ---
 
@@ -452,6 +521,26 @@ app.delete('/api/cards/:id', (req, res) => {
     db.cards = db.cards.filter(c => c.id !== id);
     writeDB(db);
     res.json({ success: true });
+});
+
+app.post('/api/cards/:id/comments', (req, res) => {
+    const db = readDB();
+    const { id } = req.params;
+    const comment = req.body;
+
+    const cardIndex = db.cards.findIndex(c => c.id === id);
+    if (cardIndex === -1) return res.status(404).json({ error: "Card not found" });
+
+    if (!db.cards[cardIndex].comments) db.cards[cardIndex].comments = [];
+    const newComment = {
+        id: Date.now(),
+        text: comment.text,
+        author: comment.author || 'Sistema',
+        date: comment.date || new Date().toISOString()
+    };
+    db.cards[cardIndex].comments.push(newComment);
+    writeDB(db);
+    res.json(newComment);
 });
 
 // --- USERS ---

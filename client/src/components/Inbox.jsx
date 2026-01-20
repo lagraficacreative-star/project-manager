@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../api';
-import { Mail, RefreshCw, ArrowRight, CheckCircle, Search, Archive } from 'lucide-react';
+import { Mail, RefreshCw, ArrowRight, CheckCircle, Search, Archive, Trash2, Plus } from 'lucide-react';
 import CardModal from './CardModal';
 
 const Inbox = () => {
@@ -23,11 +23,20 @@ const Inbox = () => {
 
     const [includeInComments, setIncludeInComments] = useState(false);
     const [processedIds, setProcessedIds] = useState([]);
+    const [deletedIds, setDeletedIds] = useState([]);
+
+    // Card Picker
+    const [showCardPicker, setShowCardPicker] = useState(false);
+    const [cards, setCards] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [isSaving, setIsSaving] = useState(false);
 
     useEffect(() => {
         loadUsers();
         loadBoards();
         loadProcessed();
+        loadDeleted();
+        loadCards();
     }, []);
 
     useEffect(() => {
@@ -52,6 +61,16 @@ const Inbox = () => {
     const loadProcessed = async () => {
         const ids = await api.getProcessedEmails();
         setProcessedIds(ids.map(String));
+    };
+
+    const loadDeleted = async () => {
+        const ids = await api.getDeletedEmails();
+        setDeletedIds(ids.map(String));
+    };
+
+    const loadCards = async () => {
+        const data = await api.getData();
+        setCards(data.cards || []);
     };
 
     const toggleUserFilter = (userId) => {
@@ -146,9 +165,67 @@ const Inbox = () => {
         if (selectedEmail && selectedEmail.id === email.id) setSelectedEmail(null);
     };
 
+    const handleLocalDelete = async (email, e) => {
+        if (e) e.stopPropagation();
+        if (!confirm("¿Borrar este mensaje de la lista local? (No se borrará del servidor)")) return;
+
+        const uniqueId = email.ownerId ? `${email.ownerId}-${email.id}` : String(email.id);
+        setDeletedIds(prev => [...prev, uniqueId]);
+        await api.deleteEmailLocal(uniqueId);
+
+        if (selectedEmail && selectedEmail.id === email.id) setSelectedEmail(null);
+    };
+
+    const handleSaveAttachments = async (email) => {
+        if (!email.attachments || email.attachments.length === 0) return;
+        setIsSaving(true);
+        try {
+            await api.saveAttachmentsToDrive(email.ownerId || currentUser, email.attachments);
+            // Optional alert or toast
+            console.log("Attachments saved to Drive");
+        } catch (error) {
+            console.error("Failed to save attachments", error);
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
     const handleConvertToCardStart = (email) => {
         setEmailToConvert(email);
         setShowSelector(true);
+        // Automatically save attachments if any
+        handleSaveAttachments(email);
+    };
+
+    const handleAddToCardStart = (email) => {
+        setEmailToConvert(email);
+        setShowCardPicker(true);
+    };
+
+    const handleAddToCardFinish = async (card) => {
+        setIsSaving(true);
+        try {
+            const email = emailToConvert;
+            const commentText = `📩 Email añadido a tarjeta:\nDe: ${email.from}\nAsunto: ${email.subject}\nFecha: ${email.date}\n\n${email.body}`;
+            await api.addCommentToCard(card.id, commentText, `Sistema (Email de ${users.find(u => u.id === email.ownerId)?.name || email.ownerId})`);
+
+            // Mark as processed
+            const uniqueId = email.ownerId ? `${email.ownerId}-${email.id}` : String(email.id);
+            setProcessedIds(prev => [...prev, uniqueId]);
+            await api.markEmailAsProcessed(uniqueId);
+
+            // Save attachments
+            await handleSaveAttachments(email);
+
+            setShowCardPicker(false);
+            setEmailToConvert(null);
+            alert("Email añadido Correctamente.");
+        } catch (error) {
+            console.error("Error adding to card", error);
+            alert("Error al añadir el email a la tarjeta.");
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const handleContinueToCard = () => {
@@ -273,8 +350,8 @@ const Inbox = () => {
                         console.log("Rendering Email List. ActiveTab:", activeTab, "ProcessedCount:", processedIds.length);
 
                         const filteredEmails = emails.filter(email => {
-                            // Show ALL emails (processed and unprocessed) in one list
-                            return true;
+                            const uniqueId = email.ownerId ? `${email.ownerId}-${email.id}` : String(email.id);
+                            return !deletedIds.includes(uniqueId);
                         });
 
                         console.log("Emails after filter:", filteredEmails.length);
@@ -337,10 +414,19 @@ const Inbox = () => {
                                 </div>
                             </div>
                             <div className="flex gap-2">
-                                {/* Delete/Archive Button: Logic: If 'Processed' (Green), only Montse/Albap can archive it. If normal, anyone can archive (or standard rules). 
-                                    Assuming currentUser is the mailbox owner context. We check the 'real' logged in user conceptually.
-                                    For now, we just enforce the logic on the button visibility based on the request "solo montse o alba P podran borrarlos" for the marked ones.
-                                 */}
+                                <button
+                                    onClick={(e) => handleLocalDelete(selectedEmail, e)}
+                                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                                    title="Borrar mensaje temporalmente"
+                                >
+                                    <Trash2 size={20} />
+                                </button>
+                                <button
+                                    onClick={() => handleAddToCardStart(selectedEmail)}
+                                    className="px-4 py-2 text-sm font-medium text-brand-black border border-brand-black rounded-lg hover:bg-gray-50 flex items-center gap-2 transition-all"
+                                >
+                                    <Plus size={16} /> Añadir a tarjeta
+                                </button>
                                 <button
                                     onClick={() => handleConvertToCardStart(selectedEmail)}
                                     // Disable if already processed? Or allow re-creation? User asked to mark them, likely to avoid duplication.
@@ -349,7 +435,7 @@ const Inbox = () => {
                                             ? 'bg-green-600 hover:bg-green-700 shadow-green-500/20'
                                             : 'bg-brand-black hover:bg-brand-orange hover:shadow-orange-500/20'}`}
                                 >
-                                    <ArrowRight size={16} /> {processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id)) ? 'Crear Ficha de nuevo' : 'Convertir a Tarjeta'}
+                                    <ArrowRight size={16} /> {processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id)) ? 'Ficha Creada (Re-editar)' : 'Convertir a Ficha'}
                                 </button>
                             </div>
                         </div>
@@ -450,6 +536,67 @@ const Inbox = () => {
                 columnId={targetColumnId}
                 onSave={handleSaveCard}
             />
+
+            {/* Card Picker Modal (Add to Existing) */}
+            {showCardPicker && (
+                <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white rounded-xl p-6 w-full max-w-lg shadow-2xl flex flex-col max-h-[80vh]">
+                        <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                            <Plus className="text-brand-orange" /> Añadir a Tarjeta Existente
+                        </h3>
+
+                        <div className="relative mb-4">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                            <input
+                                type="text"
+                                placeholder="Buscar tarjeta por título..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-orange focus:border-brand-orange"
+                                autoFocus
+                            />
+                        </div>
+
+                        <div className="flex-1 overflow-y-auto space-y-2 mb-6 min-h-[300px]">
+                            {cards
+                                .filter(c => c.title.toLowerCase().includes(searchQuery.toLowerCase()))
+                                .slice(0, 50)
+                                .map(card => {
+                                    const board = boards.find(b => b.id === card.boardId);
+                                    return (
+                                        <div
+                                            key={card.id}
+                                            onClick={() => handleAddToCardFinish(card)}
+                                            className="p-4 border border-gray-100 rounded-xl hover:bg-orange-50 hover:border-orange-200 cursor-pointer transition-all group"
+                                        >
+                                            <div className="font-bold text-gray-900 group-hover:text-brand-orange">{card.title}</div>
+                                            <div className="text-[10px] text-gray-400 flex items-center gap-2 mt-1">
+                                                <span className="bg-gray-100 px-2 py-0.5 rounded uppercase font-bold text-gray-500">
+                                                    {board?.title || 'Sin Tablero'}
+                                                </span>
+                                                <span>•</span>
+                                                <span>Creada el {new Date(card.createdAt).toLocaleDateString()}</span>
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            }
+                            {cards.filter(c => c.title.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && (
+                                <div className="text-center py-10 text-gray-400">No se encontraron tarjetas.</div>
+                            )}
+                        </div>
+
+                        <div className="flex justify-end pt-4 border-t border-gray-100 italic text-xs text-gray-400">
+                            <button
+                                onClick={() => setShowCardPicker(false)}
+                                className="px-6 py-2 bg-gray-100 text-gray-600 rounded-lg font-bold hover:bg-gray-200 transition-colors"
+                            >
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div >
     );
 };

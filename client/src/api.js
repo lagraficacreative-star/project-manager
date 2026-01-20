@@ -144,6 +144,35 @@ export const api = {
         return res.json();
     },
 
+    deleteEmailLocal: async (uid) => {
+        const res = await fetch(`${API_URL}/emails/delete-local`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ uid })
+        });
+        return res.json();
+    },
+    getDeletedEmails: async () => {
+        const res = await fetch(`${API_URL}/emails/deleted`);
+        return res.json();
+    },
+    addCommentToCard: async (cardId, text, author) => {
+        const res = await fetch(`${API_URL}/cards/${cardId}/comments`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text, author })
+        });
+        return res.json();
+    },
+    saveAttachmentsToDrive: async (memberId, attachments) => {
+        const res = await fetch(`${API_URL}/emails/save-attachments`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ memberId, attachments })
+        });
+        return res.json();
+    },
+
     // --- NEW FEATURES ---
 
     // Chat
