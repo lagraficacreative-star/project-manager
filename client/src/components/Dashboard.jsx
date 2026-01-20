@@ -292,60 +292,6 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {/* MEMBER SELECTION (Centeredish) */}
-                <div className="flex items-center gap-4 bg-white px-6 py-2 rounded-2xl shadow-sm border border-gray-100">
-                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider hidden md:block">Filtrar per equip:</span>
-                    <div className="flex items-center gap-4 py-2 overflow-x-auto">
-                        {/* ALL MEMBERS BUTTON */}
-                        <div
-                            onClick={() => setSelectedUsers([])}
-                            className="flex flex-col items-center gap-2 cursor-pointer group min-w-[80px]"
-                            title="Ver Todos"
-                        >
-                            <div className={`w-20 h-20 rounded-full border-4 transition-all duration-300 flex items-center justify-center font-bold text-xs uppercase tracking-wider
-                                ${selectedUsers.length === 0
-                                    ? 'bg-brand-orange text-white border-brand-orange scale-110 shadow-xl ring-4 ring-brand-orange/30'
-                                    : 'bg-white text-gray-400 border-gray-200 hover:border-brand-orange hover:text-brand-orange hover:scale-105 active:scale-95'}
-                            `}>
-                                TODOS
-                            </div>
-                            <span className={`text-[10px] font-bold text-center ${selectedUsers.length === 0 ? 'text-brand-orange' : 'text-gray-400'}`}>
-                                EQUIPO
-                            </span>
-                        </div>
-
-                        {users.map((u, index) => {
-                            const colors = ['bg-orange-500', 'bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-pink-500', 'bg-indigo-500'];
-                            const colorClass = colors[index % colors.length];
-
-                            return (
-                                <div
-                                    key={u.id}
-                                    onClick={() => toggleUserFilter(u.id)}
-                                    className="flex flex-col items-center gap-2 cursor-pointer group min-w-[80px]"
-                                    title={u.name}
-                                >
-                                    <div className={`w-20 h-20 rounded-full overflow-hidden border-4 transition-all duration-300 relative flex items-center justify-center text-white
-                                        ${selectedUsers.includes(u.id)
-                                            ? 'border-brand-orange ring-4 ring-brand-orange/40 scale-110 z-10 shadow-2xl'
-                                            : 'border-white ring-1 ring-gray-100 grayscale hover:grayscale-0 hover:scale-105 active:scale-95'}
-                                        ${!u.avatarImage ? colorClass : ''}
-                                    `}>
-                                        {u.avatarImage ? (
-                                            <img src={u.avatarImage} alt={u.name} className="w-full h-full object-cover" />
-                                        ) : (
-                                            <span className="text-sm font-bold">{u.avatar || u.name.charAt(0)}</span>
-                                        )}
-                                    </div>
-                                    <span className={`text-[10px] font-bold text-center truncate w-full ${selectedUsers.includes(u.id) ? 'text-brand-orange' : 'text-gray-400'}`}>
-                                        {u.name.split(' ')[0]}
-                                    </span>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-
                 <div className="flex items-center gap-4">
                     <button onClick={() => navigate('/docs')} className="bg-brand-orange text-white px-6 py-2.5 rounded-lg font-bold text-xs tracking-wider shadow-lg hover:bg-orange-600 transition-colors flex items-center gap-2">
                         <Clipboard size={16} /> DOCUMENTACIÓ
@@ -353,6 +299,50 @@ const Dashboard = () => {
                     <button className="bg-white border border-gray-200 text-gray-600 px-6 py-2.5 rounded-lg font-bold text-xs tracking-wider hover:bg-gray-50 transition-colors">
                         SORTIR
                     </button>
+                </div>
+            </div>
+
+            {/* NEW COMPACT MEMBER FILTER ROW */}
+            <div className="flex items-center gap-4 bg-white/50 backdrop-blur-sm px-4 py-2 rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider shrink-0">Filtrar:</span>
+                <div className="flex items-center gap-3 overflow-x-auto no-scrollbar py-1">
+                    <div
+                        onClick={() => setSelectedUsers([])}
+                        className={`flex items-center gap-2 px-3 py-1.5 rounded-full cursor-pointer transition-all border
+                            ${selectedUsers.length === 0
+                                ? 'bg-brand-orange border-brand-orange text-white'
+                                : 'bg-white border-gray-100 text-gray-400 hover:border-brand-orange/30'}`}
+                    >
+                        <span className="text-[10px] font-bold uppercase">Todos</span>
+                    </div>
+
+                    {users.map((u, index) => {
+                        const isSelected = selectedUsers.includes(u.id);
+                        return (
+                            <div
+                                key={u.id}
+                                onClick={() => toggleUserFilter(u.id)}
+                                className={`flex items-center gap-2 px-2 py-1 rounded-full cursor-pointer transition-all border
+                                    ${isSelected
+                                        ? 'bg-orange-50 border-brand-orange'
+                                        : 'bg-white border-gray-100 grayscale hover:grayscale-0 hover:border-gray-200'}`}
+                            >
+                                <div className={`w-8 h-8 rounded-full overflow-hidden border-2 
+                                    ${isSelected ? 'border-brand-orange' : 'border-white'}`}>
+                                    {u.avatarImage ? (
+                                        <img src={u.avatarImage} alt={u.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <div className="w-full h-full bg-gray-200 flex items-center justify-center text-[10px] font-bold text-gray-500">
+                                            {u.avatar || u.name.charAt(0)}
+                                        </div>
+                                    )}
+                                </div>
+                                <span className={`text-[10px] font-bold pr-1 ${isSelected ? 'text-brand-orange' : 'text-gray-500'}`}>
+                                    {u.name.split(' ')[0]}
+                                </span>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
 
