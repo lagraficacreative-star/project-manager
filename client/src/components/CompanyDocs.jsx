@@ -233,7 +233,7 @@ const CompanyDocs = () => {
                             onKeyDown={(e) => e.key === 'Enter' && handleCreateFolder()}
                             className="flex-1 border-none focus:ring-0 text-sm"
                         />
-                        <button onClick={() => setShowNewFolder(false)} className="text-gray-400 hover:text-gray-600"><X size={16} /></button>
+                        <button onClick={() => setShowNewFolder(false)} className="text-gray-400 hover:text-gray-600">×</button>
                         <button onClick={handleCreateFolder} className="bg-brand-orange text-white px-3 py-1 rounded text-xs font-bold">Crear</button>
                     </div>
                 )}
@@ -241,72 +241,160 @@ const CompanyDocs = () => {
                 {loading ? (
                     <div className="flex justify-center py-20"><Loader className="animate-spin text-brand-orange" /></div>
                 ) : (
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                        {/* Empty State */}
-                        {getCurrentItems().length === 0 && !showNewFolder && (
-                            <div className="col-span-full text-center py-20 text-gray-400">
-                                <Folder size={48} className="mx-auto mb-4 opacity-20" />
-                                <p>Esta carpeta está vacía.</p>
-                            </div>
-                        )}
+                    <>
+                        {/* Detection of Structured Folders (Main Category or Board) */}
+                        {(() => {
+                            const items = getCurrentItems();
+                            const standardSubs = ['Formularios', 'Documentos Drive', 'Adjuntos', 'Documentos'];
+                            const isStructured = items.some(i => standardSubs.includes(i.name) && i.type === 'folder');
 
-                        {/* Folders First */}
-                        {getCurrentItems().filter(d => d.type === 'folder').map(doc => (
-                            <div
-                                key={doc.id}
-                                onClick={() => navigateTo(doc.id, doc.name)}
-                                className="group bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-brand-orange/30 cursor-pointer transition-all flex flex-col items-center justify-center text-center aspect-square"
-                            >
-                                <Folder size={48} className="text-brand-orange/80 group-hover:text-brand-orange mb-3 transition-colors" fill="currentColor" fillOpacity={0.1} />
-                                <span className="text-sm font-bold text-gray-700 group-hover:text-brand-black truncate w-full px-2">{doc.name}</span>
-                                <span className="text-[10px] text-gray-400 mt-1">{docs.filter(d => d.parentId === doc.id).length} elementos</span>
-                                <button
-                                    onClick={(e) => handleDelete(doc.id, e)}
-                                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 p-1.5 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg transition-all"
-                                >
-                                    <Trash2 size={14} />
-                                </button>
-                            </div>
-                        ))}
+                            if (isStructured && currentFolderId !== null) {
+                                return (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        {standardSubs.map(subName => {
+                                            const subFolder = items.find(i => i.name === subName);
+                                            const subItems = subFolder ? docs.filter(d => d.parentId === subFolder.id) : [];
 
-                        {/* Files */}
-                        {getCurrentItems().filter(d => d.type !== 'folder').map(doc => {
-                            const isDoc = doc.type === 'doc';
+                                            return (
+                                                <div key={subName} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+                                                    <div className="bg-gray-50 px-4 py-3 border-b border-gray-100 flex justify-between items-center">
+                                                        <h3 className="font-bold text-gray-800 flex items-center gap-2">
+                                                            <Folder size={18} className="text-brand-orange" />
+                                                            {subName}
+                                                        </h3>
+                                                        <button
+                                                            onClick={() => subFolder && navigateTo(subFolder.id, subFolder.name)}
+                                                            className="text-[10px] font-bold text-brand-orange hover:underline uppercase"
+                                                        >
+                                                            Ver todo
+                                                        </button>
+                                                    </div>
+                                                    <div className="p-4 flex-1">
+                                                        {subItems.length === 0 ? (
+                                                            <div className="text-center py-8 text-gray-300 italic text-xs">Sin archivos</div>
+                                                        ) : (
+                                                            <div className="space-y-2">
+                                                                {subItems.slice(0, 5).map(item => (
+                                                                    <div
+                                                                        key={item.id}
+                                                                        onClick={() => item.type === 'doc' && openEditor(item)}
+                                                                        className="flex items-center justify-between p-2 hover:bg-orange-50 rounded-lg cursor-pointer group transition-colors"
+                                                                    >
+                                                                        <div className="flex items-center gap-2 overflow-hidden">
+                                                                            {item.type === 'doc' ? <FileText size={14} className="text-blue-500" /> : <File size={14} className="text-gray-400" />}
+                                                                            <span className="text-xs text-gray-700 truncate">{item.name}</span>
+                                                                        </div>
+                                                                        <ChevronRight size={14} className="text-gray-300 group-hover:text-brand-orange" />
+                                                                    </div>
+                                                                ))}
+                                                                {subItems.length > 5 && (
+                                                                    <div className="text-[10px] text-center text-gray-400 mt-2">+{subItems.length - 5} más</div>
+                                                                )}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <div className="p-3 bg-gray-50/50 border-t border-gray-100 flex gap-2">
+                                                        <button
+                                                            onClick={() => {
+                                                                setCurrentFolderId(subFolder?.id);
+                                                                handleCreateDoc();
+                                                            }}
+                                                            className="flex-1 py-1.5 bg-white border border-gray-200 rounded-lg text-[10px] font-bold text-gray-600 hover:border-brand-orange hover:text-brand-orange transition-all"
+                                                        >
+                                                            + Nuevo
+                                                        </button>
+                                                        <div className="flex-1 relative">
+                                                            <input
+                                                                type="file"
+                                                                onChange={(e) => {
+                                                                    setCurrentFolderId(subFolder?.id);
+                                                                    handleUpload(e);
+                                                                }}
+                                                                className="absolute inset-0 opacity-0 cursor-pointer"
+                                                            />
+                                                            <button className="w-full py-1.5 bg-white border border-gray-200 rounded-lg text-[10px] font-bold text-gray-600 hover:border-brand-orange hover:text-brand-orange transition-all">
+                                                                ↑ Subir
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                );
+                            }
+
+                            // Regular Grid View
                             return (
-                                <div
-                                    key={doc.id}
-                                    onClick={() => isDoc && openEditor(doc)}
-                                    className="group bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-300 cursor-pointer transition-all flex flex-col items-center justify-center text-center aspect-square relative"
-                                >
-                                    <div className={`mb-3 ${isDoc ? 'text-blue-500' : 'text-gray-500'}`}>
-                                        {isDoc ? <FileText size={40} /> : <File size={40} />}
-                                    </div>
-                                    <span className="text-xs font-bold text-gray-700 group-hover:text-blue-600 truncate w-full px-2">{doc.name}</span>
-                                    <span className="text-[10px] text-gray-400 mt-1">{new Date(doc.createdAt).toLocaleDateString()}</span>
+                                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                                    {/* Empty State */}
+                                    {items.length === 0 && !showNewFolder && (
+                                        <div className="col-span-full text-center py-20 text-gray-400">
+                                            <Folder size={48} className="mx-auto mb-4 opacity-20" />
+                                            <p>Esta carpeta está vacía.</p>
+                                        </div>
+                                    )}
 
-                                    <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        {!isDoc && (
-                                            <a
-                                                href={doc.url ? `http://localhost:3000${doc.url}` : '#'}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-500 hover:text-brand-black"
-                                            >
-                                                <Download size={14} />
-                                            </a>
-                                        )}
-                                        <button
-                                            onClick={(e) => handleDelete(doc.id, e)}
-                                            className="p-1.5 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg"
+                                    {/* Folders First */}
+                                    {items.filter(d => d.type === 'folder').map(doc => (
+                                        <div
+                                            key={doc.id}
+                                            onClick={() => navigateTo(doc.id, doc.name)}
+                                            className="group bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-brand-orange/30 cursor-pointer transition-all flex flex-col items-center justify-center text-center aspect-square relative"
                                         >
-                                            <Trash2 size={14} />
-                                        </button>
-                                    </div>
+                                            <Folder size={48} className="text-brand-orange/80 group-hover:text-brand-orange mb-3 transition-colors" fill="currentColor" fillOpacity={0.1} />
+                                            <span className="text-sm font-bold text-gray-700 group-hover:text-brand-black truncate w-full px-2">{doc.name}</span>
+                                            <span className="text-[10px] text-gray-400 mt-1">{docs.filter(d => d.parentId === doc.id).length} elementos</span>
+                                            <button
+                                                onClick={(e) => handleDelete(doc.id, e)}
+                                                className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 p-1.5 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg transition-all"
+                                            >
+                                                <Trash2 size={14} />
+                                            </button>
+                                        </div>
+                                    ))}
+
+                                    {/* Files */}
+                                    {items.filter(d => d.type !== 'folder').map(doc => {
+                                        const isDoc = doc.type === 'doc';
+                                        return (
+                                            <div
+                                                key={doc.id}
+                                                onClick={() => isDoc && openEditor(doc)}
+                                                className="group bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-300 cursor-pointer transition-all flex flex-col items-center justify-center text-center aspect-square relative"
+                                            >
+                                                <div className={`mb-3 ${isDoc ? 'text-blue-500' : 'text-gray-500'}`}>
+                                                    {isDoc ? <FileText size={40} /> : <File size={40} />}
+                                                </div>
+                                                <span className="text-xs font-bold text-gray-700 group-hover:text-blue-600 truncate w-full px-2">{doc.name}</span>
+                                                <span className="text-[10px] text-gray-400 mt-1">{new Date(doc.createdAt).toLocaleDateString()}</span>
+
+                                                <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    {!isDoc && (
+                                                        <a
+                                                            href={doc.url ? `${api.API_URL}/upload/${doc.url.split('/').pop()}` : '#'}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                            onClick={(e) => e.stopPropagation()}
+                                                            className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-500 hover:text-brand-black"
+                                                        >
+                                                            <Download size={14} />
+                                                        </a>
+                                                    )}
+                                                    <button
+                                                        onClick={(e) => handleDelete(doc.id, e)}
+                                                        className="p-1.5 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg"
+                                                    >
+                                                        <Trash2 size={14} />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             );
-                        })}
-                    </div>
+                        })()}
+                    </>
                 )}
             </div>
         </div>
