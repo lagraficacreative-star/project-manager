@@ -29,6 +29,8 @@ const Inbox = () => {
     const [showCardPicker, setShowCardPicker] = useState(false);
     const [cards, setCards] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [filterBoardId, setFilterBoardId] = useState('');
+    const [filterMemberId, setFilterMemberId] = useState('');
     const [isSaving, setIsSaving] = useState(false);
 
     useEffect(() => {
@@ -545,6 +547,31 @@ const Inbox = () => {
                             <Plus className="text-brand-orange" /> Añadir a Tarjeta Existente
                         </h3>
 
+                        <div className="grid grid-cols-2 gap-3 mb-4">
+                            <div>
+                                <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Tablero</label>
+                                <select
+                                    value={filterBoardId}
+                                    onChange={(e) => setFilterBoardId(e.target.value)}
+                                    className="w-full p-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-brand-orange"
+                                >
+                                    <option value="">Todos los tableros</option>
+                                    {boards.map(b => <option key={b.id} value={b.id}>{b.title}</option>)}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Responsable</label>
+                                <select
+                                    value={filterMemberId}
+                                    onChange={(e) => setFilterMemberId(e.target.value)}
+                                    className="w-full p-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-brand-orange"
+                                >
+                                    <option value="">Todos los miembros</option>
+                                    {users.map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
+                                </select>
+                            </div>
+                        </div>
+
                         <div className="relative mb-4">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                             <input
@@ -559,10 +586,16 @@ const Inbox = () => {
 
                         <div className="flex-1 overflow-y-auto space-y-2 mb-6 min-h-[300px]">
                             {cards
-                                .filter(c => c.title.toLowerCase().includes(searchQuery.toLowerCase()))
+                                .filter(c => {
+                                    const matchTitle = c.title.toLowerCase().includes(searchQuery.toLowerCase());
+                                    const matchBoard = !filterBoardId || c.boardId === filterBoardId;
+                                    const matchMember = !filterMemberId || c.responsibleId === filterMemberId;
+                                    return matchTitle && matchBoard && matchMember;
+                                })
                                 .slice(0, 50)
                                 .map(card => {
                                     const board = boards.find(b => b.id === card.boardId);
+                                    const resp = users.find(u => u.id === card.responsibleId);
                                     return (
                                         <div
                                             key={card.id}
@@ -574,6 +607,12 @@ const Inbox = () => {
                                                 <span className="bg-gray-100 px-2 py-0.5 rounded uppercase font-bold text-gray-500">
                                                     {board?.title || 'Sin Tablero'}
                                                 </span>
+                                                {resp && (
+                                                    <>
+                                                        <span>•</span>
+                                                        <span className="text-brand-orange font-bold">{resp.name}</span>
+                                                    </>
+                                                )}
                                                 <span>•</span>
                                                 <span>Creada el {new Date(card.createdAt).toLocaleDateString()}</span>
                                             </div>
@@ -581,9 +620,14 @@ const Inbox = () => {
                                     );
                                 })
                             }
-                            {cards.filter(c => c.title.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && (
-                                <div className="text-center py-10 text-gray-400">No se encontraron tarjetas.</div>
-                            )}
+                            {cards.filter(c => {
+                                const matchTitle = c.title.toLowerCase().includes(searchQuery.toLowerCase());
+                                const matchBoard = !filterBoardId || c.boardId === filterBoardId;
+                                const matchMember = !filterMemberId || c.responsibleId === filterMemberId;
+                                return matchTitle && matchBoard && matchMember;
+                            }).length === 0 && (
+                                    <div className="text-center py-10 text-gray-400">No se encontraron tarjetas con estos filtros.</div>
+                                )}
                         </div>
 
                         <div className="flex justify-end pt-4 border-t border-gray-100 italic text-xs text-gray-400">
