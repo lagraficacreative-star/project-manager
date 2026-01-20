@@ -194,27 +194,42 @@ const HRManagement = () => {
                                 <Users className="text-brand-orange" /> Estat de l'Equip
                             </h2>
                             <div className="space-y-4">
-                                {users.filter(u => u.name !== 'Montse').map(user => {
-                                    // Mock status logic for other users based on dummy data or lack thereof
-                                    // ideally we would check timeEntries for them too
-                                    const isWorking = false; // Mock for now as we don't have their live sessions easily
-                                    return (
-                                        <div key={user.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-100">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
-                                                    {user.name.charAt(0)}
+                                {users
+                                    .filter(u => !['montse', 'web', 'albap'].includes(u.id))
+                                    .map(user => {
+                                        // Specific mapping for vacation types or just show the common 20 days
+                                        const totalVacation = 20; // 20 working days
+                                        const usedVacation = user.vacationDaysUsed || 0;
+                                        const progress = (usedVacation / totalVacation) * 100;
+
+                                        return (
+                                            <div key={user.id} className="p-4 bg-gray-50 rounded-2xl border border-gray-100 space-y-3">
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-10 h-10 rounded-full bg-brand-orange text-white flex items-center justify-center font-bold shadow-sm">
+                                                            {user.name.charAt(0)}
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-sm font-bold text-gray-800">{user.name}</p>
+                                                            <p className="text-[10px] text-gray-400 font-mono">{getDailyTotal(user.name)} avui</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <span className="text-[10px] font-bold text-brand-orange uppercase">Vacances</span>
+                                                        <p className="text-xs font-bold text-gray-700">{usedVacation} / {totalVacation} <span className="text-[10px] text-gray-400 font-normal">dies</span></p>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <p className="text-sm font-bold text-gray-800">{user.name}</p>
-                                                    <p className="text-xs text-gray-500">{isWorking ? 'Treballant' : 'Desconnectat'}</p>
+
+                                                {/* Vacation Progress Bar */}
+                                                <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
+                                                    <div
+                                                        className="h-full bg-brand-orange transition-all duration-500"
+                                                        style={{ width: `${Math.min(progress, 100)}%` }}
+                                                    ></div>
                                                 </div>
                                             </div>
-                                            <span className="text-xs font-mono font-bold text-gray-400">
-                                                {getDailyTotal(user.name)} avui
-                                            </span>
-                                        </div>
-                                    );
-                                })}
+                                        );
+                                    })}
                             </div>
                         </div>
                     </div>
