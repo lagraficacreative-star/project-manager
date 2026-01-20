@@ -18,10 +18,11 @@ const Calendar = () => {
     // New Event State
     const [newEvent, setNewEvent] = useState({
         title: '',
-        userId: 'montse',
+        userIds: ['montse'],
         time: '10:00',
         duration: 60,
-        description: ''
+        description: '',
+        meetingLink: ''
     });
 
     useEffect(() => {
@@ -102,7 +103,7 @@ const Calendar = () => {
         });
 
         setShowEventModal(false);
-        setNewEvent({ title: '', userId: 'montse', time: '10:00', duration: 60, description: '' });
+        setNewEvent({ title: '', userIds: ['montse'], time: '10:00', duration: 60, description: '', meetingLink: '' });
         loadData();
     };
 
@@ -140,10 +141,12 @@ const Calendar = () => {
 
         // Days
         for (let day = 1; day <= days; day++) {
-            const dateStr = new Date(currentDate.getFullYear(), currentDate.getMonth(), day).toISOString().split('T')[0];
-            const dayEvents = events.filter(e =>
-                e.start.startsWith(dateStr) && visibleUserIds.includes(e.userId)
-            ).sort((a, b) => a.time.localeCompare(b.time));
+            const dayEvents = events.filter(e => {
+                const isSameDate = e.start.startsWith(dateStr);
+                const userIds = e.userIds || [e.userId || 'montse'];
+                const isVisible = userIds.some(uid => visibleUserIds.includes(uid));
+                return isSameDate && isVisible;
+            }).sort((a, b) => a.time.localeCompare(b.time));
 
             const isToday = new Date().toDateString() === new Date(currentDate.getFullYear(), currentDate.getMonth(), day).toDateString();
 
@@ -159,14 +162,11 @@ const Calendar = () => {
 
                     <div className="space-y-1">
                         {dayEvents.map(evt => {
-                            const user = users.find(u => u.id === evt.userId);
-                            const colors = {
-                                'montse': 'bg-brand-orange text-white border-brand-orange',
-                                'default': 'bg-blue-100 text-blue-700 border-blue-200'
-                            };
-                            // Generate consistent color based on user ID char code if not montse
+                            const eventUserIds = evt.userIds || [evt.userId || 'montse'];
+                            const primaryUserId = eventUserIds[0];
+
                             const getUserColor = (uid) => {
-                                if (uid === 'montse') return colors.montse;
+                                if (uid === 'montse') return 'bg-brand-orange text-white border-brand-orange';
                                 const colorsList = [
                                     'bg-blue-100 text-blue-700 border-blue-200',
                                     'bg-green-100 text-green-700 border-green-200',
@@ -178,13 +178,40 @@ const Calendar = () => {
                                 return colorsList[index % colorsList.length];
                             };
 
-                            const styleClass = getUserColor(evt.userId);
+                            const styleClass = getUserColor(primaryUserId);
 
                             return (
-                                <div key={evt.id} className={`text-[10px] p-1.5 rounded-lg border truncate flex items-center gap-1 shadow-sm hover:scale-105 transition-transform ${styleClass}`}>
-                                    <span className="font-bold shrink-0">{evt.time}</span>
-                                    <span className="truncate font-medium">{evt.title}</span>
-                                    <button onClick={(e) => deleteEvent(evt.id, e)} className="ml-auto hidden group-hover:block opacity-60 hover:opacity-100"><X size={10} /></button>
+                                <div
+                                    key={evt.id}
+                                    className={`text-[10px] p-1.5 rounded-lg border truncate flex flex-col gap-1 shadow-sm hover:scale-105 transition-transform group/evt ${styleClass}`}
+                                    title={`${evt.title}\n${evt.description || ''}${evt.meetingLink ? '\nURL: ' + evt.meetingLink : ''}`}
+                                >
+                                    <div className="flex items-center gap-1">
+                                        <span className="font-bold shrink-0">{evt.time}</span>
+                                        <span className="truncate font-medium">{evt.title}</span>
+                                        <button onClick={(e) => deleteEvent(evt.id, e)} className="ml-auto hidden group-hover/evt:block opacity-60 hover:opacity-100"><X size={10} /></button>
+                                    </div>
+                                    <div className="flex -space-x-1.5 overflow-hidden">
+                                        {eventUserIds.map(uid => {
+                                            const u = users.find(user => user.id === uid);
+                                            return (
+                                                <div key={uid} className={`w-3.5 h-3.5 rounded-full border border-white flex items-center justify-center text-[7px] font-bold text-white shadow-sm ${uid === 'montse' ? 'bg-brand-orange' : 'bg-gray-400'}`}>
+                                                    {u?.avatar || uid.charAt(0)}
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                    {evt.meetingLink && (
+                                        <a
+                                            href={evt.meetingLink.startsWith('http') ? evt.meetingLink : `https://${evt.meetingLink}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={(e) => e.stopPropagation()}
+                                            className="text-[8px] underline opacity-80 hover:opacity-100 flex items-center gap-0.5"
+                                        >
+                                            <CalIcon size={8} /> Link Reunió
+                                        </a>
+                                    )}
                                 </div>
                             );
                         })}
@@ -309,63 +336,94 @@ const Calendar = () => {
                             <button onClick={() => setShowEventModal(false)} className="text-white/60 hover:text-white"><X size={20} /></button>
                         </div>
                         <div className="p-6 space-y-4">
-                            <div>
-                                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Título</label>
-                                <input
-                                    type="text"
-                                    value={newEvent.title}
-                                    onChange={e => setNewEvent({ ...newEvent, title: e.target.value })}
-                                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/20 font-medium"
-                                    placeholder="Reunión con cliente..."
-                                    autoFocus
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="max-h-[60vh] overflow-y-auto space-y-4 px-1 pb-2">
                                 <div>
-                                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Hora Inicio</label>
+                                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Título</label>
                                     <input
-                                        type="time"
-                                        value={newEvent.time}
-                                        onChange={e => setNewEvent({ ...newEvent, time: e.target.value })}
+                                        type="text"
+                                        value={newEvent.title}
+                                        onChange={e => setNewEvent({ ...newEvent, title: e.target.value })}
                                         className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/20 font-medium"
+                                        placeholder="Reunión con cliente..."
+                                        autoFocus
                                     />
                                 </div>
+
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Hora Inicio</label>
+                                        <input
+                                            type="time"
+                                            value={newEvent.time}
+                                            onChange={e => setNewEvent({ ...newEvent, time: e.target.value })}
+                                            className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/20 font-medium"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Duración (min)</label>
+                                        <input
+                                            type="number"
+                                            value={newEvent.duration}
+                                            onChange={e => setNewEvent({ ...newEvent, duration: parseInt(e.target.value) })}
+                                            className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/20 font-medium"
+                                        />
+                                    </div>
+                                </div>
+
                                 <div>
-                                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Duración (min)</label>
+                                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Enlace Reunión (Opcional)</label>
                                     <input
-                                        type="number"
-                                        value={newEvent.duration}
-                                        onChange={e => setNewEvent({ ...newEvent, duration: parseInt(e.target.value) })}
-                                        className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/20 font-medium"
+                                        type="text"
+                                        value={newEvent.meetingLink}
+                                        onChange={e => setNewEvent({ ...newEvent, meetingLink: e.target.value })}
+                                        className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/20 text-xs font-medium"
+                                        placeholder="https://meet.google.com/..."
                                     />
                                 </div>
-                            </div>
 
-                            <div>
-                                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Asignado a</label>
-                                <div className="flex flex-wrap gap-2">
-                                    {users.map(u => (
-                                        <button
-                                            key={u.id}
-                                            onClick={() => setNewEvent({ ...newEvent, userId: u.id })}
-                                            className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-colors flex items-center gap-2
-                                                ${newEvent.userId === u.id
-                                                    ? 'bg-brand-orange text-white border-brand-orange'
-                                                    : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'}`}
-                                        >
-                                            <div className={`w-2 h-2 rounded-full ${newEvent.userId === u.id ? 'bg-white' : 'bg-gray-300'}`}></div>
-                                            {u.name}
-                                        </button>
-                                    ))}
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Descripción</label>
+                                    <textarea
+                                        value={newEvent.description}
+                                        onChange={e => setNewEvent({ ...newEvent, description: e.target.value })}
+                                        className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/20 text-xs font-medium resize-none h-20"
+                                        placeholder="Detalles de la reunión..."
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Miembros Invitados</label>
+                                    <div className="flex flex-wrap gap-2">
+                                        {users.map(u => {
+                                            const isSelected = newEvent.userIds.includes(u.id);
+                                            return (
+                                                <button
+                                                    key={u.id}
+                                                    onClick={() => {
+                                                        const userIds = isSelected
+                                                            ? newEvent.userIds.filter(id => id !== u.id)
+                                                            : [...newEvent.userIds, u.id];
+                                                        setNewEvent({ ...newEvent, userIds });
+                                                    }}
+                                                    className={`px-3 py-1.5 rounded-full text-[10px] font-bold border transition-colors flex items-center gap-2
+                                                        ${isSelected
+                                                            ? 'bg-brand-orange text-white border-brand-orange'
+                                                            : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'}`}
+                                                >
+                                                    <div className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-white' : 'bg-gray-300'}`}></div>
+                                                    {u.name}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
                                 </div>
                             </div>
 
                             <button
                                 onClick={createEvent}
-                                className="w-full bg-brand-black text-white font-bold py-4 rounded-xl hover:bg-brand-orange transition-colors shadow-lg mt-2"
+                                className="w-full bg-brand-black text-white font-bold py-4 rounded-xl hover:bg-brand-orange transition-colors shadow-lg"
                             >
-                                Guardar Evento
+                                Crear Evento
                             </button>
                         </div>
                     </div>
