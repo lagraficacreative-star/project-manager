@@ -271,6 +271,15 @@ const CompanyDocs = ({ selectedUsers }) => {
         setEmbedUrl(embedded);
         setViewMode('embed');
     };
+    const getBreadcrumbs = () => {
+        const result = [];
+        let current = docs.find(d => d.id === currentFolderId);
+        while (current) {
+            result.unshift(current);
+            current = docs.find(d => d.id === current.parentId);
+        }
+        return result;
+    };
 
     const getCurrentItems = () => {
         let items = docs.filter(d => d.parentId === currentFolderId);
@@ -279,7 +288,6 @@ const CompanyDocs = ({ selectedUsers }) => {
         }
         return items;
     };
-
 
 
     if (editingDoc) {
@@ -309,7 +317,7 @@ const CompanyDocs = ({ selectedUsers }) => {
         };
 
         return (
-            <div className="flex h-full bg-gray-100 rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="flex flex-col lg:flex-row h-full bg-gray-100 rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
                 {/* Main Editor Area */}
                 <div className="flex-1 flex flex-col min-w-0">
                     {/* Editor Toolbar */}
@@ -386,7 +394,7 @@ const CompanyDocs = ({ selectedUsers }) => {
                 </div>
 
                 {/* Comments Sidebar */}
-                <div className="w-80 bg-white border-l border-gray-200 flex flex-col shrink-0">
+                <div className="w-full lg:w-80 bg-white border-t lg:border-t-0 lg:border-l border-gray-200 flex flex-col shrink-0">
                     <div className="p-4 border-b border-gray-100 bg-gray-50 flex items-center gap-2">
                         <MessageSquare size={18} className="text-brand-orange" />
                         <h3 className="font-bold text-gray-800">Comentarios</h3>
@@ -480,7 +488,7 @@ const CompanyDocs = ({ selectedUsers }) => {
                         {/* Member Filter */}
 
 
-                        <div className="flex flex-col gap-8">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             {/* Left Column: Management Units */}
                             <div className="lg:col-span-2 space-y-6">
                                 <div className="flex justify-between items-end px-2">
@@ -703,9 +711,9 @@ const CompanyDocs = ({ selectedUsers }) => {
                             </button>
                         </div>
 
-                        <div className="flex flex-col gap-8">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             {/* Main Content: Description, Checklist & Files */}
-                            <div className="w-full space-y-6">
+                            <div className="lg:col-span-2 space-y-6">
                                 {/* Description Card */}
                                 <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden text-balance">
                                     <div className="p-4 md:p-6 border-b border-gray-50 flex items-center gap-2">
