@@ -253,13 +253,8 @@ const Calendar = () => {
                     <CalIcon size={16} className="text-brand-orange" /> Calendarios
                 </h2>
 
-                <div className="mb-6">
-                    <button
-                        onClick={() => { setSelectedDate(new Date()); setShowEventModal(true); }}
-                        className="w-full bg-brand-black text-white px-4 py-3 rounded-xl text-xs font-bold shadow-lg hover:bg-brand-orange transition-colors flex items-center justify-center gap-2"
-                    >
-                        <Plus size={16} /> <span>Crear Evento</span>
-                    </button>
+                <div className="mb-6 hidden md:block">
+                    {/* Primary Button moved to header, but keeping space for branding or other sidebar content */}
                 </div>
 
                 <div className="flex-1">
@@ -282,12 +277,20 @@ const Calendar = () => {
                         </button>
                     </div>
 
-                    <MemberFilter
-                        users={users}
-                        selectedUsers={selectedUsers}
-                        onToggleUser={(id) => setSelectedUsers(prev => prev.includes(id) ? prev.filter(uid => uid !== id) : [...prev, id])}
-                        onClear={() => setSelectedUsers([])}
-                    />
+                    <div className="flex items-center gap-4 shrink-0">
+                        <MemberFilter
+                            users={users}
+                            selectedUsers={selectedUsers}
+                            onToggleUser={(id) => setSelectedUsers(prev => prev.includes(id) ? prev.filter(uid => uid !== id) : [...prev, id])}
+                            onClear={() => setSelectedUsers([])}
+                        />
+                        <button
+                            onClick={() => { setSelectedDate(new Date()); setShowEventModal(true); }}
+                            className="bg-brand-orange text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow-lg hover:bg-orange-600 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2"
+                        >
+                            <Plus size={18} /> <span className="hidden sm:inline">Nou Esdeveniment</span>
+                        </button>
+                    </div>
                 </div>
 
                 {/* Grid Header */}
