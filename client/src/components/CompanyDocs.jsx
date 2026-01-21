@@ -19,6 +19,7 @@ const CompanyDocs = () => {
     // New Item State
     const [showNewFolder, setShowNewFolder] = useState(false);
     const [newFolderName, setNewFolderName] = useState('');
+    const [searchTerm, setSearchTerm] = useState(''); // New filter state
     const [users, setUsers] = useState([]);
     const [selectedUsers, setSelectedUsers] = useState([]); // Filter State
 
@@ -75,6 +76,7 @@ const CompanyDocs = () => {
         let name = '';
         if (type === 'word') name = prompt("Nombre del documento Word:");
         else if (type === 'excel') name = prompt("Nombre de la hoja Excel:");
+        else if (type === 'notes') name = prompt("Nombre del bloc de notas:");
         else if (type === 'dropbox' || type === 'drive') name = prompt(`Nombre del enlace a ${type}:`);
         else name = prompt("Nombre del documento:");
 
@@ -88,8 +90,8 @@ const CompanyDocs = () => {
 
         try {
             const newDoc = await api.createDocument({
-                name: name + (type === 'word' ? '.docx' : type === 'excel' ? '.xlsx' : ''),
-                type: type,
+                name: name + (type === 'word' ? '.docx' : type === 'excel' ? '.xlsx' : type === 'notes' ? '.txt' : ''),
+                type: type === 'notes' ? 'doc' : type,
                 parentId: currentFolderId,
                 content: type === 'excel' ? JSON.stringify([['', '', ''], ['', '', ''], ['', '', '']]) : '',
                 url: url
@@ -165,7 +167,11 @@ const CompanyDocs = () => {
     };
 
     const getCurrentItems = () => {
-        return docs.filter(d => d.parentId === currentFolderId);
+        let items = docs.filter(d => d.parentId === currentFolderId);
+        if (searchTerm) {
+            items = items.filter(d => d.name.toLowerCase().includes(searchTerm.toLowerCase()));
+        }
+        return items;
     };
 
     if (editingDoc) {
@@ -329,14 +335,17 @@ const CompanyDocs = () => {
                         <button onClick={() => handleCreateDoc('word')} className="flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 font-bold text-xs transition-colors">
                             <FileText size={14} /> Word
                         </button>
-                        <button onClick={() => handleCreateDoc('excel')} className="flex items-center gap-2 px-3 py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 font-bold text-xs transition-colors">
-                            <Table size={14} /> Excel
+                        <button onClick={() => handleCreateDoc('excel')} className="flex items-center gap-2 px-3 py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 font-bold text-xs transition-colors" title="Excel">
+                            <Table size={14} /> <span className="hidden lg:inline">Excel</span>
+                        </button>
+                        <button onClick={() => handleCreateDoc('notes')} className="flex items-center gap-2 px-3 py-2 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 font-bold text-xs transition-colors" title="Bloc de notas">
+                            <FileText size={14} /> <span className="hidden lg:inline">Bloc de notas</span>
                         </button>
                         <button onClick={() => handleCreateDoc('dropbox')} className="flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-500 rounded-lg hover:bg-blue-100 font-bold text-xs transition-colors">
-                            <Globe size={14} /> Dropbox
+                            <Globe size={14} /> <span className="hidden lg:inline w-0">Dropbox</span>
                         </button>
                         <button onClick={() => handleCreateDoc('drive')} className="flex items-center gap-2 px-3 py-2 bg-yellow-50 text-yellow-600 rounded-lg hover:bg-yellow-100 font-bold text-xs transition-colors">
-                            <ExternalLink size={14} /> Drive
+                            <ExternalLink size={14} /> <span className="hidden lg:inline w-0">Drive</span>
                         </button>
                         <div className="w-px h-8 bg-gray-100 mx-1" />
                         <div className="relative">
@@ -371,15 +380,25 @@ const CompanyDocs = () => {
                 </div>
             </div>
 
-            {/* Member Filter Row */}
+            {/* Member Filter Row & Search */}
             {!editingDoc && (
-                <div className="px-6 py-3 bg-gray-50 border-b border-gray-100">
+                <div className="px-6 py-3 bg-gray-50 border-b border-gray-100 flex items-center justify-between gap-4">
                     <MemberFilter
                         users={users}
                         selectedUsers={selectedUsers}
                         onToggleUser={(id) => setSelectedUsers(prev => prev.includes(id) ? prev.filter(uid => uid !== id) : [...prev, id])}
                         onClear={() => setSelectedUsers([])}
                     />
+                    <div className="relative w-64 shrink-0">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
+                        <input
+                            type="text"
+                            placeholder="Buscar documentos..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-brand-orange/20"
+                        />
+                    </div>
                 </div>
             )}
 
@@ -417,7 +436,10 @@ const CompanyDocs = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {standardSubs.map(subName => {
                                             const subFolder = items.find(i => i.name === subName);
-                                            const subItems = subFolder ? docs.filter(d => d.parentId === subFolder.id) : [];
+                                            let subItems = subFolder ? docs.filter(d => d.parentId === subFolder.id) : [];
+                                            if (searchTerm) {
+                                                subItems = subItems.filter(d => d.name.toLowerCase().includes(searchTerm.toLowerCase()));
+                                            }
 
                                             return (
                                                 <div key={subName} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
@@ -478,6 +500,16 @@ const CompanyDocs = () => {
                                                         >
                                                             X
                                                         </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                setCurrentFolderId(subFolder?.id);
+                                                                handleCreateDoc('notes');
+                                                            }}
+                                                            className="flex-1 py-1.5 bg-white border border-gray-200 rounded-lg text-[10px] font-bold text-gray-600 hover:border-orange-500 hover:text-orange-500 transition-all"
+                                                            title="Nuevo Bloc de notas"
+                                                        >
+                                                            B
+                                                        </button>
                                                         <div className="flex-1 relative">
                                                             <input
                                                                 type="file"
@@ -520,6 +552,18 @@ const CompanyDocs = () => {
                                             <Folder size={48} className="text-brand-orange/80 group-hover:text-brand-orange mb-3 transition-colors" fill="currentColor" fillOpacity={0.1} />
                                             <span className="text-sm font-bold text-gray-700 group-hover:text-brand-black truncate w-full px-2">{doc.name}</span>
                                             <span className="text-[10px] text-gray-400 mt-1">{docs.filter(d => d.parentId === doc.id).length} elementos</span>
+
+                                            {/* Quick Actions for Folders */}
+                                            <div className="absolute inset-x-0 bottom-0 p-2 bg-white/90 backdrop-blur-sm border-t border-gray-100 flex gap-1 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 rounded-b-xl">
+                                                <button onClick={(e) => { e.stopPropagation(); setCurrentFolderId(doc.id); handleCreateDoc('word'); }} className="flex-1 py-1 hover:bg-blue-50 text-blue-600 rounded text-[9px] font-bold border border-blue-100" title="Nuevo Word">W</button>
+                                                <button onClick={(e) => { e.stopPropagation(); setCurrentFolderId(doc.id); handleCreateDoc('excel'); }} className="flex-1 py-1 hover:bg-green-50 text-green-600 rounded text-[9px] font-bold border border-green-100" title="Nuevo Excel">X</button>
+                                                <button onClick={(e) => { e.stopPropagation(); setCurrentFolderId(doc.id); handleCreateDoc('notes'); }} className="flex-1 py-1 hover:bg-orange-50 text-orange-600 rounded text-[9px] font-bold border border-orange-100" title="Nueva Nota">B</button>
+                                                <div className="flex-1 relative">
+                                                    <input type="file" onChange={(e) => { setCurrentFolderId(doc.id); handleUpload(e); }} className="absolute inset-0 opacity-0 cursor-pointer" />
+                                                    <button className="w-full py-1 hover:bg-gray-100 text-gray-600 rounded text-[9px] font-bold border border-gray-200" title="Subir">↑</button>
+                                                </div>
+                                            </div>
+
                                             <button
                                                 onClick={(e) => handleDelete(doc.id, e)}
                                                 className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 p-1.5 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg transition-all"
