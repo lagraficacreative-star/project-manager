@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../api';
-import { Folder, FileText, Upload, Plus, ChevronRight, Download, Trash2, File, ArrowLeft, Save, Loader, Table, Link as LinkIcon, MessageSquare, ExternalLink, Globe, Send, Search } from 'lucide-react';
+import { Folder, FileText, Upload, Plus, ChevronRight, Download, Trash2, File, ArrowLeft, Save, Loader, Table, Link as LinkIcon, MessageSquare, ExternalLink, Globe, Send, Search, Calendar, Mail } from 'lucide-react';
 import MemberFilter from './MemberFilter';
 
 const CompanyDocs = () => {
@@ -166,6 +166,36 @@ const CompanyDocs = () => {
         setNewComment('');
     };
 
+    // Link Management
+    const handleAddLink = async () => {
+        const title = prompt("Título del enlace:");
+        const url = prompt("URL del enlace:");
+        if (!title || !url) return;
+
+        const currentFolder = docs.find(d => d.id === currentFolderId);
+        if (!currentFolder) return;
+
+        const updatedLinks = [...(currentFolder.links || []), { id: Date.now(), title, url }];
+        try {
+            await api.updateDocument(currentFolderId, { links: updatedLinks });
+            setDocs(prev => prev.map(d => d.id === currentFolderId ? { ...d, links: updatedLinks } : d));
+        } catch (err) {
+            alert("Error al añadir enlace");
+        }
+    };
+
+    const handleDeleteLink = async (linkId) => {
+        if (!confirm("¿Eliminar este enlace?")) return;
+        const currentFolder = docs.find(d => d.id === currentFolderId);
+        const updatedLinks = currentFolder.links.filter(l => l.id !== linkId);
+        try {
+            await api.updateDocument(currentFolderId, { links: updatedLinks });
+            setDocs(prev => prev.map(d => d.id === currentFolderId ? { ...d, links: updatedLinks } : d));
+        } catch (err) {
+            alert("Error al eliminar enlace");
+        }
+    };
+
     const getCurrentItems = () => {
         let items = docs.filter(d => d.parentId === currentFolderId);
         if (searchTerm) {
@@ -173,6 +203,8 @@ const CompanyDocs = () => {
         }
         return items;
     };
+
+    const currentFolder = docs.find(d => d.id === currentFolderId);
 
     if (editingDoc) {
         const isExcel = editingDoc.type === 'excel';
@@ -325,317 +357,360 @@ const CompanyDocs = () => {
 
     return (
         <div className="flex flex-col h-full bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-            {/* Header */}
-            <div className="bg-white border-b border-gray-100 p-6">
-                <div className="flex justify-between items-center mb-4">
-                    <h1 className="text-2xl font-bold text-brand-black flex items-center gap-2">
-                        <Folder className="text-brand-orange" /> Gestor Documental
+            {/* Header / Breadcrumbs */}
+            <div className="bg-white border-b border-gray-100 px-6 py-4 flex justify-between items-center shrink-0">
+                <div className="flex flex-col">
+                    <h1 className="text-xl font-black text-brand-black flex items-center gap-2 uppercase tracking-tight">
+                        <Folder className="text-brand-orange" size={24} />
+                        {currentFolderId ? currentFolder.name : 'Gestor Documental'}
                     </h1>
-                    <div className="flex gap-2">
-                        <button onClick={() => handleCreateDoc('word')} className="flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 font-bold text-xs transition-colors">
-                            <FileText size={14} /> Word
-                        </button>
-                        <button onClick={() => handleCreateDoc('excel')} className="flex items-center gap-2 px-3 py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 font-bold text-xs transition-colors" title="Excel">
-                            <Table size={14} /> <span className="hidden lg:inline">Excel</span>
-                        </button>
-                        <button onClick={() => handleCreateDoc('notes')} className="flex items-center gap-2 px-3 py-2 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 font-bold text-xs transition-colors" title="Bloc de notas">
-                            <FileText size={14} /> <span className="hidden lg:inline">Bloc de notas</span>
-                        </button>
-                        <button onClick={() => handleCreateDoc('dropbox')} className="flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-500 rounded-lg hover:bg-blue-100 font-bold text-xs transition-colors">
-                            <Globe size={14} /> <span className="hidden lg:inline w-0">Dropbox</span>
-                        </button>
-                        <button onClick={() => handleCreateDoc('drive')} className="flex items-center gap-2 px-3 py-2 bg-yellow-50 text-yellow-600 rounded-lg hover:bg-yellow-100 font-bold text-xs transition-colors">
-                            <ExternalLink size={14} /> <span className="hidden lg:inline w-0">Drive</span>
-                        </button>
-                        <div className="w-px h-8 bg-gray-100 mx-1" />
-                        <div className="relative">
-                            <input
-                                type="file"
-                                onChange={handleUpload}
-                                className="absolute inset-0 opacity-0 cursor-pointer"
-                            />
-                            <button className="flex items-center gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-bold text-xs transition-colors">
-                                <Upload size={14} /> Subir
-                            </button>
-                        </div>
-                        <button onClick={() => setShowNewFolder(true)} className="flex items-center gap-2 px-3 py-2 bg-brand-black text-white rounded-lg hover:bg-brand-orange font-bold text-xs transition-colors">
-                            <Plus size={14} /> Carpeta
-                        </button>
+                    <div className="flex items-center text-[10px] text-gray-400 mt-0.5 ml-8 uppercase font-bold tracking-widest">
+                        {path.map((folder, idx) => (
+                            <React.Fragment key={folder.id || 'root'}>
+                                {idx > 0 && <ChevronRight size={10} className="mx-1 opacity-50" />}
+                                <span
+                                    onClick={() => navigateTo(folder.id, folder.name)}
+                                    className={`cursor-pointer hover:text-brand-orange transition-colors ${idx === path.length - 1 ? 'text-brand-orange' : ''}`}
+                                >
+                                    {folder.name}
+                                </span>
+                            </React.Fragment>
+                        ))}
                     </div>
                 </div>
 
-                {/* Breadcrumbs */}
-                <div className="flex items-center text-sm text-gray-500 overflow-x-auto pb-1">
-                    {path.map((folder, idx) => (
-                        <div key={folder.id || 'root'} className="flex items-center whitespace-nowrap">
-                            {idx > 0 && <ChevronRight size={14} className="mx-2 text-gray-300" />}
-                            <span
-                                onClick={() => navigateTo(folder.id, folder.name)}
-                                className={`cursor-pointer hover:text-brand-orange hover:underline font-medium transition-colors ${idx === path.length - 1 ? 'text-brand-black font-bold' : ''}`}
-                            >
-                                {folder.name}
-                            </span>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {/* Member Filter Row & Search */}
-            {!editingDoc && (
-                <div className="px-6 py-3 bg-gray-50 border-b border-gray-100 flex items-center justify-between gap-4">
-                    <MemberFilter
-                        users={users}
-                        selectedUsers={selectedUsers}
-                        onToggleUser={(id) => setSelectedUsers(prev => prev.includes(id) ? prev.filter(uid => uid !== id) : [...prev, id])}
-                        onClear={() => setSelectedUsers([])}
-                    />
-                    <div className="relative w-64 shrink-0">
+                <div className="flex items-center gap-4">
+                    <div className="relative w-48 shrink-0">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
                         <input
                             type="text"
-                            placeholder="Buscar documentos..."
+                            placeholder="Buscar..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-brand-orange/20"
+                            className="w-full pl-9 pr-4 py-1.5 bg-gray-50 border border-gray-200 rounded-full text-xs focus:outline-none focus:ring-2 focus:ring-brand-orange/20 transition-all font-medium"
                         />
                     </div>
+                    <button onClick={() => setShowNewFolder(true)} className="flex items-center gap-2 px-4 py-2 bg-brand-black text-white rounded-full hover:bg-brand-orange font-black text-[10px] transition-all uppercase shadow-lg shadow-black/5 active:scale-95">
+                        <Plus size={14} strokeWidth={3} /> Nueva Unidad
+                    </button>
                 </div>
-            )}
+            </div>
 
-            {/* Content Grid */}
-            <div className="flex-1 overflow-y-auto p-6 bg-gray-50/50">
-                {showNewFolder && (
-                    <div className="mb-4 flex gap-2 items-center bg-white p-3 rounded-lg border border-brand-orange shadow-sm animate-in fade-in slide-in-from-top-2">
-                        <Folder className="text-brand-orange" size={20} />
-                        <input
-                            type="text"
-                            placeholder="Nombre de la carpeta..."
-                            autoFocus
-                            value={newFolderName}
-                            onChange={(e) => setNewFolderName(e.target.value)}
-                            onKeyDown={(e) => e.key === 'Enter' && handleCreateFolder()}
-                            className="flex-1 border-none focus:ring-0 text-sm"
-                        />
-                        <button onClick={() => setShowNewFolder(false)} className="text-gray-400 hover:text-gray-600">×</button>
-                        <button onClick={handleCreateFolder} className="bg-brand-orange text-white px-3 py-1 rounded text-xs font-bold">Crear</button>
-                    </div>
-                )}
+            <div className="flex-1 overflow-y-auto bg-gray-50/30">
+                {currentFolderId === null ? (
+                    /* HOME DASHBOARD VIEW */
+                    <div className="p-8 max-w-7xl mx-auto space-y-8">
+                        {/* Member Filter */}
+                        <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
+                            <MemberFilter
+                                users={users}
+                                selectedUsers={selectedUsers}
+                                onToggleUser={(id) => setSelectedUsers(prev => prev.includes(id) ? prev.filter(uid => uid !== id) : [...prev, id])}
+                                onClear={() => setSelectedUsers([])}
+                            />
+                            <div className="text-right">
+                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Responsable Principal</p>
+                                <p className="text-xs font-bold text-brand-black">Montse Torrelles</p>
+                            </div>
+                        </div>
 
-                {loading ? (
-                    <div className="flex justify-center py-20"><Loader className="animate-spin text-brand-orange" /></div>
-                ) : (
-                    <>
-                        {/* Detection of Structured Folders (Main Category or Board) */}
-                        {(() => {
-                            const items = getCurrentItems();
-                            const standardSubs = ['Formularios', 'Documentos Drive', 'Adjuntos', 'Documentos'];
-                            const isStructured = items.some(i => standardSubs.includes(i.name) && i.type === 'folder');
-
-                            if (isStructured && currentFolderId !== null) {
-                                return (
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        {standardSubs.map(subName => {
-                                            const subFolder = items.find(i => i.name === subName);
-                                            let subItems = subFolder ? docs.filter(d => d.parentId === subFolder.id) : [];
-                                            if (searchTerm) {
-                                                subItems = subItems.filter(d => d.name.toLowerCase().includes(searchTerm.toLowerCase()));
-                                            }
-
-                                            return (
-                                                <div key={subName} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                                                    <div className="bg-gray-50 px-4 py-3 border-b border-gray-100 flex justify-between items-center">
-                                                        <h3 className="font-bold text-gray-800 flex items-center gap-2">
-                                                            <Folder size={18} className="text-brand-orange" />
-                                                            {subName}
-                                                        </h3>
-                                                        <button
-                                                            onClick={() => subFolder && navigateTo(subFolder.id, subFolder.name)}
-                                                            className="text-[10px] font-bold text-brand-orange hover:underline uppercase"
-                                                        >
-                                                            Ver todo
-                                                        </button>
-                                                    </div>
-                                                    <div className="p-4 flex-1">
-                                                        {subItems.length === 0 ? (
-                                                            <div className="text-center py-8 text-gray-300 italic text-xs">Sin archivos</div>
-                                                        ) : (
-                                                            <div className="space-y-2">
-                                                                {subItems.slice(0, 5).map(item => (
-                                                                    <div
-                                                                        key={item.id}
-                                                                        onClick={() => item.type === 'doc' && openEditor(item)}
-                                                                        className="flex items-center justify-between p-2 hover:bg-orange-50 rounded-lg cursor-pointer group transition-colors"
-                                                                    >
-                                                                        <div className="flex items-center gap-2 overflow-hidden">
-                                                                            {item.type === 'doc' ? <FileText size={14} className="text-blue-500" /> : <File size={14} className="text-gray-400" />}
-                                                                            <span className="text-xs text-gray-700 truncate">{item.name}</span>
-                                                                        </div>
-                                                                        <ChevronRight size={14} className="text-gray-300 group-hover:text-brand-orange" />
-                                                                    </div>
-                                                                ))}
-                                                                {subItems.length > 5 && (
-                                                                    <div className="text-[10px] text-center text-gray-400 mt-2">+{subItems.length - 5} más</div>
-                                                                )}
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                    <div className="flex gap-1">
-                                                        <button
-                                                            onClick={() => {
-                                                                setCurrentFolderId(subFolder?.id);
-                                                                handleCreateDoc('word');
-                                                            }}
-                                                            className="flex-1 py-1.5 bg-white border border-gray-200 rounded-lg text-[10px] font-bold text-gray-600 hover:border-blue-500 hover:text-blue-500 transition-all"
-                                                            title="Nuevo Word"
-                                                        >
-                                                            W
-                                                        </button>
-                                                        <button
-                                                            onClick={() => {
-                                                                setCurrentFolderId(subFolder?.id);
-                                                                handleCreateDoc('excel');
-                                                            }}
-                                                            className="flex-1 py-1.5 bg-white border border-gray-200 rounded-lg text-[10px] font-bold text-gray-600 hover:border-green-500 hover:text-green-500 transition-all"
-                                                            title="Nuevo Excel"
-                                                        >
-                                                            X
-                                                        </button>
-                                                        <button
-                                                            onClick={() => {
-                                                                setCurrentFolderId(subFolder?.id);
-                                                                handleCreateDoc('notes');
-                                                            }}
-                                                            className="flex-1 py-1.5 bg-white border border-gray-200 rounded-lg text-[10px] font-bold text-gray-600 hover:border-orange-500 hover:text-orange-500 transition-all"
-                                                            title="Nuevo Bloc de notas"
-                                                        >
-                                                            B
-                                                        </button>
-                                                        <div className="flex-1 relative">
-                                                            <input
-                                                                type="file"
-                                                                onChange={(e) => {
-                                                                    setCurrentFolderId(subFolder?.id);
-                                                                    handleUpload(e);
-                                                                }}
-                                                                className="absolute inset-0 opacity-0 cursor-pointer"
-                                                            />
-                                                            <button className="w-full h-full py-1.5 bg-white border border-gray-200 rounded-lg text-[10px] font-bold text-gray-600 hover:border-brand-orange hover:text-brand-orange transition-all">
-                                                                ↑
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                );
-                            }
-
-                            // Regular Grid View
-                            return (
-                                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                                    {/* Empty State */}
-                                    {items.length === 0 && !showNewFolder && (
-                                        <div className="col-span-full text-center py-20 text-gray-400">
-                                            <Folder size={48} className="mx-auto mb-4 opacity-20" />
-                                            <p>Esta carpeta está vacía.</p>
-                                        </div>
-                                    )}
-
-                                    {/* Folders First */}
-                                    {items.filter(d => d.type === 'folder').map(doc => (
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            {/* Left Column: Management Units */}
+                            <div className="lg:col-span-2 space-y-6">
+                                <div className="flex justify-between items-end px-2">
+                                    <h2 className="text-lg font-black text-brand-black uppercase tracking-tighter">Unidades de Gestión</h2>
+                                    <span className="text-[10px] font-bold text-gray-400 uppercase">{docs.filter(d => d.parentId === null).length} Unidades</span>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {docs.filter(d => d.parentId === null && d.type === 'folder').map(folder => (
                                         <div
-                                            key={doc.id}
-                                            onClick={() => navigateTo(doc.id, doc.name)}
-                                            className="group bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-brand-orange/30 cursor-pointer transition-all flex flex-col items-center justify-center text-center aspect-square relative"
+                                            key={folder.id}
+                                            onClick={() => navigateTo(folder.id, folder.name)}
+                                            className="group bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-brand-orange/5 hover:-translate-y-1 transition-all cursor-pointer relative overflow-hidden"
                                         >
-                                            <Folder size={48} className="text-brand-orange/80 group-hover:text-brand-orange mb-3 transition-colors" fill="currentColor" fillOpacity={0.1} />
-                                            <span className="text-sm font-bold text-gray-700 group-hover:text-brand-black truncate w-full px-2">{doc.name}</span>
-                                            <span className="text-[10px] text-gray-400 mt-1">{docs.filter(d => d.parentId === doc.id).length} elementos</span>
-
-                                            {/* Quick Actions for Folders */}
-                                            <div className="absolute inset-x-0 bottom-0 p-2 bg-white/90 backdrop-blur-sm border-t border-gray-100 flex gap-1 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 rounded-b-xl">
-                                                <button onClick={(e) => { e.stopPropagation(); setCurrentFolderId(doc.id); handleCreateDoc('word'); }} className="flex-1 py-1 hover:bg-blue-50 text-blue-600 rounded text-[9px] font-bold border border-blue-100" title="Nuevo Word">W</button>
-                                                <button onClick={(e) => { e.stopPropagation(); setCurrentFolderId(doc.id); handleCreateDoc('excel'); }} className="flex-1 py-1 hover:bg-green-50 text-green-600 rounded text-[9px] font-bold border border-green-100" title="Nuevo Excel">X</button>
-                                                <button onClick={(e) => { e.stopPropagation(); setCurrentFolderId(doc.id); handleCreateDoc('notes'); }} className="flex-1 py-1 hover:bg-orange-50 text-orange-600 rounded text-[9px] font-bold border border-orange-100" title="Nueva Nota">B</button>
-                                                <div className="flex-1 relative">
-                                                    <input type="file" onChange={(e) => { setCurrentFolderId(doc.id); handleUpload(e); }} className="absolute inset-0 opacity-0 cursor-pointer" />
-                                                    <button className="w-full py-1 hover:bg-gray-100 text-gray-600 rounded text-[9px] font-bold border border-gray-200" title="Subir">↑</button>
+                                            <div className="absolute top-0 right-0 w-24 h-24 bg-brand-orange/5 rounded-full -mr-8 -mt-8 group-hover:bg-brand-orange/10 transition-colors" />
+                                            <div className="flex items-start justify-between mb-4 relative z-10">
+                                                <div className="p-3 bg-brand-orange text-white rounded-2xl shadow-lg shadow-brand-orange/20">
+                                                    <Folder size={24} />
                                                 </div>
+                                                <button onClick={(e) => handleDelete(folder.id, e)} className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all opacity-0 group-hover:opacity-100">
+                                                    <Trash2 size={16} />
+                                                </button>
                                             </div>
-
-                                            <button
-                                                onClick={(e) => handleDelete(doc.id, e)}
-                                                className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 p-1.5 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg transition-all"
-                                            >
-                                                <Trash2 size={14} />
-                                            </button>
+                                            <h3 className="text-xl font-black text-brand-black mb-1 group-hover:text-brand-orange transition-colors">{folder.name}</h3>
+                                            <p className="text-xs text-gray-400 font-medium">Gestión interna de {folder.name.toLowerCase()}</p>
+                                            <div className="mt-6 flex items-center justify-between">
+                                                <div className="flex -space-x-2">
+                                                    <div className="w-6 h-6 rounded-full border-2 border-white bg-blue-100 flex items-center justify-center text-[10px] text-blue-600 font-bold" title="Docs">D</div>
+                                                    <div className="w-6 h-6 rounded-full border-2 border-white bg-green-100 flex items-center justify-center text-[10px] text-green-600 font-bold" title="Sheets">S</div>
+                                                    <div className="w-6 h-6 rounded-full border-2 border-white bg-yellow-100 flex items-center justify-center text-[10px] text-yellow-600 font-bold" title="Drive">G</div>
+                                                </div>
+                                                <span className="text-[10px] font-black uppercase text-brand-orange group-hover:underline">Abrir Unidad</span>
+                                            </div>
                                         </div>
                                     ))}
-
-                                    {/* Files */}
-                                    {items.filter(d => d.type !== 'folder').map(doc => {
-                                        const isDoc = doc.type === 'doc';
-                                        return (
-                                            <div
-                                                key={doc.id}
-                                                onClick={() => isDoc && openEditor(doc)}
-                                                className="group bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-300 cursor-pointer transition-all flex flex-col items-center justify-center text-center aspect-square relative"
-                                            >
-                                                <div className={`mb-3 ${isDoc ? 'text-blue-500' :
-                                                    doc.type === 'word' ? 'text-blue-600' :
-                                                        doc.type === 'excel' ? 'text-green-600' :
-                                                            doc.type === 'dropbox' ? 'text-blue-400' :
-                                                                doc.type === 'drive' ? 'text-yellow-500' :
-                                                                    'text-gray-500'}`}>
-                                                    {isDoc || doc.type === 'word' ? <FileText size={40} /> :
-                                                        doc.type === 'excel' ? <Table size={40} /> :
-                                                            doc.type === 'dropbox' ? <Globe size={40} /> :
-                                                                doc.type === 'drive' ? <ExternalLink size={40} /> :
-                                                                    <File size={40} />}
-                                                </div>
-                                                <span className="text-xs font-bold text-gray-700 group-hover:text-blue-600 truncate w-full px-2">{doc.name}</span>
-                                                <span className="text-[10px] text-gray-400 mt-1">
-                                                    {doc.type === 'dropbox' || doc.type === 'drive' ? 'Enlace Externo' : new Date(doc.createdAt).toLocaleDateString()}
-                                                </span>
-
-                                                <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    {(doc.type === 'dropbox' || doc.type === 'drive') && (
-                                                        <a
-                                                            href={doc.url}
-                                                            target="_blank"
-                                                            rel="noreferrer"
-                                                            onClick={(e) => e.stopPropagation()}
-                                                            className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-500 hover:text-brand-black"
-                                                        >
-                                                            <ExternalLink size={14} />
-                                                        </a>
-                                                    )}
-                                                    {doc.type === 'file' && (
-                                                        <a
-                                                            href={doc.url ? `${api.API_URL}/upload/${doc.url.split('/').pop()}` : '#'}
-                                                            target="_blank"
-                                                            rel="noreferrer"
-                                                            onClick={(e) => e.stopPropagation()}
-                                                            className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-500 hover:text-brand-black"
-                                                        >
-                                                            <Download size={14} />
-                                                        </a>
-                                                    )}
-                                                    <button
-                                                        onClick={(e) => handleDelete(doc.id, e)}
-                                                        className="p-1.5 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg"
-                                                    >
-                                                        <Trash2 size={14} />
-                                                    </button>
-                                                </div>
+                                    {showNewFolder && (
+                                        <div className="bg-white p-6 rounded-3xl border-2 border-dashed border-brand-orange/30 animate-pulse flex flex-col justify-center">
+                                            <input
+                                                autoFocus
+                                                value={newFolderName}
+                                                onChange={(e) => setNewFolderName(e.target.value)}
+                                                onKeyDown={(e) => e.key === 'Enter' && handleCreateFolder()}
+                                                placeholder="Nombre de la unidad..."
+                                                className="w-full bg-transparent border-none text-xl font-bold focus:ring-0 placeholder-gray-300"
+                                            />
+                                            <div className="flex gap-2 mt-4">
+                                                <button onClick={handleCreateFolder} className="flex-1 py-2 bg-brand-orange text-white rounded-xl font-bold text-xs">Crear</button>
+                                                <button onClick={() => setShowNewFolder(false)} className="flex-1 py-2 bg-gray-100 text-gray-500 rounded-xl font-bold text-xs">Cancelar</button>
                                             </div>
-                                        );
-                                    })}
+                                        </div>
+                                    )}
                                 </div>
-                            );
-                        })()}
-                    </>
+                            </div>
+
+                            {/* Right Column: Home Features */}
+                            <div className="space-y-6">
+                                {/* Shared Calendar Section */}
+                                <div className="bg-brand-black p-6 rounded-3xl text-white shadow-xl">
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <div className="p-2 bg-white/10 rounded-xl">
+                                            <Calendar size={20} className="text-brand-orange" />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-black uppercase text-sm tracking-widest text-white/50">Calendario Gestión</h3>
+                                            <p className="text-xs font-bold truncate">gestiolagrafica@gmail.com</p>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <p className="text-[10px] text-white/40 leading-relaxed font-bold uppercase tracking-widest">Plazos, contabilidad, impuestos y cobros</p>
+                                        <a
+                                            href="https://calendar.google.com/calendar/u/0/r"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="block w-full py-4 bg-brand-orange text-center rounded-2xl font-black text-xs uppercase hover:bg-white hover:text-brand-black transition-all shadow-lg shadow-brand-orange/20 active:scale-95"
+                                        >
+                                            Ver Calendario Compartido
+                                        </a>
+                                    </div>
+                                </div>
+
+                                {/* Management Notes Home */}
+                                <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden flex flex-col h-[400px]">
+                                    <div className="p-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
+                                        <div className="flex items-center gap-2">
+                                            <MessageSquare size={16} className="text-brand-orange" />
+                                            <h3 className="font-black text-xs uppercase tracking-widest text-brand-black">Notas de Gestión</h3>
+                                        </div>
+                                        <button className="text-[10px] font-bold text-brand-orange hover:underline uppercase">Nueva</button>
+                                    </div>
+                                    <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                                        {docs.filter(d => d.type === 'notes_internal' || d.id === 'home_notes').length === 0 ? (
+                                            <div className="h-full flex flex-col items-center justify-center text-center space-y-2">
+                                                <FileText size={40} className="text-gray-100" />
+                                                <p className="text-[10px] font-bold text-gray-300 uppercase">Sin notas internas</p>
+                                            </div>
+                                        ) : (
+                                            <p className="text-xs text-center text-gray-400">Listado de notas...</p>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    /* MANAGEMENT UNIT DETAIL VIEW */
+                    <div className="p-8 max-w-6xl mx-auto space-y-8">
+                        {/* 4 Standard Action Cards */}
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <a
+                                href={currentFolder?.notesUrl || '#'} target="_blank" rel="noreferrer"
+                                className="bg-blue-50 p-6 rounded-3xl border border-blue-100 hover:shadow-xl hover:shadow-blue-500/10 transition-all group overflow-hidden relative"
+                            >
+                                <div className="absolute -right-4 -bottom-4 text-blue-100/50 group-hover:scale-110 transition-transform">
+                                    <FileText size={100} />
+                                </div>
+                                <h3 className="text-blue-600 font-extrabold text-sm uppercase mb-1">Notas Unidad</h3>
+                                <p className="text-[10px] text-blue-500/80 font-bold mb-4">Google Docs</p>
+                                <div className="flex items-center gap-2 text-blue-600 font-black text-[10px] uppercase">
+                                    Abrir Documento <ExternalLink size={12} />
+                                </div>
+                            </a>
+
+                            <a
+                                href={currentFolder?.sheetUrl || '#'} target="_blank" rel="noreferrer"
+                                className="bg-green-50 p-6 rounded-3xl border border-green-100 hover:shadow-xl hover:shadow-green-500/10 transition-all group overflow-hidden relative"
+                            >
+                                <div className="absolute -right-4 -bottom-4 text-green-100/50 group-hover:scale-110 transition-transform">
+                                    <Table size={100} />
+                                </div>
+                                <h3 className="text-green-600 font-extrabold text-sm uppercase mb-1">Gestión Datos</h3>
+                                <p className="text-[10px] text-green-500/80 font-bold mb-4">Google Sheets</p>
+                                <div className="flex items-center gap-2 text-green-600 font-black text-[10px] uppercase">
+                                    Abrir Planilla <ExternalLink size={12} />
+                                </div>
+                            </a>
+
+                            <a
+                                href={currentFolder?.driveUrl || '#'} target="_blank" rel="noreferrer"
+                                className="bg-yellow-50 p-6 rounded-3xl border border-yellow-100 hover:shadow-xl hover:shadow-yellow-500/10 transition-all group overflow-hidden relative"
+                            >
+                                <div className="absolute -right-4 -bottom-4 text-yellow-100/50 group-hover:scale-110 transition-transform">
+                                    <Globe size={100} />
+                                </div>
+                                <h3 className="text-yellow-700 font-extrabold text-sm uppercase mb-1">Repositorio Drive</h3>
+                                <p className="text-[10px] text-yellow-600/80 font-bold mb-4">Google Drive</p>
+                                <div className="flex items-center gap-2 text-yellow-700 font-black text-[10px] uppercase">
+                                    Ir a Carpeta <ExternalLink size={12} />
+                                </div>
+                            </a>
+
+                            <button
+                                onClick={handleAddLink}
+                                className="bg-brand-black p-6 rounded-3xl text-white hover:bg-brand-orange transition-all flex flex-col items-center justify-center text-center group active:scale-95"
+                            >
+                                <div className="p-3 bg-white/10 rounded-full mb-3 group-hover:bg-white/20">
+                                    <LinkIcon size={24} />
+                                </div>
+                                <span className="font-black text-[10px] uppercase tracking-widest">Añadir Recurso</span>
+                                <span className="text-[8px] text-white/50 mt-1 uppercase">Drive, Dropbox, Web</span>
+                            </button>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            {/* Main Content: Document List & Links */}
+                            <div className="lg:col-span-2 space-y-6">
+                                <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+                                    <div className="p-6 border-b border-gray-100 flex justify-between items-center">
+                                        <h3 className="font-black text-sm uppercase tracking-widest flex items-center gap-2">
+                                            <FileText size={18} className="text-brand-orange" /> Archivos de la Unidad
+                                        </h3>
+                                        <div className="relative">
+                                            <input type="file" onChange={handleUpload} className="absolute inset-0 opacity-0 cursor-pointer" />
+                                            <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 text-brand-black rounded-lg hover:bg-gray-200 font-bold text-[10px] transition-colors uppercase">
+                                                <Upload size={12} /> Subir Archivo
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="p-6 min-h-[300px]">
+                                        {getCurrentItems().length === 0 ? (
+                                            <div className="flex flex-col items-center justify-center h-full py-10 opacity-20">
+                                                <Upload size={48} className="mb-4" />
+                                                <p className="font-bold text-xs">Aún no hay archivos específicos subidos.</p>
+                                            </div>
+                                        ) : (
+                                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                                {getCurrentItems().map(item => (
+                                                    <div
+                                                        key={item.id}
+                                                        className="group p-4 bg-gray-50 rounded-2xl border border-transparent hover:border-brand-orange/20 hover:bg-white hover:shadow-lg transition-all relative"
+                                                        onClick={() => item.type === 'doc' && openEditor(item)}
+                                                    >
+                                                        <div className="flex justify-between items-start mb-2">
+                                                            <div className={`p-2 rounded-lg bg-white shadow-sm ${item.type === 'doc' ? 'text-blue-500' : 'text-gray-400'}`}>
+                                                                <File size={20} />
+                                                            </div>
+                                                            <button onClick={(e) => handleDelete(item.id, e)} className="p-1 text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                                <Trash2 size={14} />
+                                                            </button>
+                                                        </div>
+                                                        <p className="text-xs font-bold text-brand-black truncate">{item.name}</p>
+                                                        <p className="text-[9px] text-gray-400 mt-1 uppercase font-bold tracking-tighter">{new Date(item.createdAt).toLocaleDateString()}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* External Links Section */}
+                                <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+                                    <div className="p-6 border-b border-gray-100">
+                                        <h3 className="font-black text-sm uppercase tracking-widest flex items-center gap-2">
+                                            <LinkIcon size={18} className="text-brand-orange" /> Enlaces y Recursos Externos
+                                        </h3>
+                                    </div>
+                                    <div className="p-6">
+                                        {(!currentFolder?.links || currentFolder.links.length === 0) ? (
+                                            <p className="text-center py-6 text-xs text-gray-300 italic">No hay enlaces externos asociados.</p>
+                                        ) : (
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                                {currentFolder.links.map(link => (
+                                                    <div key={link.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-2xl border border-gray-100 group">
+                                                        <a href={link.url} target="_blank" rel="noreferrer" className="flex items-center gap-3 flex-1">
+                                                            <div className="p-2 bg-white rounded-lg group-hover:text-brand-orange transition-colors">
+                                                                <Globe size={14} />
+                                                            </div>
+                                                            <span className="text-xs font-bold text-brand-black">{link.title}</span>
+                                                        </a>
+                                                        <button onClick={() => handleDeleteLink(link.id)} className="p-1 text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100">
+                                                            <Trash2 size={14} />
+                                                        </button>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Sidebar: Email Integration & Metadata */}
+                            <div className="space-y-6">
+                                {/* Email Link Card */}
+                                <div className="bg-brand-orange p-6 rounded-3xl text-white shadow-xl shadow-brand-orange/10">
+                                    <h3 className="font-black uppercase text-[10px] tracking-widest mb-4 opacity-70">Integración Email</h3>
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <div className="p-3 bg-white/20 rounded-2xl">
+                                            <Mail size={24} />
+                                        </div>
+                                        <div>
+                                            <p className="text-[10px] font-black uppercase opacity-70">Cuenta Activa</p>
+                                            <p className="text-xs font-bold truncate">gestiolagrafica@gmail.com</p>
+                                        </div>
+                                    </div>
+                                    <button className="w-full py-3 bg-white text-brand-orange rounded-xl font-black text-[10px] uppercase hover:bg-brand-black hover:text-white transition-all shadow-lg active:scale-95">
+                                        Vincular Email a Unidad
+                                    </button>
+                                </div>
+
+                                {/* Linked Emails List */}
+                                <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm space-y-4">
+                                    <h4 className="font-black text-[10px] uppercase tracking-widest text-gray-400">Correos Vinculados</h4>
+                                    {(currentFolder?.emails || []).length === 0 ? (
+                                        <div className="text-center py-4 border-2 border-dashed border-gray-50 rounded-2xl">
+                                            <p className="text-[10px] text-gray-300 font-bold uppercase">Sin correos asociados</p>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-2">
+                                            {currentFolder.emails.map(email => (
+                                                <div key={email.id} className="p-2 hover:bg-gray-50 rounded-xl border border-transparent hover:border-gray-100 transition-all cursor-pointer">
+                                                    <p className="text-[10px] font-bold text-brand-black truncate">{email.subject}</p>
+                                                    <p className="text-[8px] text-gray-400 font-bold uppercase">{new Date(email.date).toLocaleDateString()}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Last Update Info */}
+                                <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm space-y-4">
+                                    <h4 className="font-black text-[10px] uppercase tracking-widest text-gray-400">Información de Unidad</h4>
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-full bg-brand-lightgray flex items-center justify-center text-[10px] font-bold text-gray-500 uppercase">M</div>
+                                        <div>
+                                            <p className="text-[10px] font-black uppercase text-gray-400">Modificado por</p>
+                                            <p className="text-xs font-bold text-brand-black">{currentFolder?.updatedBy || 'Montse'}</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-black uppercase text-gray-400">Última actualización</p>
+                                        <p className="text-xs font-bold text-brand-black">
+                                            {currentFolder?.updatedAt ? new Date(currentFolder.updatedAt).toLocaleString() : 'Recientemente'}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 )}
             </div>
         </div>

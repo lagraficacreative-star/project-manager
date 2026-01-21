@@ -179,53 +179,39 @@ const readDB = () => {
         { id: 'folder_Gastos', name: 'Gastos', parentId: null },
         { id: 'folder_Ingresos', name: 'Ingresos', parentId: null },
         { id: 'folder_Contabilidad', name: 'Contabilidad', parentId: null },
-        { id: 'folder_Clientes', name: 'Clientes', parentId: null }
+        { id: 'folder_Clientes', name: 'Clientes', parentId: null },
+        { id: 'folder_Fiscalidad', name: 'Fiscalidad', parentId: null }
     ];
 
     requiredFolders.forEach(folder => {
-        if (!data.documents.find(d => d.id === folder.id)) {
-            data.documents.push({ ...folder, type: 'folder' });
+        const existing = data.documents.find(d => d.id === folder.id);
+        if (!existing) {
+            data.documents.push({
+                ...folder,
+                type: 'folder',
+                notesUrl: '',
+                sheetUrl: '',
+                driveUrl: '',
+                links: [],
+                managementNotes: []
+            });
             changed = true;
         }
-
-        // Ensure standard subfolders exist for each main category
-        const subfolders = ['Formularios', 'Documentos Drive', 'Adjuntos', 'Documentos'];
-        subfolders.forEach(sub => {
-            const subId = `folder_${folder.id}_${sub.replace(/\s+/g, '_')}`;
-            if (!data.documents.find(d => d.id === subId)) {
-                data.documents.push({
-                    id: subId,
-                    name: sub,
-                    type: 'folder',
-                    parentId: folder.id
-                });
-                changed = true;
-            }
-        });
     });
 
     // Also for each Board folder under Clientes
     data.documents.filter(d => d.parentId === 'folder_Clientes' && d.type === 'folder').forEach(boardFolder => {
-        const subfolders = ['Formularios', 'Documentos Drive', 'Adjuntos', 'Documentos'];
-        subfolders.forEach(sub => {
-            const subId = `folder_${boardFolder.id}_${sub.replace(/\s+/g, '_')}`;
-            if (!data.documents.find(d => d.id === subId)) {
-                data.documents.push({
-                    id: subId,
-                    name: sub,
-                    type: 'folder',
-                    parentId: boardFolder.id
-                });
-                changed = true;
-            }
-        });
+        // We don't necessarily need standard subfolders anymore if we use the new action-based UI, 
+        // but keeping them for compatibility or migrating to the new system.
+        // For now, let's just ensure they have the management metadata fields.
+        if (boardFolder.notesUrl === undefined) {
+            boardFolder.notesUrl = '';
+            boardFolder.sheetUrl = '';
+            boardFolder.driveUrl = '';
+            boardFolder.links = boardFolder.links || [];
+            changed = true;
+        }
     });
-
-    // Remove Fiscalidad if exists
-    if (data.documents.some(d => d.id === 'folder_Fiscalidad')) {
-        data.documents = data.documents.filter(d => d.id !== 'folder_Fiscalidad' && d.parentId !== 'folder_Fiscalidad');
-        changed = true;
-    }
 
     // --- BOARDS MAINTENANCE ---
     const standardColumns = [
@@ -776,7 +762,16 @@ app.post('/api/documents', (req, res) => {
         content: content || '',
         url: url || '',
         comments: [],
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        // Management Unit fields if folder
+        ...(type === 'folder' ? {
+            notesUrl: `https://docs.google.com/document/create?title=Notas_${name}`,
+            sheetUrl: `https://docs.google.com/spreadsheets/create?title=Gestion_${name}`,
+            driveUrl: `https://drive.google.com/drive/search?q=${name}`,
+            links: [],
+            updatedAt: new Date().toISOString(),
+            updatedBy: 'Montse' // Simulated
+        } : {})
     };
     if (!db.documents) db.documents = [];
     db.documents.push(newDoc);
