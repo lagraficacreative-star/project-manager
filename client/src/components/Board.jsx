@@ -8,13 +8,21 @@ import CardModal from './CardModal';
 import { Plus, ArrowLeft, MoreHorizontal, Calendar, User, Trash2, Edit2, Lock, Unlock } from 'lucide-react';
 import MemberFilter from './MemberFilter';
 
-const SortableCard = ({ card, onClick }) => {
+const SortableCard = ({ card, onClick, isLocked }) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: card.id });
 
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
         opacity: isDragging ? 0.3 : 1,
+    };
+
+    const handleClick = (e) => {
+        if (isLocked) {
+            e.stopPropagation();
+            return;
+        }
+        onClick(card);
     };
 
     // Calculate time
@@ -37,10 +45,17 @@ const SortableCard = ({ card, onClick }) => {
             style={style}
             {...attributes}
             {...listeners}
-            onClick={() => onClick(card)}
-            className={`bg-white p-3 rounded-lg shadow-sm border hover:shadow-md cursor-pointer transition-all group select-none relative
-                ${isActive ? 'border-brand-orange ring-1 ring-brand-orange/20' : 'border-brand-lightgray hover:border-brand-orange/30'}`}
+            onClick={handleClick}
+            className={`bg-white p-3 rounded-lg shadow-sm border transition-all group select-none relative
+                ${isLocked ? 'border-gray-100 cursor-not-allowed grayscale-[0.5]' :
+                    isActive ? 'border-brand-orange ring-1 ring-brand-orange/20 cursor-pointer shadow-md' :
+                        'border-brand-lightgray hover:border-brand-orange/30 cursor-pointer hover:shadow-md'}`}
         >
+            {isLocked && (
+                <div className="absolute inset-0 bg-white/40 backdrop-blur-[1px] z-10 rounded-lg flex items-center justify-center">
+                    <Lock size={16} className="text-gray-400" />
+                </div>
+            )}
             <div className="flex justify-between items-start mb-2">
                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider
                     ${card.priority === 'high' ? 'bg-red-50 text-red-600' :
@@ -198,6 +213,10 @@ const Board = () => {
     };
 
     const handleEditCard = (card) => {
+        const column = board?.columns.find(c => c.id === card.columnId);
+        if (column?.title.toLowerCase() === 'facturación' && !unlockedColumns.includes(column.id)) {
+            return; // Bloqueado
+        }
         setActiveCard(card);
         setTargetColumnId(card.columnId);
         setIsModalOpen(true);
@@ -379,55 +398,55 @@ const Board = () => {
                                     </div>
                                 </div>
 
-                                {col.title.toLowerCase() === 'facturación' && !unlockedColumns.includes(col.id) ? (
-                                    <div className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-4">
-                                        <div className="w-16 h-16 bg-brand-orange/10 rounded-full flex items-center justify-center text-brand-orange mb-2">
-                                            <Lock size={32} />
+                                {col.title.toLowerCase() === 'facturación' && !unlockedColumns.includes(col.id) && (
+                                    <div className="px-4 py-3 bg-orange-50 border-y border-orange-100 flex flex-col gap-2">
+                                        <div className="flex items-center gap-2 text-orange-600">
+                                            <Lock size={12} />
+                                            <span className="text-[10px] font-bold uppercase">Facturación Bloqueada</span>
                                         </div>
-                                        <div>
-                                            <h4 className="font-bold text-gray-800 text-sm">Venta Bloqueada</h4>
-                                            <p className="text-[10px] text-gray-500 mt-1">Introduce la contraseña de Admin para ver esta columna.</p>
-                                        </div>
-                                        <div className="flex flex-col gap-2 w-full">
+                                        <div className="flex gap-1">
                                             <input
                                                 type="password"
                                                 value={passwordInput}
                                                 onChange={(e) => setPasswordInput(e.target.value)}
                                                 onKeyDown={(e) => e.key === 'Enter' && handleUnlockColumn(col.id)}
                                                 placeholder="Contraseña..."
-                                                className="w-full text-center py-2 border border-gray-200 rounded-lg text-xs focus:ring-1 focus:ring-brand-orange outline-none"
+                                                className="flex-1 px-2 py-1 border border-orange-200 rounded text-[10px] focus:ring-1 focus:ring-brand-orange outline-none bg-white"
                                             />
                                             <button
                                                 onClick={() => handleUnlockColumn(col.id)}
-                                                className="w-full py-2 bg-brand-black text-white rounded-lg text-[10px] font-bold hover:bg-brand-orange transition-colors"
+                                                className="px-2 py-1 bg-brand-black text-white rounded text-[10px] font-bold hover:bg-brand-orange transition-colors"
                                             >
-                                                Desbloquear
+                                                Ok
                                             </button>
                                         </div>
                                     </div>
-                                ) : (
-                                    <>
-                                        {/* Droppable Area */}
-                                        <SortableContext items={colCards.map(c => c.id)} strategy={verticalListSortingStrategy}>
-                                            <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-[100px]" id={col.id}>
-                                                {colCards.map(card => (
-                                                    <SortableCard key={card.id} card={card} onClick={handleEditCard} />
-                                                ))}
-                                            </div>
-                                        </SortableContext>
-
-                                        {/* Footer */}
-                                        <div className="p-3">
-                                            <button
-                                                onClick={() => handleCreateCard(col.id)}
-                                                className="w-full py-2 flex items-center justify-center gap-2 text-brand-gray hover:text-brand-orange hover:bg-white rounded-lg transition-all text-sm font-medium border border-transparent hover:border-brand-orange/20"
-                                            >
-                                                <Plus size={16} />
-                                                Añadir tarjeta
-                                            </button>
-                                        </div>
-                                    </>
                                 )}
+
+                                {/* Droppable Area */}
+                                <SortableContext items={colCards.map(c => c.id)} strategy={verticalListSortingStrategy}>
+                                    <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-[100px]" id={col.id}>
+                                        {colCards.map(card => (
+                                            <SortableCard
+                                                key={card.id}
+                                                card={card}
+                                                onClick={handleEditCard}
+                                                isLocked={col.title.toLowerCase() === 'facturación' && !unlockedColumns.includes(col.id)}
+                                            />
+                                        ))}
+                                    </div>
+                                </SortableContext>
+
+                                {/* Footer */}
+                                <div className="p-3">
+                                    <button
+                                        onClick={() => handleCreateCard(col.id)}
+                                        className="w-full py-2 flex items-center justify-center gap-2 text-brand-gray hover:text-brand-orange hover:bg-white rounded-lg transition-all text-sm font-medium border border-transparent hover:border-brand-orange/20"
+                                    >
+                                        <Plus size={16} />
+                                        Añadir tarjeta
+                                    </button>
+                                </div>
                             </div>
                         );
                     })}
