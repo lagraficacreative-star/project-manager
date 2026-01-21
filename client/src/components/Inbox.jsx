@@ -340,6 +340,7 @@ const Inbox = () => {
                         selectedUsers={selectedUsers}
                         onToggleUser={toggleUserFilter}
                         onClear={() => setSelectedUsers([])}
+                        isGrid
                     />
                 </div>
 
