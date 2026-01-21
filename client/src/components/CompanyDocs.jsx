@@ -25,6 +25,7 @@ const CompanyDocs = () => {
     const [embedUrl, setEmbedUrl] = useState(null); // URL to embed in iframe
     const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'embed'
     const [localDescription, setLocalDescription] = useState(''); // Corrected missing state hook
+    const currentFolder = docs.find(d => d.id === currentFolderId);
 
     useEffect(() => {
         loadDocs();
@@ -280,7 +281,7 @@ const CompanyDocs = () => {
         return items;
     };
 
-    const currentFolder = docs.find(d => d.id === currentFolderId);
+
 
     if (editingDoc) {
         const isExcel = editingDoc.type === 'excel';
