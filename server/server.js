@@ -227,6 +227,38 @@ const readDB = () => {
         changed = true;
     }
 
+    // --- BOARDS MAINTENANCE ---
+    const standardColumns = [
+        { title: 'por revisar' },
+        { title: 'urgente' },
+        { title: 'para hacer' },
+        { title: 'pendiente cliente' },
+        { title: 'control de entregas' },
+        { title: 'facturación' }
+    ];
+
+    data.boards.forEach((board, bIdx) => {
+        let boardChanged = false;
+
+        // Ensure all standard columns exist or overwrite if you want strictly these (user said "tengan las siguientes", usually means strictly these)
+        // To be safe and not lose cards, we will map existing cards to the new column IDs if we overwrite.
+        // For simplicity and to follow the user request literally:
+
+        const newColumns = standardColumns.map((sc, scIdx) => {
+            const existingCol = board.columns.find(c => c.title.toLowerCase() === sc.title.toLowerCase());
+            return {
+                id: existingCol ? existingCol.id : `col_${scIdx + 1}_${board.id}`,
+                title: sc.title
+            };
+        });
+
+        // If columns are different, update
+        if (JSON.stringify(board.columns.map(c => c.title)) !== JSON.stringify(newColumns.map(c => c.title))) {
+            data.boards[bIdx].columns = newColumns;
+            changed = true;
+        }
+    });
+
     if (changed) {
         writeDB(data);
     }
@@ -502,9 +534,12 @@ app.post('/api/boards', (req, res) => {
         id: 'board_' + Date.now(),
         title,
         columns: [
-            { id: 'col_1_' + Date.now(), title: 'To Do' },
-            { id: 'col_2_' + Date.now(), title: 'In Progress' },
-            { id: 'col_3_' + Date.now(), title: 'Done' }
+            { id: 'col_1_' + Date.now(), title: 'por revisar' },
+            { id: 'col_2_' + Date.now(), title: 'urgente' },
+            { id: 'col_3_' + Date.now(), title: 'para hacer' },
+            { id: 'col_4_' + Date.now(), title: 'pendiente cliente' },
+            { id: 'col_5_' + Date.now(), title: 'control de entregas' },
+            { id: 'col_6_' + Date.now(), title: 'facturación' }
         ]
     };
     db.boards.push(newBoard);

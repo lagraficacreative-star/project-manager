@@ -5,7 +5,7 @@ import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSo
 import { CSS } from '@dnd-kit/utilities';
 import { api } from '../api';
 import CardModal from './CardModal';
-import { Plus, ArrowLeft, MoreHorizontal, Calendar, User, Trash2, Edit2 } from 'lucide-react';
+import { Plus, ArrowLeft, MoreHorizontal, Calendar, User, Trash2, Edit2, Lock, Unlock } from 'lucide-react';
 import MemberFilter from './MemberFilter';
 
 const SortableCard = ({ card, onClick }) => {
@@ -99,6 +99,8 @@ const Board = () => {
     const [selectedUsers, setSelectedUsers] = useState([]); // Filter State
     const [activeDragCard, setActiveDragCard] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [unlockedColumns, setUnlockedColumns] = useState([]); // Track IDs of unlocked columns
+    const [passwordInput, setPasswordInput] = useState('');
     const [activeCard, setActiveCard] = useState(null);
     const [targetColumnId, setTargetColumnId] = useState(null);
 
@@ -121,6 +123,15 @@ const Board = () => {
         setSelectedUsers(prev =>
             prev.includes(userId) ? prev.filter(id => id !== userId) : [...prev, userId]
         );
+    };
+
+    const handleUnlockColumn = (colId) => {
+        if (passwordInput === 'admin123') {
+            setUnlockedColumns(prev => [...prev, colId]);
+            setPasswordInput('');
+        } else {
+            alert("Contraseña incorrecta");
+        }
     };
 
     const loadData = async () => {
@@ -368,25 +379,55 @@ const Board = () => {
                                     </div>
                                 </div>
 
-                                {/* Droppable Area */}
-                                <SortableContext items={colCards.map(c => c.id)} strategy={verticalListSortingStrategy}>
-                                    <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-[100px]" id={col.id}>
-                                        {colCards.map(card => (
-                                            <SortableCard key={card.id} card={card} onClick={handleEditCard} />
-                                        ))}
+                                {col.title.toLowerCase() === 'facturación' && !unlockedColumns.includes(col.id) ? (
+                                    <div className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-4">
+                                        <div className="w-16 h-16 bg-brand-orange/10 rounded-full flex items-center justify-center text-brand-orange mb-2">
+                                            <Lock size={32} />
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-gray-800 text-sm">Venta Bloqueada</h4>
+                                            <p className="text-[10px] text-gray-500 mt-1">Introduce la contraseña de Admin para ver esta columna.</p>
+                                        </div>
+                                        <div className="flex flex-col gap-2 w-full">
+                                            <input
+                                                type="password"
+                                                value={passwordInput}
+                                                onChange={(e) => setPasswordInput(e.target.value)}
+                                                onKeyDown={(e) => e.key === 'Enter' && handleUnlockColumn(col.id)}
+                                                placeholder="Contraseña..."
+                                                className="w-full text-center py-2 border border-gray-200 rounded-lg text-xs focus:ring-1 focus:ring-brand-orange outline-none"
+                                            />
+                                            <button
+                                                onClick={() => handleUnlockColumn(col.id)}
+                                                className="w-full py-2 bg-brand-black text-white rounded-lg text-[10px] font-bold hover:bg-brand-orange transition-colors"
+                                            >
+                                                Desbloquear
+                                            </button>
+                                        </div>
                                     </div>
-                                </SortableContext>
+                                ) : (
+                                    <>
+                                        {/* Droppable Area */}
+                                        <SortableContext items={colCards.map(c => c.id)} strategy={verticalListSortingStrategy}>
+                                            <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-[100px]" id={col.id}>
+                                                {colCards.map(card => (
+                                                    <SortableCard key={card.id} card={card} onClick={handleEditCard} />
+                                                ))}
+                                            </div>
+                                        </SortableContext>
 
-                                {/* Footer */}
-                                <div className="p-3">
-                                    <button
-                                        onClick={() => handleCreateCard(col.id)}
-                                        className="w-full py-2 flex items-center justify-center gap-2 text-brand-gray hover:text-brand-orange hover:bg-white rounded-lg transition-all text-sm font-medium border border-transparent hover:border-brand-orange/20"
-                                    >
-                                        <Plus size={16} />
-                                        Añadir tarjeta
-                                    </button>
-                                </div>
+                                        {/* Footer */}
+                                        <div className="p-3">
+                                            <button
+                                                onClick={() => handleCreateCard(col.id)}
+                                                className="w-full py-2 flex items-center justify-center gap-2 text-brand-gray hover:text-brand-orange hover:bg-white rounded-lg transition-all text-sm font-medium border border-transparent hover:border-brand-orange/20"
+                                            >
+                                                <Plus size={16} />
+                                                Añadir tarjeta
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         );
                     })}
