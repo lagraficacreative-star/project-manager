@@ -24,10 +24,17 @@ const CompanyDocs = () => {
     const [selectedUsers, setSelectedUsers] = useState([]); // Filter State
     const [embedUrl, setEmbedUrl] = useState(null); // URL to embed in iframe
     const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'embed'
+    const [localDescription, setLocalDescription] = useState(''); // Corrected missing state hook
 
     useEffect(() => {
         loadDocs();
     }, []);
+
+    useEffect(() => {
+        if (currentFolder) {
+            setLocalDescription(currentFolder.description || '');
+        }
+    }, [currentFolderId, currentFolder?.description]);
 
     const loadDocs = async () => {
         setLoading(true);
@@ -45,6 +52,7 @@ const CompanyDocs = () => {
 
     const navigateTo = (folderId, folderName) => {
         setCurrentFolderId(folderId);
+        setViewMode('grid');
         if (folderId === null) {
             setPath([{ id: null, name: 'Inicio' }]);
         } else {
@@ -177,12 +185,22 @@ const CompanyDocs = () => {
         const currentFolder = docs.find(d => d.id === currentFolderId);
         if (!currentFolder) return;
 
-        const updatedLinks = [...(currentFolder.links || []), { id: Date.now(), title, url }];
+        const newLink = {
+            id: Date.now(),
+            title,
+            url,
+            date: new Date().toISOString() // Added date as requested
+        };
+        const updatedLinks = [...(currentFolder.links || []), newLink];
+
+        // Optimistic State Update
+        setDocs(prev => prev.map(d => d.id === currentFolderId ? { ...d, links: updatedLinks } : d));
+
         try {
             await api.updateDocument(currentFolderId, { links: updatedLinks });
-            setDocs(prev => prev.map(d => d.id === currentFolderId ? { ...d, links: updatedLinks } : d));
         } catch (err) {
             alert("Error al añadir enlace");
+            loadDocs(); // Rollback
         }
     };
 
@@ -200,9 +218,14 @@ const CompanyDocs = () => {
 
     const handleUpdateFolderField = async (field, value) => {
         if (!currentFolderId) return;
+
+        // Optimistic update for snappiness
+        setDocs(prev => prev.map(d => d.id === currentFolderId ? { ...d, [field]: value } : d));
+
         try {
+            // No await here or wrap in debounce for text areas to avoid constant API noise, 
+            // but for simple fields like description we can just send it.
             await api.updateDocument(currentFolderId, { [field]: value });
-            setDocs(prev => prev.map(d => d.id === currentFolderId ? { ...d, [field]: value } : d));
         } catch (err) {
             console.error("Failed to update folder field", err);
         }
@@ -219,7 +242,12 @@ const CompanyDocs = () => {
     const handleAddChecklistItem = (text) => {
         if (!text.trim()) return;
         const currentFolder = docs.find(d => d.id === currentFolderId);
-        const newItem = { id: Date.now(), text, completed: false };
+        const newItem = {
+            id: Date.now(),
+            text,
+            completed: false,
+            date: new Date().toISOString() // Added date as requested
+        };
         const updatedChecklist = [...(currentFolder.checklist || []), newItem];
         handleUpdateFolderField('checklist', updatedChecklist);
     };
@@ -614,7 +642,22 @@ const CompanyDocs = () => {
                     </div>
                 ) : (
                     /* MANAGEMENT UNIT DETAIL VIEW */
-                    <div className="p-8 max-w-7xl mx-auto space-y-8">
+                    <div className="p-8 max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        {/* Header with Back button for better usability */}
+                        <div className="flex items-center gap-4 mb-2">
+                            <button
+                                onClick={() => navigateTo(null, 'Inicio')}
+                                className="p-3 bg-white border border-gray-100 rounded-2xl shadow-sm hover:bg-gray-50 text-brand-black transition-all active:scale-90"
+                                title="Volver al inicio"
+                            >
+                                <ArrowLeft size={20} />
+                            </button>
+                            <div>
+                                <h2 className="text-2xl font-black text-brand-black uppercase tracking-tight leading-none">{currentFolder?.name}</h2>
+                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Unidad de Gestión Operativa</p>
+                            </div>
+                        </div>
+
                         {/* 4 Standard Action Cards */}
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                             <button
@@ -682,8 +725,9 @@ const CompanyDocs = () => {
                                     </div>
                                     <div className="p-6">
                                         <textarea
-                                            value={currentFolder?.description || ''}
-                                            onChange={(e) => handleUpdateFolderField('description', e.target.value)}
+                                            value={localDescription}
+                                            onChange={(e) => setLocalDescription(e.target.value)}
+                                            onBlur={() => handleUpdateFolderField('description', localDescription)}
                                             placeholder="Introduce los objetivos, tareas principales o información relevante de esta unidad..."
                                             className="w-full h-32 p-4 bg-gray-50 rounded-2xl border-none focus:ring-2 focus:ring-brand-orange/20 text-xs text-gray-700 leading-relaxed resize-none placeholder-gray-300 font-medium"
                                         />
@@ -731,7 +775,12 @@ const CompanyDocs = () => {
                                                         <button onClick={() => handleToggleChecklistItem(item.id)} className={`${item.completed ? 'text-green-500' : 'text-gray-300'} transition-colors`}>
                                                             {item.completed ? <CheckCircle size={20} /> : <Circle size={20} />}
                                                         </button>
-                                                        <span className={`flex-1 text-xs font-medium ${item.completed ? 'text-gray-400 line-through' : 'text-gray-700'}`}>{item.text}</span>
+                                                        <span className={`flex-1 text-xs font-medium ${item.completed ? 'text-gray-400 line-through' : 'text-gray-700'}`}>
+                                                            {item.text}
+                                                            <span className="block text-[8px] text-gray-300 font-bold mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                                {item.date ? new Date(item.date).toLocaleDateString() : ''}
+                                                            </span>
+                                                        </span>
                                                         <button onClick={() => handleRemoveChecklistItem(item.id)} className="p-1 text-gray-200 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all">
                                                             <X size={14} />
                                                         </button>
@@ -803,10 +852,10 @@ const CompanyDocs = () => {
                                                 {currentFolder.links.map(link => (
                                                     <div key={link.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-2xl border border-gray-100 group">
                                                         <a href={link.url} target="_blank" rel="noreferrer" className="flex items-center gap-3 flex-1 overflow-hidden">
-                                                            <div className="p-2 bg-white rounded-lg group-hover:text-brand-orange transition-colors shrink-0">
-                                                                <Globe size={14} />
+                                                            <div className="flex flex-col flex-1 overflow-hidden">
+                                                                <span className="text-xs font-bold text-brand-black truncate">{link.title}</span>
+                                                                <span className="text-[8px] text-gray-400 font-bold uppercase">{link.date ? new Date(link.date).toLocaleDateString() : ''}</span>
                                                             </div>
-                                                            <span className="text-xs font-bold text-brand-black truncate">{link.title}</span>
                                                         </a>
                                                         <button onClick={() => handleDeleteLink(link.id)} className="p-1 text-gray-200 hover:text-red-500 opacity-0 group-hover:opacity-100 shrink-0">
                                                             <Trash2 size={14} />

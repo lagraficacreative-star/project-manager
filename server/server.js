@@ -802,7 +802,7 @@ app.post('/api/documents', (req, res) => {
 app.put('/api/documents/:id', (req, res) => {
     const db = readDB();
     const { id } = req.params;
-    const { content, name, comments, url } = req.body;
+    const { content, name, comments, url, links, description, checklist, notesUrl, sheetUrl, driveUrl } = req.body;
     const idx = db.documents.findIndex(d => d.id === id);
     if (idx === -1) return res.status(404).json({ error: "Doc not found" });
 
@@ -810,6 +810,15 @@ app.put('/api/documents/:id', (req, res) => {
     if (name) db.documents[idx].name = name;
     if (comments !== undefined) db.documents[idx].comments = comments;
     if (url !== undefined) db.documents[idx].url = url;
+    if (links !== undefined) db.documents[idx].links = links;
+    if (description !== undefined) db.documents[idx].description = description;
+    if (checklist !== undefined) db.documents[idx].checklist = checklist;
+    if (notesUrl !== undefined) db.documents[idx].notesUrl = notesUrl;
+    if (sheetUrl !== undefined) db.documents[idx].sheetUrl = sheetUrl;
+    if (driveUrl !== undefined) db.documents[idx].driveUrl = driveUrl;
+
+    db.documents[idx].updatedAt = new Date().toISOString();
+    db.documents[idx].updatedBy = 'Montse'; // Simulated
 
     writeDB(db);
     res.json(db.documents[idx]);
