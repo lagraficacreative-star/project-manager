@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../api';
-import { Folder, FileText, Upload, Plus, ChevronRight, Download, Trash2, File, ArrowLeft, Save, Loader, Table, Link as LinkIcon, MessageSquare, ExternalLink, Globe, Send } from 'lucide-react';
+import { Folder, FileText, Upload, Plus, ChevronRight, Download, Trash2, File, ArrowLeft, Save, Loader, Table, Link as LinkIcon, MessageSquare, ExternalLink, Globe, Send, Search } from 'lucide-react';
 import MemberFilter from './MemberFilter';
 
 const CompanyDocs = () => {
