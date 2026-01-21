@@ -732,7 +732,7 @@ app.get('/api/documents', (req, res) => {
 });
 app.post('/api/documents', (req, res) => {
     const db = readDB();
-    const { name, type, parentId, content, url } = req.body; // type: folder, file, doc
+    const { name, type, parentId, content, url } = req.body; // type: folder, file, doc, word, excel, link
     const newDoc = {
         id: 'doc_' + Date.now(),
         name,
@@ -740,6 +740,7 @@ app.post('/api/documents', (req, res) => {
         parentId,
         content: content || '',
         url: url || '',
+        comments: [],
         createdAt: new Date().toISOString()
     };
     if (!db.documents) db.documents = [];
@@ -750,12 +751,14 @@ app.post('/api/documents', (req, res) => {
 app.put('/api/documents/:id', (req, res) => {
     const db = readDB();
     const { id } = req.params;
-    const { content, name } = req.body;
+    const { content, name, comments, url } = req.body;
     const idx = db.documents.findIndex(d => d.id === id);
     if (idx === -1) return res.status(404).json({ error: "Doc not found" });
 
     if (content !== undefined) db.documents[idx].content = content;
     if (name) db.documents[idx].name = name;
+    if (comments !== undefined) db.documents[idx].comments = comments;
+    if (url !== undefined) db.documents[idx].url = url;
 
     writeDB(db);
     res.json(db.documents[idx]);

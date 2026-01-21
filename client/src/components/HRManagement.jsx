@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api';
 import { ChevronLeft, Clock, Play, Square, Users, Calendar, Download } from 'lucide-react';
+import MemberFilter from './MemberFilter';
 
 const HRManagement = () => {
     const [users, setUsers] = useState([]);
@@ -9,6 +10,7 @@ const HRManagement = () => {
     const [currentUser] = useState({ id: 999, name: 'Montse' }); // Mock current user
     const [activeEntry, setActiveEntry] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(0);
+    const [selectedUsers, setSelectedUsers] = useState([]); // Filter State
 
     useEffect(() => {
         loadData();
@@ -145,6 +147,14 @@ const HRManagement = () => {
                     </div>
                 </div>
 
+                {/* Filter Row */}
+                <MemberFilter
+                    users={users}
+                    selectedUsers={selectedUsers}
+                    onToggleUser={(id) => setSelectedUsers(prev => prev.includes(id) ? prev.filter(uid => uid !== id) : [...prev, id])}
+                    onClear={() => setSelectedUsers([])}
+                />
+
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
                     {/* LEFT COLUMN: STATUS & ACTIONS */}
@@ -264,31 +274,34 @@ const HRManagement = () => {
                                                 <td colSpan="6" className="p-8 text-center text-gray-400 italic">No hi ha registres d'activitat recents.</td>
                                             </tr>
                                         )}
-                                        {[...timeEntries].reverse().map(entry => (
-                                            <tr key={entry.id} className="hover:bg-gray-50/50 transition-colors">
-                                                <td className="p-4 font-bold text-gray-800">
-                                                    <div className="flex items-center gap-2">
-                                                        <div className="w-6 h-6 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-[10px]">
-                                                            {entry.user?.[0]}
+                                        {[...timeEntries]
+                                            .filter(e => selectedUsers.length === 0 || selectedUsers.includes(users.find(u => u.name === e.user)?.id))
+                                            .reverse()
+                                            .map(entry => (
+                                                <tr key={entry.id} className="hover:bg-gray-50/50 transition-colors">
+                                                    <td className="p-4 font-bold text-gray-800">
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="w-6 h-6 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-[10px]">
+                                                                {entry.user?.[0]}
+                                                            </div>
+                                                            {entry.user}
                                                         </div>
-                                                        {entry.user}
-                                                    </div>
-                                                </td>
-                                                <td className="p-4 text-gray-600">{new Date(entry.start).toLocaleDateString()}</td>
-                                                <td className="p-4 font-mono text-gray-600">{new Date(entry.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                                                <td className="p-4 font-mono text-gray-600">
-                                                    {entry.end ? new Date(entry.end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}
-                                                </td>
-                                                <td className="p-4 text-right font-mono font-bold text-brand-black">
-                                                    {entry.duration ? formatDuration(entry.duration) : formatTime(Date.now() - new Date(entry.start).getTime())}
-                                                </td>
-                                                <td className="p-4 text-center">
-                                                    <span className={`px-2 py-1 rounded-full text-[10px] font-bold ${entry.end ? 'bg-gray-100 text-gray-500' : 'bg-green-100 text-green-600'}`}>
-                                                        {entry.end ? 'COMPLET' : 'ACTIU'}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                                    </td>
+                                                    <td className="p-4 text-gray-600">{new Date(entry.start).toLocaleDateString()}</td>
+                                                    <td className="p-4 font-mono text-gray-600">{new Date(entry.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                                                    <td className="p-4 font-mono text-gray-600">
+                                                        {entry.end ? new Date(entry.end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}
+                                                    </td>
+                                                    <td className="p-4 text-right font-mono font-bold text-brand-black">
+                                                        {entry.duration ? formatDuration(entry.duration) : formatTime(Date.now() - new Date(entry.start).getTime())}
+                                                    </td>
+                                                    <td className="p-4 text-center">
+                                                        <span className={`px-2 py-1 rounded-full text-[10px] font-bold ${entry.end ? 'bg-gray-100 text-gray-500' : 'bg-green-100 text-green-600'}`}>
+                                                            {entry.end ? 'COMPLET' : 'ACTIU'}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            ))}
                                     </tbody>
                                 </table>
                             </div>

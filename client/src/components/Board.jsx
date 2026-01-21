@@ -6,6 +6,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { api } from '../api';
 import CardModal from './CardModal';
 import { Plus, ArrowLeft, MoreHorizontal, Calendar, User, Trash2, Edit2 } from 'lucide-react';
+import MemberFilter from './MemberFilter';
 
 const SortableCard = ({ card, onClick }) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: card.id });
@@ -278,33 +279,14 @@ const Board = () => {
                     <h1 className="text-2xl font-bold text-brand-black">{board.title}</h1>
                 </div>
 
-                {/* Team Filter - Names Below */}
-                <div className="bg-white px-6 py-2 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider hidden md:block">Equip:</span>
-                    <div className="flex items-center gap-4 overflow-x-auto pb-1 no-scrollbar">
-                        {users.map(u => (
-                            <div
-                                key={u.id}
-                                onClick={() => toggleUserFilter(u.id)}
-                                className="flex flex-col items-center gap-1 cursor-pointer group min-w-[60px]"
-                                title={u.name}
-                            >
-                                <div className={`w-14 h-14 rounded-full overflow-hidden border-2 transition-all relative
-                                    ${selectedUsers.includes(u.id) ? 'border-brand-orange ring-2 ring-brand-orange/30 scale-110 shadow-md' : 'border-gray-100 group-hover:border-brand-orange/50 grayscale hover:grayscale-0'}`}>
-                                    {u.avatarImage ? (
-                                        <img src={u.avatarImage} alt={u.name} className="w-full h-full object-cover" />
-                                    ) : (
-                                        <div className="w-full h-full bg-brand-lightgray flex items-center justify-center text-xs font-bold text-brand-orange">
-                                            {u.avatar}
-                                        </div>
-                                    )}
-                                </div>
-                                <span className={`text-[9px] font-bold text-center truncate w-full ${selectedUsers.includes(u.id) ? 'text-brand-orange' : 'text-gray-500'}`}>
-                                    {u.name.split(' ')[0]}
-                                </span>
-                            </div>
-                        ))}
-                    </div>
+                {/* Member Filter Row */}
+                <div className="mb-6">
+                    <MemberFilter
+                        users={users}
+                        selectedUsers={selectedUsers}
+                        onToggleUser={toggleUserFilter}
+                        onClear={() => setSelectedUsers([])}
+                    />
                 </div>
             </div>
 

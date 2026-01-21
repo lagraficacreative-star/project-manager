@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../api';
 import { Trash2, Edit2, Plus, Layout, Palette, Code, Smartphone, Clipboard, DollarSign, Receipt, Mail, Send, Calendar, Clock, Bell, Search, Mic, ChevronRight, Square, Play, Bot, Briefcase, FileText, Gavel, Archive, Check, Lock, Calculator } from 'lucide-react';
-
-// ... (previous imports)
+import MemberFilter from './MemberFilter';
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -303,48 +302,12 @@ const Dashboard = () => {
             </div>
 
             {/* NEW COMPACT MEMBER FILTER ROW */}
-            <div className="flex items-center gap-4 bg-white/50 backdrop-blur-sm px-4 py-2 rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider shrink-0">Filtrar:</span>
-                <div className="flex items-center gap-3 overflow-x-auto no-scrollbar py-1">
-                    <div
-                        onClick={() => setSelectedUsers([])}
-                        className={`flex items-center gap-2 px-3 py-1.5 rounded-full cursor-pointer transition-all border
-                            ${selectedUsers.length === 0
-                                ? 'bg-brand-orange border-brand-orange text-white'
-                                : 'bg-white border-gray-100 text-gray-400 hover:border-brand-orange/30'}`}
-                    >
-                        <span className="text-[10px] font-bold uppercase">Todos</span>
-                    </div>
-
-                    {users.map((u, index) => {
-                        const isSelected = selectedUsers.includes(u.id);
-                        return (
-                            <div
-                                key={u.id}
-                                onClick={() => toggleUserFilter(u.id)}
-                                className={`flex items-center gap-2 px-2 py-1 rounded-full cursor-pointer transition-all border
-                                    ${isSelected
-                                        ? 'bg-orange-50 border-brand-orange'
-                                        : 'bg-white border-gray-100 grayscale hover:grayscale-0 hover:border-gray-200'}`}
-                            >
-                                <div className={`w-8 h-8 rounded-full overflow-hidden border-2 
-                                    ${isSelected ? 'border-brand-orange' : 'border-white'}`}>
-                                    {u.avatarImage ? (
-                                        <img src={u.avatarImage} alt={u.name} className="w-full h-full object-cover" />
-                                    ) : (
-                                        <div className="w-full h-full bg-gray-200 flex items-center justify-center text-[10px] font-bold text-gray-500">
-                                            {u.avatar || u.name.charAt(0)}
-                                        </div>
-                                    )}
-                                </div>
-                                <span className={`text-[10px] font-bold pr-1 ${isSelected ? 'text-brand-orange' : 'text-gray-500'}`}>
-                                    {u.name.split(' ')[0]}
-                                </span>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
+            <MemberFilter
+                users={users}
+                selectedUsers={selectedUsers}
+                onToggleUser={toggleUserFilter}
+                onClear={() => setSelectedUsers([])}
+            />
 
             <div className="grid grid-cols-12 gap-6 flex-1 min-h-0">
 

@@ -48,20 +48,6 @@ function App() {
                             </Link>
                         </nav>
 
-                        {/* Team Avatars Header */}
-                        <div className="flex items-center gap-2 ml-6 pl-6 border-l border-gray-100 hidden lg:flex">
-                            <div className="flex -space-x-2 hover:space-x-1 transition-all">
-                                {users.map(u => (
-                                    <div key={u.id} className="w-8 h-8 rounded-full border-2 border-white overflow-hidden shadow-sm transition-transform hover:scale-110 hover:z-10 bg-white" title={u.name}>
-                                        {u.avatarImage ? (
-                                            <img src={u.avatarImage} alt={u.name} className="w-full h-full object-cover" />
-                                        ) : (
-                                            <div className="w-full h-full bg-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-400">{u.avatar}</div>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
                     </div>
                 </header>
 

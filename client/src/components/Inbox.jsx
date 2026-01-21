@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../api';
 import { Mail, RefreshCw, ArrowRight, CheckCircle, Search, Archive, Trash2, Plus } from 'lucide-react';
 import CardModal from './CardModal';
+import MemberFilter from './MemberFilter';
 
 const Inbox = () => {
     const [currentUser, setCurrentUser] = useState('montse');
@@ -46,7 +47,7 @@ const Inbox = () => {
             fetchEmails();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [users, currentUser]); // Removed activeTab to prevent re-fetch flicker
+    }, [users, selectedUsers]); // Removed activeTab to prevent re-fetch flicker to focus on selection logic
 
     // Reload processed IDs when switching to Archived tab to ensure sync
     useEffect(() => {
@@ -107,9 +108,8 @@ const Inbox = () => {
 
             // Determine users to fetch for
             let usersToFetch = [];
-            if (currentUser) {
-                const current = users.find(u => u.id === currentUser);
-                if (current) usersToFetch = [current];
+            if (selectedUsers.length > 0) {
+                usersToFetch = users.filter(u => selectedUsers.includes(u.id));
             } else {
                 usersToFetch = users;
             }
@@ -334,16 +334,13 @@ const Inbox = () => {
                     </div>
                 </div>
 
-                <div className="p-2 border-b border-gray-100">
-                    <select
-                        value={currentUser}
-                        onChange={(e) => setCurrentUser(e.target.value)}
-                        className="w-full p-2 text-sm border-none bg-transparent font-medium text-gray-600 focus:ring-0"
-                    >
-                        {users.map(u => (
-                            <option key={u.id} value={u.id}>Buzón de {u.name}</option>
-                        ))}
-                    </select>
+                <div className="p-4 border-b border-gray-100">
+                    <MemberFilter
+                        users={users}
+                        selectedUsers={selectedUsers}
+                        onToggleUser={toggleUserFilter}
+                        onClear={() => setSelectedUsers([])}
+                    />
                 </div>
 
                 <div className="flex-1 overflow-y-auto">

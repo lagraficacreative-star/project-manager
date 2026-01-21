@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, Send, Search, Phone, Mail, MapPin, Bot, User } from 'lucide-react';
 import { api } from '../api';
+import MemberFilter from './MemberFilter';
 
 const AgendaGPT = () => {
     const [messages, setMessages] = useState([
@@ -9,19 +10,22 @@ const AgendaGPT = () => {
     ]);
     const [input, setInput] = useState('');
     const [contacts, setContacts] = useState([]); // Mock contacts database
+    const [users, setUsers] = useState([]);
+    const [selectedUsers, setSelectedUsers] = useState([]); // Filter State
 
     // Load "Contacts" (Users + Mock Clients)
     useEffect(() => {
         // In a real app, this would fetch from a CRM
         const loadContacts = async () => {
-            const users = await api.getUsers();
+            const usersData = await api.getUsers();
+            setUsers(usersData || []);
             const mockClients = [
-                { name: 'Ajuntament de Lleida', email: 'contacte@paeria.cat', phone: '973 700 300', tag: 'Client' },
-                { name: 'Animac', email: 'info@animac.cat', phone: '973 700 325', tag: 'Client' },
-                { name: 'Fira de Lleida', email: 'fira@firalleida.com', phone: '973 70 50 00', tag: 'Client' },
+                { id: 'client_paeria', name: 'Ajuntament de Lleida', email: 'contacte@paeria.cat', phone: '973 700 300', tag: 'Client' },
+                { id: 'client_animac', name: 'Animac', email: 'info@animac.cat', phone: '973 700 325', tag: 'Client' },
+                { id: 'client_fira', name: 'Fira de Lleida', email: 'fira@firalleida.com', phone: '973 70 50 00', tag: 'Client' },
             ];
             // Normalize internal users
-            const team = users.map(u => ({ name: u.name, email: `${u.id}@lagrafica.com`, phone: 'Intern', tag: 'Equip' }));
+            const team = usersData.map(u => ({ id: u.id, name: u.name, email: `${u.id}@lagrafica.com`, phone: 'Intern', tag: 'Equip' }));
             setContacts([...team, ...mockClients]);
         };
         loadContacts();
@@ -66,6 +70,13 @@ const AgendaGPT = () => {
                 </div>
             </div>
 
+            <MemberFilter
+                users={users}
+                selectedUsers={selectedUsers}
+                onToggleUser={(id) => setSelectedUsers(prev => prev.includes(id) ? prev.filter(uid => uid !== id) : [...prev, id])}
+                onClear={() => setSelectedUsers([])}
+            />
+
             <div className="flex-1 bg-white rounded-3xl shadow-sm border border-gray-100 flex overflow-hidden">
                 {/* Sidebar (Contacts List) */}
                 <div className="w-1/3 border-r border-gray-100 p-6 flex flex-col hidden md:flex">
@@ -75,15 +86,17 @@ const AgendaGPT = () => {
                         <input className="w-full pl-9 pr-4 py-2 bg-gray-50 rounded-lg text-sm focus:outline-none" placeholder="Filtrar..." />
                     </div>
                     <div className="flex-1 overflow-y-auto space-y-2 pr-2">
-                        {contacts.map((c, i) => (
-                            <div key={i} className="p-3 bg-white border border-gray-100 rounded-xl hover:border-brand-orange/30 cursor-pointer transition-colors group">
-                                <h4 className="font-bold text-sm text-gray-800 group-hover:text-brand-orange">{c.name}</h4>
-                                <div className="flex items-center gap-2 text-xs text-gray-400 mt-1">
-                                    <span className={`px-1.5 py-0.5 rounded-md ${c.tag === 'Equip' ? 'bg-purple-50 text-purple-600' : 'bg-blue-50 text-blue-600'}`}>{c.tag}</span>
-                                    {c.email}
+                        {contacts
+                            .filter(c => selectedUsers.length === 0 || (c.tag === 'Equip' && selectedUsers.includes(c.id)))
+                            .map((c, i) => (
+                                <div key={i} className="p-3 bg-white border border-gray-100 rounded-xl hover:border-brand-orange/30 cursor-pointer transition-colors group">
+                                    <h4 className="font-bold text-sm text-gray-800 group-hover:text-brand-orange">{c.name}</h4>
+                                    <div className="flex items-center gap-2 text-xs text-gray-400 mt-1">
+                                        <span className={`px-1.5 py-0.5 rounded-md ${c.tag === 'Equip' ? 'bg-purple-50 text-purple-600' : 'bg-blue-50 text-blue-600'}`}>{c.tag}</span>
+                                        {c.email}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
                     </div>
                 </div>
 

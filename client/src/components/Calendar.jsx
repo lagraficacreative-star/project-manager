@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../api';
 import { ChevronLeft, ChevronRight, Plus, X, Clock, MapPin, User, Calendar as CalIcon } from 'lucide-react';
+import MemberFilter from './MemberFilter';
 
 const Calendar = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -9,8 +10,8 @@ const Calendar = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [showEventModal, setShowEventModal] = useState(false);
 
-    // Calendar Visibility State
-    const [visibleUserIds, setVisibleUserIds] = useState([]);
+    // Calendar Visibility State (Unified with Filter)
+    const [selectedUsers, setSelectedUsers] = useState([]);
 
     // Alerts State
     const [alerts, setAlerts] = useState([]);
@@ -39,9 +40,9 @@ const Calendar = () => {
         ]);
         setEvents(evts);
         setUsers(usrs);
-        // Default to showing all users
+        // Default to showing all users (empty selection = all)
         if (usrs.length > 0) {
-            setVisibleUserIds(usrs.map(u => u.id));
+            setSelectedUsers([]);
         }
     };
 
@@ -144,7 +145,7 @@ const Calendar = () => {
             const dayEvents = events.filter(e => {
                 const isSameDate = e.start.startsWith(dateStr);
                 const userIds = e.userIds || [e.userId || 'montse'];
-                const isVisible = userIds.some(uid => visibleUserIds.includes(uid));
+                const isVisible = selectedUsers.length === 0 || userIds.some(uid => selectedUsers.includes(uid));
                 return isSameDate && isVisible;
             }).sort((a, b) => a.time.localeCompare(b.time));
 
@@ -262,52 +263,31 @@ const Calendar = () => {
                 </div>
 
                 <div className="flex-1">
-                    <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-xs font-bold text-gray-500">MIEMBROS</h3>
-                        <button onClick={toggleAllUsers} className="text-[10px] text-brand-orange font-bold hover:underline">
-                            {visibleUserIds.length === users.length ? 'Ocultar Todos' : 'Ver Todos'}
-                        </button>
-                    </div>
-
-                    <div className="space-y-3">
-                        {users.map(u => {
-                            const isVisible = visibleUserIds.includes(u.id);
-                            return (
-                                <div
-                                    key={u.id}
-                                    onClick={() => toggleUserVisibility(u.id)}
-                                    className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-all ${isVisible ? 'bg-white shadow-sm border border-gray-100' : 'opacity-60 hover:opacity-100'}`}
-                                >
-                                    <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${isVisible ? 'bg-brand-orange border-brand-orange' : 'border-gray-300'}`}>
-                                        {isVisible && <User size={10} className="text-white" />}
-                                    </div>
-                                    <div className="flex-1 flex items-center gap-2">
-                                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white ${u.id === 'montse' ? 'bg-brand-orange' : 'bg-gray-400'}`}>
-                                            {u.avatar || u.name.charAt(0)}
-                                        </div>
-                                        <span className={`text-xs font-medium ${isVisible ? 'text-gray-800' : 'text-gray-500'}`}>{u.name}</span>
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
                 </div>
             </div>
             {/* MAIN CALENDAR AREA */}
             <div className="flex-1 flex flex-col">
                 {/* Header */}
                 <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-white">
-                    <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
-                        <button onClick={() => changeMonth(-1)} className="p-2 hover:bg-white rounded-md shadow-sm transition-all text-gray-600"><ChevronLeft size={20} /></button>
-                        <span className="w-48 text-center font-bold text-gray-800 uppercase text-sm">
-                            {currentDate.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })}
-                        </span>
-                        <button onClick={() => changeMonth(1)} className="p-2 hover:bg-white rounded-md shadow-sm transition-all text-gray-600"><ChevronRight size={20} /></button>
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+                            <button onClick={() => changeMonth(-1)} className="p-2 hover:bg-white rounded-md shadow-sm transition-all text-gray-600"><ChevronLeft size={20} /></button>
+                            <span className="w-48 text-center font-bold text-gray-800 uppercase text-sm">
+                                {currentDate.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })}
+                            </span>
+                            <button onClick={() => changeMonth(1)} className="p-2 hover:bg-white rounded-md shadow-sm transition-all text-gray-600"><ChevronRight size={20} /></button>
+                        </div>
+                        <button onClick={() => setCurrentDate(new Date())} className="px-4 py-2 border border-gray-200 rounded-lg text-xs font-bold text-gray-600 hover:bg-gray-50">
+                            Hoy
+                        </button>
                     </div>
 
-                    <button onClick={() => setCurrentDate(new Date())} className="px-4 py-2 border border-gray-200 rounded-lg text-xs font-bold text-gray-600 hover:bg-gray-50">
-                        Hoy
-                    </button>
+                    <MemberFilter
+                        users={users}
+                        selectedUsers={selectedUsers}
+                        onToggleUser={(id) => setSelectedUsers(prev => prev.includes(id) ? prev.filter(uid => uid !== id) : [...prev, id])}
+                        onClear={() => setSelectedUsers([])}
+                    />
                 </div>
 
                 {/* Grid Header */}
