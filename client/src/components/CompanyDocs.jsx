@@ -17,6 +17,7 @@ const CompanyDocs = () => {
     const [saving, setSaving] = useState(false);
 
     // New Item State
+    const [showNewFolder, setShowNewFolder] = useState(false);
     const [newFolderName, setNewFolderName] = useState('');
     const [users, setUsers] = useState([]);
     const [selectedUsers, setSelectedUsers] = useState([]); // Filter State
