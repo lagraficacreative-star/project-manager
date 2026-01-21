@@ -2,16 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, Send, Search, Phone, Mail, MapPin, Bot, User } from 'lucide-react';
 import { api } from '../api';
-import MemberFilter from './MemberFilter';
-
-const AgendaGPT = () => {
+const AgendaGPT = ({ selectedUsers }) => {
     const [messages, setMessages] = useState([
         { id: 1, role: 'assistant', text: 'Hola! Sóc el teu assistent de contactes de LaGràfica. Vols saber el telèfon o correu d\'algun client o proveïdor?' }
     ]);
     const [input, setInput] = useState('');
     const [contacts, setContacts] = useState([]); // Mock contacts database
     const [users, setUsers] = useState([]);
-    const [selectedUsers, setSelectedUsers] = useState([]); // Filter State
 
     // Load "Contacts" (Users + Mock Clients)
     useEffect(() => {
@@ -70,12 +67,7 @@ const AgendaGPT = () => {
                 </div>
             </div>
 
-            <MemberFilter
-                users={users}
-                selectedUsers={selectedUsers}
-                onToggleUser={(id) => setSelectedUsers(prev => prev.includes(id) ? prev.filter(uid => uid !== id) : [...prev, id])}
-                onClear={() => setSelectedUsers([])}
-            />
+
 
             <div className="flex-1 bg-white rounded-3xl shadow-sm border border-gray-100 flex overflow-hidden">
                 {/* Sidebar (Contacts List) */}

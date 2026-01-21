@@ -6,7 +6,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { api } from '../api';
 import CardModal from './CardModal';
 import { Plus, ArrowLeft, MoreHorizontal, Calendar, User, Trash2, Edit2, Lock, Unlock } from 'lucide-react';
-import MemberFilter from './MemberFilter';
+
 
 const SortableCard = ({ card, onClick, isLocked }) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: card.id });
@@ -106,12 +106,11 @@ const SortableCard = ({ card, onClick, isLocked }) => {
     );
 };
 
-const Board = () => {
+const Board = ({ selectedUsers }) => {
     const { boardId } = useParams();
     const [board, setBoard] = useState(null);
     const [cards, setCards] = useState([]);
     const [users, setUsers] = useState([]); // Users State
-    const [selectedUsers, setSelectedUsers] = useState([]); // Filter State
     const [activeDragCard, setActiveDragCard] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [unlockedColumns, setUnlockedColumns] = useState([]); // Track IDs of unlocked columns
@@ -134,11 +133,7 @@ const Board = () => {
         loadData();
     }, [boardId]);
 
-    const toggleUserFilter = (userId) => {
-        setSelectedUsers(prev =>
-            prev.includes(userId) ? prev.filter(id => id !== userId) : [...prev, userId]
-        );
-    };
+
 
     const handleUnlockColumn = (colId) => {
         if (passwordInput === 'admin123') {
@@ -301,28 +296,18 @@ const Board = () => {
     return (
         <div className="h-full flex flex-col">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0 mb-6">
                 <div className="flex items-center gap-4">
                     <Link to="/" className="p-2 hover:bg-white rounded-full text-brand-gray transition-colors">
                         <ArrowLeft size={20} />
                     </Link>
-                    <h1 className="text-2xl font-bold text-brand-black">{board.title}</h1>
-                </div>
-
-                {/* Member Filter Row */}
-                <div className="mb-6">
-                    <MemberFilter
-                        users={users}
-                        selectedUsers={selectedUsers}
-                        onToggleUser={toggleUserFilter}
-                        onClear={() => setSelectedUsers([])}
-                    />
+                    <h1 className="text-xl md:text-2xl font-bold text-brand-black truncate max-w-[200px] sm:max-w-none">{board.title}</h1>
                 </div>
             </div>
 
             {/* Canvas */}
             <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
-                <div className="flex-1 overflow-x-auto flex items-start gap-6 pb-4">
+                <div className="flex-1 overflow-x-auto flex items-start gap-4 md:gap-6 pb-4 no-scrollbar">
                     {board.columns.map(col => {
                         const colCards = cards.filter(c => c.columnId === col.id).filter(c => {
                             if (selectedUsers.length === 0) return true;
@@ -331,7 +316,7 @@ const Board = () => {
                             return allAssignees.some(uid => selectedUsers.includes(uid));
                         });
                         return (
-                            <div key={col.id} className="min-w-[300px] w-[300px] bg-brand-lightgray rounded-xl flex flex-col max-h-full">
+                            <div key={col.id} className="min-w-[280px] md:min-w-[300px] w-[280px] md:w-[300px] bg-brand-lightgray rounded-xl flex flex-col max-h-full shadow-sm">
                                 {/* Column Header */}
                                 <div className="p-4 flex justify-between items-center sticky top-0 bg-brand-lightgray rounded-t-xl z-10 group/header">
                                     <div className="flex items-center gap-2 flex-1 min-w-0 h-8">
@@ -453,7 +438,7 @@ const Board = () => {
 
                     {/* Add Column Section */}
                     {isAddingCol ? (
-                        <div className="min-w-[300px] w-[300px] bg-white rounded-xl p-4 border border-brand-orange/20 shadow-lg h-fit">
+                        <div className="min-w-[280px] md:min-w-[300px] w-[280px] md:w-[300px] bg-white rounded-xl p-4 border border-brand-orange/20 shadow-lg h-fit">
                             <input
                                 autoFocus
                                 type="text"
@@ -484,7 +469,7 @@ const Board = () => {
                     ) : (
                         <button
                             onClick={() => setIsAddingCol(true)}
-                            className="min-w-[300px] h-[50px] border-2 border-dashed border-gray-200 rounded-xl flex items-center justify-center text-gray-400 hover:border-brand-orange hover:text-brand-orange transition-all font-medium"
+                            className="min-w-[280px] md:min-w-[300px] h-[50px] border-2 border-dashed border-gray-200 rounded-xl flex items-center justify-center text-gray-400 hover:border-brand-orange hover:text-brand-orange transition-all font-medium shrink-0"
                         >
                             + Añadir Columna
                         </button>
@@ -508,7 +493,7 @@ const Board = () => {
                 boardId={board.id}
                 onSave={handleSaveCard}
             />
-        </div>
+        </div >
     );
 };
 

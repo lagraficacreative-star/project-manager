@@ -320,23 +320,23 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden overflow-x-hidden">
 
                 {/* Header */}
                 <div className="p-6 border-b border-gray-100 bg-white">
-                    <div className="flex justify-between items-start mb-4">
+                    <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
                         <input
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="Título de la tarjeta"
-                            className="w-full text-2xl font-bold placeholder-gray-300 border-none focus:ring-0 p-0 text-brand-black bg-transparent"
+                            className="w-full text-xl md:text-2xl font-bold placeholder-gray-300 border-none focus:ring-0 p-0 text-brand-black bg-transparent"
                             autoFocus
                         />
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center justify-between w-full sm:w-auto gap-4">
                             {/* Timer Widget */}
-                            <div className={`flex items-center gap-3 px-4 py-2 rounded-full border ${activeTimerStart ? 'border-brand-orange bg-orange-50' : 'border-gray-200 bg-gray-50'}`}>
-                                <span className={`text-xl font-mono font-bold ${activeTimerStart ? 'text-brand-orange' : 'text-gray-600'}`}>
+                            <div className={`flex items-center gap-3 px-3 md:px-4 py-2 rounded-full border ${activeTimerStart ? 'border-brand-orange bg-orange-50' : 'border-gray-200 bg-gray-50'}`}>
+                                <span className={`text-lg md:text-xl font-mono font-bold ${activeTimerStart ? 'text-brand-orange' : 'text-gray-600'}`}>
                                     {formatTime(activeTimerStart ? elapsedTime : getTotalTime())}
                                 </span>
                                 <button
@@ -398,7 +398,7 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
                                 </div>
 
                                 {/* Priority, Date & CLIENT */}
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="space-y-3">
                                         <label className="text-sm font-bold text-gray-900 flex items-center gap-2">
                                             <Flag size={16} className="text-brand-orange" /> Prioridad
@@ -424,7 +424,7 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
                                             className="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
                                         />
                                     </div>
-                                    <div className="col-span-2 space-y-3">
+                                    <div className="sm:col-span-2 space-y-3">
                                         <label className="text-sm font-bold text-gray-900 flex items-center gap-2">
                                             <User size={16} className="text-brand-orange" /> Cliente
                                         </label>

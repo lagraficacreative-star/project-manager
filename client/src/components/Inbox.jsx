@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../api';
 import { Mail, RefreshCw, ArrowRight, CheckCircle, Search, Archive, Trash2, Plus } from 'lucide-react';
 import CardModal from './CardModal';
-import MemberFilter from './MemberFilter';
 
-const Inbox = () => {
+
+const Inbox = ({ selectedUsers }) => {
     const [currentUser, setCurrentUser] = useState('montse');
     const [emails, setEmails] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedEmail, setSelectedEmail] = useState(null);
     const [users, setUsers] = useState([]);
-    const [selectedUsers, setSelectedUsers] = useState([]); // Filter by User
     const [activeTab, setActiveTab] = useState('inbox'); // 'inbox' | 'archived'
 
     // Conversion State
@@ -76,11 +75,7 @@ const Inbox = () => {
         setCards(data.cards || []);
     };
 
-    const toggleUserFilter = (userId) => {
-        setSelectedUsers(prev =>
-            prev.includes(userId) ? prev.filter(id => id !== userId) : [...prev, userId]
-        );
-    };
+
 
     const loadBoards = async () => {
         const b = await api.getBoards();
@@ -308,9 +303,9 @@ const Inbox = () => {
     } : null;
 
     return (
-        <div className="flex h-full gap-6">
+        <div className="flex flex-col h-full gap-8">
             {/* Sidebar / List */}
-            <div className="w-1/3 bg-white rounded-2xl border border-gray-200 flex flex-col overflow-hidden shadow-sm">
+            <div className={`w-full bg-white rounded-2xl border border-gray-200 flex flex-col overflow-hidden shadow-sm ${selectedEmail ? 'hidden' : 'flex'}`}>
                 <div className="flex flex-col border-b border-gray-100 bg-gray-50">
                     <div className="p-4 flex justify-between items-center">
                         <div className="flex items-center gap-2">
@@ -334,15 +329,7 @@ const Inbox = () => {
                     </div>
                 </div>
 
-                <div className="p-4 border-b border-gray-100">
-                    <MemberFilter
-                        users={users}
-                        selectedUsers={selectedUsers}
-                        onToggleUser={toggleUserFilter}
-                        onClear={() => setSelectedUsers([])}
-                        isGrid
-                    />
-                </div>
+
 
                 <div className="flex-1 overflow-y-auto">
                     {/* Filter Emails based on Tab */}
@@ -398,22 +385,28 @@ const Inbox = () => {
                 </div>
             </div>
 
-            {/* Detail View */}
-            <div className="flex-1 bg-white rounded-2xl border border-gray-200 flex flex-col overflow-hidden shadow-sm">
+            {/* Detail View (Now also full width when visible) */}
+            <div className={`w-full bg-white rounded-2xl border border-gray-200 flex flex-col overflow-hidden shadow-sm ${!selectedEmail ? 'hidden' : 'flex'}`}>
                 {selectedEmail ? (
                     <>
-                        <div className="p-6 border-b border-gray-100 flex justify-between items-start">
-                            <div>
-                                <h1 className="text-xl font-bold text-brand-black mb-2">{selectedEmail.subject}</h1>
-                                <div className="flex items-center gap-2 text-sm text-gray-500">
-                                    <span className="font-semibold text-gray-700">{selectedEmail.from}</span>
-                                    <span>&lt;{selectedEmail.from}&gt;</span>
+                        <div className="p-4 md:p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start gap-4">
+                            <div className="min-w-0 w-full">
+                                <button
+                                    onClick={() => setSelectedEmail(null)}
+                                    className="mb-4 text-xs font-bold text-brand-orange flex items-center gap-1 hover:underline"
+                                >
+                                    Tornar a la llista
+                                </button>
+                                <h1 className="text-lg md:text-xl font-bold text-brand-black mb-2 truncate">{selectedEmail.subject}</h1>
+                                <div className="flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-500">
+                                    <span className="font-semibold text-gray-700 truncate max-w-[150px]">{selectedEmail.from}</span>
+                                    <span className="hidden xs:inline">&lt;{selectedEmail.from}&gt;</span>
                                 </div>
-                                <div className="text-xs text-gray-400 mt-1">
+                                <div className="text-[10px] md:text-xs text-gray-400 mt-1">
                                     {selectedEmail.date}
                                 </div>
                             </div>
-                            <div className="flex gap-2">
+                            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
                                 <button
                                     onClick={(e) => handleLocalDelete(selectedEmail, e)}
                                     className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
@@ -423,19 +416,19 @@ const Inbox = () => {
                                 </button>
                                 <button
                                     onClick={() => handleAddToCardStart(selectedEmail)}
-                                    className="px-4 py-2 text-sm font-medium text-brand-black border border-brand-black rounded-lg hover:bg-gray-50 flex items-center gap-2 transition-all"
+                                    className="flex-1 sm:flex-none justify-center px-4 py-2 text-xs font-medium text-brand-black border border-brand-black rounded-lg hover:bg-gray-50 flex items-center gap-2 transition-all"
                                 >
-                                    <Plus size={16} /> Añadir a tarjeta
+                                    <Plus size={16} /> <span className="hidden xs:inline">Añadir a tarjeta</span><span className="xs:hidden">Añadir</span>
                                 </button>
                                 <button
                                     onClick={() => handleConvertToCardStart(selectedEmail)}
                                     // Disable if already processed? Or allow re-creation? User asked to mark them, likely to avoid duplication.
-                                    className={`px-4 py-2 text-sm font-medium text-white rounded-lg shadow-lg flex items-center gap-2 transition-all
+                                    className={`flex-1 sm:flex-none justify-center px-4 py-2 text-xs font-medium text-white rounded-lg shadow-lg flex items-center gap-2 transition-all
                                         ${processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id))
                                             ? 'bg-green-600 hover:bg-green-700 shadow-green-500/20'
                                             : 'bg-brand-black hover:bg-brand-orange hover:shadow-orange-500/20'}`}
                                 >
-                                    <ArrowRight size={16} /> {processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id)) ? 'Ficha Creada (Re-editar)' : 'Convertir a Ficha'}
+                                    <ArrowRight size={16} /> <span>{processedIds.includes(selectedEmail.ownerId ? `${selectedEmail.ownerId}-${selectedEmail.id}` : String(selectedEmail.id)) ? 'Re-editar' : 'Convertir'}</span>
                                 </button>
                             </div>
                         </div>

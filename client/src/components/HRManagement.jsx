@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api';
 import { ChevronLeft, Clock, Play, Square, Users, Calendar, Download } from 'lucide-react';
-import MemberFilter from './MemberFilter';
 
-const HRManagement = () => {
+
+const HRManagement = ({ selectedUsers }) => {
     const [users, setUsers] = useState([]);
     const [timeEntries, setTimeEntries] = useState([]);
     const [currentUser] = useState({ id: 999, name: 'Montse' }); // Mock current user
     const [activeEntry, setActiveEntry] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(0);
-    const [selectedUsers, setSelectedUsers] = useState([]); // Filter State
 
     useEffect(() => {
         loadData();
@@ -134,28 +133,22 @@ const HRManagement = () => {
             <div className="max-w-7xl mx-auto space-y-8">
 
                 {/* Header */}
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <Link to="/" className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow-sm border border-gray-200 text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div className="flex flex-col xs:flex-row items-start xs:items-center gap-4 w-full sm:w-auto">
+                        <Link to="/" className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow-sm border border-gray-200 text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors w-fit">
                             <ChevronLeft size={16} /> Tornar
                         </Link>
-                        <h1 className="text-2xl font-bold text-brand-black uppercase">Gestió de RRHH i Control Horari</h1>
+                        <h1 className="text-xl md:text-2xl font-bold text-brand-black uppercase">Gestió de RRHH</h1>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-500 bg-white px-4 py-2 rounded-lg border border-gray-100">
-                        <Calendar size={16} />
-                        <span className="font-bold">{new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                    <div className="flex items-center gap-2 text-xs md:text-sm text-gray-500 bg-white px-4 py-2 rounded-lg border border-gray-100 w-full sm:w-auto overflow-hidden">
+                        <Calendar size={16} className="shrink-0" />
+                        <span className="font-bold truncate">{new Date().toLocaleDateString('es-ES', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</span>
                     </div>
                 </div>
 
-                {/* Filter Row */}
-                <MemberFilter
-                    users={users}
-                    selectedUsers={selectedUsers}
-                    onToggleUser={(id) => setSelectedUsers(prev => prev.includes(id) ? prev.filter(uid => uid !== id) : [...prev, id])}
-                    onClear={() => setSelectedUsers([])}
-                />
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                <div className="flex flex-col gap-8">
 
                     {/* LEFT COLUMN: STATUS & ACTIONS */}
                     <div className="space-y-6">
@@ -244,66 +237,110 @@ const HRManagement = () => {
                         </div>
                     </div>
 
-                    {/* RIGHT COLUMN: HISTORY */}
-                    <div className="lg:col-span-2 space-y-6">
+                    {/* RIGHT COLUMN: HISTORY (Now following previous blocks) */}
+                    <div className="w-full space-y-6">
                         <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 h-full flex flex-col">
-                            <div className="flex items-center justify-between mb-6">
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                                 <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
                                     <Calendar className="text-brand-orange" /> Registre d'Activitat
                                 </h2>
-                                <button className="flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-brand-orange bg-gray-50 px-3 py-1.5 rounded-lg transition-colors">
+                                <button className="flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-brand-orange bg-gray-50 px-3 py-1.5 rounded-lg transition-colors w-full sm:w-auto justify-center">
                                     <Download size={14} /> Exportar CSV
                                 </button>
                             </div>
 
-                            <div className="flex-1 overflow-auto rounded-xl border border-gray-100">
-                                <table className="w-full text-left text-sm">
-                                    <thead className="bg-gray-50 text-gray-500 font-bold uppercase text-xs sticky top-0">
-                                        <tr>
-                                            <th className="p-4">Usuari</th>
-                                            <th className="p-4">Data</th>
-                                            <th className="p-4">Inici</th>
-                                            <th className="p-4">Fi</th>
-                                            <th className="p-4 text-right">Durada</th>
-                                            <th className="p-4 text-center">Estat</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-gray-100">
-                                        {timeEntries.length === 0 && (
+                            <div className="flex-1 overflow-hidden rounded-xl">
+                                {/* Desktop Table View */}
+                                <div className="hidden md:block overflow-auto border border-gray-100 rounded-xl">
+                                    <table className="w-full text-left text-sm">
+                                        <thead className="bg-gray-50 text-gray-500 font-bold uppercase text-xs sticky top-0">
                                             <tr>
-                                                <td colSpan="6" className="p-8 text-center text-gray-400 italic">No hi ha registres d'activitat recents.</td>
+                                                <th className="p-4">Usuari</th>
+                                                <th className="p-4">Data</th>
+                                                <th className="p-4">Inici</th>
+                                                <th className="p-4">Fi</th>
+                                                <th className="p-4 text-right">Durada</th>
+                                                <th className="p-4 text-center">Estat</th>
                                             </tr>
-                                        )}
-                                        {[...timeEntries]
-                                            .filter(e => selectedUsers.length === 0 || selectedUsers.includes(users.find(u => u.name === e.user)?.id))
-                                            .reverse()
-                                            .map(entry => (
-                                                <tr key={entry.id} className="hover:bg-gray-50/50 transition-colors">
-                                                    <td className="p-4 font-bold text-gray-800">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="w-6 h-6 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-[10px]">
-                                                                {entry.user?.[0]}
-                                                            </div>
-                                                            {entry.user}
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-4 text-gray-600">{new Date(entry.start).toLocaleDateString()}</td>
-                                                    <td className="p-4 font-mono text-gray-600">{new Date(entry.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                                                    <td className="p-4 font-mono text-gray-600">
-                                                        {entry.end ? new Date(entry.end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}
-                                                    </td>
-                                                    <td className="p-4 text-right font-mono font-bold text-brand-black">
-                                                        {entry.duration ? formatDuration(entry.duration) : formatTime(Date.now() - new Date(entry.start).getTime())}
-                                                    </td>
-                                                    <td className="p-4 text-center">
-                                                        <span className={`px-2 py-1 rounded-full text-[10px] font-bold ${entry.end ? 'bg-gray-100 text-gray-500' : 'bg-green-100 text-green-600'}`}>
-                                                            {entry.end ? 'COMPLET' : 'ACTIU'}
-                                                        </span>
-                                                    </td>
+                                        </thead>
+                                        <tbody className="divide-y divide-gray-100">
+                                            {timeEntries.length === 0 && (
+                                                <tr>
+                                                    <td colSpan="6" className="p-8 text-center text-gray-400 italic">No hi ha registres d'activitat recents.</td>
                                                 </tr>
-                                            ))}
-                                    </tbody>
-                                </table>
+                                            )}
+                                            {[...timeEntries]
+                                                .filter(e => selectedUsers.length === 0 || selectedUsers.includes(users.find(u => u.name === e.user)?.id))
+                                                .reverse()
+                                                .map(entry => (
+                                                    <tr key={entry.id} className="hover:bg-gray-50/50 transition-colors">
+                                                        <td className="p-4 font-bold text-gray-800">
+                                                            <div className="flex items-center gap-2">
+                                                                <div className="w-6 h-6 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-[10px]">
+                                                                    {entry.user?.[0]}
+                                                                </div>
+                                                                {entry.user}
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-4 text-gray-600">{new Date(entry.start).toLocaleDateString()}</td>
+                                                        <td className="p-4 font-mono text-gray-600">{new Date(entry.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                                                        <td className="p-4 font-mono text-gray-600">
+                                                            {entry.end ? new Date(entry.end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}
+                                                        </td>
+                                                        <td className="p-4 text-right font-mono font-bold text-brand-black">
+                                                            {entry.duration ? formatDuration(entry.duration) : formatTime(Date.now() - new Date(entry.start).getTime())}
+                                                        </td>
+                                                        <td className="p-4 text-center">
+                                                            <span className={`px-2 py-1 rounded-full text-[10px] font-bold ${entry.end ? 'bg-gray-100 text-gray-500' : 'bg-green-100 text-green-600'}`}>
+                                                                {entry.end ? 'COMPLET' : 'ACTIU'}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                {/* Mobile Card View */}
+                                <div className="md:hidden space-y-4">
+                                    {[...timeEntries]
+                                        .filter(e => selectedUsers.length === 0 || selectedUsers.includes(users.find(u => u.name === e.user)?.id))
+                                        .reverse()
+                                        .map(entry => (
+                                            <div key={entry.id} className="p-4 bg-gray-50 rounded-2xl border border-gray-100 space-y-3">
+                                                <div className="flex justify-between items-start">
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-xs font-bold">
+                                                            {entry.user?.[0]}
+                                                        </div>
+                                                        <div>
+                                                            <p className="font-bold text-gray-800 text-sm">{entry.user}</p>
+                                                            <p className="text-[10px] text-gray-400">{new Date(entry.start).toLocaleDateString()}</p>
+                                                        </div>
+                                                    </div>
+                                                    <span className={`px-2 py-1 rounded-full text-[9px] font-bold ${entry.end ? 'bg-gray-100 text-gray-500' : 'bg-green-100 text-green-600'}`}>
+                                                        {entry.end ? 'COMPLET' : 'ACTIU'}
+                                                    </span>
+                                                </div>
+                                                <div className="grid grid-cols-2 gap-2 text-[10px]">
+                                                    <div className="bg-white p-2 rounded-lg border border-gray-100">
+                                                        <p className="text-gray-400 uppercase font-black tracking-widest mb-1">Inici</p>
+                                                        <p className="font-mono font-bold">{new Date(entry.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                                                    </div>
+                                                    <div className="bg-white p-2 rounded-lg border border-gray-100">
+                                                        <p className="text-gray-400 uppercase font-black tracking-widest mb-1">Final</p>
+                                                        <p className="font-mono font-bold">{entry.end ? new Date(entry.end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="bg-brand-orange/5 p-3 rounded-xl flex justify-between items-center">
+                                                    <span className="text-[10px] font-bold text-brand-orange uppercase">Durada Total</span>
+                                                    <span className="font-mono font-black text-brand-black">
+                                                        {entry.duration ? formatDuration(entry.duration) : formatTime(Date.now() - new Date(entry.start).getTime())}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                </div>
                             </div>
                         </div>
                     </div>

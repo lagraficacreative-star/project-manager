@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../api';
 import { Trash2, Edit2, Plus, Layout, Palette, Code, Smartphone, Clipboard, DollarSign, Receipt, Mail, Send, Calendar, Clock, Bell, Search, Mic, ChevronRight, Square, Play, Bot, Briefcase, FileText, Gavel, Archive, Check, Lock, Calculator } from 'lucide-react';
-import MemberFilter from './MemberFilter';
 
-const Dashboard = () => {
+
+const Dashboard = ({ selectedUsers }) => {
     const navigate = useNavigate();
     const CURRENT_USER_ID = 'montse'; // Hardcoded for this session
 
     const [boards, setBoards] = useState([]);
     const [allCards, setAllCards] = useState([]); // State for all cards
     const [users, setUsers] = useState([]); // Add users state
-    const [selectedUsers, setSelectedUsers] = useState([]); // Filter State
     const [stats, setStats] = useState({ active: 0, completed: 0, totalProjects: 0 });
 
     // Time Tracking State
@@ -85,11 +84,7 @@ const Dashboard = () => {
         setEmails(emailData.slice(0, 3));
     };
 
-    const toggleUserFilter = (userId) => {
-        setSelectedUsers(prev =>
-            prev.includes(userId) ? prev.filter(id => id !== userId) : [...prev, userId]
-        );
-    };
+
 
     const handleClockIn = async () => {
         try {
@@ -215,371 +210,198 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="max-w-[1920px] mx-auto h-full flex flex-col space-y-6">
+        <div className="flex flex-col gap-10 pb-10">
 
-            {/* Custom Dashboard Header */}
-            <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-6">
-                    <div className="flex items-center gap-2 text-2xl font-bold">
-                        <span>LaGràfica <span className="text-brand-orange">Studio</span></span>
+            {/* Header Section */}
+            <div className="flex flex-col gap-6">
+                <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+                    <div>
+                        <h2 className="text-3xl font-black text-brand-black tracking-tighter">LaGràfica <span className="text-brand-orange">Studio</span></h2>
+                        <h1 className="text-sm font-bold text-gray-400 uppercase tracking-widest mt-1">Taulell de Control</h1>
                     </div>
-
-                    {/* Search Bar */}
-                    <div className="relative w-64 lg:w-96">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <Search size={16} className="text-gray-400" />
-                        </div>
-                        <input
-                            type="text"
-                            placeholder="Buscar en todo el proyecto..."
-                            className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-orange/20 transition-all shadow-sm"
-                            value={searchQuery}
-                            onChange={(e) => handleSearch(e.target.value)}
-                        />
-
-                        {/* Search Results Dropdown */}
-                        {isSearchOpen && (
-                            <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 z-[100] max-h-[400px] overflow-y-auto animate-in fade-in slide-in-from-top-2">
-                                <div className="p-4">
-                                    {searchResults.cards.length === 0 && searchResults.docs.length === 0 ? (
-                                        <p className="text-center text-xs text-gray-400 py-4">No se han encontrado resultados.</p>
-                                    ) : (
-                                        <div className="space-y-4">
-                                            {searchResults.cards.length > 0 && (
-                                                <div>
-                                                    <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 px-2">Tarjetas ({searchResults.cards.length})</h4>
-                                                    <div className="space-y-1">
-                                                        {searchResults.cards.map(card => (
-                                                            <div
-                                                                key={card.id}
-                                                                onClick={() => { navigate(`/board/${card.boardId}`); setIsSearchOpen(false); }}
-                                                                className="p-2 hover:bg-orange-50 rounded-lg cursor-pointer transition-colors group"
-                                                            >
-                                                                <div className="flex items-center justify-between">
-                                                                    <p className="text-sm font-bold text-gray-800 group-hover:text-brand-orange transition-colors">{card.title}</p>
-                                                                    <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">{card.boardTitle}</span>
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            )}
-                                            {searchResults.docs.length > 0 && (
-                                                <div>
-                                                    <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 px-2">Documentos ({searchResults.docs.length})</h4>
-                                                    <div className="space-y-1">
-                                                        {searchResults.docs.map(doc => (
-                                                            <div
-                                                                key={doc.id}
-                                                                onClick={() => { navigate('/docs'); setIsSearchOpen(false); }}
-                                                                className="p-2 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors group"
-                                                            >
-                                                                <div className="flex items-center justify-between">
-                                                                    <p className="text-sm font-bold text-gray-800 group-hover:text-blue-600 transition-colors">{doc.text}</p>
-                                                                    <span className="text-[10px] bg-blue-50 text-blue-500 px-2 py-0.5 rounded-full">{doc.category}</span>
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                <div className="flex items-center gap-4">
-                    <button onClick={() => navigate('/docs')} className="bg-brand-orange text-white px-6 py-2.5 rounded-lg font-bold text-xs tracking-wider shadow-lg hover:bg-orange-600 transition-colors flex items-center gap-2">
-                        <Clipboard size={16} /> DOCUMENTACIÓ
-                    </button>
-                    <button className="bg-white border border-gray-200 text-gray-600 px-6 py-2.5 rounded-lg font-bold text-xs tracking-wider hover:bg-gray-50 transition-colors">
-                        SORTIR
-                    </button>
-                </div>
-            </div>
-
-            {/* NEW COMPACT MEMBER FILTER ROW */}
-            <MemberFilter
-                users={users}
-                selectedUsers={selectedUsers}
-                onToggleUser={toggleUserFilter}
-                onClear={() => setSelectedUsers([])}
-            />
-
-            <div className="grid grid-cols-12 gap-6 flex-1 min-h-0">
-
-                {/* CENTER COLUMN (Expanded to 9 columns) */}
-                <div className="col-span-9 flex flex-col gap-6">
-
-                    {/* Helper for counts */}
-                    {(() => {
-                        const getCount = (bid) =>
-                            boards.find(b => b.id === bid)?.columns?.reduce((acc, col) =>
-                                acc + (allCards.filter(c => {
-                                    if (c.columnId !== col.id) return false;
-                                    if (selectedUsers.length > 0) {
-                                        const responsible = c.responsibleId || c.assignee;
-                                        return selectedUsers.includes(responsible);
-                                    }
-                                    return true;
-                                })?.length || 0), 0) || 0;
-
-                        return (
-                            <div className="space-y-8">
-                                {/* ROW 1: SERVICES */}
-                                <div>
-                                    <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Serveis</h2>
-                                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                                        <DepartmentCard title="Disseny Gràfic" icon={Palette} count={getCount('b_design')} onClick={() => navigate('/board/b_design')} />
-                                        <DepartmentCard title="Xarxes Socials" icon={Smartphone} count={getCount('b_social')} onClick={() => navigate('/board/b_social')} />
-                                        <DepartmentCard title="Web" icon={Code} count={getCount('b_web')} onClick={() => navigate('/board/b_web')} />
-                                        <DepartmentCard title="Projectes IA" icon={Bot} count={getCount('b_ai')} onClick={() => navigate('/board/b_ai')} />
-                                    </div>
-                                </div>
-
-                                {/* ROW 2: CLIENTS */}
-                                <div>
-                                    <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Clients</h2>
-                                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                                        <DepartmentCard title="Lleida en verd" icon={Layout} count={getCount('b_lleida')} onClick={() => navigate('/board/b_lleida')} />
-                                        <DepartmentCard title="Animac" icon={Play} count={getCount('b_animac')} onClick={() => navigate('/board/b_animac')} />
-                                        <DepartmentCard title="Imo" icon={Briefcase} count={getCount('b_imo')} onClick={() => navigate('/board/b_imo')} />
-                                        <DepartmentCard title="Diba" icon={FileText} count={getCount('b_diba')} onClick={() => navigate('/board/b_diba')} />
-                                    </div>
-                                </div>
-
-                                {/* ROW 3: MANAGEMENT (PROTECTED) */}
-                                <div className="bg-brand-orange p-6 rounded-3xl shadow-lg mt-4 relative overflow-hidden">
-                                    <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Gestió i Administració</h2>
-
-                                    {isManagementUnlocked ? (
-                                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 animate-in fade-in duration-500">
-                                            <DepartmentCard title="Gestió" icon={Clipboard} count={getCount('b_management')} onClick={() => navigate('/board/b_management')} />
-                                            <DepartmentCard title="Pressupostos" icon={DollarSign} count={getCount('b_budget')} onClick={() => navigate('/board/b_budget')} />
-                                            <DepartmentCard title="Facturació" icon={Receipt} count={getCount('b_billing')} onClick={() => navigate('/board/b_billing')} />
-                                            <DepartmentCard title="Licitacions" icon={Gavel} count={getCount('b_tenders')} onClick={() => navigate('/board/b_tenders')} />
-                                            <DepartmentCard title="Fiscalitat" icon={FileText} count={getCount('b_fiscal')} onClick={() => navigate('/board/b_fiscal')} />
-                                            <DepartmentCard title="Comptabilitat" icon={Calculator} count={getCount('b_accounting')} onClick={() => navigate('/board/b_accounting')} />
-                                        </div>
-                                    ) : (
-                                        <div className="flex flex-col items-center justify-center py-10 gap-4">
-                                            <div className="bg-white/20 p-4 rounded-full text-white">
-                                                <Lock size={32} />
-                                            </div>
-
-                                            {!showPasswordInput ? (
-                                                <button
-                                                    onClick={() => setShowPasswordInput(true)}
-                                                    className="bg-white text-brand-orange px-6 py-2 rounded-full font-bold shadow-sm hover:bg-orange-50 transition-colors"
-                                                >
-                                                    Accedir
-                                                </button>
-                                            ) : (
-                                                <form onSubmit={handleUnlockManagement} className="flex gap-2">
-                                                    <input
-                                                        type="password"
-                                                        placeholder="Contrasenya..."
-                                                        autoFocus
-                                                        className="px-4 py-2 rounded-lg text-sm outline-none text-gray-800 w-48"
-                                                        value={managementPassword}
-                                                        onChange={(e) => setManagementPassword(e.target.value)}
-                                                    />
-                                                    <button type="submit" className="bg-brand-black text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-gray-800">
-                                                        OK
-                                                    </button>
-                                                </form>
-                                            )}
-                                            <p className="text-white/60 text-xs font-medium">Àrea restringida</p>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        );
-                    })()}
-
-                    {/* Calendar Widget Link */}
-                    <div onClick={() => navigate('/calendar')} className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex-1 min-h-[300px] flex flex-col relative overflow-hidden cursor-pointer hover:border-brand-orange/30 transition-all group">
-                        <div className="flex items-center justify-between mb-4 z-10">
-                            <div className="flex items-center gap-2">
-                                <button className="px-3 py-1 bg-gray-100 rounded-lg text-xs font-bold text-gray-600">Hoy</button>
-                                <span className="text-sm font-bold text-gray-800">Enero de 2026</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <button className="p-2 hover:bg-gray-50 rounded-lg"><Calendar size={16} className="text-gray-400" /></button>
-                                <button className="px-3 py-1 border border-gray-200 rounded-lg text-xs font-bold text-gray-600">Mes</button>
-                            </div>
-                        </div>
-
-                        {/* Warning Box */}
-                        <div className="bg-yellow-100/50 p-2 rounded-lg text-[10px] text-yellow-700 font-medium mb-4 text-center">
-                            No se han podido mostrar aquí los eventos de uno o más calendarios porque no tienes permiso para verlos.
-                        </div>
-
-                        {/* Calendar Grid Mockup */}
-                        <div className="flex-1 grid grid-cols-7 grid-rows-5 gap-1 text-center text-xs text-gray-500">
-                            {['DOM', 'LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB'].map(day => <div key={day} className="font-bold text-[10px] text-gray-400 py-2">{day}</div>)}
-
-                            {/* Days Mock */}
-                            {[...Array(31)].map((_, i) => {
-                                const day = i + 1;
-                                const isToday = day === 14;
-                                return (
-                                    <div key={day} className={`p-2 rounded-lg ${isToday ? 'bg-brand-orange text-white font-bold h-8 w-8 mx-auto flex items-center justify-center' : 'hover:bg-gray-50'}`}>
-                                        {day}
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    </div>
-
-
-
-                </div>
-
-                {/* RIGHT COLUMN: TIME CONTROL & URGENT */}
-                <div className="col-span-3 flex flex-col gap-6">
-                    {/* Time Control (Team List) */}
-                    <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex flex-col max-h-[400px]">
-                        <div onClick={handleAddTimeLog} className="flex justify-between items-center mb-6 cursor-pointer group">
-                            <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider group-hover:text-brand-orange transition-colors">Control Horari</h3>
-                            <ChevronRight size={16} className="text-gray-300 group-hover:text-brand-orange transition-colors" />
-                        </div>
-
-                        <div className="flex-1 overflow-y-auto space-y-3 pr-1">
-                            {/* MY STATUS */}
-                            <div className="flex items-center justify-between p-3 bg-brand-lightgray rounded-xl border border-brand-orange/20 shadow-sm relative overflow-hidden">
-                                {activeEntry && <div className="absolute top-0 right-0 p-1"><span className="flex h-2 w-2 relative"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span></span></div>}
-                                <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-full bg-brand-orange text-white flex items-center justify-center text-xs font-bold">
-                                        M
-                                    </div>
-                                    <div>
-                                        <p className="text-xs font-bold text-brand-black">TU (Montse)</p>
-                                        <p className={`text-[10px] font-mono ${activeEntry ? 'text-green-600 font-bold' : 'text-gray-400'}`}>
-                                            {activeEntry ? (activeEntry.type === 'vacation' ? 'VACACIONES' : formatTime(elapsedTime)) : 'DESCONNECTAT'}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex gap-1">
-                                    <button
-                                        onClick={async () => {
-                                            if (activeEntry) {
-                                                await handleClockOut();
-                                            } else {
-                                                // Start Vacation
-                                                try {
-                                                    const entry = await api.createTimeEntry({
-                                                        userId: CURRENT_USER_ID,
-                                                        start: new Date().toISOString(),
-                                                        type: 'vacation'
-                                                    });
-                                                    setActiveEntry(entry);
-                                                } catch (e) {
-                                                    console.error(e);
-                                                }
-                                            }
-                                        }}
-                                        title={activeEntry?.type === 'vacation' ? "Fin Vacaciones" : "Marcar Vacaciones"}
-                                        className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all shadow-sm ${activeEntry?.type === 'vacation' ? 'bg-purple-500 text-white' : 'bg-purple-50 text-purple-400 hover:bg-purple-500 hover:text-white'}`}
-                                    >
-                                        V
-                                    </button>
-                                    <button
-                                        onClick={activeEntry ? handleClockOut : handleClockIn}
-                                        className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all shadow-sm
-                                        ${activeEntry
-                                                ? 'bg-red-100 text-red-500 hover:bg-red-500 hover:text-white'
-                                                : 'bg-green-100 text-green-500 hover:bg-green-500 hover:text-white'}`}
-                                    >
-                                        {activeEntry ? <Square size={12} fill="currentColor" /> : <Play size={12} fill="currentColor" />}
-                                    </button>
-                                </div>
-                            </div>
-
-                            {[
-                                { id: 1, name: 'Omar', status: 'idle', color: 'bg-blue-500' },
-                                { id: 2, name: 'Neus', status: 'idle', color: 'bg-sky-400' },
-                                { id: 3, name: 'Alba T', status: 'working', color: 'bg-yellow-500' }
-                            ].map(user => (
-                                <div key={user.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-100">
-                                    <div className="flex items-center gap-3">
-                                        <div className={`w-8 h-8 rounded-full ${user.color} text-white flex items-center justify-center text-xs font-bold`}>
-                                            {user.name.charAt(0)}
-                                        </div>
-                                        <div>
-                                            <p className="text-xs font-bold text-gray-800">{user.name}</p>
-                                            <p className={`text-[10px] font-bold ${user.status === 'working' ? 'text-green-500 animate-pulse' : 'text-gray-400'}`}>
-                                                {user.status === 'working' ? 'TREBALLANT...' : 'DESCONNECTAT'}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <button
-                                        className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all shadow-sm
-                                            ${user.status === 'working'
-                                                ? 'bg-red-100 text-red-500 hover:bg-red-500 hover:text-white'
-                                                : 'bg-green-100 text-green-500 hover:bg-green-500 hover:text-white'}`}
-                                    >
-                                        {user.status === 'working' ? <Square size={12} fill="currentColor" /> : <Play size={12} fill="currentColor" />}
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Urgent Notices */}
-                    <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex-1 flex flex-col">
-                        <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Avisos Urgents</h3>
-
-                        {/* Input Moved to Top */}
-                        <div className="flex gap-2 mb-4">
+                    <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+                        <div className="relative w-full sm:w-64">
+                            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                             <input
                                 type="text"
-                                placeholder="Nova nota urgent..."
-                                className="w-full pl-3 pr-3 py-2 bg-gray-50 rounded-lg text-xs border border-gray-200 focus:outline-none focus:border-brand-orange"
-                                value={newNote}
-                                onChange={(e) => setNewNote(e.target.value)}
-                                onKeyDown={(e) => e.key === 'Enter' && addUrgentNote()}
+                                placeholder="Cerca global..."
+                                className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-orange/20 outline-none"
+                                value={searchQuery}
+                                onChange={(e) => handleSearch(e.target.value)}
                             />
-                            <button onClick={addUrgentNote} className="bg-brand-orange text-white p-2 rounded-lg hover:bg-orange-600 transition-colors">
-                                <Plus size={16} />
-                            </button>
-                        </div>
-
-                        <div className="flex-1 space-y-3 mb-4 overflow-y-auto max-h-[300px] pr-1">
-                            {urgentNotes.length === 0 && <p className="text-xs text-gray-400 italic text-center py-4">No hi ha avisos urgents.</p>}
-                            {urgentNotes.map(note => (
-                                <div key={note.id}
-                                    className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${note.done ? 'bg-gray-50 border-gray-100 opacity-60' : 'bg-yellow-50 border-yellow-100'}`}
-                                >
-                                    <div
-                                        onClick={() => toggleUrgentNoteDone(note.id)}
-                                        className={`w-4 h-4 rounded-full border-2 flex items-center justify-center cursor-pointer transition-colors ${note.done ? 'border-gray-400 bg-gray-400' : 'border-red-500 bg-white'}`}
-                                    >
-                                        {note.done && <Check size={10} className="text-white" />}
+                            {isSearchOpen && (
+                                <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 z-[100] max-h-[400px] overflow-y-auto">
+                                    <div className="p-4">
+                                        {searchResults.cards.length === 0 && searchResults.docs.length === 0 ? (
+                                            <p className="text-center text-xs text-gray-400 py-4">No s'han trobat resultats.</p>
+                                        ) : (
+                                            <div className="space-y-4">
+                                                {searchResults.cards.length > 0 && (
+                                                    <div>
+                                                        <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 px-2">Tarjetas ({searchResults.cards.length})</h4>
+                                                        <div className="space-y-1">
+                                                            {searchResults.cards.map(card => (
+                                                                <div
+                                                                    key={card.id}
+                                                                    onClick={() => { navigate(`/board/${card.boardId}`); setIsSearchOpen(false); }}
+                                                                    className="p-2 hover:bg-orange-50 rounded-lg cursor-pointer"
+                                                                >
+                                                                    <div className="flex items-center justify-between">
+                                                                        <p className="text-sm font-bold text-gray-800">{card.title}</p>
+                                                                        <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">{card.boardTitle}</span>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
-                                    <span
-                                        onClick={() => toggleUrgentNoteDone(note.id)}
-                                        className={`text-xs font-bold flex-1 cursor-pointer select-none ${note.done ? 'text-gray-400 line-through' : 'text-gray-700'}`}
-                                    >
-                                        {note.text}
-                                    </span>
-                                    <button
-                                        onClick={() => handleArchiveNote(note)}
-                                        className="text-gray-400 hover:text-green-600 p-1 rounded-md hover:bg-green-50 transition-colors"
-                                        title="Archivar"
-                                    >
-                                        <Archive size={14} />
-                                    </button>
                                 </div>
-                            ))}
+                            )}
                         </div>
+                        <button
+                            onClick={() => navigate('/docs')}
+                            className="bg-brand-black text-white px-6 py-3 sm:py-2 rounded-xl text-xs font-bold tracking-widest hover:bg-brand-orange transition-all w-full sm:w-auto shadow-sm active:scale-95"
+                        >
+                            DOCUMENTACIÓ
+                        </button>
                     </div>
                 </div>
-
             </div>
+
+            {/* Helper for counts */}
+            {(() => {
+                const getCount = (bid) =>
+                    boards.find(b => b.id === bid)?.columns?.reduce((acc, col) =>
+                        acc + (allCards.filter(c => {
+                            if (c.columnId !== col.id) return false;
+                            if (selectedUsers.length > 0) {
+                                const responsible = c.responsibleId || c.assignee;
+                                return selectedUsers.includes(responsible);
+                            }
+                            return true;
+                        })?.length || 0), 0) || 0;
+
+                return (
+                    <div className="flex flex-col gap-10">
+                        {/* ROW 1: SERVICES */}
+                        <div>
+                            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Serveis</h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <DepartmentCard title="Disseny Gràfic" icon={Palette} count={getCount('b_design')} onClick={() => navigate('/board/b_design')} />
+                                <DepartmentCard title="Xarxes Socials" icon={Smartphone} count={getCount('b_social')} onClick={() => navigate('/board/b_social')} />
+                                <DepartmentCard title="Web" icon={Code} count={getCount('b_web')} onClick={() => navigate('/board/b_web')} />
+                                <DepartmentCard title="Projectes IA" icon={Bot} count={getCount('b_ai')} onClick={() => navigate('/board/b_ai')} />
+                            </div>
+                        </div>
+
+                        {/* ROW 2: CLIENTS */}
+                        <div>
+                            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Clients</h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <DepartmentCard title="Lleida en verd" icon={Layout} count={getCount('b_lleida')} onClick={() => navigate('/board/b_lleida')} />
+                                <DepartmentCard title="Animac" icon={Play} count={getCount('b_animac')} onClick={() => navigate('/board/b_animac')} />
+                                <DepartmentCard title="Imo" icon={Briefcase} count={getCount('b_imo')} onClick={() => navigate('/board/b_imo')} />
+                                <DepartmentCard title="Diba" icon={FileText} count={getCount('b_diba')} onClick={() => navigate('/board/b_diba')} />
+                            </div>
+                        </div>
+
+                        {/* ROW 3: MANAGEMENT (PROTECTED) */}
+                        <div className="bg-brand-orange p-6 rounded-3xl shadow-lg relative overflow-hidden">
+                            <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Gestió i Administració</h2>
+                            {isManagementUnlocked ? (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                    <DepartmentCard title="Gestió" icon={Clipboard} count={getCount('b_management')} onClick={() => navigate('/board/b_management')} />
+                                    <DepartmentCard title="Pressupostos" icon={DollarSign} count={getCount('b_budget')} onClick={() => navigate('/board/b_budget')} />
+                                    <DepartmentCard title="Facturació" icon={Receipt} count={getCount('b_billing')} onClick={() => navigate('/board/b_billing')} />
+                                    <DepartmentCard title="Licitacions" icon={Gavel} count={getCount('b_tenders')} onClick={() => navigate('/board/b_tenders')} />
+                                </div>
+                            ) : (
+                                <div className="flex flex-col items-center justify-center py-10 gap-4">
+                                    <Lock size={32} className="text-white/50" />
+                                    <button onClick={() => setShowPasswordInput(true)} className="bg-white text-brand-orange px-6 py-2 rounded-full font-bold">Accedir</button>
+                                    {showPasswordInput && (
+                                        <form onSubmit={handleUnlockManagement} className="flex gap-2">
+                                            <input type="password" placeholder="Contrasenya..." className="px-4 py-2 rounded-lg text-sm outline-none" value={managementPassword} onChange={e => setManagementPassword(e.target.value)} />
+                                            <button type="submit" className="bg-brand-black text-white px-4 py-2 rounded-lg font-bold text-sm">OK</button>
+                                        </form>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                );
+            })()}
+
+            {/* Calendar Widget */}
+            <div onClick={() => navigate('/calendar')} className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 cursor-pointer hover:border-brand-orange/30 transition-all">
+                <div className="flex items-center gap-3 mb-6">
+                    <Calendar size={20} className="text-brand-orange" />
+                    <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Calendari</h3>
+                </div>
+                <div className="h-64 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-400 text-sm font-medium italic">
+                    Prem per veure l'agenda completa
+                </div>
+            </div>
+
+            {/* Time Control */}
+            <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+                <div onClick={handleAddTimeLog} className="flex justify-between items-center mb-8 cursor-pointer">
+                    <div className="flex items-center gap-3">
+                        <Clock size={20} className="text-brand-orange" />
+                        <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Control Horari</h3>
+                    </div>
+                    <ChevronRight size={20} className="text-gray-300" />
+                </div>
+                <div className="space-y-4">
+                    {/* User Status Mockups */}
+                    <div className="flex items-center justify-between p-4 bg-orange-50 rounded-2xl border border-brand-orange/10">
+                        <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 rounded-full bg-brand-orange text-white flex items-center justify-center font-bold">M</div>
+                            <div>
+                                <p className="text-sm font-black text-brand-black">TU (Montse)</p>
+                                <p className="text-xs font-bold text-green-600">{activeEntry ? 'TREBALLANT' : 'DESCONNECTAT'}</p>
+                            </div>
+                        </div>
+                        <button onClick={activeEntry ? handleClockOut : handleClockIn} className={`p-3 rounded-xl ${activeEntry ? 'bg-red-500' : 'bg-green-500'} text-white`}>
+                            {activeEntry ? <Square size={16} /> : <Play size={16} />}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Urgent Notices */}
+            <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+                <div className="flex items-center gap-3 mb-8">
+                    <Bell size={20} className="text-brand-orange" />
+                    <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Avisos Urgents</h3>
+                </div>
+                <div className="flex gap-2 mb-6">
+                    <input
+                        type="text"
+                        placeholder="Escriu una nota urgent..."
+                        className="w-full px-4 py-3 bg-gray-50 rounded-xl text-sm border border-gray-200 outline-none"
+                        value={newNote}
+                        onChange={(e) => setNewNote(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && addUrgentNote()}
+                    />
+                    <button onClick={addUrgentNote} className="bg-brand-orange text-white p-3 rounded-xl">
+                        <Plus size={20} />
+                    </button>
+                </div>
+                <div className="space-y-4">
+                    {urgentNotes.map(note => (
+                        <div key={note.id} className={`flex items-center gap-4 p-4 rounded-2xl border ${note.done ? 'bg-gray-50' : 'bg-yellow-50'}`}>
+                            <div onClick={() => toggleUrgentNoteDone(note.id)} className={`w-5 h-5 rounded-full border-2 ${note.done ? 'bg-gray-400' : 'bg-white'} cursor-pointer`} />
+                            <span className={`text-sm font-bold flex-1 ${note.done ? 'line-through text-gray-400' : 'text-gray-700'}`}>{note.text}</span>
+                            <button onClick={() => handleArchiveNote(note)} className="text-gray-400 hover:text-red-500"><Archive size={18} /></button>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
         </div>
     );
 };

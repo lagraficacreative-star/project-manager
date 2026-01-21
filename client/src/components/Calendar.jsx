@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../api';
 import { ChevronLeft, ChevronRight, Plus, X, Clock, MapPin, User, Calendar as CalIcon } from 'lucide-react';
-import MemberFilter from './MemberFilter';
 
-const Calendar = () => {
+
+const Calendar = ({ selectedUsers }) => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [events, setEvents] = useState([]);
     const [users, setUsers] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [showEventModal, setShowEventModal] = useState(false);
-
-    // Calendar Visibility State (Unified with Filter)
-    const [selectedUsers, setSelectedUsers] = useState([]);
 
     // Alerts State
     const [alerts, setAlerts] = useState([]);
@@ -40,10 +37,7 @@ const Calendar = () => {
         ]);
         setEvents(evts);
         setUsers(usrs);
-        // Default to showing all users (empty selection = all)
-        if (usrs.length > 0) {
-            setSelectedUsers([]);
-        }
+
     };
 
     const checkAlerts = () => {
@@ -229,82 +223,93 @@ const Calendar = () => {
     };
 
     return (
-        <div className="flex h-full bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden relative">
 
-            {/* ALERTS OVERLAY */}
-            <div className="absolute top-4 right-4 z-50 flex flex-col gap-2">
-                {alerts.map(alert => (
-                    <div key={alert.id} className="bg-white border-l-4 border-brand-orange p-4 rounded-r-lg shadow-xl animate-in slide-in-from-right-10 flex items-start gap-3 max-w-sm">
-                        <div className="bg-brand-orange/10 p-2 rounded-full text-brand-orange">
-                            <Clock size={16} />
-                        </div>
-                        <div>
-                            <h4 className="font-bold text-sm text-gray-800">Recordatorio</h4>
-                            <p className="text-xs text-gray-600">{alert.message}</p>
-                        </div>
-                        <button onClick={() => setAlerts(prev => prev.filter(a => a.id !== alert.id))} className="text-gray-400 hover:text-gray-600"><X size={14} /></button>
-                    </div>
-                ))}
-            </div>
-
-            {/* SIDEBAR: CALENDARS */}
-            <div className="w-64 bg-gray-50 border-r border-gray-100 flex flex-col p-6 overflow-y-auto">
-                <h2 className="text-sm font-bold text-gray-800 uppercase tracking-wider mb-6 flex items-center gap-2">
-                    <CalIcon size={16} className="text-brand-orange" /> Calendarios
-                </h2>
-
-                <div className="mb-6 hidden md:block">
-                    {/* Primary Button moved to header, but keeping space for branding or other sidebar content */}
-                </div>
-
-                <div className="flex-1">
-                </div>
-            </div>
-            {/* MAIN CALENDAR AREA */}
+        <div className="flex flex-col h-full bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden relative">
             <div className="flex-1 flex flex-col">
                 {/* Header */}
-                <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-white">
-                    <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
-                            <button onClick={() => changeMonth(-1)} className="p-2 hover:bg-white rounded-md shadow-sm transition-all text-gray-600"><ChevronLeft size={20} /></button>
-                            <span className="w-48 text-center font-bold text-gray-800 uppercase text-sm">
-                                {currentDate.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })}
+                <div className="p-4 md:p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white">
+                    <div className="flex items-center gap-2 md:gap-4 w-full sm:w-auto overflow-hidden">
+                        <div className="flex items-center gap-1 md:gap-2 bg-gray-100 rounded-lg p-1 shrink-0">
+                            <button onClick={() => changeMonth(-1)} className="p-1 md:p-2 hover:bg-white rounded-md shadow-sm transition-all text-gray-600"><ChevronLeft size={16} md={20} /></button>
+                            <span className="w-32 md:w-48 text-center font-bold text-gray-800 uppercase text-[10px] md:text-sm truncate">
+                                {currentDate.toLocaleDateString('es-ES', { month: 'short', year: 'numeric' })}
                             </span>
-                            <button onClick={() => changeMonth(1)} className="p-2 hover:bg-white rounded-md shadow-sm transition-all text-gray-600"><ChevronRight size={20} /></button>
+                            <button onClick={() => changeMonth(1)} className="p-1 md:p-2 hover:bg-white rounded-md shadow-sm transition-all text-gray-600"><ChevronRight size={16} md={20} /></button>
                         </div>
-                        <button onClick={() => setCurrentDate(new Date())} className="px-4 py-2 border border-gray-200 rounded-lg text-xs font-bold text-gray-600 hover:bg-gray-50">
+                        <button onClick={() => setCurrentDate(new Date())} className="px-2 md:px-4 py-1.5 md:py-2 border border-gray-200 rounded-lg text-[10px] md:text-xs font-bold text-gray-600 hover:bg-gray-50 whitespace-nowrap">
                             Hoy
                         </button>
                     </div>
 
-                    <div className="flex items-center gap-4 shrink-0">
-                        <MemberFilter
-                            users={users}
-                            selectedUsers={selectedUsers}
-                            onToggleUser={(id) => setSelectedUsers(prev => prev.includes(id) ? prev.filter(uid => uid !== id) : [...prev, id])}
-                            onClear={() => setSelectedUsers([])}
-                        />
-                        <button
-                            onClick={() => { setSelectedDate(new Date()); setShowEventModal(true); }}
-                            className="bg-brand-orange text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow-lg hover:bg-orange-600 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2"
-                        >
-                            <Plus size={18} /> <span className="hidden sm:inline">Nou Esdeveniment</span>
-                        </button>
-                    </div>
-                </div>
 
-                {/* Grid Header */}
-                <div className="grid grid-cols-7 bg-gray-50 border-b border-gray-100 text-center py-3 shrink-0">
-                    {['Dilluns', 'Dimarts', 'Dimecres', 'Dijous', 'Divendres', 'Dissabte', 'Diumenge'].map(d => (
-                        <div key={d} className="text-xs font-bold text-gray-400 uppercase tracking-wider">{d}</div>
-                    ))}
+                    <button
+                        onClick={() => { setSelectedDate(new Date()); setShowEventModal(true); }}
+                        className="bg-brand-orange text-white px-3 md:px-6 py-2.5 rounded-xl text-[10px] md:text-xs font-bold shadow-lg hover:bg-orange-600 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 whitespace-nowrap"
+                    >
+                        <Plus size={16} md={18} /> <span className="hidden xs:inline">Nou Esdeveniment</span><span className="xs:hidden">Nou</span>
+                    </button>
                 </div>
+            </div>
 
-                {/* Calendar Body */}
-                <div className="flex-1 overflow-y-auto bg-gray-50/30">
-                    <div className="grid grid-cols-7 auto-rows-fr min-h-0 h-full">
-                        {renderCalendarGrid()}
-                    </div>
+            {/* Calendar Body (AGENDA ONLY for vertical preference) */}
+            <div className="flex-1 overflow-y-auto bg-gray-50/30">
+                {/* Mobile/Desktop Vertical Agenda View */}
+                <div className="p-4 md:p-8 lg:p-12 space-y-8 max-w-4xl mx-auto">
+                    {(() => {
+                        const today = new Date();
+                        const monthEvents = events.filter(e => {
+                            const evtDate = new Date(e.start);
+                            return evtDate.getMonth() === currentDate.getMonth() && evtDate.getFullYear() === currentDate.getFullYear();
+                        }).sort((a, b) => new Date(a.start) - new Date(b.start));
+
+                        if (monthEvents.length === 0) {
+                            return <div className="text-center py-20 text-gray-400 italic text-sm">No hi ha esdeveniments per aquest mes.</div>
+                        }
+
+                        // Group by day
+                        const groups = monthEvents.reduce((acc, evt) => {
+                            const d = new Date(evt.start).toLocaleDateString();
+                            if (!acc[d]) acc[d] = [];
+                            acc[d].push(evt);
+                            return acc;
+                        }, {});
+
+                        return Object.entries(groups).map(([date, evts]) => (
+                            <div key={date} className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-px bg-gray-200 flex-1"></div>
+                                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">{date}</span>
+                                    <div className="h-px bg-gray-200 flex-1"></div>
+                                </div>
+                                <div className="space-y-2">
+                                    {evts.map(evt => (
+                                        <div key={evt.id} className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex gap-4">
+                                            <div className="flex flex-col items-center justify-center min-w-[50px] border-r border-gray-100 pr-4">
+                                                <span className="text-sm font-black text-brand-black">{evt.time}</span>
+                                                <span className="text-[9px] font-bold text-gray-400 uppercase">{evt.duration}m</span>
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <h4 className="font-bold text-gray-800 mb-1 truncate">{evt.title}</h4>
+                                                <p className="text-xs text-gray-500 line-clamp-1">{evt.description}</p>
+                                                <div className="flex items-center gap-2 mt-2">
+                                                    <div className="flex -space-x-2">
+                                                        {(evt.userIds || [evt.userId]).map(uid => (
+                                                            <div key={uid} className={`w-5 h-5 rounded-full border-2 border-white flex items-center justify-center text-[8px] font-bold text-white shadow-sm ${uid === 'montse' ? 'bg-brand-orange' : 'bg-gray-400'}`}>
+                                                                {users.find(u => u.id === uid)?.avatar || uid[0]}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                    {evt.meetingLink && (
+                                                        <a href={evt.meetingLink} target="_blank" rel="noreferrer" className="text-[10px] text-brand-orange font-bold hover:underline">Link Reunió</a>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ));
+                    })()}
                 </div>
             </div>
 
@@ -411,8 +416,9 @@ const Calendar = () => {
                         </div>
                     </div>
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 };
 
