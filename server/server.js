@@ -86,9 +86,6 @@ const readDB = () => {
             time_entries: [],
             messages: [],
             documents: [],
-            time_entries: [],
-            messages: [],
-            documents: [],
             events: [],
             processed_emails: [],
             deleted_emails: []
