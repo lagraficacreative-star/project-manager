@@ -193,25 +193,44 @@ const readDB = () => {
                 sheetUrl: '',
                 driveUrl: '',
                 links: [],
+                description: '',
+                checklist: [],
                 managementNotes: []
             });
+            changed = true;
+        } else if (existing.description === undefined) {
+            existing.description = '';
+            existing.checklist = [];
             changed = true;
         }
     });
 
     // Also for each Board folder under Clientes
     data.documents.filter(d => d.parentId === 'folder_Clientes' && d.type === 'folder').forEach(boardFolder => {
-        // We don't necessarily need standard subfolders anymore if we use the new action-based UI, 
-        // but keeping them for compatibility or migrating to the new system.
-        // For now, let's just ensure they have the management metadata fields.
         if (boardFolder.notesUrl === undefined) {
             boardFolder.notesUrl = '';
             boardFolder.sheetUrl = '';
             boardFolder.driveUrl = '';
             boardFolder.links = boardFolder.links || [];
+            boardFolder.description = boardFolder.description || '';
+            boardFolder.checklist = boardFolder.checklist || [];
             changed = true;
         }
     });
+
+    // Ensure Home Notes Document Exist
+    if (!data.documents.find(d => d.id === 'doc_home_notes' || d.id === 'home_notes')) {
+        data.documents.push({
+            id: 'doc_home_notes',
+            name: 'Bloc de Notas General',
+            type: 'doc',
+            parentId: null,
+            content: 'Escribe aquí las notas generales de gestión...',
+            comments: [],
+            createdAt: new Date().toISOString()
+        });
+        changed = true;
+    }
 
     // --- BOARDS MAINTENANCE ---
     const standardColumns = [
@@ -769,6 +788,8 @@ app.post('/api/documents', (req, res) => {
             sheetUrl: `https://docs.google.com/spreadsheets/create?title=Gestion_${name}`,
             driveUrl: `https://drive.google.com/drive/search?q=${name}`,
             links: [],
+            description: '',
+            checklist: [],
             updatedAt: new Date().toISOString(),
             updatedBy: 'Montse' // Simulated
         } : {})

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../api';
-import { Folder, FileText, Upload, Plus, ChevronRight, Download, Trash2, File, ArrowLeft, Save, Loader, Table, Link as LinkIcon, MessageSquare, ExternalLink, Globe, Send, Search, Calendar, Mail } from 'lucide-react';
+import { Folder, FileText, Upload, Plus, ChevronRight, Download, Trash2, File, ArrowLeft, Save, Loader, Table, Link as LinkIcon, MessageSquare, ExternalLink, Globe, Send, Search, Calendar, Mail, CheckCircle, Circle, X } from 'lucide-react';
 import MemberFilter from './MemberFilter';
 
 const CompanyDocs = () => {
@@ -22,6 +22,8 @@ const CompanyDocs = () => {
     const [searchTerm, setSearchTerm] = useState(''); // New filter state
     const [users, setUsers] = useState([]);
     const [selectedUsers, setSelectedUsers] = useState([]); // Filter State
+    const [embedUrl, setEmbedUrl] = useState(null); // URL to embed in iframe
+    const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'embed'
 
     useEffect(() => {
         loadDocs();
@@ -194,6 +196,52 @@ const CompanyDocs = () => {
         } catch (err) {
             alert("Error al eliminar enlace");
         }
+    };
+
+    const handleUpdateFolderField = async (field, value) => {
+        if (!currentFolderId) return;
+        try {
+            await api.updateDocument(currentFolderId, { [field]: value });
+            setDocs(prev => prev.map(d => d.id === currentFolderId ? { ...d, [field]: value } : d));
+        } catch (err) {
+            console.error("Failed to update folder field", err);
+        }
+    };
+
+    const handleToggleChecklistItem = (itemId) => {
+        const currentFolder = docs.find(d => d.id === currentFolderId);
+        const updatedChecklist = (currentFolder.checklist || []).map(item =>
+            item.id === itemId ? { ...item, completed: !item.completed } : item
+        );
+        handleUpdateFolderField('checklist', updatedChecklist);
+    };
+
+    const handleAddChecklistItem = (text) => {
+        if (!text.trim()) return;
+        const currentFolder = docs.find(d => d.id === currentFolderId);
+        const newItem = { id: Date.now(), text, completed: false };
+        const updatedChecklist = [...(currentFolder.checklist || []), newItem];
+        handleUpdateFolderField('checklist', updatedChecklist);
+    };
+
+    const handleRemoveChecklistItem = (itemId) => {
+        const currentFolder = docs.find(d => d.id === currentFolderId);
+        const updatedChecklist = (currentFolder.checklist || []).filter(item => item.id !== itemId);
+        handleUpdateFolderField('checklist', updatedChecklist);
+    };
+
+    const handleOpenEmbed = (url) => {
+        // Convert google doc/sheet url to embedded version if possible
+        let embedded = url;
+        if (url.includes('docs.google.com')) {
+            if (url.includes('/edit')) {
+                embedded = url.replace('/edit', '/preview');
+            } else if (!url.includes('/preview')) {
+                embedded = url + (url.endsWith('/') ? 'preview' : '/preview');
+            }
+        }
+        setEmbedUrl(embedded);
+        setViewMode('embed');
     };
 
     const getCurrentItems = () => {
@@ -494,37 +542,84 @@ const CompanyDocs = () => {
                                     </div>
                                 </div>
 
-                                {/* Management Notes Home */}
-                                <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden flex flex-col h-[400px]">
+                                {/* WRITING WORKSPACE HOME - DIRECT INTEGRATION */}
+                                <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden flex flex-col h-[600px]">
                                     <div className="p-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
                                         <div className="flex items-center gap-2">
-                                            <MessageSquare size={16} className="text-brand-orange" />
-                                            <h3 className="font-black text-xs uppercase tracking-widest text-brand-black">Notas de Gestión</h3>
+                                            <FileText size={16} className="text-brand-orange" />
+                                            <h3 className="font-black text-[10px] uppercase tracking-widest text-brand-black">Bloc de Notas General</h3>
                                         </div>
-                                        <button className="text-[10px] font-bold text-brand-orange hover:underline uppercase">Nueva</button>
+                                        <button
+                                            onClick={() => {
+                                                const homeDoc = docs.find(d => d.id === 'doc_home_notes');
+                                                if (homeDoc) openEditor(homeDoc);
+                                            }}
+                                            className="text-[10px] font-black text-brand-orange hover:underline uppercase bg-brand-orange/10 px-3 py-1 rounded-full"
+                                        >
+                                            Ampliar Editor
+                                        </button>
                                     </div>
-                                    <div className="flex-1 overflow-y-auto p-6 space-y-4">
-                                        {docs.filter(d => d.type === 'notes_internal' || d.id === 'home_notes').length === 0 ? (
-                                            <div className="h-full flex flex-col items-center justify-center text-center space-y-2">
-                                                <FileText size={40} className="text-gray-100" />
-                                                <p className="text-[10px] font-bold text-gray-300 uppercase">Sin notas internas</p>
-                                            </div>
-                                        ) : (
-                                            <p className="text-xs text-center text-gray-400">Listado de notas...</p>
-                                        )}
+                                    <div className="flex-1 p-0 relative">
+                                        {/* Embedded Internal Writing Area */}
+                                        <textarea
+                                            value={docs.find(d => d.id === 'doc_home_notes')?.content || ''}
+                                            onChange={async (e) => {
+                                                const newContent = e.target.value;
+                                                setDocs(prev => prev.map(d => d.id === 'doc_home_notes' ? { ...d, content: newContent } : d));
+                                                // Debounced or direct save for home notes
+                                                try {
+                                                    await api.updateDocument('doc_home_notes', { content: newContent });
+                                                } catch (err) { }
+                                            }}
+                                            placeholder="Escribe aquí notas rápidas, avisos o tareas generales..."
+                                            className="w-full h-full p-8 bg-transparent border-none focus:ring-0 text-xs text-gray-700 leading-relaxed resize-none font-medium"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Integrated Dashboard Calendar */}
+                                <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden h-[400px]">
+                                    <div className="p-6 border-b border-gray-50 flex items-center gap-2">
+                                        <Calendar size={16} className="text-brand-orange" />
+                                        <h3 className="font-black text-[10px] uppercase tracking-widest text-brand-black">Vista de Calendario</h3>
+                                    </div>
+                                    <div className="h-full w-full bg-gray-50">
+                                        {/* Embedded Google Calendar for quick view */}
+                                        <iframe
+                                            src="https://calendar.google.com/calendar/embed?src=gestiolagrafica%40gmail.com&ctz=Europe%2FMadrid&mode=AGENDA"
+                                            className="w-full h-full border-none opacity-80 hover:opacity-100 transition-opacity"
+                                            title="Google Calendar Agenda"
+                                        />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                ) : viewMode === 'embed' ? (
+                    <div className="flex flex-col h-full bg-white">
+                        <div className="bg-gray-100 p-2 flex justify-between items-center border-b">
+                            <button onClick={() => setViewMode('grid')} className="flex items-center gap-2 px-3 py-1 bg-white border rounded-lg text-xs font-bold hover:bg-gray-50 transition-colors">
+                                <ArrowLeft size={14} /> Volver a Unidad
+                            </button>
+                            <a href={embedUrl} target="_blank" rel="noreferrer" className="text-[10px] font-bold text-brand-orange hover:underline flex items-center gap-1 uppercase">
+                                Abrir en pestaña nueva <ExternalLink size={10} />
+                            </a>
+                        </div>
+                        <iframe
+                            src={embedUrl}
+                            className="flex-1 w-full border-none"
+                            title="Embedded Content"
+                            allow="autoplay"
+                        />
+                    </div>
                 ) : (
                     /* MANAGEMENT UNIT DETAIL VIEW */
-                    <div className="p-8 max-w-6xl mx-auto space-y-8">
+                    <div className="p-8 max-w-7xl mx-auto space-y-8">
                         {/* 4 Standard Action Cards */}
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                            <a
-                                href={currentFolder?.notesUrl || '#'} target="_blank" rel="noreferrer"
-                                className="bg-blue-50 p-6 rounded-3xl border border-blue-100 hover:shadow-xl hover:shadow-blue-500/10 transition-all group overflow-hidden relative"
+                            <button
+                                onClick={() => handleOpenEmbed(currentFolder?.notesUrl || 'https://docs.google.com/document/create')}
+                                className="bg-blue-50 p-6 rounded-3xl border border-blue-100 hover:shadow-xl hover:shadow-blue-500/10 transition-all group overflow-hidden relative text-left"
                             >
                                 <div className="absolute -right-4 -bottom-4 text-blue-100/50 group-hover:scale-110 transition-transform">
                                     <FileText size={100} />
@@ -534,11 +629,11 @@ const CompanyDocs = () => {
                                 <div className="flex items-center gap-2 text-blue-600 font-black text-[10px] uppercase">
                                     Abrir Documento <ExternalLink size={12} />
                                 </div>
-                            </a>
+                            </button>
 
-                            <a
-                                href={currentFolder?.sheetUrl || '#'} target="_blank" rel="noreferrer"
-                                className="bg-green-50 p-6 rounded-3xl border border-green-100 hover:shadow-xl hover:shadow-green-500/10 transition-all group overflow-hidden relative"
+                            <button
+                                onClick={() => handleOpenEmbed(currentFolder?.sheetUrl || 'https://docs.google.com/spreadsheets/create')}
+                                className="bg-green-50 p-6 rounded-3xl border border-green-100 hover:shadow-xl hover:shadow-green-500/10 transition-all group overflow-hidden relative text-left"
                             >
                                 <div className="absolute -right-4 -bottom-4 text-green-100/50 group-hover:scale-110 transition-transform">
                                     <Table size={100} />
@@ -548,7 +643,7 @@ const CompanyDocs = () => {
                                 <div className="flex items-center gap-2 text-green-600 font-black text-[10px] uppercase">
                                     Abrir Planilla <ExternalLink size={12} />
                                 </div>
-                            </a>
+                            </button>
 
                             <a
                                 href={currentFolder?.driveUrl || '#'} target="_blank" rel="noreferrer"
@@ -566,22 +661,90 @@ const CompanyDocs = () => {
 
                             <button
                                 onClick={handleAddLink}
-                                className="bg-brand-black p-6 rounded-3xl text-white hover:bg-brand-orange transition-all flex flex-col items-center justify-center text-center group active:scale-95"
+                                className="bg-brand-black p-6 rounded-3xl text-white hover:bg-brand-orange transition-all flex flex-col items-center justify-center text-center group active:scale-95 shadow-lg shadow-black/10"
                             >
                                 <div className="p-3 bg-white/10 rounded-full mb-3 group-hover:bg-white/20">
                                     <LinkIcon size={24} />
                                 </div>
                                 <span className="font-black text-[10px] uppercase tracking-widest">Añadir Recurso</span>
-                                <span className="text-[8px] text-white/50 mt-1 uppercase">Drive, Dropbox, Web</span>
+                                <span className="text-[8px] text-white/50 mt-1 uppercase">Enlace Externo</span>
                             </button>
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                            {/* Main Content: Document List & Links */}
+                            {/* Main Content: Description, Checklist & Files */}
                             <div className="lg:col-span-2 space-y-6">
+                                {/* Description Card */}
+                                <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+                                    <div className="p-6 border-b border-gray-50 flex items-center gap-2">
+                                        <MessageSquare size={18} className="text-brand-orange" />
+                                        <h3 className="font-black text-[10px] uppercase tracking-widest text-brand-black">Descripción y Objetivos</h3>
+                                    </div>
+                                    <div className="p-6">
+                                        <textarea
+                                            value={currentFolder?.description || ''}
+                                            onChange={(e) => handleUpdateFolderField('description', e.target.value)}
+                                            placeholder="Introduce los objetivos, tareas principales o información relevante de esta unidad..."
+                                            className="w-full h-32 p-4 bg-gray-50 rounded-2xl border-none focus:ring-2 focus:ring-brand-orange/20 text-xs text-gray-700 leading-relaxed resize-none placeholder-gray-300 font-medium"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Checklist Card */}
+                                <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+                                    <div className="p-6 border-b border-gray-50 flex justify-between items-center">
+                                        <div className="flex items-center gap-2">
+                                            <CheckCircle size={18} className="text-green-500" />
+                                            <h3 className="font-black text-[10px] uppercase tracking-widest text-brand-black">Listado de Pendientes (Checklist)</h3>
+                                        </div>
+                                    </div>
+                                    <div className="p-6 space-y-4">
+                                        <div className="flex gap-2">
+                                            <input
+                                                type="text"
+                                                placeholder="Nueva tarea..."
+                                                className="flex-1 p-3 bg-gray-50 border-none rounded-xl text-xs focus:ring-2 focus:ring-brand-orange/20 font-medium"
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') {
+                                                        handleAddChecklistItem(e.target.value);
+                                                        e.target.value = '';
+                                                    }
+                                                }}
+                                            />
+                                            <button
+                                                onClick={(e) => {
+                                                    const input = e.currentTarget.previousSibling;
+                                                    handleAddChecklistItem(input.value);
+                                                    input.value = '';
+                                                }}
+                                                className="px-4 py-2 bg-brand-black text-white rounded-xl font-bold text-xs"
+                                            >
+                                                Añadir
+                                            </button>
+                                        </div>
+                                        <div className="space-y-2 max-h-[300px] overflow-y-auto">
+                                            {(currentFolder?.checklist || []).length === 0 ? (
+                                                <p className="text-center py-6 text-[10px] text-gray-300 font-bold uppercase">No hay tareas pendientes</p>
+                                            ) : (
+                                                currentFolder.checklist.map(item => (
+                                                    <div key={item.id} className="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-2xl group transition-all">
+                                                        <button onClick={() => handleToggleChecklistItem(item.id)} className={`${item.completed ? 'text-green-500' : 'text-gray-300'} transition-colors`}>
+                                                            {item.completed ? <CheckCircle size={20} /> : <Circle size={20} />}
+                                                        </button>
+                                                        <span className={`flex-1 text-xs font-medium ${item.completed ? 'text-gray-400 line-through' : 'text-gray-700'}`}>{item.text}</span>
+                                                        <button onClick={() => handleRemoveChecklistItem(item.id)} className="p-1 text-gray-200 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all">
+                                                            <X size={14} />
+                                                        </button>
+                                                    </div>
+                                                ))
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
                                     <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-                                        <h3 className="font-black text-sm uppercase tracking-widest flex items-center gap-2">
+                                        <h3 className="font-black text-[10px] uppercase tracking-widest flex items-center gap-2">
                                             <FileText size={18} className="text-brand-orange" /> Archivos de la Unidad
                                         </h3>
                                         <div className="relative">
@@ -591,60 +754,30 @@ const CompanyDocs = () => {
                                             </button>
                                         </div>
                                     </div>
-                                    <div className="p-6 min-h-[300px]">
+                                    <div className="p-6 min-h-[200px]">
                                         {getCurrentItems().length === 0 ? (
-                                            <div className="flex flex-col items-center justify-center h-full py-10 opacity-20">
+                                            <div className="flex flex-col items-center justify-center py-10 opacity-20 text-center">
                                                 <Upload size={48} className="mb-4" />
-                                                <p className="font-bold text-xs">Aún no hay archivos específicos subidos.</p>
+                                                <p className="font-bold text-[10px] uppercase">Aún no hay archivos subidos</p>
                                             </div>
                                         ) : (
-                                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
                                                 {getCurrentItems().map(item => (
                                                     <div
                                                         key={item.id}
-                                                        className="group p-4 bg-gray-50 rounded-2xl border border-transparent hover:border-brand-orange/20 hover:bg-white hover:shadow-lg transition-all relative"
-                                                        onClick={() => item.type === 'doc' && openEditor(item)}
+                                                        className="group p-4 bg-gray-50 rounded-2xl border border-transparent hover:border-brand-orange/20 hover:bg-white hover:shadow-lg transition-all relative cursor-pointer"
+                                                        onClick={() => item.type === 'doc' ? openEditor(item) : window.open(item.url, '_blank')}
                                                     >
                                                         <div className="flex justify-between items-start mb-2">
                                                             <div className={`p-2 rounded-lg bg-white shadow-sm ${item.type === 'doc' ? 'text-blue-500' : 'text-gray-400'}`}>
                                                                 <File size={20} />
                                                             </div>
-                                                            <button onClick={(e) => handleDelete(item.id, e)} className="p-1 text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                            <button onClick={(e) => handleDelete(item.id, e)} className="p-1 text-gray-200 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
                                                                 <Trash2 size={14} />
                                                             </button>
                                                         </div>
                                                         <p className="text-xs font-bold text-brand-black truncate">{item.name}</p>
-                                                        <p className="text-[9px] text-gray-400 mt-1 uppercase font-bold tracking-tighter">{new Date(item.createdAt).toLocaleDateString()}</p>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-
-                                {/* External Links Section */}
-                                <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
-                                    <div className="p-6 border-b border-gray-100">
-                                        <h3 className="font-black text-sm uppercase tracking-widest flex items-center gap-2">
-                                            <LinkIcon size={18} className="text-brand-orange" /> Enlaces y Recursos Externos
-                                        </h3>
-                                    </div>
-                                    <div className="p-6">
-                                        {(!currentFolder?.links || currentFolder.links.length === 0) ? (
-                                            <p className="text-center py-6 text-xs text-gray-300 italic">No hay enlaces externos asociados.</p>
-                                        ) : (
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                                {currentFolder.links.map(link => (
-                                                    <div key={link.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-2xl border border-gray-100 group">
-                                                        <a href={link.url} target="_blank" rel="noreferrer" className="flex items-center gap-3 flex-1">
-                                                            <div className="p-2 bg-white rounded-lg group-hover:text-brand-orange transition-colors">
-                                                                <Globe size={14} />
-                                                            </div>
-                                                            <span className="text-xs font-bold text-brand-black">{link.title}</span>
-                                                        </a>
-                                                        <button onClick={() => handleDeleteLink(link.id)} className="p-1 text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100">
-                                                            <Trash2 size={14} />
-                                                        </button>
+                                                        <p className="text-[8px] text-gray-400 mt-1 uppercase font-black tracking-widest">{new Date(item.createdAt).toLocaleDateString()}</p>
                                                     </div>
                                                 ))}
                                             </div>
@@ -653,8 +786,38 @@ const CompanyDocs = () => {
                                 </div>
                             </div>
 
-                            {/* Sidebar: Email Integration & Metadata */}
+                            {/* Sidebar: External Links, Email & Metadata */}
                             <div className="space-y-6">
+                                {/* External Links Section */}
+                                <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+                                    <div className="p-6 border-b border-gray-100">
+                                        <h3 className="font-black text-[10px] uppercase tracking-widest flex items-center gap-2">
+                                            <LinkIcon size={18} className="text-brand-orange" /> Recursos Externos
+                                        </h3>
+                                    </div>
+                                    <div className="p-6">
+                                        {(!currentFolder?.links || currentFolder.links.length === 0) ? (
+                                            <p className="text-center py-6 text-[10px] text-gray-300 font-bold uppercase tracking-widest">Sin enlaces</p>
+                                        ) : (
+                                            <div className="space-y-2">
+                                                {currentFolder.links.map(link => (
+                                                    <div key={link.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-2xl border border-gray-100 group">
+                                                        <a href={link.url} target="_blank" rel="noreferrer" className="flex items-center gap-3 flex-1 overflow-hidden">
+                                                            <div className="p-2 bg-white rounded-lg group-hover:text-brand-orange transition-colors shrink-0">
+                                                                <Globe size={14} />
+                                                            </div>
+                                                            <span className="text-xs font-bold text-brand-black truncate">{link.title}</span>
+                                                        </a>
+                                                        <button onClick={() => handleDeleteLink(link.id)} className="p-1 text-gray-200 hover:text-red-500 opacity-0 group-hover:opacity-100 shrink-0">
+                                                            <Trash2 size={14} />
+                                                        </button>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
                                 {/* Email Link Card */}
                                 <div className="bg-brand-orange p-6 rounded-3xl text-white shadow-xl shadow-brand-orange/10">
                                     <h3 className="font-black uppercase text-[10px] tracking-widest mb-4 opacity-70">Integración Email</h3>
