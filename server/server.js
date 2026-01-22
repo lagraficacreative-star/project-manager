@@ -25,6 +25,8 @@ const loadEnv = () => {
     });
     return config;
 };
+const env = loadEnv();
+const GOOGLE_SCRIPT_URL = env.GOOGLE_SCRIPT_URL || '';
 
 // --- UPLOAD CONFIG ---
 const UPLOADS_DIR = path.join(__dirname, 'uploads');
@@ -48,6 +50,41 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client/dist'))); // Serve React App
 
 app.use('/uploads', express.static(UPLOADS_DIR)); // Serve uploaded files
+
+// --- GLOBAL EMAIL CACHE ---
+const emailCache = {}; // { userId: { folder: { timestamp: 0, emails: [] } } }
+
+const updateEmailCache = async (userId, folder = 'INBOX') => {
+    try {
+        const emails = await fetchRealEmails(userId, folder);
+        if (emails && !emails.error) {
+            if (!emailCache[userId]) emailCache[userId] = {};
+            emailCache[userId][folder] = {
+                timestamp: Date.now(),
+                emails: emails
+            };
+            console.log(`✅ Cache updated for ${userId} [${folder}]`);
+        }
+    } catch (err) {
+        console.error(`❌ Sync error for ${userId}:`, err);
+    }
+};
+
+const startEmailSync = () => {
+    const sync = async () => {
+        const DB_CONTENT = fs.readFileSync(DB_FILE, 'utf8');
+        const db_sync = JSON.parse(DB_CONTENT);
+        const users = db_sync.users || [];
+        for (const user of users) {
+            await updateEmailCache(user.id, 'INBOX');
+        }
+    };
+    setInterval(sync, 120000); // Every 2 minutes
+    sync(); // Start first sync
+};
+
+// Initialize Sync
+setTimeout(startEmailSync, 5000);
 
 // Helper to read DB
 const readDB = () => {
@@ -88,37 +125,55 @@ const readDB = () => {
             documents: [],
             events: [],
             processed_emails: [],
-            deleted_emails: []
+            deleted_emails: [],
+            deleted_emails: [],
+            activity: [],
+            contacts: []
         };
         fs.mkdirSync(path.dirname(DB_FILE), { recursive: true });
     } else {
         data = JSON.parse(fs.readFileSync(DB_FILE));
     }
 
+    // Ensure Core Categories Exist
+    const coreFolders = [
+        { id: 'f_balanços', name: 'Balanços', type: 'folder', parentId: null },
+        { id: 'f_licitacions', name: 'Licitacions', type: 'folder', parentId: null },
+        { id: 'f_empresa', name: 'Empresa', type: 'folder', parentId: null },
+        { id: 'f_drive', name: 'Recursos Drive', type: 'folder', parentId: null }
+    ];
+    if (!data.documents) data.documents = [];
+    coreFolders.forEach(cf => {
+        if (!data.documents.find(d => d.id === cf.id)) {
+            data.documents.push({ ...cf, createdAt: new Date().toISOString() });
+        }
+    });
+
     // Ensure Required Boards Exist
     const requiredBoards = [
         // Services
-        { id: 'b_design', title: 'Disseny Gràfic' },
-        { id: 'b_social', title: 'Xarxes Socials' },
-        { id: 'b_web', title: 'Desenvolupament Web' },
+        { id: 'b_design', title: 'LG - Disseny' },
+        { id: 'b_social', title: 'XARXES SOCIALS' },
+        { id: 'b_web', title: 'WEB laGràfica' },
         { id: 'b_ai', title: 'Projectes IA' },
 
         // Clients
-        { id: 'b_lleida', title: 'Lleida en verd' },
-        { id: 'b_animac', title: 'Animac' },
+        { id: 'b_lleida', title: 'LLEIDA EN VERD 2025' },
+        { id: 'b_animac', title: 'ANIMAC26' },
         { id: 'b_imo', title: 'Imo' },
-        { id: 'b_diba', title: 'Diba' },
+        { id: 'b_diba', title: 'EXPOSICIÓ DIBA 2026' },
 
         // Management
         { id: 'b_management', title: 'Gestió' },
-        { id: 'b_budget', title: 'Pressupostos' },
-        { id: 'b_billing', title: 'Facturació' },
+        { id: 'b_budget', title: 'PRESSUPOSTOS 2025' },
+        { id: 'b_billing', title: 'FACTURACIÓ 2025' },
         { id: 'b_tenders', title: 'Licitacions' },
         { id: 'b_accounting', title: 'Contabilidad' },
         { id: 'b_laboral', title: 'Laboral' },
         { id: 'b_rates', title: 'Tarifas' },
         { id: 'b_expenses', title: 'Gastos' },
-        { id: 'b_income', title: 'Ingresos' }
+        { id: 'b_income', title: 'Ingresos' },
+        { id: 'b_kit_digital', title: 'KIT DIGITAL' }
     ];
 
     let changed = false;
@@ -272,6 +327,19 @@ const writeDB = (data) => {
     fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
 };
 
+const logActivity = (db, type, text, user = 'Montse') => {
+    if (!db.activity) db.activity = [];
+    const entry = {
+        id: Date.now() + Math.random().toString(36).substr(2, 5),
+        type, // 'card', 'doc', 'mail', 'event', 'chat'
+        text,
+        user,
+        timestamp: new Date().toISOString()
+    };
+    db.activity.unshift(entry);
+    if (db.activity.length > 50) db.activity = db.activity.slice(0, 50);
+};
+
 // --- REAL EMAIL FETCHER (PYTHON BRIDGE) ---
 async function fetchRealEmails(memberId, folder = 'INBOX') {
     const config = loadEnv();
@@ -390,18 +458,45 @@ app.get('/api/emails/:userId', async (req, res) => {
     const { folder } = req.query; // 'INBOX' or 'Archivo_Fichas/Correos_Procesados'
     const targetFolder = folder || 'INBOX';
 
+    // Return from cache if available
+    if (emailCache[userId] && emailCache[userId][targetFolder]) {
+        res.json(emailCache[userId][targetFolder].emails);
+
+        // If older than 1 min, refresh in background
+        if (Date.now() - emailCache[userId][targetFolder].timestamp > 60000) {
+            updateEmailCache(userId, targetFolder);
+        }
+        return;
+    }
+
     const emails = await fetchRealEmails(userId, targetFolder);
     if (!emails) {
-        // Fallback to mock data if no credentials
         const db = readDB();
         return res.json(db.emails || []);
     }
+
+    // Populate cache for next time
+    if (!emailCache[userId]) emailCache[userId] = {};
+    emailCache[userId][targetFolder] = {
+        timestamp: Date.now(),
+        emails: emails
+    };
+
     res.json(emails);
 });
 
 app.post('/api/emails/archive', async (req, res) => {
     const { userId, uid } = req.body;
     const result = await archiveEmail(userId, uid);
+
+    // Invalidate/Update cache
+    if (result && !result.error) {
+        if (emailCache[userId] && emailCache[userId]['INBOX']) {
+            emailCache[userId]['INBOX'].emails = emailCache[userId]['INBOX'].emails.filter(e => String(e.id) !== String(uid));
+        }
+        updateEmailCache(userId, 'INBOX'); // Trigger background refresh
+    }
+
     res.json(result);
 });
 
@@ -410,13 +505,14 @@ app.get('/api/emails/processed', (req, res) => {
     res.json(db.processed_emails || []);
 });
 
+
 app.post('/api/emails/mark-processed', (req, res) => {
-    const { uid } = req.body;
+    const { uid, subject, user } = req.body;
     const db = readDB();
     if (!db.processed_emails) db.processed_emails = [];
     if (!db.processed_emails.includes(String(uid))) {
         db.processed_emails.push(String(uid));
-        // Keep list reasonable size
+        logActivity(db, 'mail', `Correu convertit a fitxa: ${subject || 'Sense assumpte'}`, user || 'Sistema');
         if (db.processed_emails.length > 500) db.processed_emails.shift();
         writeDB(db);
     }
@@ -493,6 +589,12 @@ app.post('/api/emails/save-attachments', (req, res) => {
 });
 
 // --- API ROUTES ---
+
+// Activity Log
+app.get('/api/activity', (req, res) => {
+    const db = readDB();
+    res.json(db.activity || []);
+});
 
 // Get all data
 app.get('/api/data', (req, res) => {
@@ -579,6 +681,71 @@ app.delete('/api/boards/:id', (req, res) => {
     res.json({ success: true });
 });
 
+// --- TRELLO IMPORT ---
+app.post('/api/import/trello', (req, res) => {
+    const db = readDB();
+    const { boardId, trelloData } = req.body;
+
+    if (!boardId || !trelloData) {
+        return res.status(400).json({ error: "Missing boardId or trelloData" });
+    }
+
+    const board = db.boards.find(b => b.id === boardId);
+    if (!board) return res.status(404).json({ error: "Board not found" });
+
+    // Map Trello Lists to Columns
+    // If column doesn't exist, we create it
+    const trelloLists = trelloData.lists || [];
+    const trelloCards = trelloData.cards || [];
+
+    trelloLists.forEach(list => {
+        if (!list.closed) {
+            const existingCol = board.columns.find(c => c.id === list.id || c.title.toLowerCase() === list.name.toLowerCase());
+            if (!existingCol) {
+                board.columns.push({
+                    id: list.id,
+                    title: list.name
+                });
+            }
+        }
+    });
+
+    // Map Trello Cards
+    trelloCards.forEach(card => {
+        if (!card.closed) {
+            const newCard = {
+                id: 'card_trello_' + card.id,
+                boardId: boardId,
+                columnId: card.idList,
+                title: card.name,
+                descriptionBlocks: [{ type: 'paragraph', text: card.desc || '' }],
+                priority: 'medium',
+                dueDate: card.due || null,
+                responsibleId: 'montse', // Default
+                comments: (card.actions || [])
+                    .filter(a => a.type === 'commentCard')
+                    .map(a => ({
+                        id: a.id,
+                        text: a.data.text,
+                        author: a.memberCreator.fullName,
+                        date: a.date
+                    })),
+                attachments: (card.attachments || []).map(att => ({
+                    id: att.id,
+                    filename: att.name,
+                    url: att.url
+                })),
+                createdAt: new Date().toISOString()
+            };
+            db.cards.push(newCard);
+        }
+    });
+
+    logActivity(db, 'system', `Importació de Trello completada per al tauler: ${board.title}`, 'Sistema');
+    writeDB(db);
+    res.json({ success: true, count: trelloCards.length });
+});
+
 // --- CARDS ---
 
 app.post('/api/cards', (req, res) => {
@@ -597,6 +764,7 @@ app.post('/api/cards', (req, res) => {
     };
 
     db.cards.push(newCard);
+    logActivity(db, 'card', `Nova tarjeta: ${newCard.title}`, newCard.responsibleId || 'Sistema');
     writeDB(db);
     res.json(newCard);
 });
@@ -735,6 +903,7 @@ app.post('/api/messages', (req, res) => {
     db.messages.push(newMsg);
     // Keep only last 100 messages to prevent bloat
     if (db.messages.length > 200) db.messages = db.messages.slice(-100);
+    logActivity(db, 'chat', `Nou missatge al xat`, author);
     writeDB(db);
     res.json(newMsg);
 });
@@ -793,6 +962,7 @@ app.post('/api/documents', (req, res) => {
     };
     if (!db.documents) db.documents = [];
     db.documents.push(newDoc);
+    logActivity(db, 'doc', `Nou document: ${newDoc.name}`, 'Sistema');
     writeDB(db);
     res.json(newDoc);
 });
@@ -851,6 +1021,7 @@ app.post('/api/events', (req, res) => {
     if (!db.events) db.events = [];
     const newEvent = { ...event, id: 'evt_' + Date.now() };
     db.events.push(newEvent);
+    logActivity(db, 'event', `Nou esdeveniment: ${newEvent.title}`, 'Sistema');
     writeDB(db);
     res.json(newEvent);
 });
@@ -881,6 +1052,191 @@ app.post('/api/archive-notice', (req, res) => {
     });
 });
 
+
+// --- CONTACTS ---
+app.get('/api/contacts', (req, res) => {
+    const db = readDB();
+    res.json(db.contacts || []);
+});
+
+app.post('/api/contacts', (req, res) => {
+    const db = readDB();
+    const contact = req.body;
+    if (!contact || !contact.name) {
+        return res.status(400).json({ error: "Invalid contact data" });
+    }
+
+    if (!db.contacts) db.contacts = [];
+
+    const newContact = {
+        ...contact,
+        id: 'contact_' + Date.now()
+    };
+
+    db.contacts.push(newContact);
+    logActivity(db, 'system', `Nou contacte afegit: ${newContact.name}`, 'Sistema');
+    writeDB(db);
+    res.json(newContact);
+});
+
+app.post('/api/contacts/bulk', (req, res) => {
+    const db = readDB();
+    const { contacts } = req.body;
+    if (!contacts || !Array.isArray(contacts)) {
+        return res.status(400).json({ error: "Invalid contacts data" });
+    }
+
+    if (!db.contacts) db.contacts = [];
+
+    const newContacts = contacts.map(c => ({
+        ...c,
+        id: 'contact_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)
+    }));
+
+    db.contacts.push(...newContacts);
+    logActivity(db, 'system', `Importats ${newContacts.length} contactes de B2Brouter`, 'Sistema');
+    writeDB(db);
+    res.json({ success: true, count: newContacts.length });
+});
+
+app.delete('/api/contacts/:id', (req, res) => {
+    const db = readDB();
+    const { id } = req.params;
+    db.contacts = (db.contacts || []).filter(c => String(c.id) !== String(id));
+    writeDB(db);
+    res.json({ success: true });
+});
+
+app.put('/api/contacts/:id', (req, res) => {
+    const db = readDB();
+    const { id } = req.params;
+    const data = req.body;
+    const index = (db.contacts || []).findIndex(c => String(c.id) === String(id));
+
+    if (index !== -1) {
+        db.contacts[index] = { ...db.contacts[index], ...data };
+        writeDB(db);
+        res.json(db.contacts[index]);
+    } else {
+        res.status(404).json({ error: "Contact not found" });
+    }
+});
+
+// --- TENDERS ---
+app.get('/api/tenders', (req, res) => {
+    const db = readDB();
+    res.json(db.tenders || []);
+});
+
+app.post('/api/tenders', (req, res) => {
+    const db = readDB();
+    const tender = { ...req.body, id: 'tender_' + Date.now(), createdAt: Date.now() };
+    if (!db.tenders) db.tenders = [];
+    db.tenders.push(tender);
+    logActivity(db, 'system', `Nova licitació registrada: ${tender.title}`, 'Sistema');
+    writeDB(db);
+    res.json(tender);
+});
+
+app.put('/api/tenders/:id', (req, res) => {
+    const db = readDB();
+    const { id } = req.params;
+    const index = (db.tenders || []).findIndex(t => String(t.id) === String(id));
+    if (index !== -1) {
+        db.tenders[index] = { ...db.tenders[index], ...req.body };
+        writeDB(db);
+        res.json(db.tenders[index]);
+    } else {
+        res.status(404).json({ error: "Tender not found" });
+    }
+});
+
+app.delete('/api/tenders/:id', (req, res) => {
+    const db = readDB();
+    db.tenders = (db.tenders || []).filter(t => String(t.id) !== String(req.params.id));
+    writeDB(db);
+    res.json({ success: true });
+});
+
+// --- ALERTS ---
+app.get('/api/alerts', (req, res) => {
+    const db = readDB();
+    res.json(db.alerts || []);
+});
+
+app.post('/api/alerts', (req, res) => {
+    const db = readDB();
+    const alert = { ...req.body, id: 'alert_' + Date.now(), createdAt: Date.now() };
+    if (!db.alerts) db.alerts = [];
+    db.alerts.push(alert);
+    writeDB(db);
+    res.json(alert);
+});
+
+app.delete('/api/alerts/:id', (req, res) => {
+    const db = readDB();
+    db.alerts = (db.alerts || []).filter(a => String(a.id) !== String(req.params.id));
+    writeDB(db);
+    res.json({ success: true });
+});
+
+// --- GOOGLE SYNC PROXY ---
+app.get('/api/sync-google', async (req, res) => {
+    if (!GOOGLE_SCRIPT_URL) {
+        return res.status(400).json({ error: "Google Script URL not configured" });
+    }
+    try {
+        const response = await fetch(GOOGLE_SCRIPT_URL);
+        const data = await response.json(); // Expected: { files: [], alerts: [] }
+
+        const db = readDB();
+
+        // --- Process Files ---
+        const files = data.files || (Array.isArray(data) ? data : []);
+        if (files.length > 0) {
+            if (!db.documents) db.documents = [];
+            files.forEach(gFile => {
+                const exists = db.documents.find(d => d.url === gFile.url);
+                if (!exists) {
+                    db.documents.push({
+                        id: 'gdrive_' + Date.now() + Math.random().toString(36).substr(2, 5),
+                        name: gFile.name,
+                        type: 'file',
+                        url: gFile.url,
+                        parentId: 'f_drive',
+                        createdAt: new Date().toISOString()
+                    });
+                }
+            });
+            // Ensure f_drive folder exists
+            if (!db.documents.find(d => d.id === 'f_drive')) {
+                db.documents.push({ id: 'f_drive', name: 'Recursos Drive', type: 'folder', parentId: null, createdAt: new Date().toISOString() });
+            }
+        }
+
+        // --- Process Alerts (Tenders) ---
+        const alerts = data.alerts || [];
+        if (alerts.length > 0) {
+            if (!db.alerts) db.alerts = [];
+            alerts.forEach(newAlert => {
+                const exists = db.alerts.find(a => a.link === newAlert.link || a.title === newAlert.title);
+                if (!exists) {
+                    db.alerts.push({
+                        ...newAlert,
+                        id: 'alert_' + Date.now() + Math.random().toString(36).substr(2, 5),
+                        createdAt: Date.now()
+                    });
+                }
+            });
+        }
+
+        writeDB(db);
+        res.json({ success: true, filesFound: files.length, alertsFound: alerts.length });
+    } catch (err) {
+        console.error("Error syncing with Google Script:", err);
+        res.status(500).json({ error: "Failed to sync with Google" });
+    }
+});
 
 // --- SPA FALLBACK ---
 app.get('*', (req, res) => {

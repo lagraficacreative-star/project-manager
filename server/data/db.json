@@ -63,16 +63,28 @@
       "title": "Disseny gràfic",
       "columns": [
         {
-          "id": "c_todo",
-          "title": "Pendiente"
+          "id": "col_1_b_design",
+          "title": "por revisar"
         },
         {
-          "id": "col_1768371678168",
-          "title": "dfdsfds"
+          "id": "col_2_b_design",
+          "title": "urgente"
         },
         {
-          "id": "col_1768373031074",
-          "title": "fdsfds"
+          "id": "col_3_b_design",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_design",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_design",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_design",
+          "title": "facturación"
         }
       ]
     },
@@ -81,16 +93,28 @@
       "title": "Xarxes socials",
       "columns": [
         {
-          "id": "c_todo",
-          "title": "Pendiente"
+          "id": "col_1_b_social",
+          "title": "por revisar"
         },
         {
-          "id": "c_doing",
-          "title": "En curso"
+          "id": "col_2_b_social",
+          "title": "urgente"
         },
         {
-          "id": "c_done",
-          "title": "Hecho"
+          "id": "col_3_b_social",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_social",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_social",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_social",
+          "title": "facturación"
         }
       ]
     },
@@ -99,16 +123,28 @@
       "title": "Web",
       "columns": [
         {
-          "id": "c_todo",
-          "title": "Pendiente"
+          "id": "col_1_b_web",
+          "title": "por revisar"
         },
         {
-          "id": "c_doing",
-          "title": "En curso"
+          "id": "col_2_b_web",
+          "title": "urgente"
         },
         {
-          "id": "c_done",
-          "title": "Hecho"
+          "id": "col_3_b_web",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_web",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_web",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_web",
+          "title": "facturación"
         }
       ]
     },
@@ -117,16 +153,28 @@
       "title": "Licitacions",
       "columns": [
         {
-          "id": "c_todo",
-          "title": "Pendiente"
+          "id": "col_1_b_tenders",
+          "title": "por revisar"
         },
         {
-          "id": "c_doing",
-          "title": "En curso"
+          "id": "col_2_b_tenders",
+          "title": "urgente"
         },
         {
-          "id": "c_done",
-          "title": "Hecho"
+          "id": "col_3_b_tenders",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_tenders",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_tenders",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_tenders",
+          "title": "facturación"
         }
       ]
     },
@@ -135,16 +183,28 @@
       "title": "Gestió",
       "columns": [
         {
-          "id": "col_1_1768294811952",
-          "title": "To Do"
+          "id": "col_1_board_1768294811952",
+          "title": "por revisar"
         },
         {
-          "id": "col_2_1768294811952",
-          "title": "In Progress"
+          "id": "col_2_board_1768294811952",
+          "title": "urgente"
         },
         {
-          "id": "col_3_1768294811952",
-          "title": "Done"
+          "id": "col_3_board_1768294811952",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_board_1768294811952",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_board_1768294811952",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_board_1768294811952",
+          "title": "facturación"
         }
       ]
     },
@@ -153,16 +213,28 @@
       "title": "Projectes IA",
       "columns": [
         {
-          "id": "c_todo_b_ai",
-          "title": "Pendiente"
+          "id": "col_1_b_ai",
+          "title": "por revisar"
         },
         {
-          "id": "c_doing_b_ai",
-          "title": "En curso"
+          "id": "col_2_b_ai",
+          "title": "urgente"
         },
         {
-          "id": "c_done_b_ai",
-          "title": "Hecho"
+          "id": "col_3_b_ai",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_ai",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_ai",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_ai",
+          "title": "facturación"
         }
       ]
     },
@@ -171,16 +243,28 @@
       "title": "Lleida en verd",
       "columns": [
         {
-          "id": "c_todo_b_lleida",
-          "title": "Pendiente"
+          "id": "col_1_b_lleida",
+          "title": "por revisar"
         },
         {
-          "id": "c_doing_b_lleida",
-          "title": "En curso"
+          "id": "col_2_b_lleida",
+          "title": "urgente"
         },
         {
-          "id": "c_done_b_lleida",
-          "title": "Hecho"
+          "id": "col_3_b_lleida",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_lleida",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_lleida",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_lleida",
+          "title": "facturación"
         }
       ]
     },
@@ -189,16 +273,28 @@
       "title": "Animac",
       "columns": [
         {
-          "id": "c_todo_b_animac",
-          "title": "Pendiente"
+          "id": "col_1_b_animac",
+          "title": "por revisar"
         },
         {
-          "id": "c_doing_b_animac",
-          "title": "En curso"
+          "id": "col_2_b_animac",
+          "title": "urgente"
         },
         {
-          "id": "c_done_b_animac",
-          "title": "Hecho"
+          "id": "col_3_b_animac",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_animac",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_animac",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_animac",
+          "title": "facturación"
         }
       ]
     },
@@ -207,16 +303,28 @@
       "title": "Imo",
       "columns": [
         {
-          "id": "c_todo_b_imo",
-          "title": "Pendiente"
+          "id": "col_1_b_imo",
+          "title": "por revisar"
         },
         {
-          "id": "c_doing_b_imo",
-          "title": "En curso"
+          "id": "col_2_b_imo",
+          "title": "urgente"
         },
         {
-          "id": "c_done_b_imo",
-          "title": "Hecho"
+          "id": "col_3_b_imo",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_imo",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_imo",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_imo",
+          "title": "facturación"
         }
       ]
     },
@@ -225,16 +333,28 @@
       "title": "Diba",
       "columns": [
         {
-          "id": "c_todo_b_diba",
-          "title": "Pendiente"
+          "id": "col_1_b_diba",
+          "title": "por revisar"
         },
         {
-          "id": "c_doing_b_diba",
-          "title": "En curso"
+          "id": "col_2_b_diba",
+          "title": "urgente"
         },
         {
-          "id": "c_done_b_diba",
-          "title": "Hecho"
+          "id": "col_3_b_diba",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_diba",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_diba",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_diba",
+          "title": "facturación"
         }
       ]
     },
@@ -243,16 +363,28 @@
       "title": "Gestió",
       "columns": [
         {
-          "id": "c_todo_b_management",
-          "title": "Pendiente"
+          "id": "col_1_b_management",
+          "title": "por revisar"
         },
         {
-          "id": "c_doing_b_management",
-          "title": "En curso"
+          "id": "col_2_b_management",
+          "title": "urgente"
         },
         {
-          "id": "c_done_b_management",
-          "title": "Hecho"
+          "id": "col_3_b_management",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_management",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_management",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_management",
+          "title": "facturación"
         }
       ]
     },
@@ -261,16 +393,28 @@
       "title": "Pressupostos",
       "columns": [
         {
-          "id": "c_todo_b_budget",
-          "title": "Pendiente"
+          "id": "col_1_b_budget",
+          "title": "por revisar"
         },
         {
-          "id": "c_doing_b_budget",
-          "title": "En curso"
+          "id": "col_2_b_budget",
+          "title": "urgente"
         },
         {
-          "id": "c_done_b_budget",
-          "title": "Hecho"
+          "id": "col_3_b_budget",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_budget",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_budget",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_budget",
+          "title": "facturación"
         }
       ]
     },
@@ -279,34 +423,28 @@
       "title": "Facturació",
       "columns": [
         {
-          "id": "c_todo_b_billing",
-          "title": "Pendiente"
+          "id": "col_1_b_billing",
+          "title": "por revisar"
         },
         {
-          "id": "c_doing_b_billing",
-          "title": "En curso"
+          "id": "col_2_b_billing",
+          "title": "urgente"
         },
         {
-          "id": "c_done_b_billing",
-          "title": "Hecho"
-        }
-      ]
-    },
-    {
-      "id": "b_fiscal",
-      "title": "Fiscalidad",
-      "columns": [
-        {
-          "id": "c_todo_b_fiscal",
-          "title": "Pendiente"
+          "id": "col_3_b_billing",
+          "title": "para hacer"
         },
         {
-          "id": "c_doing_b_fiscal",
-          "title": "En curso"
+          "id": "col_4_b_billing",
+          "title": "pendiente cliente"
         },
         {
-          "id": "c_done_b_fiscal",
-          "title": "Hecho"
+          "id": "col_5_b_billing",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_billing",
+          "title": "facturación"
         }
       ]
     },
@@ -315,284 +453,364 @@
       "title": "Contabilidad",
       "columns": [
         {
-          "id": "c_todo_b_accounting",
-          "title": "Pendiente"
+          "id": "col_1_b_accounting",
+          "title": "por revisar"
         },
         {
-          "id": "c_doing_b_accounting",
-          "title": "En curso"
+          "id": "col_2_b_accounting",
+          "title": "urgente"
         },
         {
-          "id": "c_done_b_accounting",
-          "title": "Hecho"
+          "id": "col_3_b_accounting",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_accounting",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_accounting",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_accounting",
+          "title": "facturación"
+        }
+      ]
+    },
+    {
+      "id": "b_laboral",
+      "title": "Laboral",
+      "columns": [
+        {
+          "id": "col_1_b_laboral",
+          "title": "por revisar"
+        },
+        {
+          "id": "col_2_b_laboral",
+          "title": "urgente"
+        },
+        {
+          "id": "col_3_b_laboral",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_laboral",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_laboral",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_laboral",
+          "title": "facturación"
+        }
+      ]
+    },
+    {
+      "id": "b_rates",
+      "title": "Tarifas",
+      "columns": [
+        {
+          "id": "col_1_b_rates",
+          "title": "por revisar"
+        },
+        {
+          "id": "col_2_b_rates",
+          "title": "urgente"
+        },
+        {
+          "id": "col_3_b_rates",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_rates",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_rates",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_rates",
+          "title": "facturación"
+        }
+      ]
+    },
+    {
+      "id": "b_expenses",
+      "title": "Gastos",
+      "columns": [
+        {
+          "id": "col_1_b_expenses",
+          "title": "por revisar"
+        },
+        {
+          "id": "col_2_b_expenses",
+          "title": "urgente"
+        },
+        {
+          "id": "col_3_b_expenses",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_expenses",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_expenses",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_expenses",
+          "title": "facturación"
+        }
+      ]
+    },
+    {
+      "id": "b_income",
+      "title": "Ingresos",
+      "columns": [
+        {
+          "id": "col_1_b_income",
+          "title": "por revisar"
+        },
+        {
+          "id": "col_2_b_income",
+          "title": "urgente"
+        },
+        {
+          "id": "col_3_b_income",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_income",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_income",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_income",
+          "title": "facturación"
+        }
+      ]
+    },
+    {
+      "id": "b_kit_digital",
+      "title": "KIT DIGITAL",
+      "columns": [
+        {
+          "id": "col_1_b_kit_digital",
+          "title": "por revisar"
+        },
+        {
+          "id": "col_2_b_kit_digital",
+          "title": "urgente"
+        },
+        {
+          "id": "col_3_b_kit_digital",
+          "title": "para hacer"
+        },
+        {
+          "id": "col_4_b_kit_digital",
+          "title": "pendiente cliente"
+        },
+        {
+          "id": "col_5_b_kit_digital",
+          "title": "control de entregas"
+        },
+        {
+          "id": "col_6_b_kit_digital",
+          "title": "facturación"
         }
       ]
     }
   ],
   "cards": [
     {
-      "id": "card_1768294826578",
-      "title": "cvxcxvx",
-      "description": "cvcxvcxvx",
+      "id": "card_1769083920655",
+      "title": "RE: Formulari amb accesibilitat",
       "priority": "medium",
       "dueDate": "",
-      "responsibleId": "",
+      "responsibleId": "montse",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1769083912973,
+          "text": "De: \"Ramirez Manzano, Eloy\" <eloiramirez@gencat.cat>\nFecha: Thu, 22 Jan 2026 12:09:45 +0000\n\nBon dia Montse,\r\nJa només us demanem una última empenta. Trobareu al document nous comentaris. https://we.tl/t-RMwZqrPgdX\r\nHem tingut en compte l’alerta d’ahir de que hi havia errors gramaticals i els hem corregit acuradament.\r\nEn segon lloc, al crear pàgines noves hem detectat també noves imatges més adients segons la temàtica que es parla, algunes indiquem que es canviï la imatge de pàgina i d’altres són noves propostes de l’enllaç freepick on et facilitem el link millor.\r\nEn tercer lloc, et proposem pujar el contingut en alguna pàgina i també ajuntar el contingut de la penúltima i la darrera.  Doncs creiem que així reduïm una pàgina i amb la capseta blava ja s’interpreta que és diferent i que es desmarca de l’àmbit social i és un tancament.\r\nPer últim, hem seguit detectant algun error d’enquadrament que talla el text i sobretot, al no requerir ja del símbol + i de l’scroll, hem proposat suprimir-los tots i només deixar activats els dels desplegables de província i sector d’activitat.\r\nSabem que es feina però creiem que finalment, amb els nous canvis, quedarà el document tancat a falta de comprovar que la maqueta que envieu sigui 100% accessible.\r\nEloi Ramírez Manzano\r\nSecretaria General del Consell\r\nDepartament d’Empresa i Treball\r\n\r\ncarrer Sepúlveda, 148-150  08011 Barcelona Tel. 00-34-93 444 51 25\r\neloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat> | CRL_Web<https://treball.gencat.cat/ca/consell_relacions_laborals/> | Portal RScat <https://treball.gencat.cat/ca/rscat/index.html>\r\n[cid:image001.png@01DC8B9E.C5742890]<https://twitter.com/CRL_cat>\r\n\r\n[Group 240 (1)]\r\n\r\nAquest missatge s’adreça exclusivament a la persona destinatària i pot contenir informació privilegiada o confidencial. Si no sou la persona destinatària indicada, us recordem que la utilització, divulgació i/o còpia sense autorització està prohibida en virtut de la legislació vigent. Si heu rebut aquest missatge per error, us demanem que ens ho feu saber immediatament per aquesta via i que el destruïu. Abans d'imprimir aquest missatge, assegureu-vos que és realment necessari.\r\n\r\n\r\n\r\nDe: Montse Torrelles <montse@lagrafica.com>\r\nEnviat: dimarts, 20 de gener de 2026 16:07\r\nPer a: Ramirez Manzano, Eloy <eloiramirez@gencat.cat>\r\nA/c: Alba laGràfica <alba@lagrafica.com>; Paya Lopez, Marta <mpaya@gencat.cat>; Rodriguez Viñals, David <davidrodriguezv@gencat.cat>; Gonzalez Manzano, Nuria <nugonzalezm@gencat.cat>\r\nTema: Re: Formulari amb accesibilitat\r\n\r\nBona tarda, l’envio de nou:\r\n\r\n\r\n\r\nformulari-20GENERv3.pdf<https://we.tl/t-uVwm2AZ0G8>\r\nwe.tl<https://we.tl/t-uVwm2AZ0G8>\r\n[cid:image003.png@01DC8B9E.C5742890]<https://we.tl/t-uVwm2AZ0G8>\r\n\r\n\r\n\r\nEl 20 gen. 2026, a les 13:59, Ramirez Manzano, Eloy <eloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat>> va escriure:\r\n\r\nIgualment, com hi ha coses més menors, també aprofito per enviar-te el document pdf nou de revisions\r\n\r\n\r\n\r\nDe: Montse Torrelles <montse@lagrafica.com<mailto:montse@lagrafica.com>>\r\nEnviat: dimarts, 20 de gener de 2026 13:49\r\nPer a: Ramirez Manzano, Eloy <eloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat>>\r\nA/c: Alba laGràfica <alba@lagrafica.com<mailto:alba@lagrafica.com>>; Paya Lopez, Marta <mpaya@gencat.cat<mailto:mpaya@gencat.cat>>; Rodriguez Viñals, David <davidrodriguezv@gencat.cat<mailto:davidrodriguezv@gencat.cat>>; Gonzalez Manzano, Nuria <nugonzalezm@gencat.cat<mailto:nugonzalezm@gencat.cat>>\r\nTema: Re: Formulari amb accesibilitat\r\n\r\nBon dia, heu fet les comprovacions? Us surt bé?\r\n\r\n\r\n\r\n\r\n\r\n\r\nEl 20 gen. 2026, a les 11:40, Montse Torrelles <montse@lagrafica.com<mailto:montse@lagrafica.com>> va escriure:\r\n\r\nBon dia de nou, hem modificat el ckeclist per un símbol de verificació.\r\nAra estan tots al mateix mida i aleniats a la casella.\r\n\r\nTambé hem solucionat que es vegi el camp gris a la pàgina 2\r\n\r\n\r\nRecordeu que per mirar l’accessibilitat, no hi ha d’haver cap casella marcada.\r\nDocument:\r\nformulari-20-1.pdf<https://we.tl/t-ocgfjxbNE3>\r\nwe.tl<https://we.tl/t-ocgfjxbNE3>\r\n<apple-touch-icon-180x180.png><https://we.tl/t-ocgfjxbNE3>\r\n\r\n\r\n<Captura de pantalla 2026-01-20 a las 11.33.52.png><Captura de pantalla 2026-01-20 a las 11.34.02.png>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nEl 20 gen. 2026, a les 9:54, Ramirez Manzano, Eloy <eloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat>> va escriure:\r\n\r\nDisculpa, ara si.\r\n\r\nAdjuntat\r\n\r\nEloi Ramírez Manzano\r\nSecretaria General del Consell\r\nDepartament d’Empresa i Treball\r\n\r\ncarrer Sepúlveda, 148-150  08011 Barcelona Tel. 00-34-93 444 51 25\r\neloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat> | CRL_Web<https://treball.gencat.cat/ca/consell_relacions_laborals/> | Portal RScat<https://treball.gencat.cat/ca/rscat/index.html>\r\n<image001.png><https://twitter.com/CRL_cat>\r\n\r\n<image002.png>\r\n\r\nAquest missatge s’adreça exclusivament a la persona destinatària i pot contenir informació privilegiada o confidencial. Si no sou la persona destinatària indicada, us recordem que la utilització, divulgació i/o còpia sense autorització està prohibida en virtut de la legislació vigent. Si heu rebut aquest missatge per error, us demanem que ens ho feu saber immediatament per aquesta via i que el destruïu. Abans d'imprimir aquest missatge, assegureu-vos que és realment necessari.\r\n\r\n\r\n\r\nDe: Montse Torrelles <montse@lagrafica.com<mailto:montse@lagrafica.com>>\r\nEnviat: dimarts, 20 de gener de 2026 9:47\r\nPer a: Ramirez Manzano, Eloy <eloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat>>\r\nA/c: Alba laGràfica <alba@lagrafica.com<mailto:alba@lagrafica.com>>; Paya Lopez, Marta <mpaya@gencat.cat<mailto:mpaya@gencat.cat>>; Rodriguez Viñals, David <davidrodriguezv@gencat.cat<mailto:davidrodriguezv@gencat.cat>>; Gonzalez Manzano, Nuria <nugonzalezm@gencat.cat<mailto:nugonzalezm@gencat.cat>>\r\nTema: Re: Formulari amb accesibilitat\r\n\r\nEloy, veig que no hi ha pdf, només captures\r\n\r\n\r\n\r\n\r\nEl 20 gen. 2026, a les 8:41, Ramirez Manzano, Eloy <eloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat>> va escriure:\r\n\r\nBon dia Montse,\r\n\r\nSegueixen havent errors d’enquadrament i centrat dels camps a escriure i dels marcadors d’opcions, a part que el vàrem parlar de la mida dels quadres marcadors no s’han fet en alguns encara, també ho he posat en els comentaris un per un. Adjuntem el pdf amb tots els comentaris per a que ho canvieu si us plau, doncs ho hem revisat dues persones exhaustivament des de les 7,30 per a que ho podeu rectificar el més aviat possible durant aquest matí.\r\n\r\nEn quan a l’accessibilitat, en el nostre programa ens donen problemes d’accessibilitat en 9 etiquetatges i en una figura. Et passo captures de pantalla per a que detecteu l’error i també els corregiu.\r\n\r\nTambé, tenim un dubte. Quan descarreguem el pdf surten visibles els quadres de text però quan guardem el document ja no. Necessitem, si us plau, que la versió que ens envieu, no contingui visible cap quadre de text, ja que en el moment que es pugi al web i les empreses l’omplin, tant si el descarreguen com si el guarden no hauria d’haver visible cap element, només els camps en buit per omplir. Us passo també cops de pantalla per a que veieu com es veu la versió descarregada i no guardada vers la guardada.\r\n\r\nMoltes gràcies,\r\n\r\n\r\n<image001.png>\r\n<image002.png>\r\n<image011.png><image012.png>\r\n\r\n\r\nEloi Ramírez Manzano\r\nSecretaria General del Consell\r\nDepartament d’Empresa i Treball\r\n\r\ncarrer Sepúlveda, 148-150  08011 Barcelona Tel. 00-34-93 444 51 25\r\neloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat> | CRL_Web<https://treball.gencat.cat/ca/consell_relacions_laborals/> | Portal RScat<https://treball.gencat.cat/ca/rscat/index.html>\r\n<image013.png><https://twitter.com/CRL_cat>\r\n\r\n<image014.png>\r\n\r\nAquest missatge s’adreça exclusivament a la persona destinatària i pot contenir informació privilegiada o confidencial. Si no sou la persona destinatària indicada, us recordem que la utilització, divulgació i/o còpia sense autorització està prohibida en virtut de la legislació vigent. Si heu rebut aquest missatge per error, us demanem que ens ho feu saber immediatament per aquesta via i que el destruïu. Abans d'imprimir aquest missatge, assegureu-vos que és realment necessari.\r\n\r\n\r\n\r\nDe: Montse Torrelles <montse@lagrafica.com<mailto:montse@lagrafica.com>>\r\nEnviat: dilluns, 19 de gener de 2026 18:42\r\nPer a: Ramirez Manzano, Eloy <eloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat>>\r\nA/c: Paya Lopez, Marta <mpaya@gencat.cat<mailto:mpaya@gencat.cat>>; Rodriguez Viñals, David <davidrodriguezv@gencat.cat<mailto:davidrodriguezv@gencat.cat>>\r\nTema: Formulari amb accesibilitat\r\n\r\nBona tarda Eloi, t’envio el document ja revistat està tot correcte\r\nLes caselles de selecció estan totes igualades, amb el mateix format i comportament, i en Adobe Acrobat es visualitzen de manera uniforme.\r\n\r\nA més, el comprovador d’accessibilitat dona el document com a correcte, sense errors detectats, tal com es pot veure a la captura adjunta.\r\nA nivell tècnic i d’accessibilitat, el PDF compleix els requisits i es pot utilitzar amb normalitat.\r\n\r\nQuant el puguis revisar , si veus qualsevol cosa o detectes algun detall, truca’m sense problema i ho mirem al moment.\r\n\r\nDocument:\r\nRSCAT_Formulari_Emplenables-19-300dpi_revistat access.pdf<https://we.tl/t-m6knY73i99>\r\nwe.tl<https://we.tl/t-m6knY73i99>\r\n<image015.png><https://we.tl/t-m6knY73i99>\r\n\r\n\r\nAdjunto: accesibilitat\r\n\r\n<image016.png>\r\nSalutacions\r\n\r\n\r\nMONTSE TORRELLES\r\nDissenyadora gràfica\r\n\r\n<image017.gif>montse@lagrafica.com<mailto:neus@lagrafica.com>\r\n<image018.gif> 973 21 63 63 / 639 087 024\r\n<image019.gif> Manuel Gaya i Tomàs, 11 baixos, Lleida\r\n<image020.gif>\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier información, duda, petición o consulta que precise por esta misma vía. Podrá ejercer sus derechos de acceso, rectificación, limitación de tratamiento, supresión, portabilidad y oposición al tratamiento de sus datos de carácter personal así como revocar los consentimientos que en su caso haya prestado u obtener más información, dirigiendo su petición a montse@lagrafica.com<mailto:neus@lagrafica.com>\r\n\r\n<RSCAT_Formulari_Emplenables-19-300dpi_revistat access.pdf>\r\n\r\n\r\n<formulari-20-1 rev eloi.pdf>\r\n\r\n",
+          "author": "Sistema",
+          "date": "2026-01-22T12:11:52.973Z"
+        }
+      ],
+      "checklists": [],
+      "comments": [
+        {
+          "id": 1769084325699,
+          "text": "📩 Email añadido a tarjeta:\nDe: info <info@nacsa.cat>\nAsunto: RE: Propostes logotips Nacsa\nFecha: Thu, 22 Jan 2026 11:52:45 +0000\n\nBon dia\r\n\r\nPerfecte!\r\n\r\nQuedem a l’espera de rebre la proposta d’aplicació en tanques publicitàries i ens ajudarà a prendre la decisió.\r\n\r\nGràcies!\r\n\r\nSalutacions\r\n\r\nNúria Prat\r\nTel. 616489368\r\n\r\n[cid:image001.png@01DC8B9D.FFF93240]\r\n\r\nAquest missatge es dirigeix exclusivament al seu destinatari i pot contenir informació privilegiada o confidencial. Si no és vostè el destinatarI indicat, queda notificat que la utilització, divulgació o còpia sense autorització està prohibida en virtut de la legislació vigent. Si ha rebut aquest missatge per error, es prega ho comuniqui immediatament per aquesta mateixa via i procedeixi a la seva destrucció.\r\nEste mensaje se dirige exclusivamente a su destinatario y puede contener información privilegiada o confidencial. Si no es usted el destinatario indicado, queda notificado de que la utilización, divulgación o copia sin autorización está prohibida en virtud de la legislación vigente. Si ha recibido este mensaje por error, se ruega lo comunique inmediatamente por esta misma vía y proceda a su destrucción.\r\nAvís legal i Política de Privacitat\r\nProtecció de Dades Personals\r\nEn compliment del que estableix el Reglament General de Protecció de Dades UE 2016/679 de 27 d’Abril, FORGRAVEX, S.L.  l'informa que les seves dades han estat incorporades a un fitxer automatitzat amb la finalitat de prestar i oferir els nostres serveis solicitats, facturació i enviament de comunicacions comercials.Les dades recollides són emmagatzemades sota la confidencialitat i les mesures de seguretat legalment establertes i no seran cedides ni compartides amb empreses, ni entitats, alienes a FORGRAVEX, S.L.Podrà exercir els seus drets d’accés, rectificació, limitació, cancel·lació i opocició de les seves dades personals al correu electrònic: info@nacsa.cat<mailto:info@nacsa.cat> o per correu ordinari: FORGRAVEX, S.L., C/ Camí de la Plana, s/n - 25320 Anglesola (Lleida), així com també vostè te el dret a presentar una reclamació davant una autoritat de control AGPD.\r\nPer més informació pot consultar la nostra Política de Privacitat<http://www.nacsa.cat/legal/politica-de-privacitat>\r\nAviso legal y Política de Privacidad\r\nProtección de Datos Personales\r\nEn cumplimiento de lo establecido en el Reglamento General de Protección de Datos UE 2016/679 de 27 de Abril,  NACSA – FORGRAVEX, S.L.  Le informa que sus datos han sido incorporados a un fichero automatizado con la finalidad de prestar y ofrecer nuestros servicios solicitados, facturación, i el envío de comunicación comercial.Los datos recogidos son almacenados bajo la confidencialidad y las medidas de seguridad legalmente establecidas y no serán cedidos ni compartidos  con empresas ni entidades ajenas a NACSA – FORGRAVEX, S.L.Puede ejercer sus derechos de acceso, rectificación, limitación, cancelación y oposición de sus datos personales, así como el derecho a presentar una reclamación a una autoridad de control AGPD.Correo electrónico: info@nacsa.cat<mailto:info@nacsa.cat>Correo ordinario: NACSA – FORGRAVEX, S.L., c/ Camí de la Plana, s/n - 25320 Anglesola (Lleida).\r\nPara más información puede consultar nuestra Política de Privacidad<http://www.nacsa.cat/legal/politica-de-privacitat>.\r\n\r\nDe: Montse Torrelles <montse@lagrafica.com>\r\nEnviat: jueves, 22 de enero de 2026 12:07\r\nPer a: info <info@nacsa.cat>\r\nA/c: Alba laGràfica <alba@lagrafica.com>\r\nTema: Propostes logotips Nacsa\r\n\r\nBon dia Nuria,\r\n\r\n\r\nTal com vam comentar, us hem preparat diverses propostes de logotip treballades des de diferents enfocaments.\r\n\r\nHi trobareu opcions on l’isotip està integrat dins la tipografia, formant un conjunt compacte i molt identificable, i d’altres on l’isotip funciona de manera independent, pensat per tenir més flexibilitat d’ús en suports diversos. També hem explorat idees més conceptuals, vinculades al sector, al territori i als valors de solidesa, estructura i evolució de NACSA.\r\n\r\nL’objectiu d’aquestes propostes és poder valorar no només l’estètica, sinó també quin llenguatge visual s’adapta millor a la identitat i al posicionament de l’empresa.\r\n\r\nD’aquí a una estona us farem arribar també una proposta d’aplicació en tanques publicitàries, perquè pugueu visualitzar com funciona el logotip en suports reals de comunicació i ajudar així a prendre una decisió amb més perspectiva.\r\n\r\nEsperem que us agradin!\r\n\r\n\r\n\r\n\r\n\r\n\r\nSalutacions\r\n\r\n\r\nMONTSE TORRELLES\r\nDissenyadora gràfica\r\n\r\n[cid:image002.gif@01DC8B9D.FFF93240]\r\nmontse@lagrafica.com<mailto:neus@lagrafica.com>\r\n[cid:image003.gif@01DC8B9D.FFF93240]\r\n 973 21 63 63 / 639 087 024\r\n[cid:image004.gif@01DC8B9D.FFF93240]\r\n Manuel Gaya i Tomàs, 11 baixos, Lleida\r\n[cid:image005.gif@01DC8B9D.FFF93240]\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier información, duda, petición o consulta que precise por esta misma vía. Podrá ejercer sus derechos de acceso, rectificación, limitación de tratamiento, supresión, portabilidad y oposición al tratamiento de sus datos de carácter personal así como revocar los consentimientos que en su caso haya prestado u obtener más información, dirigiendo su petición a montse@lagrafica.com<mailto:neus@lagrafica.com>\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+          "author": "Sistema (Email de Montse)",
+          "date": "2026-01-22T12:18:45.699Z"
+        },
+        {
+          "id": 1769095625070,
+          "text": "📩 Email añadido a tarjeta:\nDe: CustomGPT.ai <hello@customgpt.ai>\nAsunto: Introducing CustomGPT.ai Verified Responses - Trust Built Into Every Answer\nFecha: Thu, 22 Jan 2026 15:09:22 +0000\n\nImage ( https://customgpt.ai/ )\r\nHey Lagrafica,\r\n\r\n \r\n\r\nEvery answer now comes with receipts - providing full visibility into how your AI thinks.\r\n\r\n \r\n\r\nWith Verify Responses ( https://customgpt.ai/platform/verify-responses/ ), your CustomGPT.ai agent doesn't just give answers - it shows exactly how it got there. Every claim traced. Every source visible. Full transparency, on demand.\r\n\r\nIntroducing CustomGPT.ai Verified Responses - Trust Built Into Every Answer ( https://customgpt.ai/platform/verify-responses/ )\r\nEnable Verify Responses Now ( https://app.customgpt.ai/login )Why building trust in AI matters\r\n\r\n \r\n\r\nYour team sees the potential of AI. But your CISO, compliance officer, and legal team see risk.\r\n\r\n\"Where did that answer come from?\" \"Can we audit this?\" \"How do we know it's not hallucinating?\"\r\n\r\nThese questions keep powerful AI tools stuck in pilot mode forever.\r\n\r\n \r\n\r\nVerify Responses answers all of them - automatically.\r\n\r\nHow we use it at CustomGPT.ai\r\n\r\n \r\n\r\nWe became our own first users. Again.\r\n\r\nWe enabled Verify Responses on our own support agents and tracked every response. What we found surprised us.\r\n\r\nThe AI wasn't always the problem. Our documentation was.\r\n\r\nWe discovered gaps we never knew existed - questions users were asking that our knowledge base didn't fully cover. The AI was doing its best with incomplete information. And \"doing its best\" meant guessing.\r\n\r\n\"Every inaccurate response is a signal,\" says Marko Mitrović, Product Manager at CustomGPT.ai. \"It's telling you something. Either your AI needs tuning, your system needs fixing, or your content has gaps. You just have to listen.\"\r\n\r\nThe result? We fixed persona configurations, resolved system-level retrieval issues, and published two new documentation articles that directly addressed user needs.\r\n\r\nWant the full breakdown? Read our complete case study here. ( https://customgpt.ai/ai-response-verification-case-study/ )\r\n\r\nWhat you can do with this\r\n\r\n*\r\nCorporate compliance & audit trails ( https://customgpt.ai/ai-governance-checklist-enterprises/ ) - Give your CISO and compliance teams the documentation they need. Every claim is traceable. Every source is logged.\r\n*\r\nSecurity & QA reviews ( https://customgpt.ai/ai-governance-in-finance/ ) - Prove to stakeholders that your AI isn't making things up. Verify the quality of responses before deploying to production.\r\n*\r\nFind knowledge gaps ( https://customgpt.ai/ai-response-verification-case-study/ ) - Discover what's missing from your documentation. Low verified claims scores point directly to content you need to create.\r\n*\r\nDebug AI behavior ( https://docs.customgpt.ai/docs/verify-responses-best-practices ) - Stop guessing why your agent gave a weird answer. See exactly which sources it used and where it went wrong.\r\n*\r\nClear approval bottlenecks ( https://customgpt.ai/ai-governance-raci-genai-assistants/ ) - Get Legal, Security, and Compliance to yes. Produce the evidence pack they actually need to approve.\r\nWhat's inside\r\n\r\n \r\n\r\nClaim Verifier - Automatically extracts every factual claim from a response and cross-references it against your source documents. You see exactly what's verified and what's not.\r\n\r\nVerified Claims Score - Simple math: verified claims divided by total claims. If your AI makes 10 statements and 8 trace back to your docs, it scores 80%.\r\n\r\nTrust Score - A virtual committee of six stakeholders - End User, Security / IT, Risk Compliance, Legal Compliance, Public Relations, Executive Leadership - analyzes every response for potential risks.\r\n\r\nCustomer Intelligence Integration - Filter conversations by verified responses score in your analytics dashboard. Identify problem responses instantly.\r\n\r\n \r\n\r\nLearn more about how it works. ( https://docs.customgpt.ai/docs/understanding-your-verify-responses-results )\r\n\r\nTwo ways to use it\r\n\r\n \r\n\r\nBuilder mode - Enable Verify Responses via Actions and verification runs automatically on every chat. Perfect for development and QA.\r\n\r\n \r\n\r\nAudit mode - Run verification manually on any conversation - even old ones. Results appear in seconds. Ideal for production audits and spot-checks.\r\n\r\n \r\n\r\nPro tip: In production, keep it on if you need full auditability for your CISO or CIO. This also surfaces trust scores in your Customer Intelligence analytics.\r\n\r\n \r\n\r\nSee all use cases and workflows. ( https://docs.customgpt.ai/docs/verify-responses-use-cases )\r\n\r\nConnect with us\r\n\r\n \r\n\r\nWant to see how other businesses are using Verify Responses to build trust and improve their AI? Share your own results or get ideas from teams solving similar problems in our CustomGPT.ai Slack Community ( https://customgpt.ai/slack )  today!\r\n\r\nCheers,\r\n\r\n \r\n\r\nAlden Do Rosario\r\n\r\nFounder & CEO @ CustomGPT.ai\r\n\r\n \r\n\r\nFacebook ( https://www.facebook.com/customgpt/ )\r\nTwitter ( https://twitter.com/customgpt )LinkedIn ( https://www.linkedin.com/company/customgpt/ )YouTube ( https://www.youtube.com/channel/UC8FQFRCUgdoeeAVeXZmVdcw )\r\nAbout ( https://customgpt.ai/ )     Blog ( https://customgpt.ai/blog/ )     Contact ( https://customgpt.ai/contact-us/ )\r\n\r\n©2026 CustomGPT\r\n169 Mohawk Path, Holliston, MA 01746\r\n\r\nThe email was sent to montse@lagrafica.com. To no longer receive these emails, unsubscribe ( https://track.customer.io/unsubscribe/dgTWkwgDAKWKWaSKWQGb5kDBjy3-ZZhxignvZNc= ) here.",
+          "author": "Sistema (Email de Montse)",
+          "date": "2026-01-22T15:27:05.070Z"
+        }
+      ],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "createdAt": "2026-01-22T12:12:00.655Z"
+    },
+    {
+      "id": "card_1769083956092",
+      "title": "RE: Formulari amb accesibilitat",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "montse",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1769083954379,
+          "text": "De: \"Ramirez Manzano, Eloy\" <eloiramirez@gencat.cat>\nFecha: Thu, 22 Jan 2026 12:09:45 +0000\n\nBon dia Montse,\r\nJa només us demanem una última empenta. Trobareu al document nous comentaris. https://we.tl/t-RMwZqrPgdX\r\nHem tingut en compte l’alerta d’ahir de que hi havia errors gramaticals i els hem corregit acuradament.\r\nEn segon lloc, al crear pàgines noves hem detectat també noves imatges més adients segons la temàtica que es parla, algunes indiquem que es canviï la imatge de pàgina i d’altres són noves propostes de l’enllaç freepick on et facilitem el link millor.\r\nEn tercer lloc, et proposem pujar el contingut en alguna pàgina i també ajuntar el contingut de la penúltima i la darrera.  Doncs creiem que així reduïm una pàgina i amb la capseta blava ja s’interpreta que és diferent i que es desmarca de l’àmbit social i és un tancament.\r\nPer últim, hem seguit detectant algun error d’enquadrament que talla el text i sobretot, al no requerir ja del símbol + i de l’scroll, hem proposat suprimir-los tots i només deixar activats els dels desplegables de província i sector d’activitat.\r\nSabem que es feina però creiem que finalment, amb els nous canvis, quedarà el document tancat a falta de comprovar que la maqueta que envieu sigui 100% accessible.\r\nEloi Ramírez Manzano\r\nSecretaria General del Consell\r\nDepartament d’Empresa i Treball\r\n\r\ncarrer Sepúlveda, 148-150  08011 Barcelona Tel. 00-34-93 444 51 25\r\neloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat> | CRL_Web<https://treball.gencat.cat/ca/consell_relacions_laborals/> | Portal RScat <https://treball.gencat.cat/ca/rscat/index.html>\r\n[cid:image001.png@01DC8B9E.C5742890]<https://twitter.com/CRL_cat>\r\n\r\n[Group 240 (1)]\r\n\r\nAquest missatge s’adreça exclusivament a la persona destinatària i pot contenir informació privilegiada o confidencial. Si no sou la persona destinatària indicada, us recordem que la utilització, divulgació i/o còpia sense autorització està prohibida en virtut de la legislació vigent. Si heu rebut aquest missatge per error, us demanem que ens ho feu saber immediatament per aquesta via i que el destruïu. Abans d'imprimir aquest missatge, assegureu-vos que és realment necessari.\r\n\r\n\r\n\r\nDe: Montse Torrelles <montse@lagrafica.com>\r\nEnviat: dimarts, 20 de gener de 2026 16:07\r\nPer a: Ramirez Manzano, Eloy <eloiramirez@gencat.cat>\r\nA/c: Alba laGràfica <alba@lagrafica.com>; Paya Lopez, Marta <mpaya@gencat.cat>; Rodriguez Viñals, David <davidrodriguezv@gencat.cat>; Gonzalez Manzano, Nuria <nugonzalezm@gencat.cat>\r\nTema: Re: Formulari amb accesibilitat\r\n\r\nBona tarda, l’envio de nou:\r\n\r\n\r\n\r\nformulari-20GENERv3.pdf<https://we.tl/t-uVwm2AZ0G8>\r\nwe.tl<https://we.tl/t-uVwm2AZ0G8>\r\n[cid:image003.png@01DC8B9E.C5742890]<https://we.tl/t-uVwm2AZ0G8>\r\n\r\n\r\n\r\nEl 20 gen. 2026, a les 13:59, Ramirez Manzano, Eloy <eloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat>> va escriure:\r\n\r\nIgualment, com hi ha coses més menors, també aprofito per enviar-te el document pdf nou de revisions\r\n\r\n\r\n\r\nDe: Montse Torrelles <montse@lagrafica.com<mailto:montse@lagrafica.com>>\r\nEnviat: dimarts, 20 de gener de 2026 13:49\r\nPer a: Ramirez Manzano, Eloy <eloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat>>\r\nA/c: Alba laGràfica <alba@lagrafica.com<mailto:alba@lagrafica.com>>; Paya Lopez, Marta <mpaya@gencat.cat<mailto:mpaya@gencat.cat>>; Rodriguez Viñals, David <davidrodriguezv@gencat.cat<mailto:davidrodriguezv@gencat.cat>>; Gonzalez Manzano, Nuria <nugonzalezm@gencat.cat<mailto:nugonzalezm@gencat.cat>>\r\nTema: Re: Formulari amb accesibilitat\r\n\r\nBon dia, heu fet les comprovacions? Us surt bé?\r\n\r\n\r\n\r\n\r\n\r\n\r\nEl 20 gen. 2026, a les 11:40, Montse Torrelles <montse@lagrafica.com<mailto:montse@lagrafica.com>> va escriure:\r\n\r\nBon dia de nou, hem modificat el ckeclist per un símbol de verificació.\r\nAra estan tots al mateix mida i aleniats a la casella.\r\n\r\nTambé hem solucionat que es vegi el camp gris a la pàgina 2\r\n\r\n\r\nRecordeu que per mirar l’accessibilitat, no hi ha d’haver cap casella marcada.\r\nDocument:\r\nformulari-20-1.pdf<https://we.tl/t-ocgfjxbNE3>\r\nwe.tl<https://we.tl/t-ocgfjxbNE3>\r\n<apple-touch-icon-180x180.png><https://we.tl/t-ocgfjxbNE3>\r\n\r\n\r\n<Captura de pantalla 2026-01-20 a las 11.33.52.png><Captura de pantalla 2026-01-20 a las 11.34.02.png>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nEl 20 gen. 2026, a les 9:54, Ramirez Manzano, Eloy <eloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat>> va escriure:\r\n\r\nDisculpa, ara si.\r\n\r\nAdjuntat\r\n\r\nEloi Ramírez Manzano\r\nSecretaria General del Consell\r\nDepartament d’Empresa i Treball\r\n\r\ncarrer Sepúlveda, 148-150  08011 Barcelona Tel. 00-34-93 444 51 25\r\neloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat> | CRL_Web<https://treball.gencat.cat/ca/consell_relacions_laborals/> | Portal RScat<https://treball.gencat.cat/ca/rscat/index.html>\r\n<image001.png><https://twitter.com/CRL_cat>\r\n\r\n<image002.png>\r\n\r\nAquest missatge s’adreça exclusivament a la persona destinatària i pot contenir informació privilegiada o confidencial. Si no sou la persona destinatària indicada, us recordem que la utilització, divulgació i/o còpia sense autorització està prohibida en virtut de la legislació vigent. Si heu rebut aquest missatge per error, us demanem que ens ho feu saber immediatament per aquesta via i que el destruïu. Abans d'imprimir aquest missatge, assegureu-vos que és realment necessari.\r\n\r\n\r\n\r\nDe: Montse Torrelles <montse@lagrafica.com<mailto:montse@lagrafica.com>>\r\nEnviat: dimarts, 20 de gener de 2026 9:47\r\nPer a: Ramirez Manzano, Eloy <eloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat>>\r\nA/c: Alba laGràfica <alba@lagrafica.com<mailto:alba@lagrafica.com>>; Paya Lopez, Marta <mpaya@gencat.cat<mailto:mpaya@gencat.cat>>; Rodriguez Viñals, David <davidrodriguezv@gencat.cat<mailto:davidrodriguezv@gencat.cat>>; Gonzalez Manzano, Nuria <nugonzalezm@gencat.cat<mailto:nugonzalezm@gencat.cat>>\r\nTema: Re: Formulari amb accesibilitat\r\n\r\nEloy, veig que no hi ha pdf, només captures\r\n\r\n\r\n\r\n\r\nEl 20 gen. 2026, a les 8:41, Ramirez Manzano, Eloy <eloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat>> va escriure:\r\n\r\nBon dia Montse,\r\n\r\nSegueixen havent errors d’enquadrament i centrat dels camps a escriure i dels marcadors d’opcions, a part que el vàrem parlar de la mida dels quadres marcadors no s’han fet en alguns encara, també ho he posat en els comentaris un per un. Adjuntem el pdf amb tots els comentaris per a que ho canvieu si us plau, doncs ho hem revisat dues persones exhaustivament des de les 7,30 per a que ho podeu rectificar el més aviat possible durant aquest matí.\r\n\r\nEn quan a l’accessibilitat, en el nostre programa ens donen problemes d’accessibilitat en 9 etiquetatges i en una figura. Et passo captures de pantalla per a que detecteu l’error i també els corregiu.\r\n\r\nTambé, tenim un dubte. Quan descarreguem el pdf surten visibles els quadres de text però quan guardem el document ja no. Necessitem, si us plau, que la versió que ens envieu, no contingui visible cap quadre de text, ja que en el moment que es pugi al web i les empreses l’omplin, tant si el descarreguen com si el guarden no hauria d’haver visible cap element, només els camps en buit per omplir. Us passo també cops de pantalla per a que veieu com es veu la versió descarregada i no guardada vers la guardada.\r\n\r\nMoltes gràcies,\r\n\r\n\r\n<image001.png>\r\n<image002.png>\r\n<image011.png><image012.png>\r\n\r\n\r\nEloi Ramírez Manzano\r\nSecretaria General del Consell\r\nDepartament d’Empresa i Treball\r\n\r\ncarrer Sepúlveda, 148-150  08011 Barcelona Tel. 00-34-93 444 51 25\r\neloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat> | CRL_Web<https://treball.gencat.cat/ca/consell_relacions_laborals/> | Portal RScat<https://treball.gencat.cat/ca/rscat/index.html>\r\n<image013.png><https://twitter.com/CRL_cat>\r\n\r\n<image014.png>\r\n\r\nAquest missatge s’adreça exclusivament a la persona destinatària i pot contenir informació privilegiada o confidencial. Si no sou la persona destinatària indicada, us recordem que la utilització, divulgació i/o còpia sense autorització està prohibida en virtut de la legislació vigent. Si heu rebut aquest missatge per error, us demanem que ens ho feu saber immediatament per aquesta via i que el destruïu. Abans d'imprimir aquest missatge, assegureu-vos que és realment necessari.\r\n\r\n\r\n\r\nDe: Montse Torrelles <montse@lagrafica.com<mailto:montse@lagrafica.com>>\r\nEnviat: dilluns, 19 de gener de 2026 18:42\r\nPer a: Ramirez Manzano, Eloy <eloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat>>\r\nA/c: Paya Lopez, Marta <mpaya@gencat.cat<mailto:mpaya@gencat.cat>>; Rodriguez Viñals, David <davidrodriguezv@gencat.cat<mailto:davidrodriguezv@gencat.cat>>\r\nTema: Formulari amb accesibilitat\r\n\r\nBona tarda Eloi, t’envio el document ja revistat està tot correcte\r\nLes caselles de selecció estan totes igualades, amb el mateix format i comportament, i en Adobe Acrobat es visualitzen de manera uniforme.\r\n\r\nA més, el comprovador d’accessibilitat dona el document com a correcte, sense errors detectats, tal com es pot veure a la captura adjunta.\r\nA nivell tècnic i d’accessibilitat, el PDF compleix els requisits i es pot utilitzar amb normalitat.\r\n\r\nQuant el puguis revisar , si veus qualsevol cosa o detectes algun detall, truca’m sense problema i ho mirem al moment.\r\n\r\nDocument:\r\nRSCAT_Formulari_Emplenables-19-300dpi_revistat access.pdf<https://we.tl/t-m6knY73i99>\r\nwe.tl<https://we.tl/t-m6knY73i99>\r\n<image015.png><https://we.tl/t-m6knY73i99>\r\n\r\n\r\nAdjunto: accesibilitat\r\n\r\n<image016.png>\r\nSalutacions\r\n\r\n\r\nMONTSE TORRELLES\r\nDissenyadora gràfica\r\n\r\n<image017.gif>montse@lagrafica.com<mailto:neus@lagrafica.com>\r\n<image018.gif> 973 21 63 63 / 639 087 024\r\n<image019.gif> Manuel Gaya i Tomàs, 11 baixos, Lleida\r\n<image020.gif>\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier información, duda, petición o consulta que precise por esta misma vía. Podrá ejercer sus derechos de acceso, rectificación, limitación de tratamiento, supresión, portabilidad y oposición al tratamiento de sus datos de carácter personal así como revocar los consentimientos que en su caso haya prestado u obtener más información, dirigiendo su petición a montse@lagrafica.com<mailto:neus@lagrafica.com>\r\n\r\n<RSCAT_Formulari_Emplenables-19-300dpi_revistat access.pdf>\r\n\r\n\r\n<formulari-20-1 rev eloi.pdf>\r\n\r\n",
+          "author": "Sistema",
+          "date": "2026-01-22T12:12:34.379Z"
+        }
+      ],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "createdAt": "2026-01-22T12:12:36.092Z"
+    },
+    {
+      "id": "card_1769084156675",
+      "title": "Eloi te ha enviado formulari-22generA_eloi.pdf con WeTransfer",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "montse",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1769084156578,
+          "text": "De: WeTransfer <noreply@wetransfer.com>\nFecha: Thu, 22 Jan 2026 12:08:45 +0000 (UTC)\n\neloiramirezm@gmail.com te ha enviado formulari-22generA_eloi.pdf\r\n\r\n1 elemento, 70 MB en total ・ Caducará el 25 de enero de 2026\r\n\r\n\r\nEnlace de descarga:\r\nhttps://wetransfer.com/downloads/00e35f6eae3e69167df18e12b29a473120260122120756/3fc54cf768db32529a4fd8294c2a8dd820260122120844/e4c410?trk=TRN_TDL_01&utm_campaign=TRN_TDL_01&utm_medium=email&utm_source=sendgrid\r\n\r\n\r\n\r\n\r\n\r\n1 elemento\r\n\r\nformulari-22generA_eloi.pdf - 70 MB\r\n\r\n\r\n\r\n[Enviado por medio de WeTransfer Pro](https://wetransfer.com/pricing?trk=TRN_TDL_01&utm_campaign=TRN_TDL_01&utm_medium=email&utm_source=sendgrid)\r\n\r\n\r\n\r\nAcerca de WeTransfer: https://wetransfer.com/about\r\nAyuda: https://wetransfer.zendesk.com/hc/en-us\r\nCondiciones legales: https://wetransfer.com/legal/terms\r\nConfiguración de notificaciones: https://wetransfer.com/account/notification-settings\r\nWetransfer B.V. - Nieuwezijds Voorburgwal 162, 1012 SJ Amsterdam, The Netherlands<br/>\r\nRegistered No. 34380998 | VAT NL822010690B01\r\n\r\n\r\nPara asegurarte de que te lleguen nuestros correos electrónicos, añade noreply@wetransfer.com a [tus contactos](https://wetransfer.zendesk.com/hc/en-us/articles/204909429).\r\n\r\n",
+          "author": "Sistema",
+          "date": "2026-01-22T12:15:56.578Z"
+        }
+      ],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "createdAt": "2026-01-22T12:15:56.675Z"
+    },
+    {
+      "id": "card_1769089203120",
+      "title": "Re: Datos básicos 2025",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "montse",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1769089201074,
+          "text": "De: Montse Torrelles <montse@lagrafica.com>\nFecha: Thu, 22 Jan 2026 14:35:59 +0100\n\n￼\r\n\r\n> El 22 gen. 2026, a les 11:12, Alberto Santiesteban Álvarez <alberto.santiesteban@juntadeandalucia.es> va escriure:\r\n> \r\n> \r\n> \r\n> Adjunto pdf con 4 cambios pequeños. Opción B. Los cambios están en comentarios en el pdf.\r\n> \r\n> Gracias. \r\n> \r\n> \r\n> \r\n> El 21/01/2026 a las 10:27, Alberto Santiesteban Álvarez escribió:\r\n>> \r\n>> Buenas,\r\n>> \r\n>> Espero todo bien.\r\n>> \r\n>> Necesitaría tener hoy las gráficas con datos básicos de la memoria (la del mapa del mundo donde están los datos por áreas, el queso por tipo de agentes, la gráfica del recuadro grande colores por tipología y la de los ods) con los datos de 2025.\r\n>> \r\n>> \"Simplemente\" sería rehacer esas gráficas con los datos de 2025. Os adjunto los datos y el pantallazo de las gráficas que os comento.\r\n>> \r\n>> Gracias¡\r\n>> \r\n>> \r\n>> \r\n>> --\r\n>> \r\n>> --\r\n>> \r\n>> <JdA-logo-email.png> <http://www.juntadeandalucia.es/>\r\n>> Alberto Sebastian Álvarez\r\n>> Jefe Departamento de Evaluación\r\n>> Agencia Andaluza de Cooperación Internacional para el Desarrollo\r\n>> Consejería de Inclusión Social, Juventud, Familias e Igualdad\r\n>> \r\n>> Avenida de la Palmera nº 24, Pabellón de Cuba. 41071 - Sevilla\r\n>> T:955 051 873\r\n>> alberto.santiesteban@juntadeandalucia.es | <mailto:alejandro.santos@juntadeandalucia.es> www.juntadeandalucia.es/ aacid <http://www.juntadeandalucia.es/>\r\n>> INFORMACIÓN BÁSICA SOBRE PROTECCIÓN DE DATOS\r\n>> Responsable del tratamiento: Agencia Andaluza de Cooperación Internacional para el Desarrollo;\r\n>> Finalidad del tratamiento: responder a su consulta, solicitud, sugerencia y gestionar el tipo de relación que mantiene con nosotros;\r\n>> Legitimación del tratamiento: interés legítimo;\r\n>> Destinatarios: No se cederán los datos a terceros salvo a otras Administraciones públicas en cumplimiento de la normativa. No se realizarán transferencias internacionales de datos;\r\n>> Derechos: Tiene derecho a acceder, rectificar y suprimir los datos, así como otros derechos, como se explica en la información adicional;\r\n>> Información adicional: Puede consultar la información adicional y detallada sobre Protección de Datos en la Política de Privacidad de la página web https:// www.juntadeandalucia.es/protecciondedatos.html <https://www.juntadeandalucia.es/protecciondedatos.html>\r\n> --\r\n> \r\n> --\r\n> \r\n> <JdA-logo-email.png> <http://www.juntadeandalucia.es/>\r\n> Alberto Sebastian Álvarez\r\n> Jefe Departamento de Evaluación\r\n> Agencia Andaluza de Cooperación Internacional para el Desarrollo\r\n> Consejería de Inclusión Social, Juventud, Familias e Igualdad\r\n> \r\n> Avenida de la Palmera nº 24, Pabellón de Cuba. 41071 - Sevilla\r\n> T:955 051 873\r\n> alberto.santiesteban@juntadeandalucia.es | <mailto:alejandro.santos@juntadeandalucia.es> www.juntadeandalucia.es/ aacid <http://www.juntadeandalucia.es/>\r\n> INFORMACIÓN BÁSICA SOBRE PROTECCIÓN DE DATOS\r\n> Responsable del tratamiento: Agencia Andaluza de Cooperación Internacional para el Desarrollo;\r\n> Finalidad del tratamiento: responder a su consulta, solicitud, sugerencia y gestionar el tipo de relación que mantiene con nosotros;\r\n> Legitimación del tratamiento: interés legítimo;\r\n> Destinatarios: No se cederán los datos a terceros salvo a otras Administraciones públicas en cumplimiento de la normativa. No se realizarán transferencias internacionales de datos;\r\n> Derechos: Tiene derecho a acceder, rectificar y suprimir los datos, así como otros derechos, como se explica en la información adicional;\r\n> Información adicional: Puede consultar la información adicional y detallada sobre Protección de Datos en la Política de Privacidad de la página web https:// www.juntadeandalucia.es/protecciondedatos.html <https://www.juntadeandalucia.es/protecciondedatos.html>\r\n> <2025-cifrasB_cambios.pdf>\r\n\r\n",
+          "author": "Sistema",
+          "date": "2026-01-22T13:40:01.074Z"
+        }
+      ],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "createdAt": "2026-01-22T13:40:03.120Z"
+    },
+    {
+      "id": "card_1769089216329",
+      "title": "Re: Datos básicos 2025",
+      "priority": "medium",
+      "dueDate": "",
+      "responsibleId": "montse",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": 1769089214829,
+          "text": "De: Montse Torrelles <montse@lagrafica.com>\nFecha: Thu, 22 Jan 2026 14:35:59 +0100\n\n￼\r\n\r\n> El 22 gen. 2026, a les 11:12, Alberto Santiesteban Álvarez <alberto.santiesteban@juntadeandalucia.es> va escriure:\r\n> \r\n> \r\n> \r\n> Adjunto pdf con 4 cambios pequeños. Opción B. Los cambios están en comentarios en el pdf.\r\n> \r\n> Gracias. \r\n> \r\n> \r\n> \r\n> El 21/01/2026 a las 10:27, Alberto Santiesteban Álvarez escribió:\r\n>> \r\n>> Buenas,\r\n>> \r\n>> Espero todo bien.\r\n>> \r\n>> Necesitaría tener hoy las gráficas con datos básicos de la memoria (la del mapa del mundo donde están los datos por áreas, el queso por tipo de agentes, la gráfica del recuadro grande colores por tipología y la de los ods) con los datos de 2025.\r\n>> \r\n>> \"Simplemente\" sería rehacer esas gráficas con los datos de 2025. Os adjunto los datos y el pantallazo de las gráficas que os comento.\r\n>> \r\n>> Gracias¡\r\n>> \r\n>> \r\n>> \r\n>> --\r\n>> \r\n>> --\r\n>> \r\n>> <JdA-logo-email.png> <http://www.juntadeandalucia.es/>\r\n>> Alberto Sebastian Álvarez\r\n>> Jefe Departamento de Evaluación\r\n>> Agencia Andaluza de Cooperación Internacional para el Desarrollo\r\n>> Consejería de Inclusión Social, Juventud, Familias e Igualdad\r\n>> \r\n>> Avenida de la Palmera nº 24, Pabellón de Cuba. 41071 - Sevilla\r\n>> T:955 051 873\r\n>> alberto.santiesteban@juntadeandalucia.es | <mailto:alejandro.santos@juntadeandalucia.es> www.juntadeandalucia.es/ aacid <http://www.juntadeandalucia.es/>\r\n>> INFORMACIÓN BÁSICA SOBRE PROTECCIÓN DE DATOS\r\n>> Responsable del tratamiento: Agencia Andaluza de Cooperación Internacional para el Desarrollo;\r\n>> Finalidad del tratamiento: responder a su consulta, solicitud, sugerencia y gestionar el tipo de relación que mantiene con nosotros;\r\n>> Legitimación del tratamiento: interés legítimo;\r\n>> Destinatarios: No se cederán los datos a terceros salvo a otras Administraciones públicas en cumplimiento de la normativa. No se realizarán transferencias internacionales de datos;\r\n>> Derechos: Tiene derecho a acceder, rectificar y suprimir los datos, así como otros derechos, como se explica en la información adicional;\r\n>> Información adicional: Puede consultar la información adicional y detallada sobre Protección de Datos en la Política de Privacidad de la página web https:// www.juntadeandalucia.es/protecciondedatos.html <https://www.juntadeandalucia.es/protecciondedatos.html>\r\n> --\r\n> \r\n> --\r\n> \r\n> <JdA-logo-email.png> <http://www.juntadeandalucia.es/>\r\n> Alberto Sebastian Álvarez\r\n> Jefe Departamento de Evaluación\r\n> Agencia Andaluza de Cooperación Internacional para el Desarrollo\r\n> Consejería de Inclusión Social, Juventud, Familias e Igualdad\r\n> \r\n> Avenida de la Palmera nº 24, Pabellón de Cuba. 41071 - Sevilla\r\n> T:955 051 873\r\n> alberto.santiesteban@juntadeandalucia.es | <mailto:alejandro.santos@juntadeandalucia.es> www.juntadeandalucia.es/ aacid <http://www.juntadeandalucia.es/>\r\n> INFORMACIÓN BÁSICA SOBRE PROTECCIÓN DE DATOS\r\n> Responsable del tratamiento: Agencia Andaluza de Cooperación Internacional para el Desarrollo;\r\n> Finalidad del tratamiento: responder a su consulta, solicitud, sugerencia y gestionar el tipo de relación que mantiene con nosotros;\r\n> Legitimación del tratamiento: interés legítimo;\r\n> Destinatarios: No se cederán los datos a terceros salvo a otras Administraciones públicas en cumplimiento de la normativa. No se realizarán transferencias internacionales de datos;\r\n> Derechos: Tiene derecho a acceder, rectificar y suprimir los datos, así como otros derechos, como se explica en la información adicional;\r\n> Información adicional: Puede consultar la información adicional y detallada sobre Protección de Datos en la Política de Privacidad de la página web https:// www.juntadeandalucia.es/protecciondedatos.html <https://www.juntadeandalucia.es/protecciondedatos.html>\r\n> <2025-cifrasB_cambios.pdf>\r\n\r\n",
+          "author": "Sistema",
+          "date": "2026-01-22T13:40:14.829Z"
+        }
+      ],
+      "checklists": [],
+      "comments": [],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
       "boardId": "b_social",
-      "columnId": "c_doing",
-      "createdAt": "2026-01-13T09:00:26.578Z"
+      "columnId": "col_1_b_social",
+      "createdAt": "2026-01-22T13:40:16.329Z"
     },
     {
-      "id": "card_1768303940927",
-      "title": "Test Card",
-      "priority": "medium",
-      "dueDate": "",
-      "responsibleId": "",
-      "assigneeIds": [],
-      "links": [],
-      "attachments": [],
-      "timeLogs": [
-        {
-          "id": 1768372070155,
-          "user": "Montse",
-          "start": "2026-01-14T06:27:43.415Z",
-          "end": "2026-01-14T06:27:50.155Z",
-          "duration": 6740
-        },
-        {
-          "id": 1768372111387,
-          "user": "Montse",
-          "start": "2026-01-14T06:28:18.381Z",
-          "end": "2026-01-14T06:28:31.387Z",
-          "duration": 13006
-        }
-      ],
-      "activeTimerStart": null,
-      "descriptionBlocks": [],
-      "checklists": [],
-      "comments": [],
-      "economic": {
-        "client": "",
-        "budget": "",
-        "provider": "",
-        "description": "",
-        "attachments": []
-      },
-      "boardId": "b_design",
-      "columnId": "c_doing",
-      "createdAt": "2026-01-13T11:32:20.927Z"
-    },
-    {
-      "id": "card_1768304047245",
-      "title": "Fourth Card",
-      "priority": "medium",
-      "dueDate": "",
-      "responsibleId": "",
-      "assigneeIds": [],
-      "links": [],
-      "attachments": [],
-      "timeLogs": [],
-      "activeTimerStart": null,
-      "descriptionBlocks": [],
-      "checklists": [],
-      "comments": [],
-      "economic": {
-        "client": "",
-        "budget": "",
-        "provider": "",
-        "description": "",
-        "attachments": []
-      },
-      "boardId": "b_design",
-      "columnId": "c_doing",
-      "createdAt": "2026-01-13T11:34:07.245Z"
-    },
-    {
-      "id": "card_1768304117004",
-      "title": "Sixth Card",
-      "priority": "medium",
-      "dueDate": "",
-      "responsibleId": "",
-      "assigneeIds": [],
-      "links": [],
-      "attachments": [],
-      "timeLogs": [],
-      "activeTimerStart": null,
-      "descriptionBlocks": [],
-      "checklists": [],
-      "comments": [],
-      "economic": {
-        "client": "",
-        "budget": "",
-        "provider": "",
-        "description": "",
-        "attachments": []
-      },
-      "boardId": "b_design",
-      "columnId": "c_doing",
-      "createdAt": "2026-01-13T11:35:17.004Z"
-    },
-    {
-      "id": "card_1768304162902",
-      "title": "Seventh Card",
-      "priority": "medium",
-      "dueDate": "",
-      "responsibleId": "",
-      "assigneeIds": [],
-      "links": [],
-      "attachments": [],
-      "timeLogs": [
-        {
-          "id": 1768369859127,
-          "user": "Montse",
-          "start": "2026-01-14T05:50:56.469Z",
-          "end": "2026-01-14T05:50:59.127Z",
-          "duration": 2658
-        }
-      ],
-      "activeTimerStart": null,
-      "descriptionBlocks": [],
-      "checklists": [],
-      "comments": [],
-      "economic": {
-        "client": "",
-        "budget": "",
-        "provider": "",
-        "description": "",
-        "attachments": []
-      },
-      "boardId": "b_design",
-      "columnId": "c_done",
-      "createdAt": "2026-01-13T11:36:02.902Z"
-    },
-    {
-      "id": "card_1768316297311",
-      "title": "REUNIÓ INICI MEMÒRIA 2025- Tancament memòria 2024Tasks",
-      "priority": "medium",
-      "dueDate": "",
-      "responsibleId": "omar",
-      "assigneeIds": [],
-      "links": [],
-      "attachments": [],
-      "timeLogs": [
-        {
-          "id": 1768370022858,
-          "user": "Montse",
-          "start": "2026-01-14T05:53:35.260Z",
-          "end": "2026-01-14T05:53:42.858Z",
-          "duration": 7598
-        }
-      ],
-      "activeTimerStart": null,
-      "descriptionBlocks": [
-        {
-          "id": 1768312610039,
-          "text": "De: Comunicats aralleida <aralleida@aralleida.cat>\nFecha: Tue, 13 Jan 2026 13:04:12 +0000\n\n",
-          "author": "Sistema",
-          "date": "2026-01-13T13:56:50.039Z"
-        }
-      ],
-      "checklists": [
-        {
-          "id": 1768381135846,
-          "title": "Tasks",
-          "items": [
-            {
-              "id": 1768381156598,
-              "text": "Item 1",
-              "done": true
-            },
-            {
-              "id": 1768385728740,
-              "text": "dfdfds",
-              "done": false
-            }
-          ]
-        },
-        {
-          "id": 1768385737473,
-          "title": "nou",
-          "items": []
-        }
-      ],
-      "comments": [],
-      "economic": {
-        "client": "",
-        "budget": "",
-        "provider": "",
-        "description": "dgdgfdfs\n",
-        "attachments": []
-      },
-      "boardId": "b_design",
-      "columnId": "col_1768373031074",
-      "createdAt": "2026-01-13T14:58:17.311Z"
-    },
-    {
-      "id": "card_1768318000049",
-      "title": "RE: comunicat birding",
-      "priority": "medium",
-      "dueDate": "",
-      "responsibleId": "omar",
-      "assigneeIds": [],
-      "links": [],
-      "attachments": [],
-      "timeLogs": [],
-      "activeTimerStart": null,
-      "descriptionBlocks": [
-        {
-          "id": 1768317991874,
-          "text": "De: Ramon Iglesias Palau <riglesias@aralleida.cat>\nFecha: Tue, 13 Jan 2026 09:10:03 +0000\n\nGenial, moltes gràcies,\r\nel Gerard ara fa l’enviament\r\n\r\n[cid:image001.jpg@01DC8474.C79D9BA0]\r\n[cid:image002.jpg@01DC8474.C79D9BA0]<https://www.youtube.com/watch?v=Sa_mDtmzltw>\r\n\r\nDe: Omar <omar@lagrafica.com>\r\nEnviado el: dimarts, 13 de gener de 2026 10:01\r\nPara: Ramon Iglesias Palau <riglesias@aralleida.cat>; Gerard Balcells Regue <gbalcells@aralleida.cat>\r\nCC: montse@lagrafica.com; alba@lagrafica.com; Marisol Fo <mfo@aralleida.cat>\r\nAsunto: Re: comunicat birding\r\n\r\n\r\nBones, th'e enviat un test\r\nEl 13/01/2026 a las 9:39, Ramon Iglesias Palau escribió:\r\nUs animem a enviar-nos les vostres propostes de temes a tractar al Birding Fòrum 2026.\r\n--\r\nOMAR LEÓN\r\nWEBDEVELOPER\r\n[ICONO MAIL]web@lagrafica.com <https://mailto:web@lagrafica.com>\r\n[ICONO TEL] 973 21 63 63\r\n[ICONO ON] Manuel Gaya i Tomàs, 11 baixos, Lleida\r\n[LOGO laGráfica]\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD:  Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier información, duda, petición o consulta que precise por esta misma vía. Podrá ejercer sus derechos de acceso, rectificación, limitación de tratamiento, supresión, portabilidad y oposición al tratamiento de sus datos de carácter personal así como revocar los consentimientos que en su caso haya prestado u obtener más información, dirigiendo su petición a  web@lagrafica.com<https://mailto:web@lagrafica.com>\r\n\r\n[https://s-install.avcdn.net/ipm/preview/icons/icon-envelope-tick-round-orange-animated-no-repeat-v1.gif]<https://www.avast.com/sig-email?utm_medium=email&utm_source=link&utm_campaign=sig-email&utm_content=emailclient>\r\nLibre de virus.www.avast.com<https://www.avast.com/sig-email?utm_medium=email&utm_source=link&utm_campaign=sig-email&utm_content=emailclient>\r\n\r\n",
-          "author": "Sistema",
-          "date": "2026-01-13T15:26:31.874Z"
-        }
-      ],
-      "checklists": [],
-      "comments": [],
-      "economic": {
-        "client": "",
-        "budget": "",
-        "provider": "",
-        "description": "",
-        "attachments": []
-      },
-      "boardId": "b_design",
-      "columnId": "c_todo",
-      "createdAt": "2026-01-13T15:26:40.049Z"
-    },
-    {
-      "id": "card_1768323896035",
-      "title": "New Test Card",
-      "priority": "medium",
-      "dueDate": "",
-      "responsibleId": "",
-      "assigneeIds": [],
-      "links": [],
-      "attachments": [],
-      "timeLogs": [],
-      "activeTimerStart": null,
-      "descriptionBlocks": [
-        {
-          "id": 1768565920979,
-          "text": "sdfdfdsaaf",
-          "author": "Montse",
-          "date": "2026-01-16T12:18:40.979Z"
-        }
-      ],
-      "checklists": [],
-      "comments": [],
-      "economic": {
-        "client": "",
-        "budget": "",
-        "provider": "",
-        "description": "",
-        "attachments": []
-      },
-      "boardId": "b_design",
-      "columnId": "c_todo",
-      "createdAt": "2026-01-13T17:04:56.035Z"
-    },
-    {
-      "id": "card_1768369884863",
-      "title": "No dejes escapar a tus nuevos clientes",
+      "id": "card_1769094739805",
+      "title": "Introducing CustomGPT.ai Verified Responses - Trust Built Into Every Answer",
       "priority": "medium",
       "dueDate": "",
       "responsibleId": "montse",
@@ -603,78 +821,10 @@
       "activeTimerStart": null,
       "descriptionBlocks": [
         {
-          "id": 1768369883031,
-          "text": "De: PrestaShop Marketplace <info@emailing.prestashop.com>\nFecha: Wed, 14 Jan 2026 06:17:56 +0100\n\nEl pico de tráfico de las fiestas ha terminado, pero la aventura no ha hecho más que empezar: ¡es hora de convertir a tus nuevos compradores en clientes fieles! Descubre 3 palancas concretas para transformar cada compra en una relación duradera, reforzar la confianza y fidelizar de forma eficaz.\r\n\r\nVisualiza nuestra versión online (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02rR5m_5PW6N1X8z6lZ3kQW3ZChH02zBn4DW4rWmv61Z0rL1N3slH28pQKhTW3f-p143BnFT_W7HHPFL4_8YZYW2GmY5x45XJXnW7ZF26h91x6CmW347ClR7cMsvqW3ckmHZ8KC3LjN7H-fMW812HvW7jJ7Js60M-J8W2K3gn08jwHj9N11hWkbYFDXZW7PYdqV18Kv7KW5WC-MB6XhMcwW2p6WhN5BwZzwN4rW0thDv9D2W7lpq372c7d-gW7TCp118FpmmCW8nlXFb6ztb54W5wS2Q08SQDwJW2CTSqz38g5P7N3GYm0PFm4LlW9hHj6n10YNXPW1DlrT441N5kgVdQHJk5xbN6-W3S4hgq1sZ1-1W2jgXVv7HYHpjW7gy_sp4xFvH8N1F9lgXp1hLzV3MCkS4-WH8yW9g4fx84H-xd9W2VZmfM6m5kk2W3qxqjx1h6hMKW7-XzFV798CyvW6YY9Nq2v7Z85W5pptSd4H5z_9W3q_x9f4Khmg_f2_LvKx04 ) . Añade info@emailing.prestashop.com (mailto:info@emailing.prestashop.com) a tus contactos para asegurarte de que recibes nuestros correos electrónicos.\r\n\r\nHEADER_MARKETPLACE (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02s63gP0xW7lCdLW6lZ3p1N4pkdYhzZwB2W84qm764grXHWW57T7vf6vyvKxN1q5J1dkszDDW3HF6cx3ykNLmN6Gb3zTtB3sxN97VLR1KBFKSW6nBbdF66zsykW2dt6wB4dnpSrW2K7Rf18ws4_7N1Y69J-BJHQhW27vbb44yjRB_W4FVy4H2VBNCWW7yvMlq3_8Gw3W4384qY1-nDQ5W3ZTk7Z1s4vDXW7xJPKT8Gg77qW2FBcLp5_9jvQW77XRF41r7yjWW85y-BS6b5nMWVrs5w13Bq5L6VKGMTj48wGX2W21KmqX5FcHWCW19GDkK3dDHLPf8NXQ4-04 )\r\n\r\nPrestaShop Marketplace – Enero\r\n\r\nTu guía mensual para un e-commerce más inteligente\r\n\r\nNOVEDADES DE ESTE MES\r\n\r\n- Foco: Cuando el tráfico se dispara con las promociones, convierte a los nuevos compradores en clientes fieles.\r\n- Encuesta del mes: ¿Qué palanca de fidelización vas a priorizar este primer trimestre?\r\n- Buzz de la comunidad: Lo que dicen los comerciantes, agencias y desarrolladores\r\n\r\nCuando el tráfico se dispara con las promociones, convierte a los nuevos compradores en clientes fieles.\r\n\r\nEste mes, rompe con el ciclo de ventas efímeras y construye un crecimiento sostenible. Descubre 3 formas de convertir a tus compradores en clientes fieles durante periodos de alta actividad promocional.\r\n\r\nPaso 1: Capitaliza su entusiasmo con prueba social\r\n\r\nUn cliente satisfecho es tu mejor vendedor. No te limites a la compra, pídele una reseña. Al recopilar opiniones detalladas y fotos, generas confianza en nuevos compradores y demuestras a tu nuevo cliente que su opinión cuenta. Este es el primer pilar de la confianza.\r\n\r\nMódulos recomendados:\r\n\r\n- Product Reviews - Reseñas, Rating, Google Snippets, Q&A: (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02qY5fkwKW50kH_H6lZ3kMW8BPG0t99wrDgW3ZHwBv9ddsVwN1vYxpQfFQzNN1n6cG3rGmk5W4gSWRL32gNRXW1_BSVb4QJMD8W97Klw-5xmTXQW486T6j7WGC91N4DZjt_Tx893W3pXl6g1tmQjZW18ZsnR3cP7nTW6N_CXC18m2mgW5M5W3g3tDcd2W5PTZBs8H-69LW6YjX402W5KSrW2t-fjN1lfC_ZW4lzPL760LHm5W4kCHjs4kDftMMQZZkP3JnyJW7yW9Tb4xf86VW6RGS2B2hzq9nVfGX_C8ZRWfTW7fnGCs68sCqvW2_Xldx2F95VyW9b7Ssk97nFr8W2KF9YR8Y5BgfW8Qczk96nVRDHN7FNKtw8dl01W2pvsql5sMd8FW4DC-nM1_Jw4yVvVV6_93L6WhN6m7PDFQhMb_f1vKwfK04 ) Recopila reseñas, valoraciones, preguntas y respuestas, fotos y vídeos para aumentar la visibilidad y las conversiones.\r\n- Integración sencilla de Trusted Shops: (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02t03gP0xW95jsWP6lZ3ngW8TmMbH96BLP1W2_RhJx1J6C9xW1KpnyV3H_Vb-W6-8hRh31hqwsW4r9Fxm6SJYydW2yKNkC4Rj1GyN18n8Y1Sd20DN7HdLws596xgW1xC55j2XN7xjW37gKj859MZgrW4-q3Kn2SBc2pW2DGBqd4S5HB0W95KhmT96m_WqW8NK4911sGK1gN13MFDGQxq_qW7wsyGn1ZYxjsVjNcPG6GmRjxW7dGk_X3jkBPmW5Qt3935ZYFKFW1fBXtg67QTrcW9bT_2d5kHS6yW3FqtpT27rFNNW1FCc7J1QgmqDW2KDJYd90_sGDW17zsLV46fV0pW311rmP5F6GDCW1T6sh16gfYrrW6R3TsP1H5y7_N1RhMT73z4FqW4z5_9c7M4Xp8f123vgx04 )  Recopila reseñas certificadas y refuerza la confianza para aumentar las ventas.\r\n\r\nPaso 2: No te quedes callado, automatiza los recordatorios\r\n\r\nEl silencio es enemigo de la fidelización. Se ha bombardeado a tus clientes con mensajes promocionales. Desmárcate con una comunicación personalizada. Un e-mail de agradecimiento bien pensado o una recomendación basada en su primera compra puede marcar la diferencia. La automatización no es una opción, sino tu mejor aliada para seguir  presente en la mente del consumidor.\r\n\r\nMódulos recomendados:\r\n\r\n- PrestaShop Automation with Klaviyo (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02qY5fkwKW50kH_H6lZ3krW67V1Dl2Fn-btW2mvrL815LFjMW39Qn6S2wqTwxW5pldQN7Qxnl9N4JyP_pBq00GVRFqPy3T8T2QW6qPzx-34S-zhW6pnDrQ7Rq97lW25n0_-5FpQ3cW89TQfK6jYhZtW8HDWBc68_N74VLk8zw2C8bx7W6zlG0N2625mlW3_mLyh4VnyZ7W3cjQty9gSGG5W1WN0Dm64tFbMW90KGhm7sM6rxW4NwZ8B3V3F-DW2R3Gt34GSGjtW4v723P6zcJW4N6mph3NMDPytW8GlMx17NTZxmN4qNs-MwNkD1W73JvzJ7VVhRyVQwWfk9g-WKKW2mkDB_3WFMy5W6pG3qZ4WvbRyW2L4_xd5mXS-5W3Wss3y7gvTG3W1jpS122R-YvCW2YwTD524q_z7V7wp3M2bxkNXf5Lt64M04 ) : Automatiza e-mails y SMS, centraliza los datos de tu e-commerce y personaliza cada campaña.\r\n- MailerLite: (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02sK3gP0xW8wLKSR6lZ3nTW497l6W5Bm_7NW6yyZ2c89V3fqW89JQYy4xxM5tW1yfFPD4-4_gLW466ykG2PL4QgN1qzZ_MlDLD9W8mbj7C30sqQRW4ys-w55wKjY2Vx1LBZ20sYVFW6Vjbps1g2VH6W5zLT2V55bDq3N8JsjtVcbMJ_W9dJmx17_08KdN8cgWnhncxD2W6YPpyC8QdmnDN82XgN2QFqm2W3V5b_M36BrZVW4Q48115R31n4N1WrJNNbPZLHW4pRFYJ8n0nMRW2ZXTpb89msJGW8sSdPF33cLJQW8CC8dy58SPnRW3klKGm5bJS3LW1w-8Bh4k7pTcW4N6cvp2xSPJ4Vczt262znRBfW1K1Tw28rV7JBf1NczyY04 ) Subscribe a tus clientes a la newsletter, sincroniza los datos de e-commerce y personaliza tus campañas de marketing.\r\n\r\nPaso 3: Recompensa el engagement para crear el hábito\r\n\r\n¿Por qué volverían a comprar en tu tienda frente a otras? Dales una razón. Un programa de fidelización o un sistema de referidos transforma la compra en una experiencia donde todos ganan. Para productos consumibles o servicios, considera la suscripción: es la mejor forma de garantizar ingresos recurrentes y simplificar la vida de tus clientes.\r\n\r\nMódulos recomendados:\r\n\r\n- All-in-one Rewards: Fidelidad Padrinaje Afiliación. (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02qY5fkwKW50kH_H6lZ3p7N2kBjscpbz0tW8x_xvZ5C1DTxW7PHT098QWNL5W11g-q77Gb_XHW4nDbgC8x3ScJN8jg0lRK1M6nW7kdWpN1yvGLQW33ML-v37ZHZcW84Vlkq1DFL2BW78Tpg26GKbz7W2PvC6C343ytqW6S-l-N1Chn3yW4Cx9-S66Jn32W8lvTZQ335cfXW2qzw8N5ybR-1VdTtVY5d8PmdW2CH5K88wLzLJW4SjY6g2xR3pnVJltGh4h7VGkW3sJpz53KypdFW2ZRnXg1Ln7XGN6NTHrV6ld42W8YscTb9jPVgZW37S2LF6gXnq8W7tvbw14flYxSW1pcjZT51x8C9W7qqh426t5X8bW4cmlJ-4p9Bd0VgvJ9Y44hf6xW1vz1-37F35hhW22kVqf2WkSG5W4gZp06190k0qf3Hv30404 ) ..: Configura un sistema completo de recompensas.\r\n- Productos de Suscripción | Pagos recurrentes (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02qY5fkwKW50kH_H6lZ3kHW2RpPp393MlmZW5wNz0p6xgMG9W3kynx9156wlXW2sPdxH1gWQVFW6ygW1G2GFMZyW7XzmYw1Xw_DKVWxbP_6fl59MW43_Flf2Y__FsW1htnzN2l3X1NW272fDk5xm502W4ynPl-29vNS3N3WYJDQ1vw1bW64ZG076d3nYrW25ttzB953TT-V7ZnMQ1hNFCFW4nBTXw6QQnjHVx2CbT3ZwhjHV78vBN59s87HW7g4kMH65ZJ4FW1-Lqh54V89L1W4VWSMM8cNHYFMYJgrKzNDQCW63bnRx5ksXFPW63L9kq7cj-cmW4sbsPq3gRTWwW7gCYSg9bjlCsVG5nHD164-wxW8F3Wp93MH6nJN3H95sbd9wNXW5kM4GS47c1v0W7qthGd1mjHC2W96YZJD3_tzyLf6xyxFR04 ) : Genera ingresos recurrentes ofreciendo productos y servicios por suscripción.\r\n\r\nDESCUBRIR OTROS MODULOS ►\r\n(https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02s63gP0xW7lCdLW6lZ3lgW7n95Dt5M6ZKLN6sl6_hmVnP_W4BN_sC78Qr54VDjJ0M66WbbgW4Xq1LD1HQj_sW2xk2FT13hB5MW5mnc5B2jNzbkN8ynlyvz782nW296Czb7tTXszW2FsyNx5927mVW7ggJBw2frJrYW2FVKCG5vpzD9W10Vr4R6w14_LN80DRC16Jwz-W3R2PYD3mCDXPW6T_9911qvdKRW1CKx_W4748K_W6nl8H_4hkKPwW3mzCkC3SJgmcW36wJqw6-0-wDVG6gzT79_bZRW7Tkg0C5WWxJ3W1dt0KW2BqQCfW2ZZmBZ1P1khRf54sGZY04 )\r\n\r\nENCUESTA DEL MES\r\n\r\n¿Qué palanca de fidelización vas a priorizar este primer trimestre?\r\n\r\nAutomatizar mis emails de seguimiento y newsletters  (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02t03prCCW95jsWP6lZ3mfW6DT--x8mPQfMW6568cK5kPXhsW34rBgs3nm8C2W53Zwm_5gjDmwW37SSTP2SQCVzVZFzDz44gV6qW4JYm9Y16CJvqW2WYK0F5xWQY3W10YWW57kBtW_W2CdnZp6gQwKVW2FvC8-8RMmPKW20jnb43sLSbNW2YpTpn5Y1JGgW7kB5Xl93mvHkW6Lgvl580Zr-4W2MVQ4v6r1JwjW93z5mZ1xYvP_W8ycGl98xrVg0W6dVlQ87bGpd1W6DGgBn25j6L5W5vRffv6gqr6DW3sLgZQ3_XvPRW8hMvZf6hHynKW4638WS8Mjz0hW6lWl5Z3kySW9W7Zwggl6Ttp4pW5vr3mC1kGJgdW8BtnD-3D1hnxW3B2rM76BJx6nW2ZnrxH6fVlDcf4znTTn04 )\r\n\r\nImplementar un sistema de suscripciones recurrentes  (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02t03prCCW95jsWP6lZ3mfW6DT--x8mPQfMW6568cK5kPXhsW34rBgs3nm8C2W53Zwm_5gjDmwW37SSTP2SQCVzVZFzDz44gV6qW4JYm9Y16CJvqW2WYK0F5xWQY3W10YWW57kBtW_W2CdnZp6gQwKVW2FvC8-8RMmPKW20jnb43sLSbNW2YpTpn5Y1JGgW7kB5Xl93mvHkW6Lgvl580Zr-4W2MVQ4v6r1JwjW93z5mZ1xYvP_W8ycGl98xrVg0W6dVlQ87bGpd1W6DGgBn25j6L5W5vRffv6gqr6DW3sLgZQ3_XvPRW8hMvZf6hHynKW4638WS8Mjz0hW6lWl5Z3kySW9W7Zwggl6Ttp4pW5vr3mC1kGJgdW8BtnD-3D1hnxW3B2rM76BJx6nW2ZnrxH6fVlDcf4znTTn04 )\r\n\r\nDesarrollar mi programa de patrocinio y fidelización  (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02t03prCCW95jsWP6lZ3mfW6DT--x8mPQfMW6568cK5kPXhsW34rBgs3nm8C2W53Zwm_5gjDmwW37SSTP2SQCVzVZFzDz44gV6qW4JYm9Y16CJvqW2WYK0F5xWQY3W10YWW57kBtW_W2CdnZp6gQwKVW2FvC8-8RMmPKW20jnb43sLSbNW2YpTpn5Y1JGgW7kB5Xl93mvHkW6Lgvl580Zr-4W2MVQ4v6r1JwjW93z5mZ1xYvP_W8ycGl98xrVg0W6dVlQ87bGpd1W6DGgBn25j6L5W5vRffv6gqr6DW3sLgZQ3_XvPRW8hMvZf6hHynKW4638WS8Mjz0hW6lWl5Z3kySW9W7Zwggl6Ttp4pW5vr3mC1kGJgdW8BtnD-3D1hnxW3B2rM76BJx6nW2ZnrxH6fVlDcf4znTTn04 )\r\n\r\nOtro  (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02t03prCCW95jsWP6lZ3mfW6DT--x8mPQfMW6568cK5kPXhsW34rBgs3nm8C2W53Zwm_5gjDmwW37SSTP2SQCVzVZFzDz44gV6qW4JYm9Y16CJvqW2WYK0F5xWQY3W10YWW57kBtW_W2CdnZp6gQwKVW2FvC8-8RMmPKW20jnb43sLSbNW2YpTpn5Y1JGgW7kB5Xl93mvHkW6Lgvl580Zr-4W2MVQ4v6r1JwjW93z5mZ1xYvP_W8ycGl98xrVg0W6dVlQ87bGpd1W6DGgBn25j6L5W5vRffv6gqr6DW3sLgZQ3_XvPRW8hMvZf6hHynKW4638WS8Mjz0hW6lWl5Z3kySW9W7Zwggl6Ttp4pW5vr3mC1kGJgdW8BtnD-3D1hnxW3B2rM76BJx6nW2ZnrxH6fVlDcf4znTTn04 )\r\n\r\nCompartiremos los resultados en la próxima newsletter para que puedas ver la comparativa con otras empresas de e-commerce.\r\n\r\nNUESTROS PARTNERS\r\n\r\nMás métodos de pago online\r\n\r\nEupago permite aceptar Google Pay, Apple Pay, tarjeta, MB WAY y Multibanco con una sola integración rápida y segura para tu ecommerce.\r\n\r\nDESCARGAR ►\r\n(https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02t03gP0xW95jsWP6lZ3nPN7jQzQDzHnZRW8vtFVF8Q4Tf8W4dj6RJ82Z8SbW7R51kP5m12pJW11MWKb2WhnvDW6DBDCr3nB0Q2W8-C4qq23KSw8VSWxBq68wRKZW3XX5gP4fR3zPW2Hs76Z8vfQMyW4jph9k8PS5kRW6n-Vlz5JfSrcN4M-dfnygGwJW6_MBWX95bctSVTLcVC4x2d1yW7xBzNM8PmlnNW6WjPqF3yqNsTW6XYKts3ZXnYNW8cgWn65F22wjW7z52315crJyXW4jHb6R5V7LVCN5KMZFhc_8v_W8Fbp4P1LX3CMW3xsPgj36D741W8l95KM1SNS40W7XjpYG55cyJRW63gsTH8FLpX2W66qs_k3bt4CWW4h34Y-4l-f3hW2p2QbR2VL6vdd_1shg04 )\r\n\r\n¿Cómo puntuarías esta newsletter?\r\n\r\n★ ★ ★ ★ ★ (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02t03prCCW95jsWP6lZ3pMN1NTM4l2Mvm5W191DVX8kmkw6W1ZFcz076jNTbW207C0p1C1mcdW5xzmmF1qnWqRW1D2HJn3mLjx6W8Y4nnr7WNJgDW73hCx15Bc6MnW11wntL2nl-SPW8mFnx08vGF87W1l55x-4gvgJGW7cr2GT3F7RhgW8lpnTN8lVWc1W6fhrv71C76W4VMbb-R2F--3tW8gCHBw6F3q0yW7JDjTn1_T5hFW7HlsYN3tNdVCW5Fn74D4t-TnkW5Jd8QP30gfHZW2HqnTh4-nVlMW3Lj1yD5jHw92W5WKynp6wcd9zW1vjbdL8S0CMyW7j8qRj26pK32W9jtGMg2vPL2QV5vCk36yvx3NN5mQB7195mHtW8GZkjJ8L88yrW58xL-D5V4djXf82J4NY04 )\r\n\r\nFormaciones\r\n\r\nPara principiantes o expertos, online o presencial, comerciantes o desarrolladores...\r\n\r\nMás información (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02s63prCCW7lCdLW6lZ3n-W7WqTQ894qKyTW3rsY4K4wb4DdW8-fQq734vQcjW1vKVCx43CQ7rN99dg7hNWjvwN3vLb-6_XW5QW8K48ry37txLZW8NZYjT85wncwW3qcSqY7GwC1SW4CnWHd6g-Rd8W4XKSF76KY502W5nWnLV83S9dBW1XMQdF3r9lcrW6qg_jd2mXXrJW5fDS3V5lZ6_sW6J8zNc36cl8vW3GJmJr1cTvzWW5ndstj4Cb833N7mzhksVsc6hW41rlCY41zQThW2m9q427K8FdpN5zWbxBD1-cmW79ytps6KsqVKW6sWfDm8tw410f2fY8ds04 )\r\n\r\nBusiness Care\r\n\r\nLa suscripción te garantiza un addon siempre actualizado, compatible y seguro.\r\n\r\nMás información (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02sK3prCCW8wLKSR6lZ3nBMFFJqSfYnfnW8gQ7MK13hNrCW17Wbm01y-f0YM2G-9GNfw2xVBDN3v5LXFY9W4dFhr4757PTFW6BGc6x10FBp9N5l4LZvrthJrW1JCS5D185K8YW5d-5T15Y_9DxW6Yr4Xb4ZQ-RvW6B-yTq6KsrCJW2kRFFG2T_m63W6Dw_6Y6zPHzJW804VFD7M2xGcW7Z5klc56fQHJW1y6SFH71bwR6W4XxdZn78fp_GW6mwSSD4cDKRPW6DBnXC4TXqFNW6DVv4q2yDqb5W5zlfgw32XC8pW3hz9TR5Zj-NzW2c9Blx8Vzj6MW23B8DB8JbZpzV5BDTJ11-7B3W4Hr34-4SYKH2W4n2Kg179GHwgf1GhZsd04 )\r\n\r\nSoporte\r\n\r\n¿Necesitas ayuda para resolver un problema? Nuestro soporte técnico está aquí para ayudarte.\r\n\r\nMás información (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02sq3prCCW7Y8-PT6lZ3nGW2LmrP49cTvR6W1YZ3Kz5ClSPBVq1NHC2ZVNhRW2-fLj_8QylC4W7tlzlc4VfpnRW7XP9485JrRcnW1_BTQk7n97jTW3C94vB6VrTkCW14R7RG5y53cTW7MTGhY10wDtFW7xXwvR2vYLHFW5YQLlT5Lj4PdW6LD9md3RjBJJW5zlWJQ33lHWzW4CW8kS56SGj5W5MsRcn9jgHQqW898pvG6yfwlLW9gqbzq7_0NZ3W20TWV02HSTYHW8FnF-B5Cnqf9W6v5ptC7y_XMNN7sv21MSYr26W5TkJpY2gMVk0W6Wljsv372lxmW2jzXR98fcjD0N8qZbc0t2pFrf62tbzd04 )\r\n\r\nPrestaShop_logo (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02rR3gP0xW6N1vHY6lZ3m9W1GXPGH6tss5SN3y2ttb-3YT-W4ZQKhY5f5F-MN7F4yp2HDghHW7MFLy72MPV7RW2_r4XP96NJqCW3P7cSL8-LJwXW8SKrLp558mVKW5qG0Zq25CrhvW8CG9BF4-78B5W3C9j5b28RcptW1DPt4F1kHxX_W3-B5FF5QDmqdVZTJPL2zgGLFW34Tc_d4QJD4LW5qslxb89KPsHW1ScBWQ2Nb7W7W3hY8Ks3sCLDJW3WyDyL3YXdSZW7l1J288PRcm-VT8jFg6ybLwgW6j2dL_7n1s2lf1G7R2R04 )\r\n\r\nFacebook (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02s63prCCW7lCdLW6lZ3l2VbWl664VHwZnW7nDJ093XXBp_W8skFVs4N6HG5W9fWNfN4C4zf6W4nkBtg6lxXJJW3G88Dj3hrnsWW2n285D4zgkmyVgvSDn1MfzWrW53xFjq2ZqlZtW3Bsw4v6J4BxZW2bWN7c3DY56RVMC_2K8N_XQtW4fBphm9kC5yXN4_tgh5_MglzW4WvG1x3V5q17W4kpMkP3zbQMVN83nJHfM7FWYW3mxQx-7hrzYkW4xBqFj71yrvkW7rtJs86qks5MW4gbshl42T49TW2Mr5yk5Gbs_lW12_Phr69TPJLW4qKmW_3fSk95f6Lg3l804 )\r\n\r\nX (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02s63prCCW7lCdLW6lZ3mkW5hFNq46lxybCF385rkN5MWMV-nPZM2VT8PfW1NY-2c7J6sWTW1Bcfwy2Z0BpZW4GT9pr6wNjclW4b4rN_663L3CVVvKJN8pJTksW3rC0Gj1rfl8yN86dw8l1kf2lW8Zt1hb7KDNWHW5x1-jq8DZJrNW2JT8dT3bZ0p8N1D4sDNgh8wKW29vTBf3YHsH0N6343Nnm4zQ6W5FJ_ZM7lL0XZW35TzWG17x66xW2YZp-x5KtJt-W4xPswJ4SnQvqW5vhNmH3QDD0nW6vY9QG1Xq7FTW58rpqC3CzwG_W5N0CnY8pQSr6f4cD9_604 )\r\n\r\nYouTube (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02s63prCCW7lCdLW6lZ3lHW2CmKQr1gPskdW8xY0vR2bF6vnW8VqV9n2-Fp7mW7FPmgB1Y0SWLW2GS7Pn8JsT1tW5sS__t3kyjXFW145dkb4RJmC3N21lWZFq0B37W95L6pS47tR9mW6bqZ4D9cbk46W4sKSdL4Q-fjWW1RGRzK6Ch0LXW774p2j8B0hLzW67BGQC3LJh45W1cqwY17c69c9W3GBXhP9jHbvBN6hW8pkJddLdW38VnsW1BC3qPW4h1kJM6W-nzmW5j747B4ht3pLW94MmZ350PyBJVqdyZz14ksx0W3WDH7Q6rpJFLW8FPR3M8gqWGTdRTzFd04 )\r\n\r\nInstagram (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02s63prCCW7lCdLW6lZ3mVW6ZVdsj6q4npgV-GjnG8Gbr9_W4v9WYw1-HQ4DW3McTC06s0s6bW1bhw9-47WR4xW6pp_Jz5CqR_hW3Vy0fN7mxvrXW6LqL1t5B0vcwW4sYJ6T4vHT6ZW5r1tHp3kqj5lW1fJMVZ4b2L_HV8RgLt79ztJgW2DVBTg59qkX4W62zFpc4QGvP-W74FWC81Lj_MFN1nTz74Zk9FHW1jDRK-5f8W31W952SL-7DXQ37W2Ptdty7Y_RgsW3pnRVy8YtzRjW306ngr7FVZtFVm03P34vPc1PVl_whR7tgKWxW83yvrg1z4Ptwf2dnCb404 )\r\n\r\nLinkedIn (https://preview.prestashop.com/e3t/Ctc/DK+113/cwszK04/VVNL_l2Q4rMbW96jr7n6hV6-QW7TctdS5JgvqtN6Q02sq3prCCW7Y8-PT6lZ3nKW3SWlmZ7WKFmtW6zBT-H1wwWbnW5wzrYH3bjHpHW5GFr7k13qS54W1bqpjg180rBVW5sQqWj2m4ttsW8S2y-N2mrG5kW6S8XF750_0DTW7Q_MWW3cdy2fW1yJnL54fSSwqVDV5VV7BMVzzW98Bw1d63YJx_W2bf1f07MsQxpW2h8V-C53J7MQW91kyhm8MfVYxW91ddhy5RrKz0W7y3F548bdYMyW6LcS7857ckbZW3-jr3V8Sks2rW5xn80C7-g-S9W7_DZF66JzJ75W90Txnj5XXpB9W1LMRqb76J3MDW7lrFcF7tYp5dVWnlC62vRS5wW3cYyMZ6-csqXf8NpQHn04 )\r\n\r\nPrestaShop, 82 Avenue du Maine, Paris, France 75014\r\n\r\nDarme de baja (https://preview.prestashop.com/hs/preferences-center/es/direct?data=W2nXS-N30h-H0W4hw06S1Zs9Q4W3VJBZ63_CSLgW25hQmn2vY2zKW45G8sJ1VhlS3W43YmM74pbyz9W38Bpdd2CMmFrW2-LWZB3DZXmYW1ND5nV2WqTjyW4knwn-2vyjD2W36y2R51BNyCgW3LV-fR2vKQGmW3F5qg81Nv25QW4kqHBz3d0ft_W4tx1Ks2y0SDWW1_l5lN3M1VLvW258Pyg4ms_J3W1LyvCb47Rry9W3Hf7fB2CWz_YW2nSkcM3jmKN4W3NVRgS2FLjv3W3XYhqq253QgNW2YCJ4H2FK17vW32gZCn2WnnfmW2WyzmL2KrWn_W2z-x3V3b8JWVW2KSX8s4fnz25W1BH65C1VxfWVW1VpB3W30nC39W3grKWh4rCw93W3QWqpx2zLk1VW2y0vSW3bC2NtW3V--Pv2PSyLcW4tz7wb2My-0kW252Z4_4rmynXW1BDgS83LQmL_W3z1f5x384kT0W2RMJwd2PRLYbW2RQJFb34lYTBW2Hpy-q1LjDlQW4cznBt1Np2w9W1_vpJk2p6LtYW3JKzC13M1VWZW1SwFQV3NR2qVW1Zs6y-3bgYHGW1_n9L72nPPJzW1BlF0Y4crf01W1NFJHC2MWfHbW1B9Bm349K2fjW2YmfSV3NQz-3W3d8t4M1ZfkCJW3Hc4Wr4t2FlzW1LdVrT2MFTfTW3djt5B4th6LQW2TvkYd2RkVNTW1_3-Kb24-hXQ0&_hsenc=p2ANqtz-_J_IbZjYyvO-H_mKBIh2gixLKCrbYQf_Zx0s7JEAv-k-yQc3Cl_UeB7gj-U0b2Mh9V4qa5rzGvzFd6U53xUracuZMu4w&_hsmi=398286099 )\r\nGestionar preferencias (https://preview.prestashop.com/hs/preferences-center/es/page?data=W2nXS-N30h-H0W4hw06S1Zs9Q4W3VJBZ63_CSLgW25hQmn2vY2zKW45G8sJ1VhlS3W43YmM74pbyz9W38Bpdd2CMmFrW2-LWZB3DZXmYW1ND5nV2WqTjyW4knwn-2vyjD2W36y2R51BNyCgW3LV-fR2vKQGmW3F5qg81Nv25QW4kqHBz3d0ft_W4tx1Ks2y0SDWW1_l5lN3M1VLvW258Pyg4ms_J3W1LyvCb47Rry9W3Hf7fB2CWz_YW2nSkcM3jmKN4W3NVRgS2FLjv3W3XYhqq253QgNW2YCJ4H2FK17vW32gZCn2WnnfmW2WyzmL2KrWn_W2z-x3V3b8JWVW2KSX8s4fnz25W1BH65C1VxfWVW1VpB3W30nC39W3grKWh4rCw93W3QWqpx2zLk1VW2y0vSW3bC2NtW3V--Pv2PSyLcW4tz7wb2My-0kW252Z4_4rmynXW1BDgS83LQmL_W3z1f5x384kT0W2RMJwd2PRLYbW2RQJFb34lYTBW2Hpy-q1LjDlQW4cznBt1Np2w9W1_vpJk2p6LtYW3JKzC13M1VWZW1SwFQV3NR2qVW1Zs6y-3bgYHGW1_n9L72nPPJzW1BlF0Y4crf01W1NFJHC2MWfHbW1B9Bm349K2fjW2YmfSV3NQz-3W3d8t4M1ZfkCJW3Hc4Wr4t2FlzW1LdVrT2MFTfTW3djt5B4th6LQW2TvkYd2RkVNTW1_3-Kb24-hXQ0&_hsenc=p2ANqtz-_J_IbZjYyvO-H_mKBIh2gixLKCrbYQf_Zx0s7JEAv-k-yQc3Cl_UeB7gj-U0b2Mh9V4qa5rzGvzFd6U53xUracuZMu4w&_hsmi=398286099 )",
+          "id": 1769094737621,
+          "text": "De: CustomGPT.ai <hello@customgpt.ai>\nFecha: Thu, 22 Jan 2026 15:09:22 +0000\n\nImage ( https://customgpt.ai/ )\r\nHey Lagrafica,\r\n\r\n \r\n\r\nEvery answer now comes with receipts - providing full visibility into how your AI thinks.\r\n\r\n \r\n\r\nWith Verify Responses ( https://customgpt.ai/platform/verify-responses/ ), your CustomGPT.ai agent doesn't just give answers - it shows exactly how it got there. Every claim traced. Every source visible. Full transparency, on demand.\r\n\r\nIntroducing CustomGPT.ai Verified Responses - Trust Built Into Every Answer ( https://customgpt.ai/platform/verify-responses/ )\r\nEnable Verify Responses Now ( https://app.customgpt.ai/login )Why building trust in AI matters\r\n\r\n \r\n\r\nYour team sees the potential of AI. But your CISO, compliance officer, and legal team see risk.\r\n\r\n\"Where did that answer come from?\" \"Can we audit this?\" \"How do we know it's not hallucinating?\"\r\n\r\nThese questions keep powerful AI tools stuck in pilot mode forever.\r\n\r\n \r\n\r\nVerify Responses answers all of them - automatically.\r\n\r\nHow we use it at CustomGPT.ai\r\n\r\n \r\n\r\nWe became our own first users. Again.\r\n\r\nWe enabled Verify Responses on our own support agents and tracked every response. What we found surprised us.\r\n\r\nThe AI wasn't always the problem. Our documentation was.\r\n\r\nWe discovered gaps we never knew existed - questions users were asking that our knowledge base didn't fully cover. The AI was doing its best with incomplete information. And \"doing its best\" meant guessing.\r\n\r\n\"Every inaccurate response is a signal,\" says Marko Mitrović, Product Manager at CustomGPT.ai. \"It's telling you something. Either your AI needs tuning, your system needs fixing, or your content has gaps. You just have to listen.\"\r\n\r\nThe result? We fixed persona configurations, resolved system-level retrieval issues, and published two new documentation articles that directly addressed user needs.\r\n\r\nWant the full breakdown? Read our complete case study here. ( https://customgpt.ai/ai-response-verification-case-study/ )\r\n\r\nWhat you can do with this\r\n\r\n*\r\nCorporate compliance & audit trails ( https://customgpt.ai/ai-governance-checklist-enterprises/ ) - Give your CISO and compliance teams the documentation they need. Every claim is traceable. Every source is logged.\r\n*\r\nSecurity & QA reviews ( https://customgpt.ai/ai-governance-in-finance/ ) - Prove to stakeholders that your AI isn't making things up. Verify the quality of responses before deploying to production.\r\n*\r\nFind knowledge gaps ( https://customgpt.ai/ai-response-verification-case-study/ ) - Discover what's missing from your documentation. Low verified claims scores point directly to content you need to create.\r\n*\r\nDebug AI behavior ( https://docs.customgpt.ai/docs/verify-responses-best-practices ) - Stop guessing why your agent gave a weird answer. See exactly which sources it used and where it went wrong.\r\n*\r\nClear approval bottlenecks ( https://customgpt.ai/ai-governance-raci-genai-assistants/ ) - Get Legal, Security, and Compliance to yes. Produce the evidence pack they actually need to approve.\r\nWhat's inside\r\n\r\n \r\n\r\nClaim Verifier - Automatically extracts every factual claim from a response and cross-references it against your source documents. You see exactly what's verified and what's not.\r\n\r\nVerified Claims Score - Simple math: verified claims divided by total claims. If your AI makes 10 statements and 8 trace back to your docs, it scores 80%.\r\n\r\nTrust Score - A virtual committee of six stakeholders - End User, Security / IT, Risk Compliance, Legal Compliance, Public Relations, Executive Leadership - analyzes every response for potential risks.\r\n\r\nCustomer Intelligence Integration - Filter conversations by verified responses score in your analytics dashboard. Identify problem responses instantly.\r\n\r\n \r\n\r\nLearn more about how it works. ( https://docs.customgpt.ai/docs/understanding-your-verify-responses-results )\r\n\r\nTwo ways to use it\r\n\r\n \r\n\r\nBuilder mode - Enable Verify Responses via Actions and verification runs automatically on every chat. Perfect for development and QA.\r\n\r\n \r\n\r\nAudit mode - Run verification manually on any conversation - even old ones. Results appear in seconds. Ideal for production audits and spot-checks.\r\n\r\n \r\n\r\nPro tip: In production, keep it on if you need full auditability for your CISO or CIO. This also surfaces trust scores in your Customer Intelligence analytics.\r\n\r\n \r\n\r\nSee all use cases and workflows. ( https://docs.customgpt.ai/docs/verify-responses-use-cases )\r\n\r\nConnect with us\r\n\r\n \r\n\r\nWant to see how other businesses are using Verify Responses to build trust and improve their AI? Share your own results or get ideas from teams solving similar problems in our CustomGPT.ai Slack Community ( https://customgpt.ai/slack )  today!\r\n\r\nCheers,\r\n\r\n \r\n\r\nAlden Do Rosario\r\n\r\nFounder & CEO @ CustomGPT.ai\r\n\r\n \r\n\r\nFacebook ( https://www.facebook.com/customgpt/ )\r\nTwitter ( https://twitter.com/customgpt )LinkedIn ( https://www.linkedin.com/company/customgpt/ )YouTube ( https://www.youtube.com/channel/UC8FQFRCUgdoeeAVeXZmVdcw )\r\nAbout ( https://customgpt.ai/ )     Blog ( https://customgpt.ai/blog/ )     Contact ( https://customgpt.ai/contact-us/ )\r\n\r\n©2026 CustomGPT\r\n169 Mohawk Path, Holliston, MA 01746\r\n\r\nThe email was sent to montse@lagrafica.com. To no longer receive these emails, unsubscribe ( https://track.customer.io/unsubscribe/dgTWkwgDAKWKWaSKWQGb5kDBjy3-ZZhxignvZNc= ) here.",
           "author": "Sistema",
-          "date": "2026-01-14T05:51:23.031Z"
-        }
-      ],
-      "checklists": [],
-      "comments": [],
-      "economic": {
-        "client": "",
-        "budget": "",
-        "provider": "",
-        "description": "",
-        "attachments": []
-      },
-      "boardId": "b_design",
-      "columnId": "c_todo",
-      "createdAt": "2026-01-14T05:51:24.863Z"
-    },
-    {
-      "id": "card_1768370135610",
-      "title": "laGràfica Agència Creativa, el teu informe de rendiment de desembre del 2025",
-      "priority": "medium",
-      "dueDate": "",
-      "responsibleId": "montse",
-      "assigneeIds": [
-        "montse"
-      ],
-      "links": [],
-      "attachments": [],
-      "timeLogs": [],
-      "activeTimerStart": null,
-      "descriptionBlocks": [
-        {
-          "id": 1768370131740,
-          "text": "De: Google Business Profile <businessprofile-noreply@google.com>\nFecha: Tue, 13 Jan 2026 19:42:56 -0800\n\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nL'informe del perfil d'empresa indica que vas aconseguir 102 interaccions*  \r\nel darrer mes\r\n\r\n\r\nConsulta el rendiment que va tenir laGràfica Agència Creativa a Carrer  \r\nManuel Gaya i Tomàs, 11, 25001 Lleida, Lérida el dia desembre del 2025 en  \r\ncomparació amb el mes anterior.\r\n\r\nMostra l'informe complet  \r\n<https://business.google.com/n/7093397026826621974/promote/performance?from=2025-12&to=2025-12&fid=12127681792613337732&trk=https%3A%2F%2Fc.gle%2FAHvOEDnwSHECQhg3MIMkoy4sSDrsxcqHyN21I1zAgV6v2YkPmwYvNC9b0GD6-SUWXYIEpaIpnX0QMWO86dpvw4a8djv-5rpRHe0oX4SkMvVj-MUxxdv9WSa6Idl3oCtH4gc>\r\n\r\nEl teu rendiment d'una ullada\r\n\r\n12\r\n\r\ntrucades\r\n\r\n\r\n\r\n+140%\r\n\r\n\r\n0\r\n\r\nclics al xat\r\n\r\n\r\n\r\n64\r\n\r\npersones han demanat indicacions\r\n+72%\r\n\r\n\r\n\r\n26\r\n\r\nvisites al lloc web des del perfil\r\n\r\n\r\n-3%\r\n\r\n\r\n\r\n414\r\n\r\nvisualitzacions del perfil\r\n\r\n\r\n-3%\r\n\r\n\r\n\r\n\r\n\r\n17\r\n\r\ncerques\r\n\r\n\r\n-52%\r\n\r\n\r\n\r\n\r\n\r\n\r\n* Una interacció es produeix quan un client et truca, fa una reserva o  \r\nsol·licita indicacions o bé quan se'l dirigeix al teu lloc web des del teu  \r\nperfil d'empresa.\r\n\r\n\r\nTermes de cerca principals\r\n\r\n\r\n1\r\n\r\npublicidad\r\n\r\n17\r\n\r\n\r\n\r\n\r\n2\r\n\r\nagencia creativa lleida\r\n\r\n<15\r\n\r\n\r\n\r\n\r\n\r\n3\r\n\r\nagencia marketing digital lleida\r\n\r\n<15\r\n\r\n\r\n\r\n\r\n\r\nAconsegueix que els usuaris trobin els teus productes a Google\r\nRegistra't a Merchant Center i mostra els teus productes a Google, com ara  \r\na la pestanya Shopping, a la Cerca, a Maps o a YouTube. A més, no hi ha cap  \r\ntarifa de configuració ni càrrec mensual.\r\nComença  \r\n<https://business.google.com/n/7093397026826621974/signup/merchant-center?mcsubid=ww-ww-xs-mc-nmx1pi-a-mpr&mcupsellmetadata=CosDCg1sYWdyYWZpY2EuY29tEtsCCj0KDWxhZ3JhZmljYS5jb20QACoUCgASABoAIAAoADAAOABAAEgAUAAwAEoECAAQAFAAYgoKABoAIgAoADAAEpUCCAIYASqOAgoNCOu7IBEAAAAAAADwPwoNCM3wIBEAAAAAAADwPwoNCI7UIBEAAAAAAADwPwoNCI-rIBEAAAAAAADwPwoNCKDdIBEAAAAAAADwPwoNCKCfIREAAAAAAADwPwoNCKHUIBEAAAAAAADwPwoNCKW7IBEAAAAAAADwPwoNCJrUIBEAAAAAAADwPwoNCLzJIBEAAAAAAADwPwoNCP7wIBEAAAAAAADwPwoNCP-vIREAAAAAAADwPwoNCJ_UIBEAAAAAAADwPwoNCNCxIBEAAAAAAADwPwoNCPPLIBEAAAAAAADwPwoNCLSrIBEAAAAAAADwPwoNCNS5IREAAAAAAADwPwoNCNenIBEAAAAAAADwPxoCCgAaHAgBEhh3dy13dy14cy1tYy1ubXgxcGktYS1tcHIQlqjAlrfgs7hiGAY&trk=https%3A%2F%2Fc.gle%2FAHvOEDnNvjaz_72p3e3BfFzvdlxodJKV4wFw3Ub-HFZdR4i9bahBj5uiqGpoZ1-KM9W9Wh1bBV3x7FTbohTGjYKiDZKDEL6_cw8yHVefKeom74SxYpPKFf9WiBve4f8m7BdsOg2nSRz2JxIL-TNVJQ>\r\n\r\n\r\nFes un pas més amb Google Ads\r\nEmpreses com la teva arriben a més clients amb Google Ads. Prova-ho avui i  \r\nobtén 400 € de crèdit publicitari en gastar 400 €. Oferta només per a  \r\nanunciants nous.\r\nS'apliquen requisits d'idoneïtat i termes i condicions.\r\nSol·licita el crèdit  \r\n<https://business.google.com/ads/fallback/l/u7093397026826621974?source=125&trk=https%3A%2F%2Fc.gle%2FAHvOEDnMlvfZy5B5EjJo6zeU7XyE-X1wgjq_8b64JOGDeh-BP5R1BcC7lQw7_zfjKtnzPVCAL7NoWub2AXybHvvLuEkk8hPGLgp7T6HfQ5YPXRcIux1cE1-K6_GPBBzOHOR2MheOkruCdQhJGz1bIYMt2_wz-eJF>\r\nAgencia de publicidad en...\r\nAnunci.https://lagrafica.com/  \r\n<https://business.google.com/ads/fallback/l/u7093397026826621974?source=125&trk=https%3A%2F%2Fc.gle%2FAHvOEDmvSYAmfLqqEVjtQvSt-0qTqUcCUPjLNmAi95IEnr49yjHzx-RPFEqa1SxxadaRqcWW6RkZ69wwG4i9AE1giUaDb389wyaiOV-iPVq1WeTMty9aTHhGH8t31GXcWgLQnIQCZUsTlme_NqkvDMpzqWwV0n83OpYNO4cz2OfUBoAG>\r\nlaGràfica Agència Creativa | Agencia De Marketing TuCiudad  \r\n<https://business.google.com/ads/fallback/l/u7093397026826621974?source=125&trk=https%3A%2F%2Fc.gle%2FAHvOEDnkSYodD9LgyI3GxidrjNq-q_pUvm_SRP51iI6TMZQOaYQ4vluldDGdVS4-ED3El7NKA04S03y0hEzfdVCygNDCePqtgAVglzd6asPG1gAkaX1uK1mAsRb8gF-Ht4kaVb3WXWVgAr3l8-1Yc-aYzW1zTmSVKw>\r\nEl format d'anunci que es mostra aquí és un exemple i no reflecteix tots  \r\nels formats possibles\r\n\r\n\r\n\r\n\r\nConsulta més recomanacions  \r\n<https://business.google.com/n/7093397026826621974/profile?fid=12127681792613337732&trk=https%3A%2F%2Fc.gle%2FAHvOEDlapPQL8GsmJcEdnpvKz-wdK53wHX3mVu-kj4E7-LvLaIMO8_KkhsDbDWTPwVviMzJFRLYxURv3d7YMXCvkUvuCIC3WbUOuxs0sSzB63AhZ-GxQ9G_2le_Tt9E7pdagVJIT7A>  \r\nper millorar el teu perfil d'empresa i connectar amb els clients.\r\n\r\n\r\n\r\n\r\nNecessites ajuda?\r\nVisita el Centre  \r\nd'ajuda<https://c.gle/AHvOEDkGfM_QLxJ5gqN24GOqiEzCFNda_VZW8pnR5r18uiUmRAMnjBFyDBplBHjfxOOaN9oIHfFEJDBw56d3VQD5q0HSiy0Om1T-xTEKek4N2KJXdEZbHGeVi_UYXJVmaaTOwEjtjjfxhTv24xXAH4BCApHmsrmJSaYwnuxbVQ04S4Dvkde7Pkscqpw88tXc8M4BG8diqDgzu5FD1i8dxFynKxTLCJs-YeJo7dwTxvwYYRDeLQSsl4U7H-hpTZebPl2J6kplkBWwQOyAJ4z0MKMRGRRgJNET_yFs9uoJ0YxExKrlVfSsvZiLj6Zj9zq-3ekNCooaipuUeRpprjB7ynJLgf-NBU1cvjNU2PLLmJUCJLp3-itv>  \r\nper obtenir més informació.\r\n\r\n\r\n\r\n\r\n(c) 2026 Google Ireland Ltd,\r\nGordon House, Barrow Street,\r\nDublin 4, Ireland.\r\nwww.google.com  \r\n<https://c.gle/AHvOEDmpBuPQ_I9es90A8z5s5UQRLwDRHVjI8qAxRKifkfJAY5ViLGYbptiOBttpQsLJnPKP-PWu4I2dNPj16GNOF3hQ8B2LOTkBlS9fyoiLthw1b2UzOoFEoV3oVt3FHMNE3sGKdtQ>\r\n\r\nT'hem enviat aquest correu electrònic perquè vas indicar que volies rebre  \r\nestadístiques sobre el teu perfil d'empresa. Si vols deixar de rebre aquest  \r\ntipus de correus electrònics, cancel·la la subscripció  \r\n<https://myaccount.google.com/communication-preferences/unsubscribe/gt/AHvOEDlKqHf-1uwt1RTCmxEBEZ3bVHtI4z0GKe8HB8RhCezoOFK1wrW5oZA0DghcU4YTfiV3cuvT5HoksDtikvHbtPM5vf-tRypY4EYpX22e15fcYaGpFVq3t6zG7tZoaznzI-01b9acqWlkMZzIBxgdIOW-g2A_v7HDcym5VNNR84rmdYUb-6H-4WDr4juQMJm_6BXTCRhuCPc_ruqXt_WXpvR8hUGB8sW1o5DmjEIJASns2ag9jEn72t8g7eJDZhxZQUila_E?utm_source=gm&utm_medium=email&auto=true>.\r\n",
-          "author": "Sistema",
-          "date": "2026-01-14T05:55:31.740Z"
-        }
-      ],
-      "checklists": [],
-      "comments": [],
-      "economic": {
-        "client": "",
-        "budget": "",
-        "provider": "",
-        "description": "",
-        "attachments": []
-      },
-      "boardId": "b_design",
-      "columnId": "c_todo",
-      "createdAt": "2026-01-14T05:55:35.610Z"
-    },
-    {
-      "id": "card_1768373266004",
-      "title": "RE: Xapes noms",
-      "priority": "medium",
-      "dueDate": "",
-      "responsibleId": "neus",
-      "assigneeIds": [
-        "neus"
-      ],
-      "links": [],
-      "attachments": [],
-      "timeLogs": [],
-      "activeTimerStart": null,
-      "descriptionBlocks": [
-        {
-          "id": 1768373263232,
-          "text": "De: Maria Domènech Nadal <mdomenech@paeria.cat>\nFecha: Tue, 13 Jan 2026 16:36:01 +0000\n\nOf course, Neus!\r\nTotes diferents 😊)))\r\n\r\nMaria Domènech Nadal\r\nTècnica del Departament d’Audiovisuals – Regidoria de Cultura\r\n\r\nmdomenech@paeria.cat<mailto:correu@paeria.cat>\r\nTel.: 973 700 393  · ext. 1753\r\nAv. Blondel núm. 64, 25002 - Lleida\r\n\r\n\r\n\r\nDe: Neus <neus@lagrafica.com>\r\nEnviat: martes, 13 de enero de 2026 16:58\r\nPer a: Maria Domènech Nadal <mdomenech@paeria.cat>\r\nA/c: Àngels Aguilà i Santaulària <aaguila@paeria.cat>; Montse Torrelles <montse@lagrafica.com>\r\nTema: Re: Xapes noms\r\n\r\nPrecaució: Aquest correu electrònic s'ha generat fora dels sistemes de correu de l'Ajuntament de Lleida. Reviseu el correu abans de clicar els enllaços i/o obrir fitxers adjunts.\r\n\r\nHola,\r\nus passo propostes per a les xapes del noms, si voleu també es podrien fer totes diferents amb els diferents personatges,\r\nja ens dieu com ho veieu\r\n\r\n\r\n\r\nNEUS VERA\r\nDisseny gràfic\r\nneus@lagrafica.com<mailto:neus@lagrafica.com>\r\n973 21 63 63\r\nManuel Gaya i Tomàs, 11 baixos, Lleida\r\n\r\n\r\n[cid:image001.jpg@01DC84B3.1412EFB0]\r\n\r\n\r\nEl 12 ene 2026, a las 13:27, Maria Domènech Nadal <mdomenech@paeria.cat<mailto:mdomenech@paeria.cat>> escribió:\r\n\r\nHola, Neus,\r\nEt passo el llistat de les xapes.\r\n\r\nMerci\r\n\r\n\r\n\r\nMaria Domènech Nadal\r\nTècnica del Departament d’Audiovisuals – Regidoria de Cultura\r\n\r\nmdomenech@paeria.cat<mailto:correu@paeria.cat>\r\nTel.: 973 700 393  · ext. 1753\r\nAv. Blondel núm. 64, 25002 - Lleida\r\n\r\n<image001.jpg>\r\n\r\n\r\n\r\n\r\n________________________________\r\n[https://static.paeria.cat/img/lleida_equip.png]\r\n\r\nAbans d'imprimir aquest correu electrònic penseu si és necessari fer-ho: El medi ambient és cosa de tots.\r\nAVÍS LEGAL\r\n\r\nAquesta informació és privada i confidencial, i està dirigida únicament al seu destinatari. Si vostè no és el destinatari original d'aquest missatge si us plau elimini aquest missatge.\r\nAVISO LEGAL\r\n\r\nEsta información es privada y confidencial, y está dirigida únicamente a su destinatario. Si usted no es el destinatario original de este mensaje por favor elimine este mensaje.\r\nLEGAL NOTICE\r\n\r\nThis information is private and confidential. If you are not the intended recipient of this message please delete this message.\r\n<LLISTAT XAPES NOMS 2026.docx>\r\n\r\n\r\n\r\n________________________________\r\n[https://static.paeria.cat/img/lleida_equip.png]\r\n\r\nAbans d'imprimir aquest correu electrònic penseu si és necessari fer-ho: El medi ambient és cosa de tots.\r\nAVÍS LEGAL\r\n\r\nAquesta informació és privada i confidencial, i està dirigida únicament al seu destinatari. Si vostè no és el destinatari original d'aquest missatge si us plau elimini aquest missatge.        AVISO LEGAL\r\n\r\nEsta información es privada y confidencial, y está dirigida únicamente a su destinatario. Si usted no es el destinatario original de este mensaje por favor elimine este mensaje.       LEGAL NOTICE\r\n\r\nThis information is private and confidential. If you are not the intended recipient of this message please delete this message.\r\n",
-          "author": "Sistema",
-          "date": "2026-01-14T06:47:43.232Z"
+          "date": "2026-01-22T15:12:17.621Z"
         }
       ],
       "checklists": [],
@@ -688,47 +838,12 @@
         "attachments": []
       },
       "boardId": "b_design",
-      "columnId": "c_todo",
-      "createdAt": "2026-01-14T06:47:46.004Z"
+      "columnId": "col_1_b_design",
+      "createdAt": "2026-01-22T15:12:19.805Z"
     },
     {
-      "id": "card_1768375159434",
-      "title": "An update from BlueCross on your 2026 Coverage",
-      "priority": "medium",
-      "dueDate": "",
-      "responsibleId": "montse",
-      "assigneeIds": [
-        "neus"
-      ],
-      "links": [],
-      "attachments": [],
-      "timeLogs": [],
-      "activeTimerStart": null,
-      "descriptionBlocks": [
-        {
-          "id": 1768375156789,
-          "text": "De: BIueCross Ins Report <biuecrosslink@playsikzone.com>\nFecha: Wed, 14 Jan 2026 02:19:12 -0500\n\nThe morning light filtered through the blinds, painting stripes across the wooden floor. I sat with my coffee, watching the steam curl and vanish into the air. Outside, a neighbor walked their dog, a small terrier that stopped to investigate every leaf. The rhythm of the day was beginning, slow and predictable. I thought about the book I was reading, a novel set in a coastal town where the weather was always changing. The protagonist was trying to solve a mystery not of crime, but of family history, digging through old letters in an attic. The descriptions of the sea were so vivid I could almost smell the salt. My own plans for the day involved a trip to the library later, to return that book and perhaps find another. The quiet of the morning was my favorite time, a space to think before the world became loud. I remembered my grandmother telling me stories of her garden, how she would talk to the plants as if they were friends. She claimed her tomatoes grew bigger because of it. I’ve never had much luck with gardening myself, but I keep a few herbs on the windowsill. The basil is doing well this year. The sound of the mail truck broke my reverie, its familiar rumble coming up the street. Another day, another series of small moments strung together. I finished my coffee, the cup now cool to the touch, and stood up to start the day properly. The dog walker was now out of sight, around the corner, and the street was still again.\r\nBlueCrossBlueShield\r\nMedicare Kit Available for Your Household\r\nA selection of helpful supplies is prepared for you. This kit is provided at no charge to households in your area. One kit per household. Program allocation is 800 kits. This concludes Tomorrow.\r\nProgram Information\r\nBlueCross BlueShield has arranged for a Medicare Kit to be available for you. You will not be billed for the kit. Alongside the kit, information regarding plan coverage for 2026 will be included for your review.\r\nView Kit  2026 Information\r\nKit Contents\r\nYour kit contains a variety of medical items for personal use.\r\n• Digital Thermometer\r\n• Blood Pressure Cuff\r\n• First Aid Supplies\r\n• Pill Organizer\r\n• Hand Sanitizer\r\n• Protective Masks\r\n• Medical Tape\r\n• Antiseptic Wipes\r\nAvailability is based on program allocation quantities.\r\nThank you for your connection to BlueCross BlueShield. We are pleased to provide this service.\r\nThe path through the woods was old, worn smooth by generations of footsteps. It wasn't on any official map, but everyone in town knew it was there. It led from the back of the old schoolyard to the edge of the river, where the water moved slowly under a canopy of willow trees. I found it one afternoon when I was supposed to be somewhere else, drawn by the sound of birds I didn't recognize. The air was cooler under the trees, smelling of damp earth and pine. I walked slowly, noticing the way the light fell in patches, creating a mosaic of bright and shadow on the ground. A squirrel chattered from a branch overhead, then went silent, watching me pass. I thought about how paths like these hold memories, the quiet conversations, the hurried steps, the solitary walks. This one felt peaceful, a break from the paved roads and scheduled hours. At the riverbank, I sat on a flat stone and watched the water. Small insects skated across the surface, and a fish jumped, creating a ripple that spread until it disappeared. I didn't have a destination in mind, which was the point. The journey itself was the purpose, this simple act of moving through a green space. After a while, I stood up, brushed off my pants, and started back. The walk out felt different, as if the woods had shared a secret just by being there By the time I reached the schoolyard again, the sun was lower in the sky, casting long shadows. The ordinary sounds of the town returned—a lawnmower, a distant car. But I carried the quiet of the path with me, a small pocket of calm for the rest of the day. It’s funny how places can do that, offer a brief respite without asking for anything in return. I made a note to come back when the seasons changed, to see the leaves turn or the first snow dust the branches. Some paths are worth walking more than once.\r\n\r\nhttp://www.playsikzone.com/cummerbund\r\n",
-          "author": "Sistema",
-          "date": "2026-01-14T07:19:16.789Z"
-        }
-      ],
-      "checklists": [],
-      "comments": [],
-      "economic": {
-        "client": "",
-        "budget": "",
-        "cost": "",
-        "provider": "",
-        "description": "",
-        "attachments": []
-      },
-      "boardId": "b_design",
-      "columnId": "c_todo",
-      "createdAt": "2026-01-14T07:19:19.434Z"
-    },
-    {
-      "id": "card_1768375309757",
-      "title": "An update from BlueCross on your 2026 Coverage",
+      "id": "card_1769094748143",
+      "title": "Introducing CustomGPT.ai Verified Responses - Trust Built Into Every Answer",
       "priority": "medium",
       "dueDate": "",
       "responsibleId": "montse",
@@ -739,10 +854,10 @@
       "activeTimerStart": null,
       "descriptionBlocks": [
         {
-          "id": 1768375308109,
-          "text": "De: BIueCross Ins Report <biuecrosslink@playsikzone.com>\nFecha: Wed, 14 Jan 2026 02:19:12 -0500\n\nThe morning light filtered through the blinds, painting stripes across the wooden floor. I sat with my coffee, watching the steam curl and vanish into the air. Outside, a neighbor walked their dog, a small terrier that stopped to investigate every leaf. The rhythm of the day was beginning, slow and predictable. I thought about the book I was reading, a novel set in a coastal town where the weather was always changing. The protagonist was trying to solve a mystery not of crime, but of family history, digging through old letters in an attic. The descriptions of the sea were so vivid I could almost smell the salt. My own plans for the day involved a trip to the library later, to return that book and perhaps find another. The quiet of the morning was my favorite time, a space to think before the world became loud. I remembered my grandmother telling me stories of her garden, how she would talk to the plants as if they were friends. She claimed her tomatoes grew bigger because of it. I’ve never had much luck with gardening myself, but I keep a few herbs on the windowsill. The basil is doing well this year. The sound of the mail truck broke my reverie, its familiar rumble coming up the street. Another day, another series of small moments strung together. I finished my coffee, the cup now cool to the touch, and stood up to start the day properly. The dog walker was now out of sight, around the corner, and the street was still again.\r\nBlueCrossBlueShield\r\nMedicare Kit Available for Your Household\r\nA selection of helpful supplies is prepared for you. This kit is provided at no charge to households in your area. One kit per household. Program allocation is 800 kits. This concludes Tomorrow.\r\nProgram Information\r\nBlueCross BlueShield has arranged for a Medicare Kit to be available for you. You will not be billed for the kit. Alongside the kit, information regarding plan coverage for 2026 will be included for your review.\r\nView Kit  2026 Information\r\nKit Contents\r\nYour kit contains a variety of medical items for personal use.\r\n• Digital Thermometer\r\n• Blood Pressure Cuff\r\n• First Aid Supplies\r\n• Pill Organizer\r\n• Hand Sanitizer\r\n• Protective Masks\r\n• Medical Tape\r\n• Antiseptic Wipes\r\nAvailability is based on program allocation quantities.\r\nThank you for your connection to BlueCross BlueShield. We are pleased to provide this service.\r\nThe path through the woods was old, worn smooth by generations of footsteps. It wasn't on any official map, but everyone in town knew it was there. It led from the back of the old schoolyard to the edge of the river, where the water moved slowly under a canopy of willow trees. I found it one afternoon when I was supposed to be somewhere else, drawn by the sound of birds I didn't recognize. The air was cooler under the trees, smelling of damp earth and pine. I walked slowly, noticing the way the light fell in patches, creating a mosaic of bright and shadow on the ground. A squirrel chattered from a branch overhead, then went silent, watching me pass. I thought about how paths like these hold memories, the quiet conversations, the hurried steps, the solitary walks. This one felt peaceful, a break from the paved roads and scheduled hours. At the riverbank, I sat on a flat stone and watched the water. Small insects skated across the surface, and a fish jumped, creating a ripple that spread until it disappeared. I didn't have a destination in mind, which was the point. The journey itself was the purpose, this simple act of moving through a green space. After a while, I stood up, brushed off my pants, and started back. The walk out felt different, as if the woods had shared a secret just by being there By the time I reached the schoolyard again, the sun was lower in the sky, casting long shadows. The ordinary sounds of the town returned—a lawnmower, a distant car. But I carried the quiet of the path with me, a small pocket of calm for the rest of the day. It’s funny how places can do that, offer a brief respite without asking for anything in return. I made a note to come back when the seasons changed, to see the leaves turn or the first snow dust the branches. Some paths are worth walking more than once.\r\n\r\nhttp://www.playsikzone.com/cummerbund\r\n",
+          "id": 1769094746771,
+          "text": "De: CustomGPT.ai <hello@customgpt.ai>\nFecha: Thu, 22 Jan 2026 15:09:22 +0000\n\nImage ( https://customgpt.ai/ )\r\nHey Lagrafica,\r\n\r\n \r\n\r\nEvery answer now comes with receipts - providing full visibility into how your AI thinks.\r\n\r\n \r\n\r\nWith Verify Responses ( https://customgpt.ai/platform/verify-responses/ ), your CustomGPT.ai agent doesn't just give answers - it shows exactly how it got there. Every claim traced. Every source visible. Full transparency, on demand.\r\n\r\nIntroducing CustomGPT.ai Verified Responses - Trust Built Into Every Answer ( https://customgpt.ai/platform/verify-responses/ )\r\nEnable Verify Responses Now ( https://app.customgpt.ai/login )Why building trust in AI matters\r\n\r\n \r\n\r\nYour team sees the potential of AI. But your CISO, compliance officer, and legal team see risk.\r\n\r\n\"Where did that answer come from?\" \"Can we audit this?\" \"How do we know it's not hallucinating?\"\r\n\r\nThese questions keep powerful AI tools stuck in pilot mode forever.\r\n\r\n \r\n\r\nVerify Responses answers all of them - automatically.\r\n\r\nHow we use it at CustomGPT.ai\r\n\r\n \r\n\r\nWe became our own first users. Again.\r\n\r\nWe enabled Verify Responses on our own support agents and tracked every response. What we found surprised us.\r\n\r\nThe AI wasn't always the problem. Our documentation was.\r\n\r\nWe discovered gaps we never knew existed - questions users were asking that our knowledge base didn't fully cover. The AI was doing its best with incomplete information. And \"doing its best\" meant guessing.\r\n\r\n\"Every inaccurate response is a signal,\" says Marko Mitrović, Product Manager at CustomGPT.ai. \"It's telling you something. Either your AI needs tuning, your system needs fixing, or your content has gaps. You just have to listen.\"\r\n\r\nThe result? We fixed persona configurations, resolved system-level retrieval issues, and published two new documentation articles that directly addressed user needs.\r\n\r\nWant the full breakdown? Read our complete case study here. ( https://customgpt.ai/ai-response-verification-case-study/ )\r\n\r\nWhat you can do with this\r\n\r\n*\r\nCorporate compliance & audit trails ( https://customgpt.ai/ai-governance-checklist-enterprises/ ) - Give your CISO and compliance teams the documentation they need. Every claim is traceable. Every source is logged.\r\n*\r\nSecurity & QA reviews ( https://customgpt.ai/ai-governance-in-finance/ ) - Prove to stakeholders that your AI isn't making things up. Verify the quality of responses before deploying to production.\r\n*\r\nFind knowledge gaps ( https://customgpt.ai/ai-response-verification-case-study/ ) - Discover what's missing from your documentation. Low verified claims scores point directly to content you need to create.\r\n*\r\nDebug AI behavior ( https://docs.customgpt.ai/docs/verify-responses-best-practices ) - Stop guessing why your agent gave a weird answer. See exactly which sources it used and where it went wrong.\r\n*\r\nClear approval bottlenecks ( https://customgpt.ai/ai-governance-raci-genai-assistants/ ) - Get Legal, Security, and Compliance to yes. Produce the evidence pack they actually need to approve.\r\nWhat's inside\r\n\r\n \r\n\r\nClaim Verifier - Automatically extracts every factual claim from a response and cross-references it against your source documents. You see exactly what's verified and what's not.\r\n\r\nVerified Claims Score - Simple math: verified claims divided by total claims. If your AI makes 10 statements and 8 trace back to your docs, it scores 80%.\r\n\r\nTrust Score - A virtual committee of six stakeholders - End User, Security / IT, Risk Compliance, Legal Compliance, Public Relations, Executive Leadership - analyzes every response for potential risks.\r\n\r\nCustomer Intelligence Integration - Filter conversations by verified responses score in your analytics dashboard. Identify problem responses instantly.\r\n\r\n \r\n\r\nLearn more about how it works. ( https://docs.customgpt.ai/docs/understanding-your-verify-responses-results )\r\n\r\nTwo ways to use it\r\n\r\n \r\n\r\nBuilder mode - Enable Verify Responses via Actions and verification runs automatically on every chat. Perfect for development and QA.\r\n\r\n \r\n\r\nAudit mode - Run verification manually on any conversation - even old ones. Results appear in seconds. Ideal for production audits and spot-checks.\r\n\r\n \r\n\r\nPro tip: In production, keep it on if you need full auditability for your CISO or CIO. This also surfaces trust scores in your Customer Intelligence analytics.\r\n\r\n \r\n\r\nSee all use cases and workflows. ( https://docs.customgpt.ai/docs/verify-responses-use-cases )\r\n\r\nConnect with us\r\n\r\n \r\n\r\nWant to see how other businesses are using Verify Responses to build trust and improve their AI? Share your own results or get ideas from teams solving similar problems in our CustomGPT.ai Slack Community ( https://customgpt.ai/slack )  today!\r\n\r\nCheers,\r\n\r\n \r\n\r\nAlden Do Rosario\r\n\r\nFounder & CEO @ CustomGPT.ai\r\n\r\n \r\n\r\nFacebook ( https://www.facebook.com/customgpt/ )\r\nTwitter ( https://twitter.com/customgpt )LinkedIn ( https://www.linkedin.com/company/customgpt/ )YouTube ( https://www.youtube.com/channel/UC8FQFRCUgdoeeAVeXZmVdcw )\r\nAbout ( https://customgpt.ai/ )     Blog ( https://customgpt.ai/blog/ )     Contact ( https://customgpt.ai/contact-us/ )\r\n\r\n©2026 CustomGPT\r\n169 Mohawk Path, Holliston, MA 01746\r\n\r\nThe email was sent to montse@lagrafica.com. To no longer receive these emails, unsubscribe ( https://track.customer.io/unsubscribe/dgTWkwgDAKWKWaSKWQGb5kDBjy3-ZZhxignvZNc= ) here.",
           "author": "Sistema",
-          "date": "2026-01-14T07:21:48.109Z"
+          "date": "2026-01-22T15:12:26.771Z"
         }
       ],
       "checklists": [],
@@ -756,147 +871,12 @@
         "attachments": []
       },
       "boardId": "b_design",
-      "columnId": "c_todo",
-      "createdAt": "2026-01-14T07:21:49.757Z"
+      "columnId": "col_1_b_design",
+      "createdAt": "2026-01-22T15:12:28.143Z"
     },
     {
-      "id": "card_1768380931971",
-      "title": "fsdsfdsf",
-      "priority": "medium",
-      "dueDate": "",
-      "responsibleId": "",
-      "assigneeIds": [
-        "montse"
-      ],
-      "links": [],
-      "attachments": [],
-      "timeLogs": [],
-      "activeTimerStart": "2026-01-16T12:18:08.271Z",
-      "descriptionBlocks": [
-        {
-          "id": 1768384575528,
-          "text": "fdsfdfds\n",
-          "author": "Montse",
-          "date": "2026-01-14T09:56:15.528Z"
-        },
-        {
-          "id": 1768565875103,
-          "text": "adsfdfdg",
-          "author": "Montse",
-          "date": "2026-01-16T12:17:55.103Z"
-        }
-      ],
-      "checklists": [],
-      "comments": [],
-      "economic": {
-        "client": "fdsdsfdsff",
-        "budget": "",
-        "cost": "",
-        "provider": "",
-        "description": "",
-        "attachments": []
-      },
-      "boardId": "b_design",
-      "columnId": "col_1768371678168",
-      "createdAt": "2026-01-14T08:55:31.971Z"
-    },
-    {
-      "id": "card_1768380948641",
-      "title": "fdsfdssdf",
-      "priority": "medium",
-      "dueDate": "",
-      "responsibleId": "",
-      "assigneeIds": [],
-      "links": [],
-      "attachments": [],
-      "timeLogs": [],
-      "activeTimerStart": null,
-      "descriptionBlocks": [],
-      "checklists": [],
-      "comments": [],
-      "economic": {
-        "client": "",
-        "budget": "",
-        "cost": "",
-        "provider": "",
-        "description": "",
-        "attachments": []
-      },
-      "boardId": "b_design",
-      "columnId": "col_1768373031074",
-      "createdAt": "2026-01-14T08:55:48.641Z"
-    },
-    {
-      "id": "card_1768381793141",
-      "title": "Modificación en Mis Licitaciones",
-      "priority": "medium",
-      "dueDate": "",
-      "responsibleId": "montse",
-      "assigneeIds": [
-        "montse"
-      ],
-      "links": [],
-      "attachments": [],
-      "timeLogs": [],
-      "activeTimerStart": null,
-      "descriptionBlocks": [
-        {
-          "id": 1768381790053,
-          "text": "De: mailcontrataciondelestado@contrataciondelsectorpublico.gob.es\nFecha: Wed, 14 Jan 2026 10:03:49 +0100 (CET)\n\nEstimado Usuario:\r\n\r\nEl órgano de contratación Presidencia de la Autoridad Portuaria de Castellón ha publicado nueva información relativa al expediente de licitación EXG25-0065 con objeto 'Servicio de edición, diseño gráfico y maquetación de las memorias anuales corporativas de la APC'.\r\n\t\t\t\t\r\nPodrá acceder a su contenido a través del siguiente enlace.\r\n\r\nhttps://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=zFPMPGDg9AEIYE3ZiZ%2BxmQ%3D%3D\r\n\r\nSi desea dejar de recibir esta información puede darse de baja accediendo al propio expediente o desde su área personal en la dirección https:\\\\contrataciondelestado.es\r\n\r\n\r\nPara obtener más información, puede acceder a la Plataforma de Contratación del Sector Público en la dirección https:\\\\contrataciondelestado.es\r\n\r\nAgradeciendo su confianza, reciba un cordial saludo.\r\nPlataforma de Contratación del Sector Público.\r\n\t\t\r\nNo conteste a este correo. La dirección desde la que se envía este correo no está habilitada para la recepción de mensajes. \r\nSi desea ponerse en contacto con la Plataforma de Contratación del Sector Público, puede hacerlo a través de la dirección de correo contrataciondelestado@hacienda.gob.es\r\n",
-          "author": "Sistema",
-          "date": "2026-01-14T09:09:50.053Z"
-        }
-      ],
-      "checklists": [],
-      "comments": [],
-      "economic": {
-        "client": "",
-        "budget": "",
-        "cost": "",
-        "provider": "",
-        "description": "",
-        "attachments": []
-      },
-      "boardId": "b_design",
-      "columnId": "c_todo",
-      "createdAt": "2026-01-14T09:09:53.141Z"
-    },
-    {
-      "id": "card_1768381871676",
-      "title": "Segell 30 anys Animac",
-      "priority": "medium",
-      "dueDate": "",
-      "responsibleId": "neus",
-      "assigneeIds": [],
-      "links": [],
-      "attachments": [],
-      "timeLogs": [],
-      "activeTimerStart": null,
-      "descriptionBlocks": [
-        {
-          "id": 1768381869924,
-          "text": "De: Maria Domènech Nadal <mdomenech@paeria.cat>\nFecha: Wed, 14 Jan 2026 08:55:36 +0000\n\n",
-          "author": "Sistema",
-          "date": "2026-01-14T09:11:09.924Z"
-        }
-      ],
-      "checklists": [],
-      "comments": [],
-      "economic": {
-        "client": "",
-        "budget": "",
-        "cost": "",
-        "provider": "",
-        "description": "",
-        "attachments": []
-      },
-      "boardId": "b_design",
-      "columnId": "c_todo",
-      "createdAt": "2026-01-14T09:11:11.676Z"
-    },
-    {
-      "id": "card_1768382467355",
-      "title": "Modificación en Mis Licitaciones",
+      "id": "card_1769095616921",
+      "title": "Hace mucho tiempo que no hablamos",
       "priority": "medium",
       "dueDate": "",
       "responsibleId": "montse",
@@ -907,10 +887,10 @@
       "activeTimerStart": null,
       "descriptionBlocks": [
         {
-          "id": 1768382464966,
-          "text": "De: mailcontrataciondelestado@contrataciondelsectorpublico.gob.es\nFecha: Wed, 14 Jan 2026 10:03:49 +0100 (CET)\n\nEstimado Usuario:\r\n\r\nEl órgano de contratación Presidencia de la Autoridad Portuaria de Castellón ha publicado nueva información relativa al expediente de licitación EXG25-0065 con objeto 'Servicio de edición, diseño gráfico y maquetación de las memorias anuales corporativas de la APC'.\r\n\t\t\t\t\r\nPodrá acceder a su contenido a través del siguiente enlace.\r\n\r\nhttps://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=zFPMPGDg9AEIYE3ZiZ%2BxmQ%3D%3D\r\n\r\nSi desea dejar de recibir esta información puede darse de baja accediendo al propio expediente o desde su área personal en la dirección https:\\\\contrataciondelestado.es\r\n\r\n\r\nPara obtener más información, puede acceder a la Plataforma de Contratación del Sector Público en la dirección https:\\\\contrataciondelestado.es\r\n\r\nAgradeciendo su confianza, reciba un cordial saludo.\r\nPlataforma de Contratación del Sector Público.\r\n\t\t\r\nNo conteste a este correo. La dirección desde la que se envía este correo no está habilitada para la recepción de mensajes. \r\nSi desea ponerse en contacto con la Plataforma de Contratación del Sector Público, puede hacerlo a través de la dirección de correo contrataciondelestado@hacienda.gob.es\r\n",
+          "id": 1769095615026,
+          "text": "De: \"hello@tradumedia.es\" <hello@tradumedia.es>\nFecha: Thu, 22 Jan 2026 16:20:06 +0100\n\n<SPAN lang=ES-MODERN>\r\n<P dir=ltr align=left><FONT face=Calibri><SPAN lang=ES-MODERN>Hola, </P>\r\n<P dir=ltr align=left></P>\r\n<P dir=ltr align=left>¡Espero que hayas tenido un buen inicio de año!</P>\r\n<P dir=ltr align=left></P>\r\n<P dir=ltr align=left>Aquí Albert de Tradumedia, vuestra agencia de traducción. \r\n</P>\r\n<P dir=ltr align=left></P>\r\n<P dir=ltr align=left>Como hace tiempo que no colaboramos, simplemente quería \r\nrecordarte que, ante cualquier nueva consulta o necesidad de traducción que os \r\nsurja, podéis contar con nosotros, como siempre. </P>\r\n<P dir=ltr align=left></P>\r\n<P dir=ltr align=left>Hasta pronto, </P>\r\n<P dir=ltr align=left></P></SPAN><B>\r\n<P dir=ltr align=left><A name=_MailAutoSig>Albert \r\nFigueras&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B>&nbsp;</P>\r\n<P dir=ltr align=left>Tradumedia Chief Project Officer</P><SPAN lang=ES-MODERN>\r\n<P dir=ltr align=left></SPAN><A><U><FONT color=#0000ff size=3 face=Aptos><FONT \r\ncolor=#0000ff size=3 face=Aptos><FONT color=#0000ff size=3 \r\nface=Aptos>hello@tradumedia.es</U></FONT></FONT></FONT></A><FONT size=3 \r\nface=Aptos><FONT size=3 face=Aptos>　</P>\r\n<P dir=ltr align=left>+34 638 081 063</P><SPAN lang=ES-MODERN>\r\n<P dir=ltr align=left></FONT></FONT></SPAN><A \r\nhref=\"http://www.tradumedia.es/\"><U><FONT color=#0000ff size=3 face=Aptos><FONT \r\ncolor=#0000ff size=3 face=Aptos><FONT color=#0000ff size=3 \r\nface=Aptos>www.tradumedia.es</U></FONT></FONT></FONT></A><FONT size=3 \r\nface=Aptos><FONT size=3 face=Aptos> <SPAN \r\nlang=ES-MODERN></A></P></FONT></FONT></SPAN></FONT></SPAN>\r\n",
           "author": "Sistema",
-          "date": "2026-01-14T09:21:04.966Z"
+          "date": "2026-01-22T15:26:55.026Z"
         }
       ],
       "checklists": [],
@@ -924,41 +904,8 @@
         "attachments": []
       },
       "boardId": "b_design",
-      "columnId": "c_todo",
-      "createdAt": "2026-01-14T09:21:07.355Z"
-    },
-    {
-      "id": "card_1768382468390",
-      "title": "Modificación en Mis Licitaciones",
-      "priority": "medium",
-      "dueDate": "",
-      "responsibleId": "montse",
-      "assigneeIds": [],
-      "links": [],
-      "attachments": [],
-      "timeLogs": [],
-      "activeTimerStart": null,
-      "descriptionBlocks": [
-        {
-          "id": 1768382464966,
-          "text": "De: mailcontrataciondelestado@contrataciondelsectorpublico.gob.es\nFecha: Wed, 14 Jan 2026 10:03:49 +0100 (CET)\n\nEstimado Usuario:\r\n\r\nEl órgano de contratación Presidencia de la Autoridad Portuaria de Castellón ha publicado nueva información relativa al expediente de licitación EXG25-0065 con objeto 'Servicio de edición, diseño gráfico y maquetación de las memorias anuales corporativas de la APC'.\r\n\t\t\t\t\r\nPodrá acceder a su contenido a través del siguiente enlace.\r\n\r\nhttps://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=zFPMPGDg9AEIYE3ZiZ%2BxmQ%3D%3D\r\n\r\nSi desea dejar de recibir esta información puede darse de baja accediendo al propio expediente o desde su área personal en la dirección https:\\\\contrataciondelestado.es\r\n\r\n\r\nPara obtener más información, puede acceder a la Plataforma de Contratación del Sector Público en la dirección https:\\\\contrataciondelestado.es\r\n\r\nAgradeciendo su confianza, reciba un cordial saludo.\r\nPlataforma de Contratación del Sector Público.\r\n\t\t\r\nNo conteste a este correo. La dirección desde la que se envía este correo no está habilitada para la recepción de mensajes. \r\nSi desea ponerse en contacto con la Plataforma de Contratación del Sector Público, puede hacerlo a través de la dirección de correo contrataciondelestado@hacienda.gob.es\r\n",
-          "author": "Sistema",
-          "date": "2026-01-14T09:21:04.966Z"
-        }
-      ],
-      "checklists": [],
-      "comments": [],
-      "economic": {
-        "client": "",
-        "budget": "",
-        "cost": "",
-        "provider": "",
-        "description": "",
-        "attachments": []
-      },
-      "boardId": "b_design",
-      "columnId": "c_todo",
-      "createdAt": "2026-01-14T09:21:08.390Z"
+      "columnId": "col_1_b_design",
+      "createdAt": "2026-01-22T15:26:56.921Z"
     }
   ],
   "emails": [],
@@ -1025,109 +972,2292 @@
       "id": "folder_Fiscalidad",
       "name": "Fiscalidad",
       "type": "folder",
-      "parentId": null
+      "parentId": null,
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_Contabilidad",
       "name": "Contabilidad",
       "type": "folder",
-      "parentId": null
+      "parentId": null,
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_Clientes",
       "name": "Clientes",
       "type": "folder",
-      "parentId": null
+      "parentId": null,
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_board_b_design",
       "name": "Disseny gràfic",
       "type": "folder",
-      "parentId": "folder_Clientes"
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_board_b_social",
       "name": "Xarxes socials",
       "type": "folder",
-      "parentId": "folder_Clientes"
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_board_b_web",
       "name": "Web",
       "type": "folder",
-      "parentId": "folder_Clientes"
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_board_b_tenders",
       "name": "Licitacions",
       "type": "folder",
-      "parentId": "folder_Clientes"
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_board_board_1768294811952",
       "name": "Gestió",
       "type": "folder",
-      "parentId": "folder_Clientes"
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_board_b_ai",
       "name": "Projectes IA",
       "type": "folder",
-      "parentId": "folder_Clientes"
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_board_b_lleida",
       "name": "Lleida en verd",
       "type": "folder",
-      "parentId": "folder_Clientes"
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_board_b_animac",
       "name": "Animac",
       "type": "folder",
-      "parentId": "folder_Clientes"
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_board_b_imo",
       "name": "Imo",
       "type": "folder",
-      "parentId": "folder_Clientes"
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_board_b_diba",
       "name": "Diba",
       "type": "folder",
-      "parentId": "folder_Clientes"
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_board_b_management",
       "name": "Gestió",
       "type": "folder",
-      "parentId": "folder_Clientes"
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_board_b_budget",
       "name": "Pressupostos",
       "type": "folder",
-      "parentId": "folder_Clientes"
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_board_b_billing",
       "name": "Facturació",
       "type": "folder",
-      "parentId": "folder_Clientes"
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_board_b_fiscal",
       "name": "Fiscalidad",
       "type": "folder",
-      "parentId": "folder_Clientes"
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
     },
     {
       "id": "folder_board_b_accounting",
       "name": "Contabilidad",
       "type": "folder",
-      "parentId": "folder_Clientes"
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
+    },
+    {
+      "id": "folder_Laboral",
+      "name": "Laboral",
+      "parentId": null,
+      "type": "folder",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": [],
+      "managementNotes": []
+    },
+    {
+      "id": "folder_Tarifas",
+      "name": "Tarifas",
+      "parentId": null,
+      "type": "folder",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": [],
+      "managementNotes": []
+    },
+    {
+      "id": "folder_Gastos",
+      "name": "Gastos",
+      "parentId": null,
+      "type": "folder",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": [],
+      "managementNotes": []
+    },
+    {
+      "id": "folder_Ingresos",
+      "name": "Ingresos",
+      "parentId": null,
+      "type": "folder",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": [],
+      "managementNotes": []
+    },
+    {
+      "id": "doc_home_notes",
+      "name": "Bloc de Notas General",
+      "type": "doc",
+      "parentId": null,
+      "content": "Escribe aquí las notas generales de gestión...",
+      "comments": [],
+      "createdAt": "2026-01-22T12:06:52.513Z"
+    },
+    {
+      "id": "folder_board_b_laboral",
+      "name": "Laboral",
+      "type": "folder",
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
+    },
+    {
+      "id": "folder_board_b_rates",
+      "name": "Tarifas",
+      "type": "folder",
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
+    },
+    {
+      "id": "folder_board_b_expenses",
+      "name": "Gastos",
+      "type": "folder",
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
+    },
+    {
+      "id": "folder_board_b_income",
+      "name": "Ingresos",
+      "type": "folder",
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
+    },
+    {
+      "id": "folder_board_b_kit_digital",
+      "name": "KIT DIGITAL",
+      "type": "folder",
+      "parentId": "folder_Clientes",
+      "notesUrl": "",
+      "sheetUrl": "",
+      "driveUrl": "",
+      "links": [],
+      "description": "",
+      "checklist": []
+    },
+    {
+      "id": "f_balanços",
+      "name": "Balanços",
+      "type": "folder",
+      "parentId": null,
+      "createdAt": "2026-01-22T17:55:36.031Z"
+    },
+    {
+      "id": "f_licitacions",
+      "name": "Licitacions",
+      "type": "folder",
+      "parentId": null,
+      "createdAt": "2026-01-22T17:55:36.031Z"
+    },
+    {
+      "id": "f_empresa",
+      "name": "Empresa",
+      "type": "folder",
+      "parentId": null,
+      "createdAt": "2026-01-22T17:55:36.031Z"
+    },
+    {
+      "id": "f_drive",
+      "name": "Recursos Drive",
+      "type": "folder",
+      "parentId": null,
+      "createdAt": "2026-01-22T17:55:36.031Z"
+    },
+    {
+      "id": "gdrive_176910453603288u1x",
+      "name": "21012026_PobladeSegur.zip",
+      "type": "file",
+      "url": "https://drive.google.com/file/d/1PHBPt3kYNVyHPtKzKUIzoPPIlQPI4Rc5/view?usp=drivesdk",
+      "parentId": "f_drive",
+      "createdAt": "2026-01-22T17:55:36.032Z"
+    },
+    {
+      "id": "gdrive_1769104536032ae4ub",
+      "name": "PROMP.docx",
+      "type": "file",
+      "url": "https://docs.google.com/document/d/10FvRfghsk61CBCF678bjSY7bsDQkpNke/edit?usp=drivesdk&ouid=105334095985049501105&rtpof=true&sd=true",
+      "parentId": "f_drive",
+      "createdAt": "2026-01-22T17:55:36.032Z"
+    },
+    {
+      "id": "gdrive_1769104536032m0hms",
+      "name": "DEUC LG XML.xml",
+      "type": "file",
+      "url": "https://drive.google.com/file/d/1v_5ZN4t-d0jpoK4_dJ67PJ02oi1rb9cx/view?usp=drivesdk",
+      "parentId": "f_drive",
+      "createdAt": "2026-01-22T17:55:36.032Z"
+    },
+    {
+      "id": "gdrive_1769104536032ora9h",
+      "name": "Sollicitud nivell catala.pdf",
+      "type": "file",
+      "url": "https://drive.google.com/file/d/17WHNHxSdDkXslsP9Sr0Q84D0kNgZSqyz/view?usp=drivesdk",
+      "parentId": "f_drive",
+      "createdAt": "2026-01-22T17:55:36.032Z"
+    },
+    {
+      "id": "gdrive_1769104536032katj7",
+      "name": "Control.xlsx",
+      "type": "file",
+      "url": "https://docs.google.com/spreadsheets/d/1YSi3VX4aUgvxAcfRm6kgcUwFo9UpCa9_/edit?usp=drivesdk&ouid=105334095985049501105&rtpof=true&sd=true",
+      "parentId": "f_drive",
+      "createdAt": "2026-01-22T17:55:36.032Z"
+    },
+    {
+      "id": "gdrive_1769104536032367qe",
+      "name": "Plantilla doc LG.docx",
+      "type": "file",
+      "url": "https://docs.google.com/document/d/1vdWzGQYzd7eZRdxsMktaqscKDd9rJhlg/edit?usp=drivesdk&ouid=105334095985049501105&rtpof=true&sd=true",
+      "parentId": "f_drive",
+      "createdAt": "2026-01-22T17:55:36.032Z"
+    },
+    {
+      "id": "gdrive_1769104536032zkhge",
+      "name": "PRODECA.docx",
+      "type": "file",
+      "url": "https://docs.google.com/document/d/1J_mA8rCOqfsizqyEVFKeogdljaSO-OTO/edit?usp=drivesdk&ouid=105334095985049501105&rtpof=true&sd=true",
+      "parentId": "f_drive",
+      "createdAt": "2026-01-22T17:55:36.032Z"
+    },
+    {
+      "id": "gdrive_1769104536032pokk5",
+      "name": "Aj.MATARO_Biblioteca (2).zip",
+      "type": "file",
+      "url": "https://drive.google.com/file/d/1lScN8KrEFgC9ouSN2m6j9CE6FR-VbFiQ/view?usp=drivesdk",
+      "parentId": "f_drive",
+      "createdAt": "2026-01-22T17:55:36.032Z"
+    },
+    {
+      "id": "gdrive_17691045360327g7x5",
+      "name": "Annex DEUC_LG_plantilla.pdf",
+      "type": "file",
+      "url": "https://drive.google.com/file/d/1rkPiK-5kfH3NEhZnHpXIZLXshefvBS82/view?usp=drivesdk",
+      "parentId": "f_drive",
+      "createdAt": "2026-01-22T17:55:36.032Z"
+    },
+    {
+      "id": "gdrive_1769104536032s18go",
+      "name": "CERVELLO_MAQUETACIO.zip",
+      "type": "file",
+      "url": "https://drive.google.com/file/d/1U94P8chwJsQDK2DkM0O94IV_QcUPAz8E/view?usp=drivesdk",
+      "parentId": "f_drive",
+      "createdAt": "2026-01-22T17:55:36.032Z"
+    },
+    {
+      "id": "gdrive_1769104536032ox6pw",
+      "name": "varis.docx",
+      "type": "file",
+      "url": "https://docs.google.com/document/d/1d-ASi_FHt1MyRqmY7dtjAXQnex6D1JbP/edit?usp=drivesdk&ouid=105334095985049501105&rtpof=true&sd=true",
+      "parentId": "f_drive",
+      "createdAt": "2026-01-22T17:55:36.032Z"
+    },
+    {
+      "id": "gdrive_17691045360329vj2i",
+      "name": "ANNEX 1.4_DEUC.pdf",
+      "type": "file",
+      "url": "https://drive.google.com/file/d/1IHV-U13IRTsW5ZBtzlVg7jXkvFgf7D6P/view?usp=drivesdk",
+      "parentId": "f_drive",
+      "createdAt": "2026-01-22T17:55:36.032Z"
+    }
+  ],
+  "activity": [
+    {
+      "id": "1769104806400fhmg7",
+      "type": "system",
+      "text": "Nova licitació registrada: fdsfd",
+      "user": "Sistema",
+      "timestamp": "2026-01-22T18:00:06.400Z"
+    },
+    {
+      "id": "1769104633458g8cr7",
+      "type": "system",
+      "text": "Nova licitació registrada: Manteniment i disseny web corporatiu",
+      "user": "Sistema",
+      "timestamp": "2026-01-22T17:57:13.458Z"
+    },
+    {
+      "id": "1769104632893l9swd",
+      "type": "system",
+      "text": "Nova licitació registrada: Manteniment i disseny web corporatiu",
+      "user": "Sistema",
+      "timestamp": "2026-01-22T17:57:12.893Z"
+    },
+    {
+      "id": "1769104632287vg8gt",
+      "type": "system",
+      "text": "Nova licitació registrada: Servei de disseny gràfic per a campanya d'estiu",
+      "user": "Sistema",
+      "timestamp": "2026-01-22T17:57:12.287Z"
+    },
+    {
+      "id": "1769104630975l6bhs",
+      "type": "system",
+      "text": "Nova licitació registrada: Servei de disseny gràfic per a campanya d'estiu",
+      "user": "Sistema",
+      "timestamp": "2026-01-22T17:57:10.975Z"
+    },
+    {
+      "id": "1769095616928i5jfb",
+      "type": "mail",
+      "text": "Correu convertit a fitxa: Sense assumpte",
+      "user": "Sistema",
+      "timestamp": "2026-01-22T15:26:56.928Z"
+    },
+    {
+      "id": "17690956169216hx9u",
+      "type": "card",
+      "text": "Nova tarjeta: Hace mucho tiempo que no hablamos",
+      "user": "montse",
+      "timestamp": "2026-01-22T15:26:56.921Z"
+    },
+    {
+      "id": "1769094748143qdi14",
+      "type": "card",
+      "text": "Nova tarjeta: Introducing CustomGPT.ai Verified Responses - Trust Built Into Every Answer",
+      "user": "montse",
+      "timestamp": "2026-01-22T15:12:28.143Z"
+    },
+    {
+      "id": "17690947398143khsf",
+      "type": "mail",
+      "text": "Correu convertit a fitxa: Sense assumpte",
+      "user": "Sistema",
+      "timestamp": "2026-01-22T15:12:19.814Z"
+    },
+    {
+      "id": "1769094739805d3kzo",
+      "type": "card",
+      "text": "Nova tarjeta: Introducing CustomGPT.ai Verified Responses - Trust Built Into Every Answer",
+      "user": "montse",
+      "timestamp": "2026-01-22T15:12:19.805Z"
+    },
+    {
+      "id": "17690892163299ktgq",
+      "type": "card",
+      "text": "Nova tarjeta: Re: Datos básicos 2025",
+      "user": "montse",
+      "timestamp": "2026-01-22T13:40:16.329Z"
+    },
+    {
+      "id": "1769089203127tqwu9",
+      "type": "mail",
+      "text": "Correu convertit a fitxa: Sense assumpte",
+      "user": "Sistema",
+      "timestamp": "2026-01-22T13:40:03.127Z"
+    },
+    {
+      "id": "176908920312041ean",
+      "type": "card",
+      "text": "Nova tarjeta: Re: Datos básicos 2025",
+      "user": "montse",
+      "timestamp": "2026-01-22T13:40:03.120Z"
+    },
+    {
+      "id": "1769084325707nh8jc",
+      "type": "mail",
+      "text": "Correu convertit a fitxa: Sense assumpte",
+      "user": "Sistema",
+      "timestamp": "2026-01-22T12:18:45.707Z"
+    },
+    {
+      "id": "17690841566903zbf4",
+      "type": "mail",
+      "text": "Correu convertit a fitxa: Sense assumpte",
+      "user": "Sistema",
+      "timestamp": "2026-01-22T12:15:56.690Z"
+    },
+    {
+      "id": "1769084156675jjls0",
+      "type": "card",
+      "text": "Nova tarjeta: Eloi te ha enviado formulari-22generA_eloi.pdf con WeTransfer",
+      "user": "montse",
+      "timestamp": "2026-01-22T12:15:56.675Z"
+    },
+    {
+      "id": "1769083956100qffgp",
+      "type": "mail",
+      "text": "Correu convertit a fitxa: Sense assumpte",
+      "user": "Sistema",
+      "timestamp": "2026-01-22T12:12:36.100Z"
+    },
+    {
+      "id": "1769083956092krgw1",
+      "type": "card",
+      "text": "Nova tarjeta: RE: Formulari amb accesibilitat",
+      "user": "montse",
+      "timestamp": "2026-01-22T12:12:36.092Z"
+    },
+    {
+      "id": "1769083920662ugmwy",
+      "type": "mail",
+      "text": "Correu convertit a fitxa: Sense assumpte",
+      "user": "Sistema",
+      "timestamp": "2026-01-22T12:12:00.662Z"
+    },
+    {
+      "id": "1769083920655gm5c6",
+      "type": "card",
+      "text": "Nova tarjeta: RE: Formulari amb accesibilitat",
+      "user": "montse",
+      "timestamp": "2026-01-22T12:12:00.655Z"
+    },
+    {
+      "id": "init",
+      "type": "system",
+      "text": "Sistema preparat i historial iniciat",
+      "user": "Sistema",
+      "timestamp": "2026-01-21T18:37:37Z"
+    }
+  ],
+  "contacts": [
+    {
+      "id": "contact_0_6929a81e",
+      "name": "ABEL SERRA FONTANET",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_1_242a54aa",
+      "name": "ACCES VERTICAL SL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_2_fa042829",
+      "name": "Accesorios Guerrero Multi-export,S.L",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_3_0b400d7a",
+      "name": "ACRA - Associació Catalana de Recursos Assistencials",
+      "email": "comunicacio@acra.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_4_b6dcf051",
+      "name": "Actius de Muntanya, SA",
+      "email": "imas@fgc.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_5_027684cb",
+      "name": "ADV DE PRODUCCION ECOLÓGICA DE PONENT",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_6_e5501ef8",
+      "name": "AGENCIA ANDALUZA DE COOPERACIÓN INTERNACIONAL PARA EL DESARROLLO",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_7_4ad43d13",
+      "name": "Agència Catalana de l'Aigua (ACA)",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_8_96c666bd",
+      "name": "Agència de Residus de Catalunya (ARC)",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_9_f1bea983",
+      "name": "Agro Codi 0, SCCL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_10_936a6ec3",
+      "name": "AGUSTI Y MASOLIVER, S.A.",
+      "email": "jbosch@amsa.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_11_a7194242",
+      "name": "Ajuntament de Balaguer",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_12_386e41d2",
+      "name": "Ajuntament de Barcelona",
+      "email": "bi@mail.bcn.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_13_57233dc7",
+      "name": "Ajuntament de Castelldefels",
+      "email": "e-oac@castelldefels.org",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_14_d38c2007",
+      "name": "Ajuntament de Girona",
+      "email": "ajuntamentinforma@ajgirona.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_15_b6ab6f1b",
+      "name": "Ajuntament de Guissona",
+      "email": "ajuntament@guissona.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_16_7a7dd8a7",
+      "name": "Ajuntament de Lleida",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_17_60a14a3d",
+      "name": "Ajuntament de Riner",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_18_1da34b57",
+      "name": "Ajuntament del Vendrell",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_19_c89683a3",
+      "name": "Ajuntament Sant Vicenç de Castellet",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_20_fecfbe4e",
+      "name": "ALBA PUIGGROS TORRELLES",
+      "email": "puiggrosalba@gmail.com",
+      "phone": "",
+      "tag": "Client/Proveïdor"
+    },
+    {
+      "id": "contact_21_eab1bd86",
+      "name": "Albert Abadal Niubó",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_22_270a0185",
+      "name": "Albert Domingo Esplugas",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_23_b41fd011",
+      "name": "Amadeu Casals Seres",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_24_c7e425ad",
+      "name": "AMERICAN ORTHODONTICS SPAIN SL",
+      "email": "ifontelles@americanortho.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_25_4a9b0032",
+      "name": "ANAIS BERANGUER",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_26_4af5de8b",
+      "name": "Angie Milagros Rosas Dolorier",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_27_b1c964b9",
+      "name": "ARATRIA ASESORES S.L.",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_28_22cb20b2",
+      "name": "ARIDS DANIEL, S.A.",
+      "email": "aridsdaniel@aridsdaniel.com",
+      "phone": "973432199",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_29_b2109a97",
+      "name": "ASOKI S.L.",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_30_ce30ec69",
+      "name": "Associació Biciklistes",
+      "email": "biciklistes@gmail.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_31_18b37427",
+      "name": "ASSOCIACIO DE PARAPLÈGICS I DISCAPACITATS FÍSICS DE LLEIDA (ASPID)",
+      "email": "otejedor@aspid.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_32_f930ab88",
+      "name": "ATL Ens d'Abastament d'Aigua Ter - Llobregat",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_33_b2e3b31b",
+      "name": "AUSOLAN RCN S.L.U.",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_34_709d73e7",
+      "name": "B2Brouter Global, S.L.",
+      "email": "factures@b2brouter.net",
+      "phone": "",
+      "tag": "Client/Proveïdor"
+    },
+    {
+      "id": "contact_35_0086c2f9",
+      "name": "Baix Ebre Innova SL",
+      "email": "neus.pons@baixebre.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_36_572e7944",
+      "name": "Banc de Sang i Teixits",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_37_353c5c2a",
+      "name": "Banda Municipal de Lleida",
+      "email": "fembandalleida@gmail.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_38_64366fcf",
+      "name": "Basiqgrup Serveis Integrals Sl.",
+      "email": "david@basiqgrup.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_39_e221122e",
+      "name": "BCS TRIBUTARIO, S.L.",
+      "email": "morobitg@rovirabergua.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_40_8018cbb2",
+      "name": "Benito Arnó e Hijos S.A.U.",
+      "email": "cgregori@arno.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_41_9dbb00d4",
+      "name": "BUDA SORRA, S.L.",
+      "email": "comunicacion@ibersol.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_42_9e28a646",
+      "name": "CAFES BATALLA 2000, SL",
+      "email": "info@cafesbatalla.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_43_f3fef8b5",
+      "name": "Can Antaviana, S.L.",
+      "email": "anna.naves@antaviana.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_44_2d47318b",
+      "name": "Càritas Diocesana de Lleida",
+      "email": "caritasdiocesana@caritaslleida.net",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_45_e6511d71",
+      "name": "Carlos Hernández Malagón",
+      "email": "cfhernandez@economistas.org",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_46_45b87f74",
+      "name": "Casa Cosialls, S.L.",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_47_4b2c7dba",
+      "name": "Centre d'Estudis Jurídics i Formació Especialitzada",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_48_b4bd6b50",
+      "name": "Centre de Mecanització Agrària",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_49_77263400",
+      "name": "Centre de Telecomunicacions i Tecnologia de la Informació CTTI",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_50_07b2d733",
+      "name": "CENTRE RESIDENCIAL JOVIAR,SL",
+      "email": "comptabilitat@residenciajoviar.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_51_f4ce33e3",
+      "name": "CLOUD COOKING SL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_52_613356eb",
+      "name": "Col·legi Lestonnac L'Ensenyança SCCL",
+      "email": "gerencia@lestonnaclleida.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_53_ca758158",
+      "name": "Consell Català de l'Esport",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_54_1123617f",
+      "name": "Consell Comarcal d'Osona",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_55_57915fd7",
+      "name": "Consell Comarcal de la Garrotxa",
+      "email": "ccgarrotxa@garrotxa.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_56_260dff93",
+      "name": "Consell Comarcal del Bages",
+      "email": "sfinancers@ccbages.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_57_844085eb",
+      "name": "Consell Comarcal del Baix Ebre",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_58_deb42791",
+      "name": "Consell Comarcal del Pallars Sobirà",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_59_64b1444c",
+      "name": "Consell Comarcal del Pla d'Urgell",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_60_ef6f6624",
+      "name": "Consell Comarcal del Ripollès",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_61_76b34650",
+      "name": "Consell Comarcal del Segrià",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_62_b582284a",
+      "name": "Consell Comarcal Vallès Occidental",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_63_ce3adffc",
+      "name": "Consorci Catalunya Internacional.",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_64_fb4390e9",
+      "name": "Consorci de l'Institut Ramon Llull",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_65_c810b0ec",
+      "name": "Construccions Alfaro",
+      "email": "jalfaro@construccionsalfaro.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_66_b2e4f5f4",
+      "name": "Cristina Maria Fransi Labat",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_67_2fd31dd5",
+      "name": "CUINA GESTIÓ, SL",
+      "email": "cbaixauli@ausolan.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_68_a647c4d8",
+      "name": "David Aguilera Fàbrega",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_69_a46938cd",
+      "name": "DAVID ANGEL ORIOL CASTELLO",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_70_69c6d268",
+      "name": "DAVID SERRANO MORA",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_71_2ff90aeb",
+      "name": "DESARROLLOS INMOBILIARIOS PROHABITAT SL",
+      "email": "agonzalez@prohabitat.com.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_72_18d11bd0",
+      "name": "DIPUTACIÓ DE BARCELONA",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_73_5d880d8f",
+      "name": "Diputació de Lleida",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_74_97ad66c8",
+      "name": "Dirección Provincial del SEPE de Lleida",
+      "email": "lleida.spges@sepe.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_75_8102f0ba",
+      "name": "Electra Homedes S.L.",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_76_023c2289",
+      "name": "Electricidad Industrial Masana Sl",
+      "email": "ester@eimasana.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_77_5ecbfaa6",
+      "name": "Empresa Municipal d’Agenda Urbana de Lleida, SL",
+      "email": "annahernandez@paeria.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_78_08bda94f",
+      "name": "Enric Ribera Gabandé",
+      "email": "riberaenric@telefonica.net",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_79_8c863a02",
+      "name": "Era Agustí SL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_80_22b2401b",
+      "name": "ESCAPE TRAVEL EQUIPMENT SL",
+      "email": "i.sole@naturalopticsgroup.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_81_d9938b94",
+      "name": "Escola Agrària de Tàrrega",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_82_d76180f9",
+      "name": "Exem-OLT SL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_83_6ff7982c",
+      "name": "FARRÉ CONSULTING IMMOBILIARI S.A.",
+      "email": "jaldabo@farregrupoinmobiliario.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_84_d0ea943b",
+      "name": "FARRE LLEIDA CONSULTING IMMOBILIARI, SL",
+      "email": "facturas@finquesfarre.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_85_223a265d",
+      "name": "Ferran Latorre Quintana",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_86_bdc3db96",
+      "name": "Ferrocarrils de la Generalitat de Catalunya",
+      "email": "imas@fgc.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_87_9c67ff0c",
+      "name": "Figueres Project Management SL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_88_cb031b24",
+      "name": "Fira de Teatre al Carrer de Tàrrega",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_89_258cbe78",
+      "name": "Fisiobalans Sl.",
+      "email": "info@fisiobalans.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_90_a693f342",
+      "name": "Fotomecanica Gran Format Sl",
+      "email": "enric@granformat.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_91_aa9adabe",
+      "name": "FRANCISCO CAMPILLO ANTONI",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_92_e49265df",
+      "name": "Francisco Javier Lobera Lamas",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_93_dd8b2845",
+      "name": "FRESH GOLD QUALITY S.L.",
+      "email": "raquel@freshgold.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_94_6ad4bf66",
+      "name": "Fund. Institut de Recerca de l’Hospital de la S.Creu i S.Pau",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_95_2db4aa98",
+      "name": "FUNDACIÓ ASPAMIS",
+      "email": "administracio@aspamis.org",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_96_ff889602",
+      "name": "FUNDACIO CENTRE RECERCA AGROTECNOLOGIA-AGROTECNIO",
+      "email": "jordi.recasens@udl.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_97_56f98576",
+      "name": "FUNDACIÓ LLEIDA 21",
+      "email": "jmuntane@paeria.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_98_47b474f7",
+      "name": "Fundació Privada Institut de Bioenginyeriade Catalunya (IBEC)",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_99_81676d8e",
+      "name": "Fundació Universitat de Lleida",
+      "email": "fundacio@udl.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_100_63ecef3f",
+      "name": "Fundación  IL3 - Instituto de Formación Contínua - Universitat de Barcelona",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_101_8e641939",
+      "name": "GENERAL D'ESTUDIS LLEIDA SL",
+      "email": "jmfreije@generalestudis.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_102_6be0e162",
+      "name": "Generalitat de Catalunya",
+      "email": "info@gencat.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_103_b5f14732",
+      "name": "GENIS ROTA ACIN",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_104_300d9a5b",
+      "name": "Gerardo Baltanás Gordo",
+      "email": "cuentas.gbaltanas@gmail.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_105_6ff10695",
+      "name": "GERMÁN ABRIL TATO",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_106_bc774779",
+      "name": "GESTION NATURAL OPTICS SL",
+      "email": "i.sole@naturalopticsgroup.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_107_fe8dd07a",
+      "name": "GiC Retail, SL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_108_8542e9c0",
+      "name": "GLOXAMAR 2006 S.L.",
+      "email": "raquel@freshgold.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_109_372951af",
+      "name": "Hardnet Systems Informática Profesional S.L.U.",
+      "email": "eculleres@hst.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_110_93f5acd1",
+      "name": "HOTEL ATRIO DEL MAR",
+      "email": "comunicacion@ibersol.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_111_5e0e1adc",
+      "name": "Ibercity Wien HOTEL COMPANY GMBH",
+      "email": "comunicacion@ibersol.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_112_10a10f5f",
+      "name": "IBERSOL 93 SL",
+      "email": "comunicacion@ibersol.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_113_129a97c6",
+      "name": "IGMO, SL",
+      "email": "cbaixauli@ausolan.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_114_8e44f1a8",
+      "name": "ILERDA RESIDENCIAL S.A",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_115_b804e430",
+      "name": "ILERFUSTA SL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_116_508dc12d",
+      "name": "ILERLLENGÜES SL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_117_d2502d76",
+      "name": "IMPORTACIONES MM 2015 SL",
+      "email": "marta@ingco.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_118_1c201469",
+      "name": "IMPRESPLA SL",
+      "email": "info@imprespla.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_119_6093808d",
+      "name": "Ingrid Tora Gabarra",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_120_23de551e",
+      "name": "INSTALACIONES Y MAQUINARIA AGROALIMENTARIA OLIVA, SL",
+      "email": "proveedores@imagosl.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_121_9926be03",
+      "name": "Institut Català de les Dones",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_122_39bf6310",
+      "name": "Institut d'Estudis Ilerdencs",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_123_0f877b10",
+      "name": "Institut de Recerca i Tecnologia Agroalimentàries (IRTA)",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_124_23942d11",
+      "name": "Institut Municipal d'Ocupació Salvador Seguí",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_125_5ed4a0bf",
+      "name": "Instituto de Salud Carlos III",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_126_59b19284",
+      "name": "Isabel Romeu Salvia",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_127_5ae95aae",
+      "name": "Isaura Moyà Francino",
+      "email": "info@solpelvialleida.com",
+      "phone": "650177894",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_128_54b8f4a0",
+      "name": "ISOFRED SL",
+      "email": "otomas@isofred.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_129_5280defd",
+      "name": "JOAN MANUEL DOMINGUEZ VILCHEZ",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_130_3281b7b1",
+      "name": "Joan Marc Craviotto Arnau",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_131_b73757b9",
+      "name": "José Àngel Bueso Gutiérrez",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_132_156949b9",
+      "name": "JOSEP TORRENT PUIG",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_133_cc95b536",
+      "name": "JULIAN GARCIA RUIZ I ASSOCIATS SL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_134_60b30c3d",
+      "name": "Junta de Andalucía",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_135_4b9be038",
+      "name": "KAMINS Esports",
+      "email": "montse@lagrafica.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_136_5b6e7d92",
+      "name": "KIRURI LOGISTICA SL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_137_d3fc29cf",
+      "name": "LA COMA FRUITS SM,SL",
+      "email": "fatima.elochchi@lacomafruits.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_138_6e908a6f",
+      "name": "Laia Cadens Rubies",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_139_500b695a",
+      "name": "LAURA CALLIZO SANJUAN",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_140_be921de9",
+      "name": "LIDÓN MOLINOS CARCELLER",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_141_2c98fe00",
+      "name": "LLEIDOPTICS SL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_142_c1db25d5",
+      "name": "Llorenç Besa Serra",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_143_ee80b0ac",
+      "name": "Llorenç Fontanet Sl",
+      "email": "vfontanet@fontanetgroup.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_144_14d6a28d",
+      "name": "LLOTJA BALMES SL",
+      "email": "mateublanch@gmail.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_145_9caf6ea6",
+      "name": "Lorena García Salvador",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_146_5e11e8e6",
+      "name": "LOURDES PARRAMONA MAS",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_147_705a5f01",
+      "name": "LUIS LAX SL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_148_b83207e6",
+      "name": "MAITE FONT FO",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_149_5ab695f8",
+      "name": "Mancomunitat d'Iniciatives pel Desenvolupament Integral del Territori (MIDIT)",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_150_b89a906b",
+      "name": "MARC ROCA RUIZ",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_151_f902fdbf",
+      "name": "MARFONT PACKAGING, S.L.",
+      "email": "vfontanet@fontanetgroup.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_152_d31fa48a",
+      "name": "MARIA DOMINGUEZ DIAZ",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_153_76259662",
+      "name": "MARIA JOSEP GONZALEZ GONZALEZ",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_154_2e53db93",
+      "name": "MARIONA MACIÀ RIVAS",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_155_a1e501ee",
+      "name": "Meritxell Casals Brenuy",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_156_cd39b8fa",
+      "name": "MIRÓ AUDIOLOGIA S.L.",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_157_ee85a969",
+      "name": "MIRÓ AUTOESCOLES, S.L.",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_158_dd6945df",
+      "name": "MONTSE SABATE ARESTE",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_159_bfccf53c",
+      "name": "Montserrat Arana i Bernal",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_160_f32b1902",
+      "name": "Museu d'Alcover",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_161_6f108092",
+      "name": "Natàlia Virgili Riera",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_162_1292b65d",
+      "name": "NEODIAGNOSTICA SL",
+      "email": "info@myadnlab.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_163_b15fcfdf",
+      "name": "Nil Baiget Mateus",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_164_0e4496de",
+      "name": "Núria Andorrà i Serret",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_165_1181c9e2",
+      "name": "Núria Bosch Costafreda",
+      "email": "nuria@nuriabosch.com",
+      "phone": "",
+      "tag": "Client/Proveïdor"
+    },
+    {
+      "id": "contact_166_9ca2e691",
+      "name": "NURIA GALLART GENESCA",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_167_c25b469f",
+      "name": "Nuria Gomiz Van De Moosdijk",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_168_fb6cc51d",
+      "name": "Olga San Agustín Galera",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_169_37d8b565",
+      "name": "Organisme Autònom de Salut Pública de la Diputació de Girona",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_170_a46750c3",
+      "name": "Oriol Cascon Ruiz",
+      "email": "info@oriolcaru.com",
+      "phone": "665949687",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_171_132ca966",
+      "name": "Oriol Clavera Riera",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_172_5381ffed",
+      "name": "ORIOL ROCH DIAZ",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_173_c6d88977",
+      "name": "OSCAR IRANZO BARBECHO",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_174_3c67e3db",
+      "name": "Oscar Paulo Bello Molins",
+      "email": "oscar@osteopatiaequilibri.cat",
+      "phone": "653 902 621",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_175_c26efd1e",
+      "name": "Patronat de Promoció Econòmica * Patronat Promoció Econòmica",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_176_4c7c75b8",
+      "name": "Patronat Fires de Mollerussa",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_177_132e74d2",
+      "name": "Patronat Intercomarcal de Turisme de la Diputació de Lleida",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_178_323d476d",
+      "name": "Pau de la Calle Argeles",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_179_1900dc9e",
+      "name": "Paulí Cots Palau",
+      "email": "info@soldequip.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_180_9c1ec63c",
+      "name": "PAYPER S.A.",
+      "email": "Lone.Buhmann@payper.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_181_a3f80941",
+      "name": "Peritalia 360 S.L.P.",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_182_c1329900",
+      "name": "PERITOVAL, S.L.",
+      "email": "tecnico@peritoval.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_183_9538b0db",
+      "name": "PREVINTEGRAL, S.L.",
+      "email": "lramos@formintegral.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_184_cf77be92",
+      "name": "Promotora d'Exportacions Catalanes, SA",
+      "email": "gmoliner@gencat.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_185_b8faa033",
+      "name": "PROTECFARMA SL",
+      "email": "xavi@naturalopticsgroup.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_186_a9abbce3",
+      "name": "QUERALT CONSULTING IMMOBILIARI SL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_187_95410f0d",
+      "name": "Rafael Nogueras jove",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_188_a00e5744",
+      "name": "Ramon Oromí Vidal",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_189_08bbf810",
+      "name": "Raquel Venque Culell",
+      "email": "raquelvenquepsicologia@gmail.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_190_c375ecc8",
+      "name": "RENATA FERNÁNDEZ",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_191_a8f51273",
+      "name": "Ribeplac Sl.",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_192_69c08487",
+      "name": "Ricard Recasens Ribé",
+      "email": "ricard.nutricionista@gmail.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_193_6f7fd3ab",
+      "name": "Ricard Salamanca Rius",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_194_6acaeda4",
+      "name": "Roger Llonch Seguí",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_195_4f5184a9",
+      "name": "ROMINSTAL SEGRIA,S.L",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_196_2c26693a",
+      "name": "Rosina Guiu Figueras",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_197_e0ae73d7",
+      "name": "ROVIRA BERGUA, S.L.",
+      "email": "pperez@rovirabergua.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_198_df12488f",
+      "name": "ROVIRA PALAU S.L.",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_199_4caaf183",
+      "name": "Sat Ort Bell",
+      "email": "comercial@ortbell.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_200_0b53c983",
+      "name": "SERENA PAREDES, S.L.",
+      "email": "info@napolilasensacio.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_201_d2024875",
+      "name": "Servei Català de la Salut - Regió Sanitària Lleida",
+      "email": "rsegura@catsalut.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_202_058fb462",
+      "name": "Servei Català de Trànsit",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_203_34bab633",
+      "name": "Serveis Ambientals de Castelldefels, S.A",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_204_37977420",
+      "name": "SERVEIS I MANTENIMENT INDUSTRIAL LLEIDA S.L.",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_205_b9e0f904",
+      "name": "SERVICIO PÚBLICO DE EMPLEO ESTATAL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_206_e951398a",
+      "name": "SIGNUM PROJECTS SL",
+      "email": "benet@signumprojects.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_207_f303e752",
+      "name": "Sílvia Aresté Mora",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_208_dc3e6ee6",
+      "name": "Sílvia Solano Castarlenas",
+      "email": "silvia@scomunicacio.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_209_ccd62847",
+      "name": "SPELLARTS,S.L.U",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_210_567eabeb",
+      "name": "SUBDELEGACIÓN DEL GOBIERNO EN LLEIDA",
+      "email": "genis.alarcon@correo.gob.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_211_8a16477a",
+      "name": "SUNSET PINO ALTO, SL.",
+      "email": "agonzalez@prohabitat.com.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_212_9b6c1aaa",
+      "name": "TERESA MAJORAL BRESCÓ",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_213_3386ac08",
+      "name": "Torsitrad, SLU",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_214_e198dda4",
+      "name": "Transports Jaume Gabarrella Berge sl",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_215_bbf1795d",
+      "name": "TRESLLEM SL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_216_b2bc8bf4",
+      "name": "TUBS1313, S.A.",
+      "email": "tubs1313@tubs1313.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_217_8f631bb4",
+      "name": "Turisme de Lleida",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_218_1afca51d",
+      "name": "Universitat Autònoma de Barcelona",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_219_5b59ccaa",
+      "name": "Universitat de Barcelona",
+      "email": "digitalitzacio.factures@ub.edu",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_220_482a306b",
+      "name": "Universitat de Lleida",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_221_5e068db2",
+      "name": "Universitat Ramon Llull",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_222_383c4e45",
+      "name": "UTE CARRER RIU EBRE (ARNO INFRAESTRUCTURES SLU I BENITO ARNÓ SAU UTE)",
+      "email": "cgregori@arno.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_223_e8e1af20",
+      "name": "UTE SERVEIS DE COMUNICACIO LA GRAFICA",
+      "email": "silvia@scomunicacio.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_224_1d327ffb",
+      "name": "Valèria Macías Pagès",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_225_8ba3b27c",
+      "name": "Vallter, SA",
+      "email": "imas@fgc.cat",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_226_76817660",
+      "name": "Venditec Technologies Sl.",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_227_cb1c61de",
+      "name": "VERCON LLEIDA, SL",
+      "email": "",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_228_1ae05a48",
+      "name": "VIVEROS QUALITYPLANT SLU",
+      "email": "alicia.p@qualityplant.es",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_229_19a19745",
+      "name": "WHANAU TRAINING SL.",
+      "email": "crossfitbalaguer@gmail.com",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_230_4a986768",
+      "name": "WOOD4YOU TALARN SL",
+      "email": "info@wood4you.net",
+      "phone": "",
+      "tag": "Client"
+    },
+    {
+      "id": "contact_231_4a50db6d",
+      "name": "Xavier Veà Escartín",
+      "email": "xaviveapintors@gmail.com",
+      "phone": "",
+      "tag": "Client"
+    }
+  ],
+  "processed_emails": [
+    "montse-580114",
+    "albap-18093",
+    "montse-580113",
+    "montse-580109",
+    "neus-31119",
+    "montse-580137",
+    "montse-580138"
+  ],
+  "alerts": [],
+  "tenders": [
+    {
+      "title": "Servei de disseny gràfic per a campanya d'estiu",
+      "institution": "Generalitat",
+      "link": "#",
+      "status": "requirements",
+      "amount": "Por definir",
+      "deadline": "Fa 2 hores",
+      "id": "tender_1769104630974",
+      "createdAt": 1769104630974,
+      "result": "evaluating"
+    },
+    {
+      "title": "Servei de disseny gràfic per a campanya d'estiu",
+      "institution": "Generalitat",
+      "link": "#",
+      "status": "requirements",
+      "amount": "Por definir",
+      "deadline": "Fa 2 hores",
+      "id": "tender_1769104632287",
+      "createdAt": 1769104632287,
+      "result": "evaluating"
+    },
+    {
+      "title": "Manteniment i disseny web corporatiu",
+      "institution": "PLACSP",
+      "link": "#",
+      "status": "requirements",
+      "amount": "Por definir",
+      "deadline": "Avui, 09:15",
+      "id": "tender_1769104632893",
+      "createdAt": 1769104632893,
+      "result": "evaluating"
+    },
+    {
+      "title": "Manteniment i disseny web corporatiu",
+      "institution": "PLACSP",
+      "link": "#",
+      "status": "requirements",
+      "amount": "Por definir",
+      "deadline": "Avui, 09:15",
+      "id": "tender_1769104633458",
+      "createdAt": 1769104633458,
+      "result": "evaluating"
+    },
+    {
+      "title": "fdsfd",
+      "institution": "sdfsfs",
+      "amount": "fdsf",
+      "deadline": "sdfdsf",
+      "link": "fdsf",
+      "status": "presented",
+      "result": "evaluating",
+      "id": "tender_1769104806400",
+      "createdAt": 1769104806400
     }
   ]
 }

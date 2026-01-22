@@ -231,5 +231,95 @@ export const api = {
     deleteEvent: async (id) => {
         const res = await fetch(`${API_URL}/events/${id}`, { method: 'DELETE' });
         return res.json();
+    },
+    getActivity: async () => {
+        const res = await fetch(`${API_URL}/activity`);
+        return res.json();
+    },
+    importTrello: async (boardId, trelloData) => {
+        const res = await fetch(`${API_URL}/import/trello`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ boardId, trelloData })
+        });
+        return res.json();
+    },
+    getContacts: async () => {
+        const res = await fetch(`${API_URL}/contacts`);
+        return res.json();
+    },
+    createContact: async (contactData) => {
+        const res = await fetch(`${API_URL}/contacts`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(contactData)
+        });
+        return res.json();
+    },
+    importContacts: async (contacts) => {
+        const res = await fetch(`${API_URL}/contacts/bulk`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contacts })
+        });
+        return res.json();
+    },
+    deleteContact: async (id) => {
+        const res = await fetch(`${API_URL}/contacts/${id}`, { method: 'DELETE' });
+        return res.json();
+    },
+    updateContact: async (id, data) => {
+        const res = await fetch(`${API_URL}/contacts/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        return res.json();
+    },
+    // Tenders
+    getTenders: async () => {
+        const res = await fetch(`${API_URL}/tenders`);
+        return res.json();
+    },
+    createTender: async (data) => {
+        const res = await fetch(`${API_URL}/tenders`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        return res.json();
+    },
+    updateTender: async (id, data) => {
+        const res = await fetch(`${API_URL}/tenders/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        return res.json();
+    },
+    deleteTender: async (id) => {
+        const res = await fetch(`${API_URL}/tenders/${id}`, { method: 'DELETE' });
+        return res.json();
+    },
+    // Alerts
+    getAlerts: async () => {
+        const res = await fetch(`${API_URL}/alerts`);
+        return res.json();
+    },
+    createAlert: async (data) => {
+        const res = await fetch(`${API_URL}/alerts`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        return res.json();
+    },
+    deleteAlert: async (id) => {
+        const res = await fetch(`${API_URL}/alerts/${id}`, { method: 'DELETE' });
+        return res.json();
+    },
+    syncGoogle: async () => {
+        const res = await fetch(`${API_URL}/sync-google`);
+        return res.json();
     }
 };

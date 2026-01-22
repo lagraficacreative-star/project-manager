@@ -57,82 +57,103 @@ def fetch_emails(user, password, host="mail-es.securemail.pro", port=993, folder
         emails_data = []
 
         # Only take last 20 for performance
-        count = 0
-        for i in reversed(email_ids):
-            if count >= 20: break
+        target_ids = email_ids[-20:]
+        if not target_ids:
+            return []
             
-            res, msg_data = mail.uid('fetch', i, "(RFC822)")
-            for response_part in msg_data:
-                if isinstance(response_part, tuple):
-                    msg = email.message_from_bytes(response_part[1])
+        # Fetch all in ONE call
+        ids_str = b",".join(target_ids).decode()
+        res, msg_data_list = mail.uid('fetch', ids_str, "(RFC822)")
+        
+        if res != "OK":
+            return []
+
+        # Process results
+        for msg_data in msg_data_list:
+            if not isinstance(msg_data, tuple):
+                continue
+                
+            # msg_data[0] contains flags/metadata, msg_data[1] contains the bytes
+            # We need to find the UID in msg_data[0] because it's returned in the response
+            # Format: b'123 (UID 456 RFC822 {789}'
+            meta = msg_data[0].decode()
+            import re
+            uid_match = re.search(r'UID\s+(\d+)', meta)
+            uid = uid_match.group(1) if uid_match else "0"
+            
+            msg = email.message_from_bytes(msg_data[1])
+            
+            subject = decode_mime_words(msg.get("subject", ""))
+            sender = decode_mime_words(msg.get("from", ""))
+            date_str = str(msg.get("date", ""))
+            
+            body = ""
+            attachments = []
+            
+            if msg.is_multipart():
+                html_body = ""
+                text_body = ""
+                
+                for part in msg.walk():
+                    content_type = part.get_content_type()
+                    content_disposition = str(part.get("Content-Disposition"))
                     
-                    subject = decode_mime_words(msg.get("subject", ""))
-                    sender = decode_mime_words(msg.get("from", ""))
-                    date_str = str(msg.get("date", ""))
-                    
-                    body = ""
-                    attachments = []
-                    
-                    if msg.is_multipart():
-                        html_body = ""
-                        text_body = ""
-                        
-                        for part in msg.walk():
-                            content_type = part.get_content_type()
-                            content_disposition = str(part.get("Content-Disposition"))
-                            
-                            if content_type == "text/plain" and "attachment" not in content_disposition:
-                                try:
-                                    text_body += part.get_payload(decode=True).decode()
-                                except:
-                                    pass
-                            elif content_type == "text/html" and "attachment" not in content_disposition:
-                                try:
-                                    html_body += part.get_payload(decode=True).decode()
-                                except:
-                                    pass
-                            elif "attachment" in content_disposition:
-                                filename = part.get_filename()
-                                if filename:
-                                    filename = decode_mime_words(filename)
-                                    attachments.append({"filename": filename})
-                        
-                        # Prefer text, fallback to HTML (basic strip)
-                        if text_body:
-                            body = text_body
-                        elif html_body:
-                            # Basic HTML strip for preview/description
-                            import re
-                            clean = re.compile('<.*?>')
-                            body = re.sub(clean, '', html_body)
-                            # Cleanup whitespace
-                            body = "\n".join([line.strip() for line in body.splitlines() if line.strip()])
-                    else:
+                    if content_type == "text/plain" and "attachment" not in content_disposition:
                         try:
-                            bg = msg.get_payload(decode=True).decode()
-                            # Check if it looks like HTML
-                            if "<html>" in bg.lower() or "</div>" in bg.lower():
-                                import re
-                                clean = re.compile('<.*?>')
-                                body = re.sub(clean, '', bg)
-                                body = "\n".join([line.strip() for line in body.splitlines() if line.strip()])
-                            else:
-                                body = bg
+                            payload = part.get_payload(decode=True)
+                            charset = part.get_content_charset() or 'utf-8'
+                            text_body += payload.decode(charset, errors='ignore')
                         except:
                             pass
+                    elif content_type == "text/html" and "attachment" not in content_disposition:
+                        try:
+                            payload = part.get_payload(decode=True)
+                            charset = part.get_content_charset() or 'utf-8'
+                            html_body += payload.decode(charset, errors='ignore')
+                        except:
+                            pass
+                    elif "attachment" in content_disposition:
+                        filename = part.get_filename()
+                        if filename:
+                            filename = decode_mime_words(filename)
+                            attachments.append({"filename": filename})
+                
+                if text_body:
+                    body = text_body
+                elif html_body:
+                    import re
+                    clean = re.compile('<.*?>')
+                    body = re.sub(clean, '', html_body)
+                    body = "\n".join([line.strip() for line in body.splitlines() if line.strip()])
+            else:
+                try:
+                    payload = msg.get_payload(decode=True)
+                    charset = msg.get_content_charset() or 'utf-8'
+                    bg = payload.decode(charset, errors='ignore')
+                    if "<html>" in bg.lower() or "</div>" in bg.lower():
+                        import re
+                        clean = re.compile('<.*?>')
+                        body = re.sub(clean, '', bg)
+                        body = "\n".join([line.strip() for line in body.splitlines() if line.strip()])
+                    else:
+                        body = bg
+                except:
+                    pass
 
-                    emails_data.append({
-                        "id": int(i),
-                        "from": sender,
-                        "to": user,
-                        "subject": subject,
-                        "body": body,
-                        "date": date_str,
-                        "read": False,
-                        "attachments": attachments
-                    })
-            count += 1
+            emails_data.append({
+                "id": int(uid),
+                "from": sender,
+                "to": user,
+                "subject": subject,
+                "body": body,
+                "date": date_str,
+                "read": False,
+                "attachments": attachments
+            })
 
+        # Sort emails by ID descending (newest first)
+        emails_data.sort(key=lambda x: x['id'], reverse=True)
+        
         mail.close()
         mail.logout()
         return emails_data

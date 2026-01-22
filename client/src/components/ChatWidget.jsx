@@ -2,45 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { api } from '../api';
 import { Send, MessageSquare, X, User } from 'lucide-react';
 
-const ChatWidget = ({ currentUser }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState([]);
+const ChatWidget = ({ currentUser, messages, isOpen, onToggle, unreadCount }) => {
     const [newMessage, setNewMessage] = useState('');
     const messagesEndRef = useRef(null);
-    const pollingRef = useRef(null);
-
-    const toggleOpen = () => setIsOpen(!isOpen);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
-
-    const fetchMessages = async () => {
-        try {
-            const data = await api.getMessages();
-            // Simple optimization: only update if length changes to avoid flicker
-            // In a real app we'd check IDs
-            setMessages(prev => {
-                if (data.length !== prev.length) return data;
-                return prev; // No change
-            });
-        } catch (error) {
-            console.error("Chat poll error", error);
-        }
-    };
-
-    useEffect(() => {
-        if (isOpen) {
-            fetchMessages(); // Initial fetch
-            pollingRef.current = setInterval(fetchMessages, 3000); // Poll every 3s
-            scrollToBottom();
-        } else {
-            if (pollingRef.current) clearInterval(pollingRef.current);
-        }
-        return () => {
-            if (pollingRef.current) clearInterval(pollingRef.current);
-        };
-    }, [isOpen]);
 
     useEffect(() => {
         if (isOpen) scrollToBottom();
@@ -53,7 +21,6 @@ const ChatWidget = ({ currentUser }) => {
         try {
             await api.sendMessage(newMessage, currentUser.name);
             setNewMessage('');
-            fetchMessages();
         } catch (error) {
             console.error("Send error", error);
         }
@@ -62,12 +29,18 @@ const ChatWidget = ({ currentUser }) => {
     if (!isOpen) {
         return (
             <button
-                onClick={toggleOpen}
+                onClick={onToggle}
                 className="fixed bottom-6 right-6 bg-brand-black text-white p-4 rounded-full shadow-2xl hover:bg-brand-orange transition-all hover:scale-110 z-50 flex items-center justify-center"
             >
                 <div className="relative">
                     <MessageSquare size={24} />
-                    <span className="absolute top-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-brand-black"></span>
+                    {unreadCount > 0 ? (
+                        <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full border-2 border-white flex items-center justify-center animate-bounce">
+                            {unreadCount}
+                        </span>
+                    ) : (
+                        <span className="absolute top-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-brand-black"></span>
+                    )}
                 </div>
             </button>
         );
@@ -81,7 +54,7 @@ const ChatWidget = ({ currentUser }) => {
                     <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                     <h3 className="font-bold text-sm">Chat de Equipo</h3>
                 </div>
-                <button onClick={toggleOpen} className="text-white/60 hover:text-white transition-colors">
+                <button onClick={onToggle} className="text-white/60 hover:text-white transition-colors">
                     <X size={20} />
                 </button>
             </div>
