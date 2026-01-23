@@ -92,11 +92,27 @@ export const api = {
         const res = await fetch(`${API_URL}/emails/${userId}?folder=${encodeURIComponent(folder)}`);
         return res.json();
     },
-    archiveEmail: async (userId, uid) => {
+    archiveEmail: async (memberId, emailId) => {
         const res = await fetch(`${API_URL}/emails/archive`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId, uid })
+            body: JSON.stringify({ memberId, emailId })
+        });
+        return res.json();
+    },
+    sendEmail: async (memberId, to, subject, body) => {
+        const res = await fetch(`${API_URL}/emails/send`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ memberId, to, subject, body })
+        });
+        return res.json();
+    },
+    logEmailToSheet: async (data) => {
+        const res = await fetch(`${API_URL}/emails/log`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
         });
         return res.json();
     },

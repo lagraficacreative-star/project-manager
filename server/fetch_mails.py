@@ -221,6 +221,37 @@ if __name__ == "__main__":
         except Exception as e:
             print(json.dumps({"error": str(e)}))
             
+    elif len(sys.argv) > 3 and sys.argv[3] == "--send":
+        # Format: python fetch_mails.py user pass --send to_addr subject body
+        if len(sys.argv) < 7:
+            print(json.dumps({"error": "Missing send arguments"}))
+            sys.exit(1)
+            
+        to_addr = sys.argv[4]
+        subject = sys.argv[5]
+        body = sys.argv[6]
+        
+        import smtplib
+        from email.message import EmailMessage
+        
+        host_env = os.environ.get('SMTP_HOST', "mail-es.securemail.pro")
+        port = int(os.environ.get('SMTP_PORT', 465))
+        
+        try:
+            msg = EmailMessage()
+            msg.set_content(body)
+            msg['Subject'] = subject
+            msg['From'] = username
+            msg['To'] = to_addr
+            
+            with smtplib.SMTP_SSL(host_env, port) as server:
+                server.login(username, password)
+                server.send_message(msg)
+                
+            print(json.dumps({"status": "sent", "to": to_addr, "subject": subject}))
+        except Exception as e:
+            print(json.dumps({"error": str(e)}))
+
     else:
         target_folder = "INBOX"
         if len(sys.argv) > 3 and not sys.argv[3].startswith("--"):

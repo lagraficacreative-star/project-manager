@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../api';
 import { Mail, RefreshCw, ArrowRight, CheckCircle, Search, Archive, Trash2, Plus } from 'lucide-react';
 import CardModal from './CardModal';
+import EmailComposer from './EmailComposer';
 
 const Inbox = ({ selectedUsers }) => {
     const [currentUser, setCurrentUser] = useState('montse');
@@ -10,6 +11,10 @@ const Inbox = ({ selectedUsers }) => {
     const [selectedEmail, setSelectedEmail] = useState(null);
     const [users, setUsers] = useState([]);
     const [activeTab, setActiveTab] = useState('inbox'); // 'inbox' | 'archived'
+
+    // Email Composer State
+    const [showEmailComposer, setShowEmailComposer] = useState(false);
+    const [emailComposerData, setEmailComposerData] = useState({ to: '', subject: '', body: '', memberId: '' });
 
     // Conversion State
     const [showSelector, setShowSelector] = useState(false);
@@ -150,6 +155,16 @@ const Inbox = ({ selectedUsers }) => {
         }
     };
 
+    const handleReply = (email) => {
+        setEmailComposerData({
+            to: email.from,
+            subject: `Re: ${email.subject}`,
+            body: `\n\n--- Missatge original ---\nDe: ${email.from}\nData: ${email.date}\nAssumpte: ${email.subject}\n\n${email.body}`,
+            memberId: email.ownerId || currentUser
+        });
+        setShowEmailComposer(true);
+    };
+
     const handleConvertToCardStart = (email) => {
         setEmailToConvert(email);
         setShowSelector(true);
@@ -171,6 +186,17 @@ const Inbox = ({ selectedUsers }) => {
             setProcessedIds(prev => [...prev, uniqueId]);
             await api.markEmailAsProcessed(uniqueId);
             await handleSaveAttachments(email);
+
+            // Log to Google Sheet
+            const boardName = boards.find(b => b.id === card.boardId)?.title || card.boardId;
+            api.logEmailToSheet({
+                from: email.from,
+                subject: email.subject,
+                projectPath: `${boardName} > ${card.title}`,
+                messageId: email.id,
+                member: email.ownerName || 'Montse'
+            });
+
             setShowCardPicker(false);
             setEmailToConvert(null);
         } catch (error) {
@@ -192,6 +218,17 @@ const Inbox = ({ selectedUsers }) => {
             const uniqueId = email.ownerId ? `${email.ownerId}-${email.id}` : String(email.id);
             setProcessedIds(prev => [...prev, uniqueId]);
             api.markEmailAsProcessed(uniqueId);
+
+            // Log to Google Sheet
+            const boardName = boards.find(b => b.id === cardData.boardId)?.title || cardData.boardId;
+            api.logEmailToSheet({
+                from: email.from,
+                subject: email.subject,
+                projectPath: boardName,
+                messageId: email.id,
+                member: email.ownerName || 'Montse'
+            });
+
             setShowCardModal(false);
             setEmailToConvert(null);
         } catch (error) {
@@ -315,6 +352,9 @@ const Inbox = ({ selectedUsers }) => {
                                 </button>
                             </div>
                             <div className="flex flex-wrap gap-3 p-4 bg-gray-50 rounded-[2rem] border border-gray-100/50">
+                                <button onClick={() => handleReply(selectedEmail)} className="flex items-center gap-2 px-6 py-3 bg-brand-orange text-white text-xs font-black rounded-2xl border border-transparent hover:bg-orange-600 transition-all shadow-md">
+                                    <Mail size={16} /> RESPONDRE
+                                </button>
                                 <button onClick={() => handleAddToCardStart(selectedEmail)} className="flex items-center gap-2 px-6 py-3 bg-white text-gray-700 text-xs font-bold rounded-2xl border border-gray-100 hover:border-brand-orange/30 hover:shadow-md transition-all shadow-sm">
                                     <Plus size={16} className="text-brand-orange" /> AFEGIR A FITXA
                                 </button>
@@ -436,6 +476,16 @@ const Inbox = ({ selectedUsers }) => {
                     </div>
                 </div>
             )}
+
+            {/* Email Composer */}
+            <EmailComposer
+                isOpen={showEmailComposer}
+                onClose={() => setShowEmailComposer(false)}
+                memberId={emailComposerData.memberId}
+                defaultTo={emailComposerData.to}
+                defaultSubject={emailComposerData.subject}
+                defaultBody={emailComposerData.body}
+            />
         </div>
     );
 };

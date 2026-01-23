@@ -321,6 +321,9 @@ const AgendaGPT = ({ selectedUsers }) => {
                             </div>
                             <h3 className="text-xs font-black text-gray-800 uppercase tracking-widest">Assistent IA</h3>
                         </div>
+                        <button onClick={() => setActiveTab('list')} className="md:hidden p-2 text-brand-orange hover:bg-orange-50 rounded-xl transition-all">
+                            <ChevronLeft size={20} />
+                        </button>
                     </div>
 
                     <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">

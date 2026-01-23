@@ -175,7 +175,7 @@ const Dashboard = ({ selectedUsers }) => {
 
     const handleUnlockManagement = (e) => {
         e.preventDefault();
-        if (managementPassword === 'admin123') {
+        if (managementPassword === 'lagrafica2025') {
             setIsManagementUnlocked(true);
             setManagementPassword('');
         } else {
@@ -398,8 +398,8 @@ const Dashboard = ({ selectedUsers }) => {
                         </div>
 
                         {/* ROW 3: MANAGEMENT & URGENT NOTICES */}
-                        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-                            <div className="xl:col-span-2 bg-brand-orange p-8 rounded-[2.5rem] shadow-lg relative overflow-hidden flex flex-col h-full">
+                        <div className="flex flex-col xl:grid xl:grid-cols-3 gap-8">
+                            <div className="xl:col-span-2 bg-brand-orange p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] shadow-lg relative overflow-hidden flex flex-col h-full">
                                 <h2 className="text-sm font-black text-white uppercase tracking-wider mb-6">Gestió i Administració</h2>
                                 {isManagementUnlocked ? (
                                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -423,9 +423,9 @@ const Dashboard = ({ selectedUsers }) => {
                                 )}
                             </div>
 
-                            {/* URGENT NOTICES (MOGUT AQUÍ) */}
-                            <div className="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100 flex flex-col h-full">
-                                <div className="flex items-center gap-3 mb-8">
+                            {/* URGENT NOTICES */}
+                            <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100 flex flex-col h-full">
+                                <div className="flex items-center gap-3 mb-6 md:mb-8">
                                     <Bell size={20} className="text-brand-orange" />
                                     <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Avisos Urgents</h3>
                                 </div>
@@ -463,20 +463,20 @@ const Dashboard = ({ selectedUsers }) => {
             {/* Calendar Widget and Time Control Row */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Calendar Widget */}
-                <div onClick={() => navigate('/calendar')} className="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100 cursor-pointer hover:border-brand-orange/30 hover:shadow-xl transition-all group">
+                <div onClick={() => navigate('/calendar')} className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100 cursor-pointer hover:border-brand-orange/30 hover:shadow-xl transition-all group">
                     <div className="flex items-center gap-3 mb-6">
                         <Calendar size={20} className="text-brand-orange" />
                         <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Calendari</h3>
                     </div>
-                    <div className="h-48 bg-gray-50 rounded-3xl flex flex-col items-center justify-center text-gray-300 text-xs font-black uppercase tracking-widest italic group-hover:bg-orange-50 transition-all gap-4">
+                    <div className="h-40 md:h-48 bg-gray-50 rounded-3xl flex flex-col items-center justify-center text-gray-300 text-[10px] md:text-xs font-black uppercase tracking-widest italic group-hover:bg-orange-50 transition-all gap-4">
                         <Calendar size={32} className="opacity-20" />
-                        Prem per veure l'agenda completa
+                        <span className="px-6 text-center">Prem per veure l'agenda completa</span>
                     </div>
                 </div>
 
                 {/* Time Control */}
-                <div className="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100">
-                    <div onClick={handleAddTimeLog} className="flex justify-between items-center mb-8 cursor-pointer">
+                <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100">
+                    <div onClick={handleAddTimeLog} className="flex justify-between items-center mb-6 md:mb-8 cursor-pointer">
                         <div className="flex items-center gap-3">
                             <Clock size={20} className="text-brand-orange" />
                             <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Control Horari</h3>
@@ -502,13 +502,13 @@ const Dashboard = ({ selectedUsers }) => {
                 </div>
             </div>
 
-            {/* Activity Log Section (MOGUT AL FINAL) */}
-            <div className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100 mt-4">
-                <div className="flex items-center gap-3 mb-10">
+            {/* Activity Log Section */}
+            <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 shadow-sm border border-gray-100 mt-4">
+                <div className="flex items-center gap-3 mb-8 md:mb-10">
                     <div className="p-2 bg-orange-50 rounded-lg"><Archive size={20} className="text-brand-orange" /></div>
                     <div>
-                        <h3 className="text-xl font-black text-gray-800 uppercase tracking-tight leading-none">Historial d'Activitat</h3>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Registre d'accions recents al sistema</p>
+                        <h3 className="text-lg md:text-xl font-black text-gray-800 uppercase tracking-tight leading-none">Historial d'Activitat</h3>
+                        <p className="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Registre d'accions recents</p>
                     </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-6">

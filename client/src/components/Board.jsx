@@ -256,6 +256,18 @@ const Board = ({ selectedUsers }) => {
         setTempColTitle("");
     };
 
+    const handleDeleteCard = async (cardId) => {
+        if (!confirm("¿Seguro que quieres borrar esta tarjeta?")) return;
+        try {
+            await api.deleteCard(cardId);
+            setIsModalOpen(false);
+            loadData();
+        } catch (err) {
+            console.error("Error deleting card:", err);
+            alert("Error al borrar la tarjeta");
+        }
+    };
+
     // --- ADD COLUMN LOGIC ---
     const saveNewColumn = async () => {
         if (newColTitle.trim()) {
@@ -294,14 +306,17 @@ const Board = ({ selectedUsers }) => {
     if (!board) return <div className="p-8 text-center text-gray-500">Cargando tablero...</div>;
 
     return (
-        <div className="h-full flex flex-col">
+        <div className="flex flex-col h-full overflow-hidden">
             {/* Header */}
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0 mb-6">
-                <div className="flex items-center gap-4">
-                    <Link to="/" className="p-2 hover:bg-white rounded-full text-brand-gray transition-colors">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4 md:mb-8 shrink-0">
+                <div className="flex items-center gap-3 w-full">
+                    <Link to="/" className="p-2 hover:bg-white rounded-xl text-gray-400 border border-transparent hover:border-gray-200 transition-all shrink-0">
                         <ArrowLeft size={20} />
                     </Link>
-                    <h1 className="text-xl md:text-2xl font-bold text-brand-black truncate max-w-[200px] sm:max-w-none">{board.title}</h1>
+                    <div className="min-w-0">
+                        <h1 className="text-xl md:text-2xl font-black text-brand-black truncate tracking-tight">{board.title}</h1>
+                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest -mt-1">Gestió de Projecte</p>
+                    </div>
                 </div>
             </div>
 
@@ -492,6 +507,7 @@ const Board = ({ selectedUsers }) => {
                 columnId={targetColumnId}
                 boardId={board.id}
                 onSave={handleSaveCard}
+                onDelete={handleDeleteCard}
             />
         </div >
     );

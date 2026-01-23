@@ -98,7 +98,7 @@ function App() {
 
     return (
         <Router>
-            <div className="min-h-screen bg-brand-lightgray font-sans text-brand-black flex flex-col md:flex-row overflow-x-hidden">
+            <div className="h-screen bg-brand-lightgray font-sans text-brand-black flex flex-col md:flex-row overflow-hidden">
 
                 {/* VERTICAL SIDEBAR */}
                 <aside className={`
@@ -191,11 +191,11 @@ function App() {
                 </aside>
 
                 {/* MOBILE HEADER */}
-                <header className="md:hidden bg-white border-b border-gray-100 p-4 flex items-center justify-between sticky top-0 z-50">
+                <header className="md:hidden bg-white border-b border-gray-100 p-4 flex items-center justify-between shrink-0 z-50">
                     <Link to="/" className="text-xl font-black tracking-tighter text-brand-black">
                         LaGràfica <span className="text-brand-orange">Studio</span>
                     </Link>
-                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 text-gray-500">
+                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 text-gray-500 bg-gray-50 rounded-xl active:scale-90 transition-all">
                         {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
                 </header>
@@ -205,8 +205,8 @@ function App() {
                     <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 md:hidden" onClick={() => setIsMenuOpen(false)} />
                 )}
 
-                <main className="flex-1 flex flex-col min-w-0 min-h-screen">
-                    <div className="p-4 md:p-8 lg:p-10 flex-1">
+                <main className="flex-1 flex flex-col min-w-0 overflow-y-auto overflow-x-hidden relative">
+                    <div className="p-4 md:p-8 lg:p-10">
                         <Routes>
                             <Route path="/" element={<Dashboard selectedUsers={selectedUsers} />} />
                             <Route path="/board/:boardId" element={<Board selectedUsers={selectedUsers} />} />

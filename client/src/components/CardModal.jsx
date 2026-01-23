@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { api } from '../api';
-import { X, Calendar, User, AlignLeft, Flag, CheckSquare, MessageSquare, Plus, Clock, FileText, Trash2, ChevronRight, Link as LinkIcon, Paperclip, Lock, ShieldCheck, DollarSign, Play, Square, History, Cloud, FileDown } from 'lucide-react';
+import { X, Calendar, User, AlignLeft, Flag, CheckSquare, MessageSquare, Plus, Clock, FileText, Trash2, ChevronRight, Link as LinkIcon, Paperclip, Lock, ShieldCheck, DollarSign, Play, Square, History, Cloud, FileDown, Mail } from 'lucide-react';
+import EmailComposer from './EmailComposer';
 
-const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
+const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete }) => {
     if (!isOpen) return null;
 
     // Mock Current User for Permission checks (In real app, pass this as prop)
     const currentUser = { id: 'montse', role: 'admin' };
+
+    // Email Composer
+    const [showEmailComposer, setShowEmailComposer] = useState(false);
+    const [emailComposerData, setEmailComposerData] = useState({ to: '', subject: '', body: '' });
 
     // Tabs
     const [activeTab, setActiveTab] = useState('general');
@@ -36,6 +41,12 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
     const [newChecklistTitle, setNewChecklistTitle] = useState('');
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
+    const [editingDescId, setEditingDescId] = useState(null);
+    const [editingCommentId, setEditingCommentId] = useState(null);
+    const [editingChecklistId, setEditingChecklistId] = useState(null);
+    const [editingItemId, setEditingItemId] = useState(null);
+    const [editingLinkId, setEditingLinkId] = useState(null);
+    const [tempEditText, setTempEditText] = useState('');
 
     // Economic
     const [economic, setEconomic] = useState({
@@ -226,6 +237,17 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
         setLinks(prev => [...prev, { id: Date.now(), type, url: newLinkUrl, title: newLinkUrl }]);
         setNewLinkUrl('');
     };
+
+    const startEditingLink = (link) => {
+        setEditingLinkId(link.id);
+        setTempEditText(link.title || link.url);
+    };
+
+    const saveLinkEdit = (id) => {
+        setLinks(prev => prev.map(l => l.id === id ? { ...l, title: tempEditText } : l));
+        setEditingLinkId(null);
+        setTempEditText('');
+    };
     const removeLink = (id) => setLinks(prev => prev.filter(l => l.id !== id));
 
     // --- UPLOAD HANDLER ---
@@ -279,6 +301,87 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
         if (!newComment.trim()) return;
         setComments(prev => [...prev, { id: Date.now(), text: newComment, author: 'Montse', date: new Date().toISOString() }]);
         setNewComment('');
+    };
+
+    const deleteDescriptionBlock = (id) => {
+        if (confirm("¿Seguro que quieres borrar este bloque de descripción?")) {
+            setDescriptionBlocks(prev => prev.filter(b => b.id !== id));
+        }
+    };
+
+    const startEditingDescription = (block) => {
+        setEditingDescId(block.id);
+        setTempEditText(block.text);
+    };
+
+    const saveDescriptionEdit = (id) => {
+        setDescriptionBlocks(prev => prev.map(b => b.id === id ? { ...b, text: tempEditText } : b));
+        setEditingDescId(null);
+        setTempEditText('');
+    };
+
+    const deleteComment = (id) => {
+        if (confirm("¿Eliminar este comentario?")) {
+            setComments(prev => prev.filter(c => c.id !== id));
+        }
+    };
+
+    const startEditingComment = (comment) => {
+        setEditingCommentId(comment.id);
+        setTempEditText(comment.text);
+    };
+
+    const saveCommentEdit = (id) => {
+        setComments(prev => prev.map(c => c.id === id ? { ...c, text: tempEditText } : c));
+        setEditingCommentId(null);
+        setTempEditText('');
+    };
+
+    const deleteChecklist = (id) => {
+        if (confirm("¿Borrar toda la lista?")) {
+            setChecklists(prev => prev.filter(cl => cl.id !== id));
+        }
+    };
+
+    const deleteChecklistItem = (checklistId, itemId) => {
+        setChecklists(prev => prev.map(cl => cl.id === checklistId ? { ...cl, items: cl.items.filter(i => i.id !== itemId) } : cl));
+    };
+
+    const startEditingCheckitem = (item) => {
+        setEditingItemId(item.id);
+        setTempEditText(item.text);
+    };
+
+    const saveCheckitemEdit = (checklistId, itemId) => {
+        setChecklists(prev => prev.map(cl => cl.id === checklistId ? { ...cl, items: cl.items.map(i => i.id === itemId ? { ...i, text: tempEditText } : i) } : cl));
+        setEditingItemId(null);
+        setTempEditText('');
+    };
+
+    const startEditingChecklistTitle = (cl) => {
+        setEditingChecklistId(cl.id);
+        setTempEditText(cl.title);
+    };
+
+    const saveChecklistTitleEdit = (id) => {
+        setChecklists(prev => prev.map(cl => cl.id === id ? { ...cl, title: tempEditText } : cl));
+        setEditingChecklistId(null);
+        setTempEditText('');
+    };
+
+    const deleteTimeLog = (id) => {
+        if (confirm("¿Eliminar este registro de tiempo?")) {
+            setTimeLogs(prev => prev.filter(log => log.id !== id));
+        }
+    };
+
+    const handleReplyEmail = (comment) => {
+        setEmailComposerData({
+            to: comment.senderEmail || '',
+            subject: `Re: ${title}`,
+            body: `\n\n--- Missatge original ---\nDe: ${comment.senderEmail}\nData: ${comment.timestamp || comment.date}\n\n${comment.text}`
+        });
+        setShowEmailComposer(true);
     };
 
     const handleExportNotes = () => {
@@ -384,17 +487,36 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
 
                                     <div className="flex flex-wrap gap-2 bg-white p-3 rounded-lg border border-gray-100">
                                         {users.map(u => (
-                                            <label key={u.id} className={`flex items-center gap-2 px-3 py-1.5 rounded-full cursor-pointer transition-all border ${assigneeIds.includes(u.id) ? 'bg-brand-orange text-white border-brand-orange shadow-md' : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'}`}>
+                                            <label key={u.id} className={`flex items-center gap-2 px-3 py-1.5 rounded-full cursor-pointer transition-all border ${assigneeIds.includes(u.id) ? 'bg-orange-50 border-brand-orange text-brand-orange shadow-sm' : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'}`}>
                                                 <input
                                                     type="checkbox"
                                                     checked={assigneeIds.includes(u.id)}
                                                     onChange={() => toggleAssignee(u.id)}
                                                     className="hidden"
                                                 />
+                                                <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold text-white ${u.id === 'montse' ? 'bg-brand-orange' : 'bg-gray-400'}`}>
+                                                    {u.name[0]}
+                                                </div>
                                                 <span className="text-xs font-bold">{u.name}</span>
                                             </label>
                                         ))}
                                     </div>
+                                </div>
+
+                                <div className="space-y-3">
+                                    <label className="text-sm font-bold text-gray-900 flex items-center gap-2">
+                                        <ShieldCheck size={16} className="text-brand-orange" /> Responsable Principal
+                                    </label>
+                                    <select
+                                        value={responsibleId}
+                                        onChange={(e) => setResponsibleId(e.target.value)}
+                                        className="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
+                                    >
+                                        <option value="">Seleccionar responsable...</option>
+                                        {users.map(u => (
+                                            <option key={u.id} value={u.id}>{u.name}</option>
+                                        ))}
+                                    </select>
                                 </div>
 
                                 {/* Priority, Date & CLIENT */}
@@ -454,15 +576,38 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
                                     </div>
                                     <div className="space-y-4">
                                         {descriptionBlocks.map((block, idx) => (
-                                            <div key={block.id || idx} className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm relative">
+                                            <div key={block.id || idx} className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm relative group">
                                                 <div className="flex items-center gap-2 mb-2 text-[10px] text-brand-gray border-b border-gray-50 pb-1">
                                                     <User size={10} /> <span className="font-semibold">{block.author}</span>
                                                     <span className="mx-1">•</span>
                                                     <Clock size={10} /> <span>{new Date(block.date).toLocaleString()}</span>
                                                 </div>
-                                                <div className="text-xs text-gray-800 whitespace-pre-wrap leading-relaxed">
-                                                    {block.text}
-                                                </div>
+
+                                                {editingDescId === block.id ? (
+                                                    <div className="space-y-2">
+                                                        <textarea
+                                                            autoFocus
+                                                            value={tempEditText}
+                                                            onChange={(e) => setTempEditText(e.target.value)}
+                                                            className="w-full text-xs p-2 border border-brand-orange/30 rounded focus:ring-1 focus:ring-brand-orange outline-none bg-orange-50/10"
+                                                            rows={3}
+                                                        />
+                                                        <div className="flex justify-end gap-2">
+                                                            <button onClick={() => setEditingDescId(null)} className="text-[10px] font-bold text-gray-400">Cancelar</button>
+                                                            <button onClick={() => saveDescriptionEdit(block.id)} className="text-[10px] font-bold text-brand-orange">Guardar</button>
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <>
+                                                        <div className="text-xs text-gray-800 whitespace-pre-wrap leading-relaxed">
+                                                            {block.text}
+                                                        </div>
+                                                        <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
+                                                            <button onClick={() => startEditingDescription(block)} className="p-1 text-gray-300 hover:text-brand-orange" title="Editar"><Edit2 size={12} /></button>
+                                                            <button onClick={() => deleteDescriptionBlock(block.id)} className="p-1 text-gray-300 hover:text-red-500" title="Borrar"><Trash2 size={12} /></button>
+                                                        </div>
+                                                    </>
+                                                )}
                                             </div>
                                         ))}
 
@@ -504,12 +649,17 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
                                             </div>
                                         )}
                                         {timeLogs.slice().reverse().map(log => (
-                                            <div key={log.id} className="flex justify-between items-center text-sm p-2 bg-gray-50 rounded-lg">
+                                            <div key={log.id} className="flex justify-between items-center text-sm p-2 bg-gray-50 rounded-lg group">
                                                 <div className="flex flex-col">
                                                     <span className="font-semibold text-gray-800">{log.user}</span>
                                                     <span className="text-xs text-gray-400">{new Date(log.start).toLocaleDateString()} {new Date(log.start).toLocaleTimeString()}</span>
                                                 </div>
-                                                <span className="font-mono text-gray-600">{formatTime(log.duration)}</span>
+                                                <div className="flex items-center gap-3">
+                                                    <span className="font-mono text-gray-600">{formatTime(log.duration)}</span>
+                                                    <button onClick={() => deleteTimeLog(log.id)} className="opacity-0 group-hover:opacity-100 p-1 text-gray-300 hover:text-red-500 transition-all">
+                                                        <Trash2 size={12} />
+                                                    </button>
+                                                </div>
                                             </div>
                                         ))}
                                         {timeLogs.length === 0 && !activeTimerStart && (
@@ -547,15 +697,31 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
                                     <div className="space-y-2">
                                         {links.map(link => (
                                             <div key={link.id} className="flex items-center gap-2 text-sm p-2 bg-brand-lightgray rounded-lg group">
-                                                <div className="text-brand-orange">
+                                                <div className="text-brand-orange shrink-0">
                                                     {link.type === 'drive' ? 'Google Drive' : link.type === 'dropbox' ? 'Dropbox' : <LinkIcon size={14} />}
                                                 </div>
-                                                <a href={link.url} target="_blank" rel="noreferrer" className="flex-1 truncate hover:underline text-brand-black">
-                                                    {link.url}
-                                                </a>
-                                                <button onClick={() => removeLink(link.id)} className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500">
-                                                    <X size={14} />
-                                                </button>
+                                                <div className="flex-1 min-w-0">
+                                                    {editingLinkId === link.id ? (
+                                                        <input
+                                                            autoFocus
+                                                            value={tempEditText}
+                                                            onChange={(e) => setTempEditText(e.target.value)}
+                                                            onBlur={() => saveLinkEdit(link.id)}
+                                                            onKeyDown={(e) => e.key === 'Enter' && saveLinkEdit(link.id)}
+                                                            className="w-full bg-white border border-brand-orange rounded px-2 py-0.5 text-xs outline-none"
+                                                        />
+                                                    ) : (
+                                                        <a href={link.url} target="_blank" rel="noreferrer" className="block truncate hover:underline text-brand-black">
+                                                            {link.title || link.url}
+                                                        </a>
+                                                    )}
+                                                </div>
+                                                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all">
+                                                    <button onClick={() => startEditingLink(link)} className="p-1 text-gray-400 hover:text-brand-orange"><Edit2 size={12} /></button>
+                                                    <button onClick={() => removeLink(link.id)} className="p-1 text-gray-400 hover:text-red-500">
+                                                        <X size={14} />
+                                                    </button>
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
@@ -606,9 +772,27 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
 
                                         <div className="grid grid-cols-1 gap-6">
                                             {checklists.map(cl => (
-                                                <div key={cl.id} className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
+                                                <div key={cl.id} className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm group/checklist">
                                                     <h3 className="font-bold text-gray-800 flex items-center gap-2 mb-4">
-                                                        {cl.title}
+                                                        {editingChecklistId === cl.id ? (
+                                                            <div className="flex items-center gap-2 flex-1">
+                                                                <input
+                                                                    autoFocus
+                                                                    value={tempEditText}
+                                                                    onChange={(e) => setTempEditText(e.target.value)}
+                                                                    onBlur={() => saveChecklistTitleEdit(cl.id)}
+                                                                    onKeyDown={(e) => e.key === 'Enter' && saveChecklistTitleEdit(cl.id)}
+                                                                    className="flex-1 text-sm font-bold border-b border-brand-orange outline-none"
+                                                                />
+                                                            </div>
+                                                        ) : (
+                                                            <>
+                                                                <span className="cursor-pointer hover:text-brand-orange" onClick={() => startEditingChecklistTitle(cl)}>{cl.title}</span>
+                                                                <button onClick={() => deleteChecklist(cl.id)} className="opacity-0 group-hover/checklist:opacity-100 p-1 text-gray-300 hover:text-red-500 transition-all">
+                                                                    <Trash2 size={12} />
+                                                                </button>
+                                                            </>
+                                                        )}
                                                         <span className="text-xs font-normal text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full ml-auto">
                                                             {cl.items.filter(i => i.done).length}/{cl.items.length}
                                                         </span>
@@ -623,9 +807,28 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
                                                                     onChange={() => toggleCheckitem(cl.id, item.id)}
                                                                     className="w-4 h-4 text-brand-orange rounded border-gray-300 focus:ring-brand-orange"
                                                                 />
-                                                                <span className={`text-sm flex-1 ${item.done ? 'text-gray-400 line-through' : 'text-gray-700'}`}>
-                                                                    {item.text}
-                                                                </span>
+                                                                {editingItemId === item.id ? (
+                                                                    <input
+                                                                        autoFocus
+                                                                        value={tempEditText}
+                                                                        onChange={(e) => setTempEditText(e.target.value)}
+                                                                        onBlur={() => saveCheckitemEdit(cl.id, item.id)}
+                                                                        onKeyDown={(e) => e.key === 'Enter' && saveCheckitemEdit(cl.id, item.id)}
+                                                                        className="flex-1 text-sm border-b border-brand-orange outline-none bg-transparent"
+                                                                    />
+                                                                ) : (
+                                                                    <>
+                                                                        <span
+                                                                            onClick={() => startEditingCheckitem(item)}
+                                                                            className={`text-sm flex-1 cursor-pointer ${item.done ? 'text-gray-400 line-through' : 'text-gray-700'}`}
+                                                                        >
+                                                                            {item.text}
+                                                                        </span>
+                                                                        <button onClick={() => deleteChecklistItem(cl.id, item.id)} className="opacity-0 group-hover:opacity-100 p-1 text-gray-300 hover:text-red-500 transition-all">
+                                                                            <Trash2 size={12} />
+                                                                        </button>
+                                                                    </>
+                                                                )}
                                                             </div>
                                                         ))}
                                                     </div>
@@ -731,20 +934,45 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
                                                 <span className={`text-xs font-bold ${comment.author === 'Sistema (Email)' ? 'text-green-700' : 'text-gray-900'}`}>{comment.author}</span>
                                                 <span className="text-[10px] text-gray-400">{new Date(comment.date).toLocaleString()}</span>
                                             </div>
-                                            <p className="text-sm text-gray-700 whitespace-pre-wrap">{comment.text}</p>
 
-                                            {/* Delete Button (Only for admins/owners) */}
-                                            <button
-                                                onClick={() => {
-                                                    if (confirm("¿Eliminar este comentario?")) {
-                                                        setComments(prev => prev.filter(c => c.id !== comment.id));
-                                                    }
-                                                }}
-                                                className="absolute top-2 right-2 p-1 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
-                                                title="Eliminar comentario"
-                                            >
-                                                <Trash2 size={14} />
-                                            </button>
+                                            {editingCommentId === comment.id ? (
+                                                <div className="space-y-2">
+                                                    <textarea
+                                                        autoFocus
+                                                        value={tempEditText}
+                                                        onChange={(e) => setTempEditText(e.target.value)}
+                                                        className="w-full text-sm p-2 border border-brand-orange/30 rounded focus:ring-1 focus:ring-brand-orange outline-none"
+                                                    />
+                                                    <div className="flex justify-end gap-2">
+                                                        <button onClick={() => setEditingCommentId(null)} className="text-[10px] font-bold text-gray-400">Cancelar</button>
+                                                        <button onClick={() => saveCommentEdit(comment.id)} className="text-[10px] font-bold text-brand-orange">Guardar</button>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    <p className="text-sm text-gray-700 whitespace-pre-wrap">{comment.text}</p>
+
+                                                    {comment.isEmail && comment.senderEmail && (
+                                                        <button
+                                                            onClick={() => handleReplyEmail(comment)}
+                                                            className="mt-3 flex items-center gap-1.5 px-3 py-1.5 bg-green-600 text-white text-[10px] font-bold rounded-lg hover:bg-green-700 transition-all shadow-sm"
+                                                        >
+                                                            <Mail size={12} /> RESPONDRE CORREU
+                                                        </button>
+                                                    )}
+
+                                                    <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
+                                                        <button onClick={() => startEditingComment(comment)} className="p-1 text-gray-300 hover:text-brand-orange" title="Editar"><Edit2 size={12} /></button>
+                                                        <button
+                                                            onClick={() => deleteComment(comment.id)}
+                                                            className="p-1 text-gray-300 hover:text-red-500"
+                                                            title="Eliminar comentario"
+                                                        >
+                                                            <Trash2 size={12} />
+                                                        </button>
+                                                    </div>
+                                                </>
+                                            )}
                                         </div>
                                     </div>
                                 ))}
@@ -788,14 +1016,14 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
                                             placeholder="Contraseña"
                                             className="flex-1 p-2 border border-gray-300 rounded-lg text-sm text-center"
                                             onKeyDown={(e) => {
-                                                if (e.key === 'Enter' && economicPassword === 'admin123') {
+                                                if (e.key === 'Enter' && economicPassword === 'lagrafica2025') {
                                                     setIsEconomicAuthenticated(true);
                                                 }
                                             }}
                                         />
                                         <button
                                             onClick={() => {
-                                                if (economicPassword === 'admin123') setIsEconomicAuthenticated(true);
+                                                if (economicPassword === 'lagrafica2025') setIsEconomicAuthenticated(true);
                                                 else alert('Contraseña incorrecta');
                                             }}
                                             className="bg-brand-orange text-white px-4 rounded-lg font-bold text-sm"
@@ -905,16 +1133,33 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave }) => {
 
                 {/* Footer Actions */}
                 <div className="p-4 border-t border-gray-100 bg-white flex justify-end gap-3 z-10">
-                    <button onClick={onClose} className="px-5 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 rounded-lg transition-all">
-                        Cerrar (Sin Guardar)
-                    </button>
-                    <button onClick={handleSubmit} className="px-5 py-2 text-sm font-medium text-white bg-brand-black hover:bg-brand-orange rounded-lg shadow-lg hover:shadow-orange-500/20 transition-all flex items-center gap-2">
-                        <CheckSquare size={16} />
-                        Guardar Cambios
-                    </button>
+                    <div className="flex gap-2">
+                        {card && onDelete && (
+                            <button onClick={() => onDelete(card.id)} className="px-5 py-2 text-sm font-medium text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 rounded-lg transition-all flex items-center gap-2">
+                                <Trash2 size={16} />
+                                Borrar Tarjeta
+                            </button>
+                        )}
+                        <button onClick={onClose} className="px-5 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 rounded-lg transition-all">
+                            Cerrar (Sin Guardar)
+                        </button>
+                        <button onClick={handleSubmit} className="px-5 py-2 text-sm font-medium text-white bg-brand-black hover:bg-brand-orange rounded-lg shadow-lg hover:shadow-orange-500/20 transition-all flex items-center gap-2">
+                            <CheckSquare size={16} />
+                            Guardar Cambios
+                        </button>
+                    </div>
                 </div>
 
             </div>
+            {/* Email Composer */}
+            <EmailComposer
+                isOpen={showEmailComposer}
+                onClose={() => setShowEmailComposer(false)}
+                memberId={currentUser.id}
+                defaultTo={emailComposerData.to}
+                defaultSubject={emailComposerData.subject}
+                defaultBody={emailComposerData.body}
+            />
         </div>
     );
 };

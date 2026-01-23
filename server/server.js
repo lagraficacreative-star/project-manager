@@ -55,13 +55,29 @@ app.use('/uploads', express.static(UPLOADS_DIR)); // Serve uploaded files
 const emailCache = {}; // { userId: { folder: { timestamp: 0, emails: [] } } }
 
 // --- EMAIL AUTOMATION LOGIC ---
+const logToGoogleSheet = async (emailData) => {
+    if (!GOOGLE_SCRIPT_URL) return;
+    try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', // Avoid CORS issues with Google Script
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: 'log_email',
+                ...emailData
+            })
+        });
+    } catch (error) {
+        console.error("Error logging to Google Sheet:", error);
+    }
+};
+
 const processAutomations = (userId, emails) => {
     if (!emails || !Array.isArray(emails)) return;
 
     const db = readDB();
     if (!db.automated_email_uids) db.automated_email_uids = [];
 
-    // Mapping of members to their automated boards and names
     const MEMBER_MAP = {
         'ines': { boardId: 'b_design_ines', name: 'Ines' },
         'neus': { boardId: 'b_design_neus', name: 'Neus' },
@@ -71,6 +87,15 @@ const processAutomations = (userId, emails) => {
         'albat': { boardId: 'b_design_ateixido', name: 'A. Teixidó' },
         'web': { boardId: 'b_info', name: 'Info' },
         'info': { boardId: 'b_info', name: 'Info' }
+    };
+
+    // --- SPAM FILTER ---
+    // Afegim paraules clau per ignorar correus brossa automàticament
+    const SPAM_WORDS = ['newsletter', 'publicitat', 'publi', 'promoció', 'oferta exclusiva', 'guanya diners', 'unsubscription', 'donar-se de baixa', 'poker', 'casino', 'viagra'];
+
+    const isSpam = (email) => {
+        const textToCheck = `${email.subject} ${email.from} ${email.body.substring(0, 200)}`.toLowerCase();
+        return SPAM_WORDS.some(word => textToCheck.includes(word.toLowerCase()));
     };
 
     let changes = false;
@@ -97,6 +122,15 @@ const processAutomations = (userId, emails) => {
             db.cards.push(newCard);
             db.automated_email_uids.push(emailUid);
             changes = true;
+
+            // Log to Google
+            logToGoogleSheet({
+                from: email.from,
+                subject: email.subject,
+                projectPath: 'Kit Digital',
+                messageId: email.id,
+                member: 'Sistema'
+            });
         }
     });
 
@@ -107,18 +141,29 @@ const processAutomations = (userId, emails) => {
             const emailUid = `team_auto_${userId}_${email.id}`;
             if (db.automated_email_uids.includes(emailUid)) return;
 
+            // --- Spam Check ---
+            if (isSpam(email)) {
+                console.log(`🚫 [SPAM] Ignorant correu brossa: ${email.subject} de ${email.from}`);
+                db.automated_email_uids.push(emailUid);
+                changes = true;
+                return;
+            }
+
             const targetBoardId = memberInfo.boardId;
             const subject = email.subject || "";
             const from = email.from || "";
+            const boardObj = (db.boards || []).find(b => b.id === targetBoardId);
+            const boardName = boardObj ? boardObj.title : targetBoardId;
 
             // --- Try to find existing card to link ---
-            // We look for a card title that is contained in the subject or viceversa
             const existingCard = (db.cards || []).find(card => {
                 if (!card.title) return false;
                 const cleanSubject = subject.toLowerCase().replace(/re:|fwd:|fw:/g, "").trim();
                 const cleanTitle = card.title.toLowerCase().trim();
                 return cleanSubject.includes(cleanTitle) || cleanTitle.includes(cleanSubject);
             });
+
+            let finalProjectPath = boardName;
 
             if (existingCard) {
                 // Link to existing card
@@ -128,11 +173,15 @@ const processAutomations = (userId, emails) => {
                     user: 'Sistema',
                     text: `📩 Nou Correu:\nDe: ${from}\nAssumpte: ${subject}\n\n${email.body.substring(0, 400)}...`,
                     timestamp: new Date().toISOString(),
-                    isEmail: true
+                    isEmail: true,
+                    senderEmail: from // Store sender to allow replies
                 });
 
                 // Move to "Revisión" column
                 existingCard.columnId = `c_revision_${existingCard.boardId}`;
+                const cardBoard = (db.boards || []).find(b => b.id === existingCard.boardId);
+                finalProjectPath = `${cardBoard ? cardBoard.title : 'Projecte'} > ${existingCard.title}`;
+
                 logActivity(db, 'mail', `Correu vinculat a "${existingCard.title}" (Mogut a Revisió)`, 'Sistema');
             } else {
                 // Create new card in member's board
@@ -152,12 +201,22 @@ const processAutomations = (userId, emails) => {
                 if (!db.cards) db.cards = [];
                 db.cards.push(newCard);
                 logActivity(db, 'mail', `Nova fitxa creada per a ${memberInfo.name}: ${subject}`, 'Sistema');
+                finalProjectPath = boardName;
             }
+
+            // --- Log to Google Sheets ---
+            logToGoogleSheet({
+                from: from,
+                subject: subject,
+                projectPath: finalProjectPath,
+                messageId: email.id,
+                member: memberInfo.name
+            });
 
             db.automated_email_uids.push(emailUid);
             changes = true;
 
-            // Trigger Google Drive sync for attachments if any (placeholder for logic)
+            // Trigger Google Drive sync for attachments if any
             if (email.attachments && email.attachments.length > 0) {
                 console.log(`📎 [DRIVE] Notificant sistema per desar ${email.attachments.length} fitxers al Drive de ${memberInfo.name}`);
             }
@@ -713,6 +772,70 @@ app.post('/api/emails/save-attachments', (req, res) => {
     });
 
     writeDB(db);
+    res.json({ success: true });
+});
+
+app.post('/api/emails/send', async (req, res) => {
+    const { memberId, to, subject, body } = req.body;
+    const config = loadEnv();
+
+    const CRED_MAP = {
+        'albat': 'ATEIXIDO',
+        'albap': 'ALBA',
+        'web': 'WEB'
+    };
+
+    const envKey = CRED_MAP[memberId] || memberId.toUpperCase();
+    const user = process.env[`IMAP_USER_${envKey}`] || config[`IMAP_USER_${envKey}`];
+    const pass = process.env[`IMAP_PASS_${envKey}`] || config[`IMAP_PASS_${envKey}`];
+
+    if (!user || !pass) {
+        return res.status(400).json({ error: "Credentials missing for " + memberId });
+    }
+
+    try {
+        const env = {
+            ...process.env,
+            SMTP_HOST: process.env.SMTP_HOST || config.SMTP_HOST,
+            SMTP_PORT: process.env.SMTP_PORT || config.SMTP_PORT
+        };
+
+        const pythonProcess = spawn('python3', [
+            path.join(__dirname, 'fetch_mails.py'),
+            user,
+            pass,
+            '--send',
+            to,
+            subject,
+            body
+        ], { env });
+
+        let dataStr = "";
+        pythonProcess.stdout.on('data', (d) => { dataStr += d.toString(); });
+        pythonProcess.on('close', (code) => {
+            if (code !== 0) return res.status(500).json({ error: "Sender script error" });
+            try {
+                const result = JSON.parse(dataStr);
+                if (result.error) return res.status(500).json(result);
+
+                // Log activity
+                const db = readDB();
+                logActivity(db, 'mail', `Correu enviat a ${to}: ${subject}`, memberId);
+                writeDB(db);
+
+                res.json(result);
+            } catch (err) {
+                res.status(500).json({ error: "Parse error" });
+            }
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/api/emails/log', async (req, res) => {
+    const { from, subject, projectPath, messageId, member } = req.body;
+    await logToGoogleSheet({ from, subject, projectPath, messageId, member });
     res.json({ success: true });
 });
 
