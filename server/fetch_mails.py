@@ -232,23 +232,55 @@ if __name__ == "__main__":
         body = sys.argv[6]
         
         import smtplib
-        from email.message import EmailMessage
+        from email.mime.text import MIMEText
+        from email.mime.multipart import MIMEMultipart
+        import time
         
         host_env = os.environ.get('SMTP_HOST', "mail-es.securemail.pro")
         port = int(os.environ.get('SMTP_PORT', 465))
         
         try:
-            msg = EmailMessage()
-            msg.set_content(body)
+            # Create message
+            msg = MIMEMultipart("alternative")
             msg['Subject'] = subject
             msg['From'] = username
             msg['To'] = to_addr
+            msg['Date'] = email.utils.formatdate(localtime=True)
+
+            # If body contains html tags, send as HTML
+            if "<html>" in body.lower() or "<p>" in body.lower() or "<b>" in body.lower() or "<br" in body.lower():
+                 msg.attach(MIMEText(body, "html"))
+            else:
+                 msg.attach(MIMEText(body, "plain"))
             
+            # 1. Send via SMTP
             with smtplib.SMTP_SSL(host_env, port) as server:
                 server.login(username, password)
                 server.send_message(msg)
+            
+            # 2. Append to Sent folder via IMAP
+            try:
+                imap_host = os.environ.get('IMAP_HOST', "mail-es.securemail.pro")
+                imap_port = int(os.environ.get('IMAP_PORT', 993))
+                mail = imaplib.IMAP4_SSL(imap_host, imap_port)
+                mail.login(username, password)
                 
-            print(json.dumps({"status": "sent", "to": to_addr, "subject": subject}))
+                # Try common sent folder names
+                sent_folders = ['Sent', 'Sent Messages', 'Enviados', 'Items enviados', 'INBOX.Sent']
+                appended = False
+                for f in sent_folders:
+                    try:
+                        res, _ = mail.append(f, None, imaplib.Time2Internaldate(time.time()), msg.as_bytes())
+                        if res == 'OK':
+                            appended = True
+                            break
+                    except:
+                        continue
+                mail.logout()
+            except:
+                pass # Sent via SMTP but failed to save in Sent folder
+                
+            print(json.dumps({"status": "sent", "to": to_addr, "subject": subject, "body": body}))
         except Exception as e:
             print(json.dumps({"error": str(e)}))
 

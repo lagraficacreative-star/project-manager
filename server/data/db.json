@@ -1303,6 +1303,22 @@
           "timestamp": "2026-01-23T07:46:03.419Z",
           "isEmail": true,
           "senderEmail": "no-reply-notifica@correo.gob.es"
+        },
+        {
+          "id": "msg_1769165421238",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: no-reply-notifica@correo.gob.es\nAssumpte: Nueva notificación electrónica\n\n<p><strong>ESTE EMAIL SE CORRESPONDE CON UN AVISO DE UNA NOTIFICACIÓN ELECTRÓNICA</strong></p>\r\n<p>Le informamos que dispone de una nueva <strong>notificación electrónica</strong> como Destinatario procedente del organismo Entidad Pública Empresarial Red.Es, con DIR3 EA0044367 y perteneciente a Ministerio para la Transformación Digital y de la Función Pública, con los siguientes datos:</p>\r\n<ul>\r\n...",
+          "timestamp": "2026-01-23T10:50:21.238Z",
+          "isEmail": true,
+          "senderEmail": "no-reply-notifica@correo.gob.es"
+        },
+        {
+          "id": "msg_1769165540126",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: no-reply-notifica@correo.gob.es\nAssumpte: Nueva notificación electrónica\n\n<p><strong>ESTE EMAIL SE CORRESPONDE CON UN AVISO DE UNA NOTIFICACIÓN ELECTRÓNICA</strong></p>\r\n<p>Le informamos que dispone de una nueva <strong>notificación electrónica</strong> como Titular procedente del organismo Entidad Pública Empresarial Red.Es, con DIR3 EA0044367 y perteneciente a Ministerio para la Transformación Digital y de la Función Pública, con los siguientes datos:</p>\r\n<ul>\r\n<li>T...",
+          "timestamp": "2026-01-23T10:52:20.126Z",
+          "isEmail": true,
+          "senderEmail": "no-reply-notifica@correo.gob.es"
         }
       ]
     },
@@ -1473,6 +1489,22 @@
           "timestamp": "2026-01-23T08:03:16.432Z",
           "isEmail": true,
           "senderEmail": "noreply.dehu@correo.gob.es"
+        },
+        {
+          "id": "msg_1769165421237",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: noreply.dehu@correo.gob.es\nAssumpte: Envío: Aviso de cortesía de una nueva notificación electrónica\n\n<p>Te informamos que est&aacute; disponible una nueva <strong>notificaci&oacute;n</strong> con los siguientes datos:</p>\r\n\r\n<ul>\r\n\t<li>LAGRAFICA CREATIVE EXPERIENCE SL &nbsp;con NIF/NIE:&nbsp;B25826603 en calidad de Titular</li>\r\n\t<li>Organismo emisor: Entidad Pública Empresarial Red.Es, con DIR3: EA0044367</li>\r\n\t<li>Identificador: 5342376697351a851803</li>\r\n\t<li>Con vencimiento el d&iacute;a: 02...",
+          "timestamp": "2026-01-23T10:50:21.237Z",
+          "isEmail": true,
+          "senderEmail": "noreply.dehu@correo.gob.es"
+        },
+        {
+          "id": "msg_1769165421238",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: noreply.dehu@correo.gob.es\nAssumpte: Envío: Aviso de cortesía de una nueva notificación electrónica\n\n<p>Te informamos que est&aacute; disponible una nueva <strong>notificaci&oacute;n</strong> con los siguientes datos:</p>\r\n\r\n<ul>\r\n\t<li>MONTSERRAT TORRELLES TEIXIDO&nbsp;con NIF/NIE:&nbsp;***141*** en calidad de Destinatario</li>\r\n\t<li>Organismo emisor: Entidad Pública Empresarial Red.Es, con DIR3: EA0044367</li>\r\n\t<li>Identificador: 5342376697351a851803</li>\r\n\t<li>Con vencimiento el d&iacute;a: 02...",
+          "timestamp": "2026-01-23T10:50:21.238Z",
+          "isEmail": true,
+          "senderEmail": "noreply.dehu@correo.gob.es"
         }
       ]
     },
@@ -1533,6 +1565,22 @@
           "user": "Sistema",
           "text": "📩 Nou Correu:\nDe: No-reply <avisos-pkd@acelerapyme.gob.es>\nAssumpte: Notificación nueva\n\n.:: Red.es ::.\n.gs li {margin-left: 15px;font-size: 16px;}\nLe informamos que dispone de una nueva notificación&nbsp;como TITULAR del organismo ENTIDAD PÚBLICA EMPRESARIAL RED.ES (Ministerio de Asuntos Económicos y Transformación Digital) a la que puede acceder a través de su Sede Electrónica, con los siguientes datos:\nTITULAR:\nLAGRAFICA CREATIVE EXPERIENCE S.L. con NIF ******603\nConcepto:\nKD/00011...",
           "timestamp": "2026-01-23T07:46:03.419Z",
+          "isEmail": true,
+          "senderEmail": "No-reply <avisos-pkd@acelerapyme.gob.es>"
+        },
+        {
+          "id": "msg_1769165300545",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: No-reply <avisos-pkd@acelerapyme.gob.es>\nAssumpte: Notificación nueva\n\n.:: Red.es ::.\n.gs li {margin-left: 15px;font-size: 16px;}\nLe informamos que dispone de una nueva notificación&nbsp;como DESTINATARIO del organismo ENTIDAD PÚBLICA EMPRESARIAL RED.ES (Ministerio de Asuntos Económicos y Transformación Digital) a la que puede acceder a través de su Sede Electrónica, con los siguientes datos:\nDESTINATARIO:\nMONTSERRAT TORRELLES TEIXIDO con NIF ******04M\nConcepto:\nKD/0...",
+          "timestamp": "2026-01-23T10:48:20.545Z",
+          "isEmail": true,
+          "senderEmail": "No-reply <avisos-pkd@acelerapyme.gob.es>"
+        },
+        {
+          "id": "msg_1769165300546",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: No-reply <avisos-pkd@acelerapyme.gob.es>\nAssumpte: Notificación nueva\n\n.:: Red.es ::.\n.gs li {margin-left: 15px;font-size: 16px;}\nLe informamos que dispone de una nueva notificación&nbsp;como TITULAR del organismo ENTIDAD PÚBLICA EMPRESARIAL RED.ES (Ministerio de Asuntos Económicos y Transformación Digital) a la que puede acceder a través de su Sede Electrónica, con los siguientes datos:\nTITULAR:\nLAGRAFICA CREATIVE EXPERIENCE S.L. con NIF ******603\nConcepto:\nKD/00005...",
+          "timestamp": "2026-01-23T10:48:20.546Z",
           "isEmail": true,
           "senderEmail": "No-reply <avisos-pkd@acelerapyme.gob.es>"
         }
@@ -2172,6 +2220,30 @@
           "user": "Sistema",
           "text": "📩 Nou Correu:\nDe: \"ateixido@lagrafica.com\" <ateixido@lagrafica.com>\nAssumpte: Re: Accés a Xarxes\n\nHola Meritxell, \r\n\r\nSi vosaltres el teniu obert, ens podeu fer administradors de la pàgina de Facebook amb l'usuari Xarxes La Gràfica. En cas que no sabeu com fer-ho us gravaria un tutorial de com fer-ho i d'aquesta manera nosaltres ja tindreu accés. \r\n\r\nPer altra banda, diria que no em vas enviar l'usuari i la contrasenya de X. \r\n\r\nAnem parlant. \r\n\r\nSalutacions, \r\n—\r\n\r\nALBA TEIXIDÓ\r\nCommunity Man...",
           "timestamp": "2026-01-23T08:56:18.789Z",
+          "isEmail": true,
+          "senderEmail": "\"ateixido@lagrafica.com\" <ateixido@lagrafica.com>"
+        },
+        {
+          "id": "msg_1769160402701",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: Meritxell Pastor i Soler <mpastor@paeria.es>\nAssumpte: Re: Accés a Xarxes\n\nPer X hauria de ser la mateixa contrasenya.  Ja em diràs si funciona\r\n\r\nMeritxell Pastor Soler\r\nTècnica\r\nRegidoria d’Agenda Urbana  I Espai Agrari\r\nAjuntament de Lleida\r\n________________________________\r\nFrom: ateixido@lagrafica.com <ateixido@lagrafica.com>\r\nSent: Friday, January 23, 2026 9:54:36 AM\r\nTo: Meritxell Pastor i Soler <mpastor@paeria.es>\r\nCc: Montse Torrelles <montse@lagrafica.com>; Alb...",
+          "timestamp": "2026-01-23T09:26:42.701Z",
+          "isEmail": true,
+          "senderEmail": "Meritxell Pastor i Soler <mpastor@paeria.es>"
+        },
+        {
+          "id": "msg_1769161459096",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: \"ateixido@lagrafica.com\" <ateixido@lagrafica.com>\nAssumpte: Re: Accés a Xarxes\n\nHola Meritxell, \r\n\r\nTambé em diu que és incorrecta... \r\n—\r\n\r\nALBA TEIXIDÓ\r\nCommunity Manager\r\n\r\n\r\n\r\n￼ateixido@lagrafica.com <mailto:ateixido@lagrafica.com> \r\n￼973 21 63 63\r\n￼Manuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n￼\r\n\r\n\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es u...",
+          "timestamp": "2026-01-23T09:44:19.096Z",
+          "isEmail": true,
+          "senderEmail": "\"ateixido@lagrafica.com\" <ateixido@lagrafica.com>"
+        },
+        {
+          "id": "msg_1769161478650",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: \"ateixido@lagrafica.com\" <ateixido@lagrafica.com>\nAssumpte: Re: Accés a Xarxes\n\nHola Meritxell, \r\n\r\nTambé em diu que és incorrecta... \r\n—\r\n\r\nALBA TEIXIDÓ\r\nCommunity Manager\r\n\r\n\r\n\r\n￼ateixido@lagrafica.com <mailto:ateixido@lagrafica.com> \r\n￼973 21 63 63\r\n￼Manuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n￼\r\n\r\n\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es u...",
+          "timestamp": "2026-01-23T09:44:38.650Z",
           "isEmail": true,
           "senderEmail": "\"ateixido@lagrafica.com\" <ateixido@lagrafica.com>"
         }
@@ -2962,6 +3034,258 @@
       "createdAt": "2026-01-23T08:58:38.179Z",
       "message_id": 18124,
       "attachments": []
+    },
+    {
+      "id": "card_1769160739246p1c1h",
+      "boardId": "b_design_montse",
+      "columnId": "c_todo_b_design_montse",
+      "title": "Re: Lagràfica Pàgina web e-commerce",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Gon <gon@double11.net>\n\nMontse, t’he trucat per saber de,,, quiuna ajuda?\r\n\r\n\r\nGonçal Pérez\r\n\r\nM. +34.662.675.978\r\nE.   gon@double11.net\r\n\r\n\r\n\r\n> El 23 gen. 2026, a les 9:54, Montse Torrelles <montse@lagrafica.com> va escriure:\r\n> \r\n> Bones, Gonçal, \r\n> \r\n> T’adjunto un llistat de pàgines web realitzades des de la nostra agència. I també, t’adjunto el nostre portfoli!\r\n> \r\n> Si decidiexes tirar-ho endavant, necessitaríem el teu CIF i el codi del BONO concedit del Kit Digital. \r\n> \r\n> La solució WEB son 2.000€ totalment subvencionats per l’ajuda i només hauràs de liquidar l’IVA que són 420€. Qualsevol dubte que tinguis, em dius!\r\n> \r\n> Gràcies!\r\n> \r\n> La solució de web inclou:\r\n> \r\n> Desenvolupament de pàgina web\r\n> \r\n> \t• Definició de l’arquitectura i els continguts que la compondran: e-commerce de productes amb Shopify , nou disseny i estructura\r\n> \t• Web responsive i nivell d’accessibilitat AA / WCAG-2.1.\r\n> \t• Creada amb tecnologia WordPress autogestionable per l’usuari\r\n> \t• Integració de la web amb Googl"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T09:32:19.246Z",
+      "message_id": 580199,
+      "attachments": []
+    },
+    {
+      "id": "card_1769162178879gh6qe",
+      "boardId": "b_design_montse",
+      "columnId": "c_todo_b_design_montse",
+      "title": "Vive la Mascletà 2026 desde el balcón más exclusivo de Valencia con G20 CORPORATION",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: \"G20 CORPORATION\" <r.baeza@g20corporation.com>\n\n@import url(\"https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700\");\nbody { background:#fafafa; font-family: Verdana, Arial, Helvetica,sans-serif;font-weight:400; font-size:14px;}\np { margin: 0 0 10px; text-align: justify; }\nhr { margin-top: 20px;    margin-bottom: 20px;    border: 0;    border-top: 1px solid #eee;}\n.im { color: #000000 !important;}\n&nbsp;\nSi desea darse de baja del sistema de información a clientes,\npulse aquí.\nEste mensaje se ha enviado a la dirección info@lagrafica.com que consta en nuestra base de datos.\nDe acuerdo con lo dispuesto en el Reglamento Europeo de Protección de Datos 2016/679, le informamos que los datos y la información que nos facilita a través\nde este medio será utilizada por G20 CORPORATION, con dirección en AVDA. HERMANOS MARISTAS, 28, 3ero C, 46103 VALENCIA Valencia, para la finalidad de enviarle información\nde cualquier tipo relativa a los servicios profesionales que les prestamos. Los datos proporcionados se conservarán mientras n"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T09:56:18.879Z",
+      "message_id": 580201,
+      "attachments": []
+    },
+    {
+      "id": "card_17691621910589z1h3",
+      "boardId": "b_design_omar",
+      "columnId": "c_todo_b_design_omar",
+      "title": "seguiment projecte web Residencia",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Eva Cullerés Vallés <eculleres@hst.cat>\n\nBon dia Omar,\r\ncom va tot?\r\n\r\nEt volia preguntar com tens aquest projecte de la web de les residències.\r\n\r\nJa m'informes.\r\nGràcies\r\n\r\n\r\n<https://www.hst.cat/>\r\n\r\nwww.hst.cat Eva Cullerés\r\n*Consultora*\r\n\r\nT. 973 72 71 72\r\neculleres@hst.cat\r\nBaró de Maials, 11\r\n25005 Lleida\r\n\r\n<https://www.instagram.com/hstsolucionstecnologiques/>\r\n<https://www.facebook.com/pages/HST-Hardnet-Solucions-Tecnol%C3%B2giques/151260064920229?fref=ts>\r\n  <https://www.linkedin.com/company/hardnet-systems>\r\n<https://www.youtube.com/channel/UCUkuQIk4NUbXvaOw-OBRLAQ>\r\n\r\n*✔ Coneix la nostra empresa en 3 minuts (veure video)\r\n<https://www.hst.cat/video-corporatiu-cat>*\r\n<https://www.hst.cat/kit-digital-lleida/>\r\nRevisa la nostra *política de privacitat\r\n<https://www.hst.cat/politica-de-privacitat/>*\r\n"
+        }
+      ],
+      "labels": [
+        "Omar",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T09:56:31.058Z",
+      "message_id": 1272,
+      "attachments": []
+    },
+    {
+      "id": "card_1769162318472c8hu9",
+      "boardId": "b_design_alba",
+      "columnId": "c_todo_b_design_alba",
+      "title": "Pagina web",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: MARIA DOMINGUEZ DIAZ <mdominguez@advocatslleida.org>\n\nHola Alba\r\n\r\nComo esta eo tema de la página web?\r\n\r\nYa me dices\r\n\r\nUn saludo\r\n\r\nMaria Dominguez\r\n\r\nEnviado desde Outlook para iOS<https://aka.ms/o0ukef>\r\n"
+        }
+      ],
+      "labels": [
+        "Alba",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T09:58:38.472Z",
+      "message_id": 18126,
+      "attachments": []
+    },
+    {
+      "id": "card_1769162899365bk3xg",
+      "boardId": "b_design_montse",
+      "columnId": "c_todo_b_design_montse",
+      "title": "We’d love your feedback  ",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: \"Elementor\" <team@user-mail.elementor.com>\n\n...just 1 minute of your time!\nHi Montse,\n\nWe noticed your Image Optimizer subscription recently expired.\nThanks for giving it a try.\n\nAs we strive to make Image Optimizer even better, we’d be super\ngrateful if you could share your valuable feedback in a quick\n1-minute survey.\n\nTake the Survey \n( https://clicks-mail.elementor.com/f/a/2ih3AMIleHdH6TBfPqy8GQ~~/AAAHahA~/y5r7IpfMafke1YxFuSTULgMK8IzU-eGaQnPJroQeuFx6nDbrS3RoNzR31psjDGWwYZdIBz5Dqv5cVXVvYTG01CATPhXGJdOXVnHfQFA1b93w98UzZGbjzua5aWLvjvFMCkaK4r-5W1mM3kZZhlmEhDBsbE_J1mT8tBdLA61urVtfrtyrUWs9E9lJNieMby7k )\n\n\nYour insights will ensure we're building a product that aligns\nwith the needs and preferences of our customers.\n\nKind regards,\nThe Elementor Team\n\nIf you do not wish to receive these emails please unsubscribe (\nhttps://clicks-mail.elementor.com/f/a/y32ildWlvSkNkrv5AxwTIQ~~/AAAHahA~/J8FMRJbBrVUg_1Fs42kBf0xiJwy5TDJ5oFWkcOYAwauogaVg_071NjS5JDJYbm_fqpK-ObPjpeGgSl2Wh_N3mrgwPbWfYGT_B1sWmCvdu3JWJpq5ggdERuijsJpLa8ZDX_p0Qv2khBUHLrrqdWxMfv"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T10:08:19.365Z",
+      "message_id": 580202,
+      "attachments": []
+    },
+    {
+      "id": "card_176916433917773rnx",
+      "boardId": "b_design_montse",
+      "columnId": "c_revision_b_design_montse",
+      "title": "RE: Cartel para vía blava Pantà del Sant Ponç",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Arturo Jose Pino Romero <ajpino@exland.cat>\n\nHola Montse, por favor recuerda pasarnos el presupuesto y la propuesta cuanto antes.\r\n\r\nSaludos,\r\nArturo Pino Romero  |  681 00 08 52\r\n\r\nJEFE DE OBRA\r\n\r\n__________________________________________________________________________________________________________________\r\n[cid:image001.png@01DC8C5B.CD7FCE50]   [cid:image002.png@01DC8C5B.CD7FCE50]\r\n\r\n\r\nEXLAND EXCAVACIONS I TRANSPORTS, S.L.  |  938789520\r\n\r\nC/ De l'Energia Nº 52, 08250 Sant Joan de Vilatorrada\r\n\r\n[cid:image003.png@01DC8C5B.CD7FCE50]<https://www.instagram.com/exland.cat/> [cid:image004.png@01DC8C5B.CD7FCE50] <https://www.linkedin.com/company/exland-excavacions-i-transports-sl/>   [cid:image005.png@01DC8C5B.CD7FCE50] <https://exland.cat/>\r\n\r\nAquest missatge conté informació confidencial per al seu destinatari. Queda prohibit l'ús, divulgació, còpia o distribució de la informació inclosa en aquest missatge sense l'autorització per escrit de EXLAND EXCAVACIONS I TRANSPORTS SL. En cas de rebre aquest missatge per error, l'informe"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T10:32:19.177Z",
+      "message_id": 580203,
+      "attachments": [],
+      "comments": [
+        {
+          "id": "msg_1769164349375",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: Arturo Jose Pino Romero <ajpino@exland.cat>\nAssumpte: RE: Cartel para vía blava Pantà del Sant Ponç\n\nHola Montse, por favor recuerda pasarnos el presupuesto y la propuesta cuanto antes.\r\n\r\nSaludos,\r\nArturo Pino Romero  |  681 00 08 52\r\n\r\nJEFE DE OBRA\r\n\r\n__________________________________________________________________________________________________________________\r\n[cid:image001.png@01DC8C5B.CD7FCE50]   [cid:image002.png@01DC8C5B.CD7FCE50]\r\n\r\n\r\nEXLAND EXCAVACIONS I TRANSPORTS, S.L.  |  93878952...",
+          "timestamp": "2026-01-23T10:32:29.375Z",
+          "isEmail": true,
+          "senderEmail": "Arturo Jose Pino Romero <ajpino@exland.cat>"
+        }
+      ]
+    },
+    {
+      "id": "card_17691651809266k6k1",
+      "boardId": "b_design_montse",
+      "columnId": "c_revision_b_design_montse",
+      "title": "Fwd: animac26_ cartells varis per imprimir",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Neus <neus@lagrafica.com>\n\naaff_animac26_cartell 150x200 franja_imp.pdf <https://paerialleida.sharepoint.com/:b:/r/sites/EXT_ANIMAC2023-EXT_AMIMAC2026/Documentos%20compartidos/EXT_ANIMAC%202026/LA%20GRAFICA/aaff_animac26_cartells%20i%20opis/aaff_animac26_cartell%20150x200%20franja_imp.pdf?csf=1&web=1&e=Q6Fg7j>\r\n\r\naaff_animac26_cartell 50x70 franja_imp.pdf <https://paerialleida.sharepoint.com/:b:/r/sites/EXT_ANIMAC2023-EXT_AMIMAC2026/Documentos%20compartidos/EXT_ANIMAC%202026/LA%20GRAFICA/aaff_animac26_cartells%20i%20opis/aaff_animac26_cartell%2050x70%20franja_imp.pdf?csf=1&web=1&e=WX2JL1>\r\n\r\n\r\nNEUS VERA\r\nDisseny gràfic\r\nneus@lagrafica.com <mailto:neus@lagrafica.com>\r\n973 21 63 63 \r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n> Inicio del mensaje reenviado:\r\n> \r\n> De: Neus <neus@lagrafica.com>\r\n> Asunto: animac26_ cartells varis per imprimir\r\n> Fecha: 23 de enero de 2026, 11:44:13 CET\r\n> Para: Maria Domènech Nadal <mdomenech@paeria.cat>, Àngels Aguilà i Santaulària <aaguila@paeria.cat>\r\n> Cc: \"montse@lagrafic"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T10:46:20.926Z",
+      "message_id": 580205,
+      "attachments": [],
+      "comments": [
+        {
+          "id": "msg_1769165180926",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: Neus <neus@lagrafica.com>\nAssumpte: animac26_ cartells varis per imprimir\n\naaff_animac26_opi 120x175 franja_imp.pdf <https://paerialleida.sharepoint.com/:b:/r/sites/EXT_ANIMAC2023-EXT_AMIMAC2026/Documentos%20compartidos/EXT_ANIMAC%202026/LA%20GRAFICA/aaff_animac26_opi%20120x175%20franja_imp.pdf?csf=1&web=1&e=i3R8RZ>\r\n\r\n\r\n\r\n\r\nNEUS VERA\r\nDisseny gràfic\r\nneus@lagrafica.com <mailto:neus@lagrafica.com>\r\n973 21 63 63 \r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n...",
+          "timestamp": "2026-01-23T10:46:20.926Z",
+          "isEmail": true,
+          "senderEmail": "Neus <neus@lagrafica.com>"
+        },
+        {
+          "id": "msg_1769165899857",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: Maria Domènech Nadal <mdomenech@paeria.cat>\nAssumpte: RE: animac26_ cartells varis per imprimir\n\nÉs ok, Neus!\r\n\r\nMaria Domènech Nadal\r\nTècnica del Departament d'Audiovisuals - Regidoria de Cultura\r\n\r\nmdomenech@paeria.cat<mailto:correu@paeria.cat>\r\nTel.: 973 700 393  · ext. 1753\r\nAv. Blondel núm. 64, 25002 - Lleida\r\n\r\n\r\n\r\nDe: Neus <neus@lagrafica.com>\r\nEnviat: viernes, 23 de enero de 2026 11:46\r\nPer a: Maria Domènech Nadal <mdomenech@paeria.cat>; Àngels Aguilà i Santaulària <aaguila@paeria.cat...",
+          "timestamp": "2026-01-23T10:58:19.857Z",
+          "isEmail": true,
+          "senderEmail": "Maria Domènech Nadal <mdomenech@paeria.cat>"
+        },
+        {
+          "id": "msg_1769165908136",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: Maria Domènech Nadal <mdomenech@paeria.cat>\nAssumpte: RE: animac26_ cartells varis per imprimir\n\nÉs ok, Neus!\r\n\r\nMaria Domènech Nadal\r\nTècnica del Departament d'Audiovisuals - Regidoria de Cultura\r\n\r\nmdomenech@paeria.cat<mailto:correu@paeria.cat>\r\nTel.: 973 700 393  · ext. 1753\r\nAv. Blondel núm. 64, 25002 - Lleida\r\n\r\n\r\n\r\nDe: Neus <neus@lagrafica.com>\r\nEnviat: viernes, 23 de enero de 2026 11:46\r\nPer a: Maria Domènech Nadal <mdomenech@paeria.cat>; Àngels Aguilà i Santaulària <aaguila@paeria.cat...",
+          "timestamp": "2026-01-23T10:58:28.136Z",
+          "isEmail": true,
+          "senderEmail": "Maria Domènech Nadal <mdomenech@paeria.cat>"
+        }
+      ]
+    },
+    {
+      "id": "card_1769165421237kbnl8",
+      "boardId": "b_kit_digital",
+      "columnId": "col_1_b_kit_digital",
+      "title": "[NOTIF] Nueva notificación electrónica",
+      "descriptionBlocks": [
+        {
+          "id": "d1",
+          "type": "text",
+          "text": "Ms: <p><strong>ESTE EMAIL SE CORRESPONDE CON UN AVISO DE UNA NOTIFICACIÓN ELECTRÓNICA</strong></p>\r\n<p>Le informamos que dispone de una nueva <strong>notificación electrónica</strong> como Destinatario procedente del organismo Entidad Pública Empresarial Red.Es, con DIR3 EA0044367 y perteneciente a Ministerio para la Transformación Digital y de la Función Pública, con los siguientes datos:</p>\r\n<ul>\r\n<li>Destinatario: MONTSERRAT TORRELLES TEIXIDO   con NIF/NIE ***1410**</li>\r\n<li>Identificador: 5342376697351a851803</li>\r\n<li>Organismo Emisor: Entidad Pública Empresarial Red.Es, con DIR3 EA0044367 y perteneciente a Ministerio para la Transformación Digital y de la Función Pública </li>\r\n<li>Concepto: KD/0000566635 - Aviso de vencimiento del plazo ...</li>\r\n<li>Vínculo: Destinatario</li>\r\n</ul>\r\n<p>En caso de que no accediera a su contenido antes de las 23:59:59 del día 02/02/26 en horario peninsular, se considerará que el acto de notificación ha sido efectuado, aunque con resultado de rechazo, pudiéndose continuar el procedimiento administrativo correspondiente.</p>\r\n<p>Puede acceder a esta notificación en la Dirección Electrónica Habilitada Única (DEHú) del Punto de Acceso General, disponible en:  <a href=\"https://dehu.redsara.es\">https://dehu.redsara.es</a></p>\r\n<p>De acuerdo con lo previsto en los artículos 41 y 43 de la Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común de las Administraciones Públicas, la aceptación de la notificación, el rechazo expreso de la notificación o bien la presunción de rechazo por no haber accedido a la notificación durante el periodo de puesta a disposición, dará por efectuado el trámite de notificación y se continuará el procedimiento.</p>\r\n<p>Usted puede recibir esta notificación por distintas vías electrónicas o incluso en papel por vía postal. Si usted accediera al contenido de esta notificación por más de una de estas vías, sepa que los efectos jurídicos, si los hubiera, siempre empiezan a contar desde la fecha en que se produzca su primer acceso.</p>\r\n<p>Este aviso es remitido por la plataforma Notifica a partir de la información facilitada por el organismo emisor. Si desea corregir la dirección de correo electrónico, o dejar de recibir correos, le recomendamos que se ponga en contacto con el organismo emisor a través de los canales que establezca.</p>\r\n<p>Gobierno de España</p>\r\n"
+        }
+      ],
+      "labels": [
+        "Kit Digital",
+        "Automatitzat"
+      ],
+      "createdAt": "2026-01-23T10:50:21.237Z"
+    },
+    {
+      "id": "card_17691655401267nd2a",
+      "boardId": "b_kit_digital",
+      "columnId": "col_1_b_kit_digital",
+      "title": "[NOTIF] Nueva notificación electrónica",
+      "descriptionBlocks": [
+        {
+          "id": "d1",
+          "type": "text",
+          "text": "Ms: <p><strong>ESTE EMAIL SE CORRESPONDE CON UN AVISO DE UNA NOTIFICACIÓN ELECTRÓNICA</strong></p>\r\n<p>Le informamos que dispone de una nueva <strong>notificación electrónica</strong> como Titular procedente del organismo Entidad Pública Empresarial Red.Es, con DIR3 EA0044367 y perteneciente a Ministerio para la Transformación Digital y de la Función Pública, con los siguientes datos:</p>\r\n<ul>\r\n<li>Titular: LAGRAFICA CREATIVE EXPERIENCE S.L.   con NIF/NIE ****2660*</li>\r\n<li>Identificador: 5342376697351a851803</li>\r\n<li>Organismo Emisor: Entidad Pública Empresarial Red.Es, con DIR3 EA0044367 y perteneciente a Ministerio para la Transformación Digital y de la Función Pública </li>\r\n<li>Concepto: KD/0000566635 - Aviso de vencimiento del plazo ...</li>\r\n<li>Vínculo: Titular</li>\r\n</ul>\r\n<p>En caso de que no accediera a su contenido antes de las 23:59:59 del día 02/02/26 en horario peninsular, se considerará que el acto de notificación ha sido efectuado, aunque con resultado de rechazo, pudiéndose continuar el procedimiento administrativo correspondiente.</p>\r\n<p>Puede acceder a esta notificación en la Dirección Electrónica Habilitada Única (DEHú) del Punto de Acceso General, disponible en:  <a href=\"https://dehu.redsara.es\">https://dehu.redsara.es</a></p>\r\n<p>De acuerdo con lo previsto en los artículos 41 y 43 de la Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común de las Administraciones Públicas, la aceptación de la notificación, el rechazo expreso de la notificación o bien la presunción de rechazo por no haber accedido a la notificación durante el periodo de puesta a disposición, dará por efectuado el trámite de notificación y se continuará el procedimiento.</p>\r\n<p>Usted puede recibir esta notificación por distintas vías electrónicas o incluso en papel por vía postal. Si usted accediera al contenido de esta notificación por más de una de estas vías, sepa que los efectos jurídicos, si los hubiera, siempre empiezan a contar desde la fecha en que se produzca su primer acceso.</p>\r\n<p>Este aviso es remitido por la plataforma Notifica a partir de la información facilitada por el organismo emisor. Si desea corregir la dirección de correo electrónico, o dejar de recibir correos, le recomendamos que se ponga en contacto con el organismo emisor a través de los canales que establezca.</p>\r\n<p>Gobierno de España</p>\r\n"
+        }
+      ],
+      "labels": [
+        "Kit Digital",
+        "Automatitzat"
+      ],
+      "createdAt": "2026-01-23T10:52:20.126Z"
+    },
+    {
+      "id": "card_1769165671553e965j",
+      "boardId": "b_design_neus",
+      "columnId": "c_todo_b_design_neus",
+      "title": "Re: CALENDARI - PROGRAMA",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Muriel De Armas Gil <muriel@subbabel.com>\n\nBuenas, Àngels y compañía:\r\n\r\n¿Qué tal? Ya es viernes. :)\r\n\r\nTe escribo solo para preguntar qué tal va el programa de mano y cuándo\r\ntienen previsto mandarlo. ¿Sabes también si este año recibiremos el dosier\r\npedagógico como otras veces?\r\n\r\n¡Gracias!\r\n\r\nEl vie, 16 ene 2026 a las 8:08, Muriel De Armas Gil (<muriel@subbabel.com>)\r\nescribió:\r\n\r\n> Bon dia, Àngels:\r\n>\r\n> Recibido el borrador, muchas gracias.\r\n>\r\n> Si te parece bien, aprovechando que no se va a mandar a maquetación aún,\r\n> esperaremos a tener también el programa de mano para asegurarnos de que\r\n> mantenemos la coherencia en todo.\r\n>\r\n> ¡Feliz viernes!\r\n>\r\n> El jue, 15 ene 2026 a las 18:27, Àngels Aguilà i Santaulària (<\r\n> aaguila@paeria.cat>) escribió:\r\n>\r\n>> hola Muriel\r\n>> Te adjunto el documento *“Esborrany graella”* para que puedas revisarlo.\r\n>> No lo enviaremos a maquetación, ya que seguimos pendientes de confirmar la\r\n>> participación de un invitado relevante. Si finalmente no pudiera asistir,\r\n>> tendríamos que reub"
+        }
+      ],
+      "labels": [
+        "Neus",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T10:54:31.553Z",
+      "message_id": 31130,
+      "attachments": []
+    },
+    {
+      "id": "card_1769165791204e7in6",
+      "boardId": "b_design_neus",
+      "columnId": "c_todo_b_design_neus",
+      "title": "Bustia de contacte",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Montse Torrelles <montse@lagrafica.com>\n\n"
+        }
+      ],
+      "labels": [
+        "Neus",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T10:56:31.204Z",
+      "message_id": 31131,
+      "attachments": []
     }
   ],
   "emails": [],
@@ -3560,6 +3884,160 @@
   ],
   "activity": [
     {
+      "id": "1769165908136wkpo7",
+      "type": "mail",
+      "text": "Correu vinculat a \"Fwd: animac26_ cartells varis per imprimir\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T10:58:28.136Z"
+    },
+    {
+      "id": "17691658998575cvog",
+      "type": "mail",
+      "text": "Correu vinculat a \"Fwd: animac26_ cartells varis per imprimir\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T10:58:19.857Z"
+    },
+    {
+      "id": "1769165791204wgo49",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Neus: Bustia de contacte",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T10:56:31.204Z"
+    },
+    {
+      "id": "1769165671553fg8zk",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Neus: Re: CALENDARI - PROGRAMA",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T10:54:31.553Z"
+    },
+    {
+      "id": "1769165540126hmeg5",
+      "type": "mail",
+      "text": "Correu vinculat a \"[NOTIF] Nueva notificación electrónica\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T10:52:20.126Z"
+    },
+    {
+      "id": "1769165421238gzvv8",
+      "type": "mail",
+      "text": "Correu vinculat a \"[NOTIF] Nueva notificación electrónica\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T10:50:21.238Z"
+    },
+    {
+      "id": "1769165421238qdfl7",
+      "type": "mail",
+      "text": "Correu vinculat a \"Envío: Aviso de cortesía de una nueva notificación electrónica\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T10:50:21.238Z"
+    },
+    {
+      "id": "1769165421237u05pq",
+      "type": "mail",
+      "text": "Correu vinculat a \"Envío: Aviso de cortesía de una nueva notificación electrónica\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T10:50:21.237Z"
+    },
+    {
+      "id": "17691653005460qidw",
+      "type": "mail",
+      "text": "Correu vinculat a \"Notificación nueva\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T10:48:20.546Z"
+    },
+    {
+      "id": "17691653005456o0cy",
+      "type": "mail",
+      "text": "Correu vinculat a \"Notificación nueva\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T10:48:20.545Z"
+    },
+    {
+      "id": "1769165180926lspt5",
+      "type": "mail",
+      "text": "Correu vinculat a \"Fwd: animac26_ cartells varis per imprimir\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T10:46:20.926Z"
+    },
+    {
+      "id": "17691651809265v92f",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Montse: Fwd: animac26_ cartells varis per imprimir",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T10:46:20.926Z"
+    },
+    {
+      "id": "17691643493756c0hp",
+      "type": "mail",
+      "text": "Correu vinculat a \"RE: Cartel para vía blava Pantà del Sant Ponç\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T10:32:29.375Z"
+    },
+    {
+      "id": "17691643391771k5ma",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Montse: RE: Cartel para vía blava Pantà del Sant Ponç",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T10:32:19.177Z"
+    },
+    {
+      "id": "1769162899365866gp",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Montse: We’d love your feedback  ",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T10:08:19.365Z"
+    },
+    {
+      "id": "17691623184722rbhp",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Alba: Pagina web",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T09:58:38.472Z"
+    },
+    {
+      "id": "1769162191058y4jqz",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Omar: seguiment projecte web Residencia",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T09:56:31.058Z"
+    },
+    {
+      "id": "1769162178879bsifp",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Montse: Vive la Mascletà 2026 desde el balcón más exclusivo de Valencia con G20 CORPORATION",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T09:56:18.879Z"
+    },
+    {
+      "id": "1769161478650zyt85",
+      "type": "mail",
+      "text": "Correu vinculat a \"Accés a Xarxes\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T09:44:38.650Z"
+    },
+    {
+      "id": "176916145909651iya",
+      "type": "mail",
+      "text": "Correu vinculat a \"Accés a Xarxes\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T09:44:19.096Z"
+    },
+    {
+      "id": "1769160739246db12i",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Montse: Re: Lagràfica Pàgina web e-commerce",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T09:32:19.246Z"
+    },
+    {
+      "id": "1769160402701l29r0",
+      "type": "mail",
+      "text": "Correu vinculat a \"Accés a Xarxes\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T09:26:42.701Z"
+    },
+    {
       "id": "1769158718179r0zo1",
       "type": "mail",
       "text": "Nova fitxa creada per a Alba: Passos a seguir per acord",
@@ -3754,160 +4232,6 @@
       "text": "Correu vinculat a \"Envío: Aviso de cortesía de una nueva notificación electrónica\" (Mogut a Revisió)",
       "user": "Sistema",
       "timestamp": "2026-01-23T08:03:16.431Z"
-    },
-    {
-      "id": "1769154363419jmfdi",
-      "type": "mail",
-      "text": "Correu vinculat a \"Notificación nueva\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T07:46:03.419Z"
-    },
-    {
-      "id": "1769154363419ndomo",
-      "type": "mail",
-      "text": "Correu vinculat a \"Notificación nueva\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T07:46:03.419Z"
-    },
-    {
-      "id": "1769154363419n1vqw",
-      "type": "mail",
-      "text": "Correu vinculat a \"[NOTIF] Nueva notificación electrónica\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T07:46:03.419Z"
-    },
-    {
-      "id": "1769154363419r7hx3",
-      "type": "mail",
-      "text": "Correu vinculat a \"[NOTIF] Nueva notificación electrónica\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T07:46:03.419Z"
-    },
-    {
-      "id": "17691538714066u3b1",
-      "type": "mail",
-      "text": "Nova fitxa creada per a Montse: Ripped Grandpa���s Secret To Send T-Levels Soaring Overnight",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T07:37:51.406Z"
-    },
-    {
-      "id": "1769152931419kt7rr",
-      "type": "mail",
-      "text": "Correu vinculat a \"Re: pressupost gestió xarxes socials Baix Ebre Avant\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T07:22:11.419Z"
-    },
-    {
-      "id": "1769152921319htce4",
-      "type": "mail",
-      "text": "Correu vinculat a \"Re: Catàleg de Formació V2 2025\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T07:22:01.319Z"
-    },
-    {
-      "id": "1769152911468x1tlo",
-      "type": "mail",
-      "text": "Correu vinculat a \"Re: pressupost gestió xarxes socials Baix Ebre Avant\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T07:21:51.468Z"
-    },
-    {
-      "id": "1769152791439ooxod",
-      "type": "mail",
-      "text": "Nova fitxa creada per a Montse: RE: Proposta reunió_infografies",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T07:19:51.439Z"
-    },
-    {
-      "id": "1769152677612m6av6",
-      "type": "mail",
-      "text": "Nova fitxa creada per a Neus: Re: Catàleg de Formació V2 2025",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T07:17:57.612Z"
-    },
-    {
-      "id": "1769151111346qwgxt",
-      "type": "mail",
-      "text": "Nova fitxa creada per a Montse: Re: Nou logo Pedales de Tierra Norte",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T06:51:51.346Z"
-    },
-    {
-      "id": "17691507625060voa6",
-      "type": "mail",
-      "text": "Correu vinculat a \"RE: Propostes tanques\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T06:46:02.506Z"
-    },
-    {
-      "id": "1769149791408h7wa6",
-      "type": "mail",
-      "text": "Nova fitxa creada per a Montse: Mailchimp Factura fiscal",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T06:29:51.408Z"
-    },
-    {
-      "id": "17691483740337woo5",
-      "type": "mail",
-      "text": "Nova fitxa creada per a Info: 3 notificaciones nuevas en WEB laGràfica desde 5:27 (21 de enero de 2026)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T06:06:14.033Z"
-    },
-    {
-      "id": "1769148374033xodjn",
-      "type": "mail",
-      "text": "Nova fitxa creada per a Info: La salud mental no existe - Menos de 7 días para el próximo webinar",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T06:06:14.033Z"
-    },
-    {
-      "id": "1769148374033lyatu",
-      "type": "mail",
-      "text": "Correu vinculat a \"RE: Xarxes Horta\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T06:06:14.033Z"
-    },
-    {
-      "id": "1769148374033lm4ou",
-      "type": "mail",
-      "text": "Nova fitxa creada per a Info: [Wordfence Alert] Problems found on kiruri.cat",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T06:06:14.033Z"
-    },
-    {
-      "id": "1769148374033q6kph",
-      "type": "mail",
-      "text": "Nova fitxa creada per a Info: 2 notificaciones nuevas en WEB laGràfica desde 18:54 (21 de enero de 2026)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T06:06:14.033Z"
-    },
-    {
-      "id": "17691483740335nbu0",
-      "type": "mail",
-      "text": "Correu vinculat a \"RE: Xarxes Horta\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T06:06:14.033Z"
-    },
-    {
-      "id": "17691483740323o0lc",
-      "type": "mail",
-      "text": "Nova fitxa creada per a Info: [Ramon oromi] Reinicialització de la contrasenya",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T06:06:14.032Z"
-    },
-    {
-      "id": "176914837403289wap",
-      "type": "mail",
-      "text": "Correu vinculat a \"RE: Xarxes Horta\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T06:06:14.032Z"
-    },
-    {
-      "id": "1769148374032eixm5",
-      "type": "mail",
-      "text": "Nova fitxa creada per a Info: Your Weekly WP Mail SMTP Summary for taxisygruascapacico.com",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T06:06:14.032Z"
     }
   ],
   "contacts": [
@@ -5749,6 +6073,32 @@
     "team_auto_montse_580197",
     "team_auto_montse_580196",
     "team_auto_albap_18124",
-    "team_auto_montse_580198"
+    "team_auto_montse_580198",
+    "team_auto_albat_826",
+    "team_auto_montse_580199",
+    "team_auto_montse_580200",
+    "team_auto_albap_18125",
+    "team_auto_montse_580201",
+    "team_auto_omar_1272",
+    "team_auto_albap_18126",
+    "team_auto_montse_580202",
+    "team_auto_montse_580203",
+    "team_auto_neus_31129",
+    "team_auto_montse_580205",
+    "team_auto_montse_580204",
+    "team_auto_montse_580207",
+    "team_auto_montse_580206",
+    "auto_kit_580208",
+    "team_auto_montse_580210",
+    "team_auto_montse_580209",
+    "team_auto_montse_580208",
+    "auto_kit_580211",
+    "team_auto_montse_580211",
+    "team_auto_neus_31130",
+    "team_auto_neus_31131",
+    "team_auto_montse_580212",
+    "team_auto_neus_31132",
+    "team_auto_montse_580213",
+    "team_auto_albap_18127"
   ]
 }

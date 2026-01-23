@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../api';
-import { Mail, RefreshCw, ArrowRight, CheckCircle, Search, Archive, Trash2, Plus } from 'lucide-react';
+import { Mail, RefreshCw, ArrowRight, CheckCircle, Search, Archive, Trash2, Plus, Send, Inbox as InboxIcon } from 'lucide-react';
 import CardModal from './CardModal';
 import EmailComposer from './EmailComposer';
 
@@ -11,6 +11,8 @@ const Inbox = ({ selectedUsers }) => {
     const [selectedEmail, setSelectedEmail] = useState(null);
     const [users, setUsers] = useState([]);
     const [activeTab, setActiveTab] = useState('inbox'); // 'inbox' | 'archived'
+    const [activeFolder, setActiveFolder] = useState('INBOX'); // 'INBOX' | 'Sent'
+    const [repliedIds, setRepliedIds] = useState([]);
 
     // Email Composer State
     const [showEmailComposer, setShowEmailComposer] = useState(false);
@@ -43,13 +45,14 @@ const Inbox = ({ selectedUsers }) => {
         loadProcessed();
         loadDeleted();
         loadCards();
+        loadRepliedStatus();
     }, []);
 
     useEffect(() => {
         if (users.length > 0) {
             fetchEmails();
         }
-    }, [users, selectedUsers]);
+    }, [users, selectedUsers, activeFolder]);
 
     useEffect(() => {
         if (activeTab === 'archived') {
@@ -72,6 +75,11 @@ const Inbox = ({ selectedUsers }) => {
         setDeletedIds(ids.map(String));
     };
 
+    const loadRepliedStatus = async () => {
+        const ids = await api.getRepliedEmails();
+        setRepliedIds(ids);
+    };
+
     const loadCards = async () => {
         const data = await api.getData();
         setCards(data.cards || []);
@@ -89,7 +97,7 @@ const Inbox = ({ selectedUsers }) => {
     const fetchEmails = async () => {
         setLoading(true);
         try {
-            const folder = 'INBOX';
+            const folder = activeFolder;
             let usersToFetch = [];
             if (selectedUsers.length > 0) {
                 usersToFetch = users.filter(u => selectedUsers.includes(u.id));
@@ -119,6 +127,7 @@ const Inbox = ({ selectedUsers }) => {
 
             const sorted = allEmails.sort((a, b) => new Date(b.date) - new Date(a.date));
             setEmails(sorted);
+            loadRepliedStatus(); // Refresh status
         } catch (error) {
             console.error("Error fetching emails", error);
         } finally {
@@ -160,7 +169,8 @@ const Inbox = ({ selectedUsers }) => {
             to: email.from,
             subject: `Re: ${email.subject}`,
             body: `\n\n--- Missatge original ---\nDe: ${email.from}\nData: ${email.date}\nAssumpte: ${email.subject}\n\n${email.body}`,
-            memberId: email.ownerId || currentUser
+            memberId: email.ownerId || currentUser,
+            replyToId: email.id
         });
         setShowEmailComposer(true);
     };
@@ -269,7 +279,24 @@ const Inbox = ({ selectedUsers }) => {
                         </button>
                     </div>
 
-                    <div className="flex px-5 py-2 items-center justify-between bg-white/50">
+                    <div className="flex px-5 py-2 items-center justify-between bg-white/50 border-b border-gray-50">
+                        <div className="flex gap-2">
+                            <button
+                                onClick={() => setActiveFolder('INBOX')}
+                                className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest transition-all ${activeFolder === 'INBOX' ? 'bg-brand-black text-white' : 'bg-gray-100 text-gray-400 hover:bg-gray-200'}`}
+                            >
+                                <div className="flex items-center gap-1.5"><InboxIcon size={10} /> ENTRADA</div>
+                            </button>
+                            <button
+                                onClick={() => setActiveFolder('Sent')}
+                                className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest transition-all ${activeFolder === 'Sent' ? 'bg-brand-black text-white' : 'bg-gray-100 text-gray-400 hover:bg-gray-200'}`}
+                            >
+                                <div className="flex items-center gap-1.5"><Send size={10} /> ENVIATS</div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="flex px-5 py-2 items-center justify-between bg-white/30">
                         <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
                             {emails.length} Missatges
                         </span>
@@ -306,9 +333,12 @@ const Inbox = ({ selectedUsers }) => {
                                 </div>
                                 <div className="flex items-center gap-2 pr-2">
                                     {isProcessed && (
-                                        <div className="shrink-0 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center shadow-lg shadow-green-500/20 border-2 border-white">
+                                        <div className="shrink-0 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center shadow-lg shadow-green-500/20 border-2 border-white" title="Convertit a fitxa">
                                             <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
                                         </div>
+                                    )}
+                                    {repliedIds.includes(uniqueId) && (
+                                        <span className="px-2 py-0.5 bg-blue-50 text-blue-500 text-[8px] font-black uppercase tracking-tighter rounded border border-blue-100">Contestat</span>
                                     )}
                                     <h4 className={`text-sm font-bold truncate leading-tight ${isSelected ? 'text-gray-900' : 'text-gray-700'}`}>
                                         {email.subject}
@@ -480,11 +510,12 @@ const Inbox = ({ selectedUsers }) => {
             {/* Email Composer */}
             <EmailComposer
                 isOpen={showEmailComposer}
-                onClose={() => setShowEmailComposer(false)}
+                onClose={() => { setShowEmailComposer(false); loadRepliedStatus(); }}
                 memberId={emailComposerData.memberId}
                 defaultTo={emailComposerData.to}
                 defaultSubject={emailComposerData.subject}
                 defaultBody={emailComposerData.body}
+                replyToId={emailComposerData.replyToId}
             />
         </div>
     );

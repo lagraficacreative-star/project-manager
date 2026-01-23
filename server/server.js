@@ -706,6 +706,11 @@ app.post('/api/emails/mark-processed', (req, res) => {
     res.json({ success: true });
 });
 
+app.get('/api/emails/replied', (req, res) => {
+    const db = readDB();
+    res.json(db.replied_emails || []);
+});
+
 app.get('/api/emails/deleted', (req, res) => {
     const db = readDB();
     res.json(db.deleted_emails || []);
@@ -776,7 +781,7 @@ app.post('/api/emails/save-attachments', (req, res) => {
 });
 
 app.post('/api/emails/send', async (req, res) => {
-    const { memberId, to, subject, body } = req.body;
+    const { memberId, to, subject, body, replyToId } = req.body;
     const config = loadEnv();
 
     const CRED_MAP = {
@@ -821,6 +826,16 @@ app.post('/api/emails/send', async (req, res) => {
                 // Log activity
                 const db = readDB();
                 logActivity(db, 'mail', `Correu enviat a ${to}: ${subject}`, memberId);
+
+                // Track replied status
+                if (replyToId) {
+                    if (!db.replied_emails) db.replied_emails = [];
+                    const uniqueUid = `${memberId}-${replyToId}`;
+                    if (!db.replied_emails.includes(uniqueUid)) {
+                        db.replied_emails.push(uniqueUid);
+                    }
+                }
+
                 writeDB(db);
 
                 res.json(result);
