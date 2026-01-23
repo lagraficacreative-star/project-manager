@@ -54,6 +54,63 @@ app.use('/uploads', express.static(UPLOADS_DIR)); // Serve uploaded files
 // --- GLOBAL EMAIL CACHE ---
 const emailCache = {}; // { userId: { folder: { timestamp: 0, emails: [] } } }
 
+// --- EMAIL AUTOMATION LOGIC ---
+const processAutomations = (userId, emails) => {
+    if (!emails || !Array.isArray(emails)) return;
+
+    const db = readDB();
+    if (!db.automated_email_uids) db.automated_email_uids = [];
+
+    // Filter emails from Kit Digital sender
+    const targetSender = "no-reply-notifica@correo.gob.es";
+    const kitDigitalEmails = emails.filter(email => {
+        const from = email.from ? email.from.toLowerCase() : "";
+        return from.includes(targetSender);
+    });
+
+    if (kitDigitalEmails.length === 0) return;
+
+    let changes = false;
+    kitDigitalEmails.forEach(email => {
+        // Create a unique key for this email across all users/folders
+        const emailUid = `auto_${targetSender}_${email.id}`;
+
+        if (!db.automated_email_uids.includes(emailUid)) {
+            console.log(`🤖 [AUTOMATION] New Kit Digital notification found! Subject: ${email.subject}`);
+
+            // Ensure Kit Digital board exists and has columns
+            const boardId = 'b_kit_digital';
+            const colId = 'col_1_b_kit_digital'; // "por revisar"
+
+            const newCard = {
+                id: 'card_' + Date.now() + Math.random().toString(36).substr(2, 5),
+                boardId: boardId,
+                columnId: colId,
+                title: `[NOTIF] ${email.subject}`,
+                descriptionBlocks: [
+                    { id: 'desc_auto_1', type: 'text', text: `Correu automàtic detectat.\nRemitent: ${email.from}\nData: ${email.date}\n\nCos:\n${email.body.substring(0, 500)}...` }
+                ],
+                labels: ['Kit Digital', 'Automatitzat'],
+                createdAt: new Date().toISOString(),
+                comments: [],
+                checklist: [],
+                attachments: []
+            };
+
+            if (!db.cards) db.cards = [];
+            db.cards.push(newCard);
+            db.automated_email_uids.push(emailUid);
+
+            logActivity(db, 'mail', `Correu del Kit Digital detectat: ${email.subject}`, 'Sistema');
+            changes = true;
+        }
+    });
+
+    if (changes) {
+        writeDB(db);
+    }
+};
+
 const updateEmailCache = async (userId, folder = 'INBOX') => {
     try {
         const emails = await fetchRealEmails(userId, folder);
@@ -64,6 +121,9 @@ const updateEmailCache = async (userId, folder = 'INBOX') => {
                 emails: emails
             };
             console.log(`✅ Cache updated for ${userId} [${folder}]`);
+
+            // --- AUTOMATION: KIT DIGITAL ---
+            processAutomations(userId, emails);
         }
     } catch (err) {
         console.error(`❌ Sync error for ${userId}:`, err);
