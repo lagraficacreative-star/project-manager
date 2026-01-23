@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import Board from './components/Board';
 import Inbox from './components/Inbox';
@@ -12,7 +12,24 @@ import Licitaciones from './components/Licitaciones';
 import { api } from './api';
 import Calendar from './components/Calendar';
 import ChatWidget from './components/ChatWidget';
-import { LayoutDashboard, Inbox as InboxIcon, Users, Book, Calendar as CalIcon, Folder, Menu, X, Package, Gavel } from 'lucide-react';
+import { LayoutDashboard, Inbox as InboxIcon, Users, Book, Calendar as CalIcon, Folder, Menu, X, Package, Gavel, LogOut, ChevronRight, User as UserIcon } from 'lucide-react';
+
+// Sub-component to handle page title/context in TopBar
+const PageContext = () => {
+    const location = useLocation();
+    const path = location.pathname;
+
+    if (path === '/') return "Dashboard Principal";
+    if (path.startsWith('/board')) return "Gestión de Tablero";
+    if (path === '/inbox') return "Buzón de Comunicaciones";
+    if (path === '/agenda') return "Agenda & Contactos";
+    if (path === '/calendar') return "Calendario de Trabajo";
+    if (path === '/rrhh') return "Gestión de Equipo";
+    if (path === '/docs') return "Documentación de Empresa";
+    if (path === '/resources') return "Recursos & Assets";
+    if (path === '/licitaciones') return "Gestión de Licitaciones";
+    return "LaGràfica Project Manager";
+};
 
 function App() {
     const [selectedUsers, setSelectedUsers] = useState([]);
@@ -34,7 +51,6 @@ function App() {
 
     const clearFilters = () => setSelectedUsers([]);
 
-    // Persistent Management Unlock
     const [isManagementUnlocked, setIsManagementUnlocked] = useState(() => {
         return localStorage.getItem('isManagementUnlocked') === 'true';
     });
@@ -44,11 +60,18 @@ function App() {
         localStorage.setItem('isManagementUnlocked', unlocked ? 'true' : 'false');
     };
 
-    // User Session Logic
-    const [currentUserId, setCurrentUserId] = useState('montse');
+    const [currentUserId, setCurrentUserId] = useState(() => {
+        return localStorage.getItem('currentUserId') || 'montse';
+    });
+
     const currentUser = users.find(u => u.id === currentUserId) || { name: 'Montse', id: 'montse' };
 
+    useEffect(() => {
+        localStorage.setItem('currentUserId', currentUserId);
+    }, [currentUserId]);
+
     const navLinks = [
+        { to: "/", icon: <LayoutDashboard size={18} />, label: "Dashboard" },
         { to: "/inbox", icon: <InboxIcon size={18} />, label: "Buzón" },
         {
             to: "/agenda",
@@ -77,7 +100,6 @@ function App() {
                 setMessages(prev => {
                     if (data.length > prev.length) {
                         const newMsgs = data.slice(prev.length);
-                        // Check for messages from others
                         const fromOthers = newMsgs.filter(m => m.author !== currentUser.name);
                         if (fromOthers.length > 0) {
                             if (!isChatOpen) {
@@ -124,9 +146,9 @@ function App() {
                     </Link>
 
                     {/* Navigation */}
-                    <div className="space-y-1">
+                    <div className="flex-1 space-y-1 overflow-y-auto no-scrollbar">
                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Menú Principal</p>
-                        <nav className="flex flex-col gap-1">
+                        <nav className="flex flex-col gap-1 mb-8">
                             {navLinks.map(link => (
                                 <div key={link.to} className="flex flex-col">
                                     <Link
@@ -156,82 +178,117 @@ function App() {
                                 </div>
                             ))}
                         </nav>
-                    </div>
 
-                    {/* Members Filter (Vertical) */}
-                    <div className="flex flex-col min-h-0 border-t border-gray-100 pt-6 mb-4">
-                        <div className="flex justify-between items-center mb-4">
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Miembros del Equipo</p>
-                            <button onClick={clearFilters} className="text-[10px] font-bold text-brand-orange hover:underline">Todos</button>
-                        </div>
-                        <div className="grid grid-cols-4 gap-1.5 pr-1 pb-2">
-                            {users.map(u => {
-                                const isSelected = selectedUsers.includes(u.id);
-                                return (
-                                    <div
-                                        key={u.id}
-                                        onClick={() => toggleUserFilter(u.id)}
-                                        className={`flex flex-col items-center justify-center p-1.5 rounded-lg cursor-pointer transition-all border text-center
-                                            ${isSelected
-                                                ? 'bg-orange-50 border-brand-orange shadow-sm'
-                                                : 'bg-white border-transparent hover:bg-gray-50'}`}
-                                    >
-                                        <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-bold text-white mb-1 shrink-0
-                                            ${u.id === currentUserId ? 'bg-brand-orange ring-1 ring-orange-100' : 'bg-gray-400'}`}>
-                                            {u.avatar || u.name[0]}
+                        {/* Members Filter (Vertical List now to avoid overlap) */}
+                        <div className="border-t border-gray-100 pt-6 mb-4">
+                            <div className="flex justify-between items-center mb-4 px-2">
+                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Filtro de Equipo</p>
+                                <button onClick={clearFilters} className="text-[10px] font-bold text-brand-orange hover:underline uppercase tracking-widest">Todos</button>
+                            </div>
+                            <div className="flex flex-col gap-1.5">
+                                {users.map(u => {
+                                    const isSelected = selectedUsers.includes(u.id);
+                                    const isSessionUser = u.id === currentUserId;
+                                    return (
+                                        <div
+                                            key={u.id}
+                                            onClick={() => toggleUserFilter(u.id)}
+                                            className={`flex items-center gap-3 px-3 py-2 rounded-xl cursor-pointer transition-all border
+                                                ${isSelected
+                                                    ? 'bg-orange-50 border-brand-orange/20 shadow-sm'
+                                                    : 'bg-white border-transparent hover:bg-gray-50'}`}
+                                        >
+                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-black text-white shrink-0
+                                                ${isSessionUser ? 'bg-brand-orange ring-4 ring-orange-100 shadow-md' : 'bg-gray-400'}`}>
+                                                {u.avatar || u.name[0]}
+                                            </div>
+                                            <div className="min-w-0 flex-1">
+                                                <p className={`text-[10px] font-black leading-tight uppercase truncate ${isSelected ? 'text-brand-orange' : 'text-gray-600'}`}>{u.name}</p>
+                                                {isSessionUser && <p className="text-[8px] font-bold text-brand-orange uppercase tracking-widest">Sesión</p>}
+                                            </div>
+                                            {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-brand-orange"></div>}
                                         </div>
-                                        <p className={`text-[8px] font-black leading-tight uppercase truncate w-full ${isSelected ? 'text-brand-orange' : 'text-gray-500'}`}>{u.name.split(' ')[0]}</p>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                        {/* Switch Session Button */}
-                        <div className="mt-2 flex gap-1">
-                            {users.map(u => (
-                                <button
-                                    key={u.id}
-                                    onClick={() => setCurrentUserId(u.id)}
-                                    className={`text-[8px] px-1.5 py-0.5 rounded border ${currentUserId === u.id ? 'bg-gray-800 text-white border-gray-800' : 'bg-gray-50 text-gray-400 border-gray-200'} font-black uppercase`}
-                                >
-                                    Login {u.name.split(' ')[0]}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="mb-4 pt-4 border-t border-gray-100">
-                        <SidebarAI />
-                    </div>
-
-                    {/* Logout / Profile at bottom */}
-                    <div className="border-t border-gray-100 pt-6">
-                        <div className="flex items-center gap-3 p-2">
-                            <div className="w-10 h-10 rounded-full bg-brand-black text-white flex items-center justify-center font-bold">{currentUser.name[0]}</div>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-sm font-bold text-gray-800 truncate">{currentUser.name}</p>
-                                <p className="text-xs text-brand-orange font-medium hover:underline cursor-pointer uppercase">SALIR</p>
+                                    );
+                                })}
                             </div>
                         </div>
+
+                        <div className="pt-4 border-t border-gray-100">
+                            <SidebarAI />
+                        </div>
+                    </div>
+
+                    {/* Branding / Footer */}
+                    <div className="pt-4 border-t border-gray-100 opacity-20">
+                        <p className="text-[10px] font-black text-center uppercase tracking-[0.4em]">LAGRAFICA © 2025</p>
                     </div>
                 </aside>
 
                 {/* MOBILE HEADER */}
-                <header className="md:hidden bg-white border-b border-gray-100 p-4 flex items-center justify-between shrink-0 z-50">
+                <header className="md:hidden bg-white border-b border-gray-100 p-4 flex items-center justify-between shrink-0 z-50 shadow-sm">
                     <Link to="/" className="text-xl font-black tracking-tighter text-brand-black">
                         LaGràfica <span className="text-brand-orange">Studio</span>
                     </Link>
-                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 text-gray-500 bg-gray-50 rounded-xl active:scale-90 transition-all">
-                        {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                    </button>
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-brand-orange text-white flex items-center justify-center text-[10px] font-black">{currentUser.name[0]}</div>
+                        <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 text-gray-500 bg-gray-50 rounded-xl active:scale-90 transition-all">
+                            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                        </button>
+                    </div>
                 </header>
 
-                {/* Main Content Overlay for Mobile Menu */}
                 {isMenuOpen && (
                     <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 md:hidden" onClick={() => setIsMenuOpen(false)} />
                 )}
 
-                <main className="flex-1 flex flex-col min-w-0 overflow-y-auto overflow-x-hidden relative">
-                    <div className="p-4 md:p-8 lg:p-10">
+                {/* MAIN CONTENT AREA */}
+                <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative bg-brand-lightgray">
+
+                    {/* NEW GLOBAL TOPBAR / LOGIN MENU */}
+                    <header className="hidden md:flex items-center justify-between px-8 py-4 bg-white border-b border-gray-100 sticky top-0 z-[40] shadow-sm shrink-0">
+                        <div className="flex items-center gap-4">
+                            <div className="bg-brand-lightgray p-2 rounded-xl text-brand-orange">
+                                <UserIcon size={20} />
+                            </div>
+                            <div className="flex flex-col">
+                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Sección Actual</p>
+                                <h2 className="text-sm font-black text-brand-black uppercase tracking-tight"><PageContext /></h2>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                            {/* NEW LOGIN SELECTOR (SAME COLUMN AS MEMBERS FILTER BUT IN TOP BAR) */}
+                            <div className="flex items-center gap-2 bg-gray-50 p-1 rounded-2xl border border-gray-100">
+                                <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest ml-3 mr-2">Acceso Rápido:</span>
+                                {users.map(u => (
+                                    <button
+                                        key={u.id}
+                                        onClick={() => setCurrentUserId(u.id)}
+                                        className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${currentUserId === u.id ? 'bg-brand-black text-white shadow-xl shadow-black/10' : 'text-gray-400 hover:text-brand-orange hover:bg-white'}`}
+                                    >
+                                        {u.name.split(' ')[0]}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="h-8 w-px bg-gray-100 mx-2"></div>
+
+                            <div className="flex items-center gap-4 pl-4 pr-1 py-1 bg-white border border-gray-100 rounded-full shadow-inner group">
+                                <div className="flex flex-col items-end">
+                                    <span className="text-[10px] font-black text-brand-black uppercase leading-none">{currentUser.name}</span>
+                                    <span className="text-[8px] font-bold text-green-500 uppercase tracking-widest">En línea</span>
+                                </div>
+                                <div className="w-10 h-10 rounded-full bg-brand-orange text-white flex items-center justify-center font-black text-lg shadow-lg ring-4 ring-orange-50 transition-transform group-hover:scale-110">
+                                    {currentUser.name[0]}
+                                </div>
+                                <button className="p-3 text-gray-200 hover:text-red-500 transition-colors">
+                                    <LogOut size={18} />
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+
+                    <div className="flex-1 overflow-y-auto no-scrollbar relative p-4 md:p-8 lg:p-10">
                         <Routes>
                             <Route path="/" element={<Dashboard selectedUsers={selectedUsers} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
                             <Route path="/board/:boardId" element={<Board selectedUsers={selectedUsers} currentUser={currentUser} />} />
@@ -245,7 +302,10 @@ function App() {
                             <Route path="/licitaciones" element={<Licitaciones currentUser={currentUser} />} />
                             <Route path="*" element={<Dashboard selectedUsers={selectedUsers} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
                         </Routes>
+
+                        <div className="h-20"></div> {/* Space for chat widget */}
                     </div>
+
                     <ChatWidget
                         currentUser={currentUser}
                         messages={messages}
