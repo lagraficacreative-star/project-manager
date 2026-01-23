@@ -960,6 +960,30 @@
           "timestamp": "2026-01-23T08:46:18.898Z",
           "isEmail": true,
           "senderEmail": "\"Ramirez Manzano, Eloy\" <eloiramirez@gencat.cat>"
+        },
+        {
+          "id": "msg_1769166621170",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: \"Ramirez Manzano, Eloy\" <eloiramirez@gencat.cat>\nAssumpte: RE: Formulari amb accesibilitat\n\nDisculpa Montse, ens pots enviar la versió per poder-la revisar si us plau?\r\n\r\nEns agradaria deixar tancat aquest tema abans de les 15.00h d’avui.\r\n\r\nGràcies,\r\n\r\nEloi Ramírez Manzano\r\nSecretaria General del Consell\r\nDepartament d’Empresa i Treball\r\n\r\ncarrer Sepúlveda, 148-150  08011 Barcelona Tel. 00-34-93 444 51 25\r\neloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat> | CRL_Web<https://treball.g...",
+          "timestamp": "2026-01-23T11:10:21.170Z",
+          "isEmail": true,
+          "senderEmail": "\"Ramirez Manzano, Eloy\" <eloiramirez@gencat.cat>"
+        },
+        {
+          "id": "msg_1769166638786",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: \"Ramirez Manzano, Eloy\" <eloiramirez@gencat.cat>\nAssumpte: RE: Formulari amb accesibilitat\n\nDisculpa Montse, ens pots enviar la versió per poder-la revisar si us plau?\r\n\r\nEns agradaria deixar tancat aquest tema abans de les 15.00h d’avui.\r\n\r\nGràcies,\r\n\r\nEloi Ramírez Manzano\r\nSecretaria General del Consell\r\nDepartament d’Empresa i Treball\r\n\r\ncarrer Sepúlveda, 148-150  08011 Barcelona Tel. 00-34-93 444 51 25\r\neloiramirez@gencat.cat<mailto:eloiramirez@gencat.cat> | CRL_Web<https://treball.g...",
+          "timestamp": "2026-01-23T11:10:38.786Z",
+          "isEmail": true,
+          "senderEmail": "\"Ramirez Manzano, Eloy\" <eloiramirez@gencat.cat>"
+        },
+        {
+          "id": "msg_1769167357402",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: Montse Torrelles <montse@lagrafica.com>\nAssumpte: Re: Formulari amb accesibilitat\n\nEloy te l’envio:\r\n\r\nhttps://we.tl/t-TVEpEx2XzD￼\r\n\r\n> El 23 gen. 2026, a les 12:08, Ramirez Manzano, Eloy <eloiramirez@gencat.cat> va escriure:\r\n> \r\n> Disculpa Montse, ens pots enviar la versió per poder-la revisar si us plau?\r\n>  \r\n> Ens agradaria deixar tancat aquest tema abans de les 15.00h d’avui.\r\n>  \r\n> Gràcies,\r\n>  \r\n> Eloi Ramírez Manzano\r\n> Secretaria General del Consell\r\n> Departament d’E...",
+          "timestamp": "2026-01-23T11:22:37.402Z",
+          "isEmail": true,
+          "senderEmail": "Montse Torrelles <montse@lagrafica.com>"
         }
       ],
       "economic": {
@@ -2826,6 +2850,14 @@
           "timestamp": "2026-01-23T07:22:01.319Z",
           "isEmail": true,
           "senderEmail": "Mar Redondo Fornells <mredondo@dipsalut.cat>"
+        },
+        {
+          "id": "msg_1769167941585",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: Neus <neus@lagrafica.com>\nAssumpte: Re: Catàleg de Formació V2 2025\n\nHola Mar,\r\nadjuntem de nou el pdf amb els canvis,\r\n\r\n\r\n\r\n\r\nNEUS VERA\r\nDisseny gràfic\r\nneus@lagrafica.com <mailto:neus@lagrafica.com>\r\n973 21 63 63 \r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n> El 23 ene 2026, a las 8:20, Mar Redondo Fornells <mredondo@dipsalut.cat> escribió:\r\n> \r\n> I la pagina 74, on posa modalitat ha de ser en línia\r\n> \r\n> gràcies\r\n> \r\n> \t\r\n> Mar Redondo Fornells\r\n> Tècnica...",
+          "timestamp": "2026-01-23T11:32:21.585Z",
+          "isEmail": true,
+          "senderEmail": "Neus <neus@lagrafica.com>"
         }
       ]
     },
@@ -3285,6 +3317,225 @@
       ],
       "createdAt": "2026-01-23T10:56:31.204Z",
       "message_id": 31131,
+      "attachments": []
+    },
+    {
+      "id": "card_1769166452566oru0b",
+      "boardId": "b_design_ateixido",
+      "columnId": "c_todo_b_design_ateixido",
+      "title": "11266718 es su código de verificación de Microsoft OneDrive.",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Microsoft Notifications <no-reply@notify.microsoft.com>\n\n.headerBackgroundMsoTable {\nborder-spacing: 0px;\nwidth: 100%;\n}\n-->\n-->\n&#160;\n&#160;\n&#160;\n&#160;\nHola:\n&#160;\nPor motivos de seguridad, debe escribir el código siguiente para comprobar su cuenta y tener acceso a xarxes_lleidaenverd. El código solo funcionará durante 15 minutos y si se solicita un nuevo código, este código dejará de funcionar.\n&#160;\nCódigo de verificación de cuenta:\n11266718\n&#160;\n¿Hay problemas con el código?\n&#160;\nVea el error y asegúrese de que el identificador de correo electrónico está \"Q9TD0XC\". Si no es así, busque un correo electrónico actualizado o intente solicitar un nuevo código.\nDeclaración&#160;de&#160;privacidad\nEste correo electrónico se genera mediante el uso de Microsoft 365 por parte de Ajuntament de Lleida."
+        }
+      ],
+      "labels": [
+        "A. Teixidó",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T11:07:32.566Z",
+      "message_id": 827,
+      "attachments": []
+    },
+    {
+      "id": "card_17691671001087o4rf",
+      "boardId": "b_design_montse",
+      "columnId": "c_todo_b_design_montse",
+      "title": "pdf RSCAT",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Neus <neus@lagrafica.com>\n\n\r\nhttps://we.tl/t-TVEpEx2XzD <https://we.tl/t-TVEpEx2XzD>\r\n\r\n\r\n\r\nNEUS VERA\r\nDisseny gràfic\r\nneus@lagrafica.com <mailto:neus@lagrafica.com>\r\n973 21 63 63 \r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T11:18:20.108Z",
+      "message_id": 580215,
+      "attachments": []
+    },
+    {
+      "id": "card_1769167700143srqsg",
+      "boardId": "b_design_montse",
+      "columnId": "c_todo_b_design_montse",
+      "title": "La Gràfica: informe de actividad en Lleida",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Soporte - Businesses10 <support@businesses10.com>\n\nEstimado/a La Gràfica,\r\n\r\nNos ponemos en contacto con usted para informarle sobre la actividad reciente\r\nen Businesses10.com.  Utilice esta información para entender qué \r\ncontenido y estrategias están resonando con las audiencias de sus colegas y \r\nobtenga inspiración para ajustar su propio enfoque en las redes sociales para \r\nlograr el máximo impacto.\r\n\r\nSu propio anuncio en Lleida se encuentra aquí:\r\n\r\nhttps://www.businesses10.com/ES/Lleida/426770830837004/La-Gr%C3%A0fica?e=2094030252    \r\n\r\nPor favor, utilice el menú de inicio de sesión para acceder a la sección de \r\nadministración de su anuncio, o utilice este enlace directo para iniciar \r\nsesión: https://www.businesses10.com/login/426770830837004?e=2094030252. \r\n\r\nActividad reciente cerca de usted:\r\n\r\nAlfil.be Lleida\r\nhttps://www.businesses10.com/ES/Lleida/106980537649864/Alfil.be-Lleida?e=2094030252\r\n\r\n530 seguidores&nbsp;|&nbsp;1 publicación desde el último informe:\r\n\r\n-----------------------------------------------\r\n\r\n  [22/01"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T11:28:20.143Z",
+      "message_id": 580216,
+      "attachments": []
+    },
+    {
+      "id": "card_1769168070120tf0kr",
+      "boardId": "b_design_neus",
+      "columnId": "c_todo_b_design_neus",
+      "title": "formulari-ACS_2301.pdf has been previewed",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: WeTransfer <noreply@wetransfer.com>\n\nhttps://wetransfer.com/?utm_source=wt_sendgrid&utm_medium=email&utm_campaign=preview_email_notification&trk=preview_email_notification\r\n\r\nformulari-ACS_2301.pdf has been previewed\r\n\r\nLooks like someone's taken a peek—your file was viewed in preview mode. We'll only notify you the first time this happens for each transfer.\r\n\r\nPreview mode lets people see files instantly, without needing to download them first.\r\n\r\nSee transfer details https://wetransfer.com/transfers/sent/7a2631d2a43b3c4d5ea9c6a1dd4c953420260123111738?trk=preview_email_notification&utm_campaign=preview_email_notification&utm_medium=email&utm_source=wt_sendgrid\r\n\r\n----------------------------------------\r\n\r\nPreview link\r\n\r\nhttps://we.tl/t-UvapQT8AHm\r\n\r\n1 item sent\r\n\r\nformulari-ACS_2301.pdf\r\n\r\n77.5 MB\r\n\r\n• pdf\r\n\r\n----------------------------------------\r\n\r\nHelp https://wetransfer.zendesk.com/hc/en-us?utm_source=wt_sendgrid&utm_medium=email&utm_campaign=preview_email_notification&trk=preview_email_notification\r\n\r\nAbout us h"
+        }
+      ],
+      "labels": [
+        "Neus",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T11:34:30.120Z",
+      "message_id": 31133,
+      "attachments": []
+    },
+    {
+      "id": "card_17691687907741d9vm",
+      "boardId": "b_design_neus",
+      "columnId": "c_todo_b_design_neus",
+      "title": "Maquetació dossier pedagògic ANIMAC 2026",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: indrets de joc <indretsdejoc@gmail.com>\n\nHola Neus,\r\nsom la Jordina i la Maria i t'enviem tot el necessari per la maquetació del\r\ndossier.\r\nPer una banda, t'adjuntem el pdf del dossier amb la part de redacció i, per\r\naltra banda, un link de drive amb tot el suport d'imatges que s'inclouen\r\ndins el dossier.\r\n\r\nhttps://drive.google.com/drive/folders/1lzPAHNCoEySKKSOJCkOB2EozI1b94PZK?usp=sharing\r\n\r\n\r\nCom sabem que enguany serà força diferent als anteriors, ens agradaria\r\npoder trucar-nos per comentar-t'ho.\r\nQuan t'aniria bé?\r\n\r\n-- \r\n\r\nIndrets de Joc | Espai de joc itinerant  Jordina - 639814153 i Maria -\r\n722473936\r\n\r\ne: indretsdejoc@gmail.com\r\n"
+        }
+      ],
+      "labels": [
+        "Neus",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T11:46:30.774Z",
+      "message_id": 31134,
+      "attachments": [
+        {
+          "filename": "PROJECTE ANIMAC 2026 (2).pdf"
+        }
+      ]
+    },
+    {
+      "id": "card_1769168924084sqmes",
+      "boardId": "b_design_neus",
+      "columnId": "c_todo_b_design_neus",
+      "title": "Creativitat per a la VANGUARDIA",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Maria Domènech Nadal <mdomenech@paeria.cat>\n\nHola Neus,\r\nNecessitem creativitats per a la VANGUARDIA\r\n\r\n  *   Doble Roba 300x600px (màx. 49k). us poso a sota algun exemple:\r\n\r\n                                                    [cid:image002.jpg@01DC8C62.AAA843B0]    [cid:image003.jpg@01DC8C62.AAA843B0]\r\n\r\nGràcies\r\n\r\nMaria Domènech Nadal\r\nTècnica del Departament d'Audiovisuals - Regidoria de Cultura\r\n\r\nmdomenech@paeria.cat<mailto:correu@paeria.cat>\r\nTel.: 973 700 393  · ext. 1753\r\nAv. Blondel núm. 64, 25002 - Lleida\r\n\r\n\r\n\r\nDe: Anna Duran Padros <aduran@lavanguardia.es>\r\nEnviat: viernes, 23 de enero de 2026 12:24\r\nPer a: Edgar Burch Aguaviva <eburch@godostrategies.com>; Maria Domènech Nadal <mdomenech@paeria.cat>\r\nA/c: Jaume Marginet Molins <jmarginet@godostrategies.com>\r\nTema: RE: Documents Seguretat Social Godó\r\n\r\nPrecaució: Aquest correu electrònic s'ha generat fora dels sistemes de correu de l'Ajuntament de Lleida. Reviseu el correu abans de clicar els enllaços i/o obrir fitxers adjunts.\r\n\r\nBon dia a tothom,\r\n\r\nMaria, per a la"
+        }
+      ],
+      "labels": [
+        "Neus",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T11:48:44.084Z",
+      "message_id": 31135,
+      "attachments": [
+        {
+          "filename": "FESTIVAL ANIMAC LLEIDA 2026 - DIGITAL PAGAMENT.xlsx"
+        }
+      ]
+    },
+    {
+      "id": "card_1769169022107gcv2v",
+      "boardId": "b_design_montse",
+      "columnId": "c_todo_b_design_montse",
+      "title": "Re: Carnet Cister",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Maite Fusté <mfuste@concadebarbera.cat>\n\nHola Montse,\r\n\r\nAquesta mida resulta atractiva perquè és fàcil de manejar per a l’usuari i estaria bé un disseny més gràfic sense fotografies.\r\n\r\nEt detallo cosetes abans d'enviar-lo a les companyes:\r\n\r\nContraportada:\r\nS'hauria de posar el mapa de la campanya, aquest no correspon. A sota veuràs el mapa que van fer els que ens van fet el portal web del GR 175. És molt net, llegible i entenedor.  Aquí no hi han els pictogrames, i en el cas del carnet s'hi haurien de posar.\r\n\r\nOn hi ha la foto posar els logos.\r\n\r\nLogos: canviar el logo del Consell de l'Urgell, adjunto.\r\nEliminar el logo de Cultura (ja hi ha el genèric de la Generalitat amb els logos del Next)\r\nAfegir al costat del logo del Paratge de Poblet el logo de la Xiruca, adjunto.\r\n\r\nDades:\r\nCanviar NIF per DNI\r\nLa frase: \"*Per obtenir el diploma 6T s’enviarà via noticació electrònica. Envia degudament emplenat i escanejat el carnet 6T a: info@larutadelcister.info\". Estaria bé posar-la sota del nombre de dies. Corregir: noticació p"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T11:50:22.107Z",
+      "message_id": 580218,
+      "attachments": []
+    },
+    {
+      "id": "card_1769169742205ej3dp",
+      "boardId": "b_design_montse",
+      "columnId": "c_todo_b_design_montse",
+      "title": "Fwd: Akrocard 2000 S.L.: Su factura 202610019",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Manel Tejada <sat2@akrocard.com>\n\nBuenos días Alba,\r\n\r\nEl martes/miércoles de la semana que viene estarán las tarjetas listas.\r\n\r\nNecesito que me envíe el justificante del pago de la factura adjunta \r\npara poder dar la salida.\r\n\r\nGracias\r\n\r\nUn saludo\r\n\r\nManel Tejada\r\n\r\n\r\n\r\n\r\n-------- Mensaje reenviado --------\r\nAsunto: \tRe: Akrocard 2000 S.L.: Su factura 202610019\r\nFecha: \tFri, 9 Jan 2026 09:48:51 +0100\r\nDe: \talba@lagrafica.com <alba@lagrafica.com>\r\nPara: \tManel Tejada <sat2@akrocard.com>\r\nCC: \tMontse Torrelles <montse@lagrafica.com>\r\n\r\n\r\n\r\nMe lo puedes poner en la factura? No me sale…\r\n\r\nadjunto el pdf que me has enviado. Necesito pdf correcto para hacer \r\ntransferencia\r\n\r\nTema diseño esta todo bien?\r\n\r\n"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T12:02:22.205Z",
+      "message_id": 580219,
+      "attachments": [
+        {
+          "filename": "Parte del mensaje adjunto.htm"
+        },
+        {
+          "filename": "lagrafica-mail.gif"
+        },
+        {
+          "filename": "Parte del mensaje adjunto.htm"
+        },
+        {
+          "filename": "lagrafica-tel.gif"
+        },
+        {
+          "filename": "Parte del mensaje adjunto.htm"
+        },
+        {
+          "filename": "lagrafica-on.gif"
+        },
+        {
+          "filename": "Parte del mensaje adjunto.htm"
+        },
+        {
+          "filename": "lagrafica-logo.gif"
+        },
+        {
+          "filename": "Parte del mensaje adjunto.htm"
+        },
+        {
+          "filename": "Factura_202610019.pdf"
+        }
+      ]
+    },
+    {
+      "id": "card_1769169944615b961o",
+      "boardId": "b_design_neus",
+      "columnId": "c_todo_b_design_neus",
+      "title": "formulari-ACS_2301.pdf has been downloaded",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: WeTransfer <noreply@wetransfer.com>\n\nhttps://wetransfer.com/?utm_source=sendgrid&utm_medium=email&utm_campaign=TRN_TDL_12&trk=TRN_TDL_12\r\n\r\nYour files have been downloaded\r\n\r\n1 item, 77.5 MB in total • Expires on 26 January, 2026\r\n\r\nWe give you a heads up the first time your link transfer is downloaded (we won't email you each time). You can see if this transfer gets downloaded again in your account.\r\n\r\nCheck your transfers https://wetransfer.com/transfers/sent/7a2631d2a43b3c4d5ea9c6a1dd4c953420260123111738?trk=TRN_TDL_12&utm_campaign=TRN_TDL_12&utm_medium=email&utm_source=sendgrid\r\n\r\nhttps://servedbyadbutler.com/go2/;ID=188683;setID=933921;uid=f2ff4832d18665ecaa68e0920a93aa24-20260123120432;\r\n\r\n----------------------------------------\r\n\r\nDownload link\r\n\r\nhttps://we.tl/t-TVEpEx2XzD https://we.tl/t-TVEpEx2XzD?utm_source=sendgrid&utm_medium=email&utm_campaign=TRN_TDL_12&trk=TRN_TDL_12\r\n\r\n1 item\r\n\r\nformulari-ACS_2301.pdf\r\n\r\n77.5 MB\r\n\r\n----------------------------------------\r\n\r\nHelp https://wetransfer.zendesk.com/hc/en-us?ut"
+        }
+      ],
+      "labels": [
+        "Neus",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-23T12:05:44.615Z",
+      "message_id": 31136,
       "attachments": []
     }
   ],
@@ -3884,6 +4135,97 @@
   ],
   "activity": [
     {
+      "id": "176916994461765vd7",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Neus: formulari-ACS_2301.pdf has been downloaded",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T12:05:44.617Z"
+    },
+    {
+      "id": "1769169742205vgda7",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Montse: Fwd: Akrocard 2000 S.L.: Su factura 202610019",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T12:02:22.205Z"
+    },
+    {
+      "id": "1769169022108aplwa",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Montse: Re: Carnet Cister",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T11:50:22.108Z"
+    },
+    {
+      "id": "17691689240843y4hl",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Neus: Creativitat per a la VANGUARDIA",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T11:48:44.084Z"
+    },
+    {
+      "id": "1769168790774kgks0",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Neus: Maquetació dossier pedagògic ANIMAC 2026",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T11:46:30.774Z"
+    },
+    {
+      "id": "17691680701205xa3g",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Neus: formulari-ACS_2301.pdf has been previewed",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T11:34:30.120Z"
+    },
+    {
+      "id": "1769167941585fxmp3",
+      "type": "mail",
+      "text": "Correu vinculat a \"Re: Catàleg de Formació V2 2025\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T11:32:21.585Z"
+    },
+    {
+      "id": "176916770014393zmn",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Montse: La Gràfica: informe de actividad en Lleida",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T11:28:20.143Z"
+    },
+    {
+      "id": "1769167357402llril",
+      "type": "mail",
+      "text": "Correu vinculat a \"RE: Formulari amb accesibilitat\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T11:22:37.402Z"
+    },
+    {
+      "id": "176916710010880viy",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Montse: pdf RSCAT",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T11:18:20.108Z"
+    },
+    {
+      "id": "1769166638787glzu1",
+      "type": "mail",
+      "text": "Correu vinculat a \"RE: Formulari amb accesibilitat\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T11:10:38.787Z"
+    },
+    {
+      "id": "1769166621170av9z1",
+      "type": "mail",
+      "text": "Correu vinculat a \"RE: Formulari amb accesibilitat\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T11:10:21.170Z"
+    },
+    {
+      "id": "1769166452566ipr8m",
+      "type": "mail",
+      "text": "Nova fitxa creada per a A. Teixidó: 11266718 es su código de verificación de Microsoft OneDrive.",
+      "user": "Sistema",
+      "timestamp": "2026-01-23T11:07:32.566Z"
+    },
+    {
       "id": "1769165908136wkpo7",
       "type": "mail",
       "text": "Correu vinculat a \"Fwd: animac26_ cartells varis per imprimir\" (Mogut a Revisió)",
@@ -4141,97 +4483,6 @@
       "text": "Correu vinculat a \"Re: Cartró ploma gran i cartell esmorzar amb els autors\" (Mogut a Revisió)",
       "user": "Sistema",
       "timestamp": "2026-01-23T08:30:30.143Z"
-    },
-    {
-      "id": "17691570186597glpu",
-      "type": "mail",
-      "text": "Nova fitxa creada per a Montse: Nueva temporada de Las gotas de Dios, solo en Apple TV",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T08:30:18.659Z"
-    },
-    {
-      "id": "17691570186592glwz",
-      "type": "mail",
-      "text": "Correu vinculat a \"Re: Cartró ploma gran i cartell esmorzar amb els autors\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T08:30:18.659Z"
-    },
-    {
-      "id": "1769156802680yb3qj",
-      "type": "mail",
-      "text": "Correu vinculat a \"Re: pressupost gestió xarxes socials Baix Ebre Avant\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T08:26:42.680Z"
-    },
-    {
-      "id": "1769156445539i5p7z",
-      "type": "mail",
-      "text": "Nova fitxa creada per a Info:  montse ha realizado un comentario sobre la tarjeta web silvia-www.lleidajump.es de WEB laGràfica ",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T08:20:45.539Z"
-    },
-    {
-      "id": "1769156444423dsxih",
-      "type": "mail",
-      "text": "Correu vinculat a \"Re: Video Cloenda Casa d'Oficis Treball als barris (de data\r\n 31.10.2025)\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T08:20:44.423Z"
-    },
-    {
-      "id": "1769156444422tu4aj",
-      "type": "mail",
-      "text": "Correu vinculat a \"Accés a Xarxes\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T08:20:44.422Z"
-    },
-    {
-      "id": "176915643821554tn4",
-      "type": "mail",
-      "text": "Correu vinculat a \"Accés a Xarxes\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T08:20:38.215Z"
-    },
-    {
-      "id": "1769156430766q7suo",
-      "type": "mail",
-      "text": "Nova fitxa creada per a Neus: Tu tranquilidad y la de los tuyos por muy poco",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T08:20:30.766Z"
-    },
-    {
-      "id": "1769156418877m70sx",
-      "type": "mail",
-      "text": "Nova fitxa creada per a Montse: Re: Video Cloenda Casa d'Oficis Treball als barris (de data\r\n 31.10.2025)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T08:20:18.877Z"
-    },
-    {
-      "id": "1769156418877nin3y",
-      "type": "mail",
-      "text": "Correu vinculat a \"Accés a Xarxes\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T08:20:18.877Z"
-    },
-    {
-      "id": "1769156418876xv3cq",
-      "type": "mail",
-      "text": "Nova fitxa creada per a Montse: 50eu de Regalo en tu Seguro de Coche",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T08:20:18.876Z"
-    },
-    {
-      "id": "1769155396432m66zx",
-      "type": "mail",
-      "text": "Correu vinculat a \"Envío: Aviso de cortesía de una nueva notificación electrónica\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T08:03:16.432Z"
-    },
-    {
-      "id": "1769155396431365hw",
-      "type": "mail",
-      "text": "Correu vinculat a \"Envío: Aviso de cortesía de una nueva notificación electrónica\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T08:03:16.431Z"
     }
   ],
   "contacts": [
@@ -6099,6 +6350,19 @@
     "team_auto_montse_580212",
     "team_auto_neus_31132",
     "team_auto_montse_580213",
-    "team_auto_albap_18127"
+    "team_auto_albap_18127",
+    "team_auto_albat_827",
+    "team_auto_montse_580214",
+    "team_auto_albap_18128",
+    "team_auto_montse_580215",
+    "team_auto_albap_18129",
+    "team_auto_montse_580216",
+    "team_auto_montse_580217",
+    "team_auto_neus_31133",
+    "team_auto_neus_31134",
+    "team_auto_neus_31135",
+    "team_auto_montse_580218",
+    "team_auto_montse_580219",
+    "team_auto_neus_31136"
   ]
 }

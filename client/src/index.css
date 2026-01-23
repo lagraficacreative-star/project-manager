@@ -13,12 +13,50 @@
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   @apply bg-gray-300 rounded-full;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-brand-orange;
+}
+
+/* Rich Text Styles for contentEditable */
+.rich-text-content b,
+.rich-text-content strong {
+  font-weight: 900;
+}
+
+.rich-text-content i,
+.rich-text-content em {
+  font-style: italic;
+}
+
+.rich-text-content u {
+  text-decoration: underline;
+}
+
+[contenteditable]:empty:before {
+  content: attr(placeholder);
+  color: #9ca3af;
+  pointer-events: none;
+  display: block;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #f97316;
 }

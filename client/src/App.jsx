@@ -34,8 +34,19 @@ function App() {
 
     const clearFilters = () => setSelectedUsers([]);
 
-    // Assume current user is Montse for now (simulated session)
-    const currentUser = users.find(u => u.id === 'montse') || { name: 'Montse', id: 'montse' };
+    // Persistent Management Unlock
+    const [isManagementUnlocked, setIsManagementUnlocked] = useState(() => {
+        return localStorage.getItem('isManagementUnlocked') === 'true';
+    });
+
+    const unlockManagement = (unlocked) => {
+        setIsManagementUnlocked(unlocked);
+        localStorage.setItem('isManagementUnlocked', unlocked ? 'true' : 'false');
+    };
+
+    // User Session Logic
+    const [currentUserId, setCurrentUserId] = useState('montse');
+    const currentUser = users.find(u => u.id === currentUserId) || { name: 'Montse', id: 'montse' };
 
     const navLinks = [
         { to: "/inbox", icon: <InboxIcon size={18} />, label: "Buzón" },
@@ -49,10 +60,10 @@ function App() {
             ]
         },
         { to: "/calendar", icon: <CalIcon size={18} />, label: "Calendario" },
-        { to: "/rrhh", icon: <Users size={18} />, label: "Equip" },
+        { to: "/rrhh", icon: <Users size={18} />, label: "Equipo" },
         { to: "/docs", icon: <Folder size={18} />, label: "Docs" },
         { to: "/resources", icon: <Package size={18} />, label: "Recursos" },
-        { to: "/licitaciones", icon: <Gavel size={18} />, label: "Licitacions" },
+        { to: "/licitaciones", icon: <Gavel size={18} />, label: "Licitaciones" },
     ];
 
     useEffect(() => {
@@ -73,7 +84,7 @@ function App() {
                                 setUnreadCount(u => u + fromOthers.length);
                                 if (Notification.permission === "granted" && document.hidden) {
                                     const latest = fromOthers[fromOthers.length - 1];
-                                    new Notification(`Nou missatge de ${latest.author}`, {
+                                    new Notification(`Nuevo mensaje de ${latest.author}`, {
                                         body: latest.text,
                                         icon: '/favicon.ico'
                                     });
@@ -148,10 +159,10 @@ function App() {
                     </div>
 
                     {/* Members Filter (Vertical) */}
-                    <div className="flex flex-col min-h-0 border-t border-gray-100 pt-6">
+                    <div className="flex flex-col min-h-0 border-t border-gray-100 pt-6 mb-4">
                         <div className="flex justify-between items-center mb-4">
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Membres de l'Equip</p>
-                            <button onClick={clearFilters} className="text-[10px] font-bold text-brand-orange hover:underline">Tots</button>
+                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Miembros del Equipo</p>
+                            <button onClick={clearFilters} className="text-[10px] font-bold text-brand-orange hover:underline">Todos</button>
                         </div>
                         <div className="grid grid-cols-4 gap-1.5 pr-1 pb-2">
                             {users.map(u => {
@@ -166,7 +177,7 @@ function App() {
                                                 : 'bg-white border-transparent hover:bg-gray-50'}`}
                                     >
                                         <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-bold text-white mb-1 shrink-0
-                                            ${u.id === 'montse' ? 'bg-brand-orange ring-1 ring-orange-100' : 'bg-gray-400'}`}>
+                                            ${u.id === currentUserId ? 'bg-brand-orange ring-1 ring-orange-100' : 'bg-gray-400'}`}>
                                             {u.avatar || u.name[0]}
                                         </div>
                                         <p className={`text-[8px] font-black leading-tight uppercase truncate w-full ${isSelected ? 'text-brand-orange' : 'text-gray-500'}`}>{u.name.split(' ')[0]}</p>
@@ -174,17 +185,31 @@ function App() {
                                 );
                             })}
                         </div>
+                        {/* Switch Session Button */}
+                        <div className="mt-2 flex gap-1">
+                            {users.map(u => (
+                                <button
+                                    key={u.id}
+                                    onClick={() => setCurrentUserId(u.id)}
+                                    className={`text-[8px] px-1.5 py-0.5 rounded border ${currentUserId === u.id ? 'bg-gray-800 text-white border-gray-800' : 'bg-gray-50 text-gray-400 border-gray-200'} font-black uppercase`}
+                                >
+                                    Login {u.name.split(' ')[0]}
+                                </button>
+                            ))}
+                        </div>
                     </div>
 
-                    <SidebarAI />
+                    <div className="mb-4 pt-4 border-t border-gray-100">
+                        <SidebarAI />
+                    </div>
 
                     {/* Logout / Profile at bottom */}
                     <div className="border-t border-gray-100 pt-6">
                         <div className="flex items-center gap-3 p-2">
-                            <div className="w-10 h-10 rounded-full bg-brand-black text-white flex items-center justify-center font-bold">M</div>
+                            <div className="w-10 h-10 rounded-full bg-brand-black text-white flex items-center justify-center font-bold">{currentUser.name[0]}</div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-sm font-bold text-gray-800 truncate">Montse Torrelles</p>
-                                <p className="text-xs text-brand-orange font-medium hover:underline cursor-pointer">SORTIR</p>
+                                <p className="text-sm font-bold text-gray-800 truncate">{currentUser.name}</p>
+                                <p className="text-xs text-brand-orange font-medium hover:underline cursor-pointer uppercase">SALIR</p>
                             </div>
                         </div>
                     </div>
@@ -208,17 +233,17 @@ function App() {
                 <main className="flex-1 flex flex-col min-w-0 overflow-y-auto overflow-x-hidden relative">
                     <div className="p-4 md:p-8 lg:p-10">
                         <Routes>
-                            <Route path="/" element={<Dashboard selectedUsers={selectedUsers} />} />
-                            <Route path="/board/:boardId" element={<Board selectedUsers={selectedUsers} />} />
-                            <Route path="/inbox" element={<Inbox selectedUsers={selectedUsers} />} />
-                            <Route path="/rrhh" element={<HRManagement selectedUsers={selectedUsers} />} />
-                            <Route path="/docs" element={<CompanyDocs selectedUsers={selectedUsers} />} />
-                            <Route path="/agenda" element={<AgendaGPT selectedUsers={selectedUsers} />} />
-                            <Route path="/agenda/:filterType" element={<AgendaGPT selectedUsers={selectedUsers} />} />
-                            <Route path="/calendar" element={<Calendar />} />
-                            <Route path="/resources" element={<Resources />} />
-                            <Route path="/licitaciones" element={<Licitaciones />} />
-                            <Route path="*" element={<Dashboard selectedUsers={selectedUsers} />} />
+                            <Route path="/" element={<Dashboard selectedUsers={selectedUsers} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
+                            <Route path="/board/:boardId" element={<Board selectedUsers={selectedUsers} currentUser={currentUser} />} />
+                            <Route path="/inbox" element={<Inbox selectedUsers={selectedUsers} currentUser={currentUser} />} />
+                            <Route path="/rrhh" element={<HRManagement selectedUsers={selectedUsers} currentUser={currentUser} />} />
+                            <Route path="/docs" element={<CompanyDocs selectedUsers={selectedUsers} currentUser={currentUser} />} />
+                            <Route path="/agenda" element={<AgendaGPT selectedUsers={selectedUsers} currentUser={currentUser} />} />
+                            <Route path="/agenda/:filterType" element={<AgendaGPT selectedUsers={selectedUsers} currentUser={currentUser} />} />
+                            <Route path="/calendar" element={<Calendar currentUser={currentUser} />} />
+                            <Route path="/resources" element={<Resources currentUser={currentUser} />} />
+                            <Route path="/licitaciones" element={<Licitaciones currentUser={currentUser} />} />
+                            <Route path="*" element={<Dashboard selectedUsers={selectedUsers} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
                         </Routes>
                     </div>
                     <ChatWidget

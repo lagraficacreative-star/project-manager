@@ -4,16 +4,15 @@ import { api } from '../api';
 import { Trash2, Edit2, Plus, Layout, Palette, Code, Smartphone, Clipboard, DollarSign, Receipt, Mail, Send, Calendar, Clock, Bell, Search, Mic, ChevronRight, Square, Play, Bot, Briefcase, FileText, Gavel, Archive, Check, Lock, Calculator, Upload } from 'lucide-react';
 
 
-const Dashboard = ({ selectedUsers }) => {
+const Dashboard = ({ selectedUsers, currentUser, isManagementUnlocked, unlockManagement }) => {
     const navigate = useNavigate();
-    const CURRENT_USER_ID = 'montse'; // Hardcoded for this session
+    const CURRENT_USER_ID = currentUser.id;
 
     const [boards, setBoards] = useState([]);
-    const [allCards, setAllCards] = useState([]); // State for all cards
-    const [users, setUsers] = useState([]); // Add users state
+    const [allCards, setAllCards] = useState([]);
+    const [users, setUsers] = useState([]);
     const [stats, setStats] = useState({ active: 0, completed: 0, totalProjects: 0 });
 
-    // Time Tracking State
     const [activeEntry, setActiveEntry] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(0);
 
@@ -22,12 +21,9 @@ const Dashboard = ({ selectedUsers }) => {
     const [newNote, setNewNote] = useState('');
     const [chatMessage, setChatMessage] = useState('');
 
-    // Management Access
-    const [isManagementUnlocked, setIsManagementUnlocked] = useState(false);
     const [managementPassword, setManagementPassword] = useState('');
     const [showPasswordInput, setShowPasswordInput] = useState(false);
 
-    // Global Search State
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState({ cards: [], docs: [] });
     const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -50,7 +46,6 @@ const Dashboard = ({ selectedUsers }) => {
         } catch (err) { }
     };
 
-    // Timer Interval
     useEffect(() => {
         let interval;
         if (activeEntry) {
@@ -82,7 +77,6 @@ const Dashboard = ({ selectedUsers }) => {
             console.error("Error loading users", error);
         }
 
-        // Check Time Status
         try {
             const entries = await api.getTimeEntries(CURRENT_USER_ID);
             const ongoing = entries.find(e => !e.end);
@@ -93,9 +87,8 @@ const Dashboard = ({ selectedUsers }) => {
             console.error("Error loading time entries", error);
         }
 
-        // Mock emails
-        const emailData = await api.getEmails('dummy_user_1', 'INBOX');
-        setEmails(emailData.slice(0, 3));
+        const emailData = await api.getEmails(CURRENT_USER_ID, 'INBOX');
+        setEmails(Array.isArray(emailData) ? emailData.slice(0, 3) : []);
     };
 
 
@@ -132,15 +125,13 @@ const Dashboard = ({ selectedUsers }) => {
         return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     };
 
-    // --- Widgets ---
-
     const DepartmentCard = ({ title, icon: Icon, count, onClick }) => (
         <div onClick={onClick} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center hover:shadow-md hover:border-brand-orange/30 transition-all cursor-pointer h-40">
             <div className={`p-3 rounded-full mb-3 ${onClick ? 'bg-orange-50 text-brand-orange' : 'bg-gray-50 text-gray-400'}`}>
                 <Icon size={24} />
             </div>
             <h3 className="font-bold text-sm uppercase text-gray-800 mb-1">{title}</h3>
-            <p className="text-xs text-gray-400">{count} Projectes</p>
+            <p className="text-xs text-gray-400">{count} Proyectos</p>
         </div>
     );
 
@@ -176,51 +167,12 @@ const Dashboard = ({ selectedUsers }) => {
     const handleUnlockManagement = (e) => {
         e.preventDefault();
         if (managementPassword === 'lagrafica2025') {
-            setIsManagementUnlocked(true);
+            unlockManagement(true);
             setManagementPassword('');
+            setShowPasswordInput(false);
         } else {
             alert('Contraseña incorrecta');
         }
-    };
-
-    const handleSearch = async (query) => {
-        setSearchQuery(query);
-        if (query.length < 2) {
-            setSearchResults({ cards: [], docs: [] });
-            setIsSearchOpen(false);
-            return;
-        }
-
-        const db = await api.getData();
-
-        // Search in Cards
-        const foundCards = (db.cards || []).filter(c =>
-            c.title?.toLowerCase().includes(query.toLowerCase()) ||
-            (c.descriptionBlocks || []).some(b => b.text?.toLowerCase().includes(query.toLowerCase())) ||
-            (c.comments || []).some(com => com.text?.toLowerCase().includes(query.toLowerCase()))
-        ).map(c => ({
-            ...c,
-            boardTitle: db.boards?.find(b => b.id === c.boardId)?.title || 'Tablero'
-        }));
-
-        // Search in local docs/checklists (simulated)
-        const savedDocs = JSON.parse(localStorage.getItem('companyChecklists') || '{}');
-        const foundDocs = [];
-        Object.entries(savedDocs).forEach(([cat, items]) => {
-            (items || []).forEach(item => {
-                if (item.text?.toLowerCase().includes(query.toLowerCase())) {
-                    foundDocs.push({ category: cat, text: item.text, id: item.id });
-                }
-            });
-        });
-
-        const notes = localStorage.getItem('companyNotes') || '';
-        if (notes.toLowerCase().includes(query.toLowerCase())) {
-            foundDocs.push({ category: 'Notes', text: 'Coincidencia en Bloc de Notes', id: 'notes' });
-        }
-
-        setSearchResults({ cards: foundCards, docs: foundDocs });
-        setIsSearchOpen(true);
     };
 
     const handleTrelloImport = async (e) => {
@@ -233,18 +185,20 @@ const Dashboard = ({ selectedUsers }) => {
                 const trelloData = JSON.parse(event.target.result);
                 const result = await api.importTrello(importingBoardId, trelloData);
                 if (result.success) {
-                    alert(`Importació completada: ${result.count} targetes afegides.`);
+                    alert(`Importación completada: ${result.count} tarjetas añadidas.`);
                     setIsImportModalOpen(false);
                     loadData();
                 } else {
-                    alert('Error en la importació: ' + (result.error || 'Desconegut'));
+                    alert('Error en la importación: ' + (result.error || 'Desconocido'));
                 }
             } catch (err) {
-                alert('Error al llegir el fitxer JSON');
+                alert('Error al leer el fichero JSON');
             }
         };
         reader.readAsText(file);
     };
+
+    const getCount = (bid) => allCards.filter(c => c.boardId === bid).length;
 
     return (
         <div className="flex flex-col gap-10 pb-10">
@@ -266,7 +220,7 @@ const Dashboard = ({ selectedUsers }) => {
                         onClick={() => navigate('/docs')}
                         className="bg-brand-black text-white px-6 py-2.5 rounded-2xl text-[10px] font-black tracking-widest hover:bg-brand-orange transition-all shadow-lg shadow-black/10"
                     >
-                        DOCUMENTACIÓ
+                        DOCUMENTACIÓN
                     </button>
                 </div>
             </div>
@@ -279,19 +233,19 @@ const Dashboard = ({ selectedUsers }) => {
                             <div className="p-2.5 bg-brand-orange rounded-2xl shadow-lg shadow-orange-500/30">
                                 <Bot size={28} className="text-white" />
                             </div>
-                            <span className="text-xs font-black uppercase tracking-[0.2em] text-orange-200/80">Intel·ligència Artificial</span>
+                            <span className="text-xs font-black uppercase tracking-[0.2em] text-orange-200/80">Inteligencia Artificial</span>
                         </div>
                         <h1 className="text-4xl md:text-5xl font-black leading-[1.1] tracking-tighter">
-                            Hola Montse, <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-orange-400">en què et puc ajudar?</span>
+                            Hola {currentUser.name.split(' ')[0]}, <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-orange-400">¿en qué puedo ayudarte?</span>
                         </h1>
                         <p className="text-gray-400 text-sm md:text-base font-medium max-w-xl leading-relaxed">
-                            Puc gestionar la teva agenda, resumir correus, crear fitxes de projecte o buscar qualsevol document de l'estudi en segons.
+                            Puedo gestionar tu agenda, resumir correos, crear fichas de proyecto o buscar cualquier documento del estudio en segundos.
                         </p>
                         <div className="relative max-w-2xl group">
                             <input
                                 type="text"
-                                placeholder="Escriu la teva consulta o petició..."
+                                placeholder="Escribe tu consulta o petición..."
                                 className="w-full bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 rounded-[2rem] py-5 pl-8 pr-20 text-lg outline-none focus:ring-2 focus:ring-brand-orange/50 transition-all placeholder:text-white/20 shadow-2xl"
                                 onKeyDown={(e) => e.key === 'Enter' && navigate('/agenda')}
                             />
@@ -303,7 +257,7 @@ const Dashboard = ({ selectedUsers }) => {
                             </button>
                         </div>
                         <div className="flex flex-wrap gap-3 pt-2">
-                            {['Resumir emails', 'Nova tasca', 'Contacte client'].map(tag => (
+                            {['Resumir emails', 'Nueva tarea', 'Contacto cliente'].map(tag => (
                                 <button key={tag} onClick={() => navigate('/agenda')} className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-[10px] font-black uppercase tracking-widest text-gray-400 transition-all">
                                     {tag}
                                 </button>
@@ -321,227 +275,160 @@ const Dashboard = ({ selectedUsers }) => {
                 </div>
             </div>
 
-            {/* Trello Import Modal */}
-            {
-                isImportModalOpen && (
-                    <div className="fixed inset-0 bg-brand-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-                        <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl">
-                            <h3 className="text-xl font-black text-gray-800 uppercase tracking-tight mb-4">Importar des de Trello</h3>
-                            <p className="text-sm text-gray-500 mb-6">Selecciona el tauler de destí i puja el fitxer JSON exportat de Trello.</p>
-
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tauler de Destí</label>
-                                    <select
-                                        className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-brand-orange/20"
-                                        value={importingBoardId || ''}
-                                        onChange={(e) => setImportingBoardId(e.target.value)}
-                                    >
-                                        <option value="">Selecciona un tauler...</option>
-                                        {boards.map(b => (
-                                            <option key={b.id} value={b.id}>{b.title}</option>
-                                        ))}
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Fitxer JSON de Trello</label>
-                                    <input
-                                        type="file"
-                                        accept=".json"
-                                        onChange={handleTrelloImport}
-                                        disabled={!importingBoardId}
-                                        className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-brand-orange hover:file:bg-orange-100 cursor-pointer disabled:opacity-50"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="mt-8 flex justify-end gap-3">
-                                <button
-                                    onClick={() => setIsImportModalOpen(false)}
-                                    className="px-6 py-2 text-sm font-bold text-gray-400 hover:text-gray-600"
-                                >
-                                    CANCEL·LAR
-                                </button>
-                            </div>
-                        </div>
+            {/* Boards Grid */}
+            <div className="flex flex-col gap-10">
+                {/* ROW 1: SERVICES */}
+                <div>
+                    <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Servicios</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <DepartmentCard title="LG - Diseño" icon={Palette} count={getCount('b_design')} onClick={() => navigate('/board/b_design')} />
+                        <DepartmentCard title="REDES SOCIALES" icon={Smartphone} count={getCount('b_social')} onClick={() => navigate('/board/b_social')} />
+                        <DepartmentCard title="WEB laGràfica" icon={Code} count={getCount('b_web')} onClick={() => navigate('/board/b_web')} />
+                        <DepartmentCard title="Proyectos IA" icon={Bot} count={getCount('b_ai')} onClick={() => navigate('/board/b_ai')} />
                     </div>
-                )
-            }
+                </div>
 
-            {/* Helper for counts */}
-            {
-                (() => {
-                    const getCount = (bid) =>
-                        boards.find(b => b.id === bid)?.columns?.reduce((acc, col) =>
-                            acc + (allCards.filter(c => {
-                                if (c.columnId !== col.id) return false;
-                                if (selectedUsers.length > 0) {
-                                    const responsible = c.responsibleId || c.assignee;
-                                    return selectedUsers.includes(responsible);
-                                }
-                                return true;
-                            })?.length || 0), 0) || 0;
+                {/* ROW 2: CLIENTS */}
+                <div>
+                    <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Clientes del Estudio</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <DepartmentCard title="LLEIDA EN VERD 2025" icon={Layout} count={getCount('b_lleida')} onClick={() => navigate('/board/b_lleida')} />
+                        <DepartmentCard title="ANIMAC26" icon={Play} count={getCount('b_animac')} onClick={() => navigate('/board/b_animac')} />
+                        <DepartmentCard title="Imo" icon={Briefcase} count={getCount('b_imo')} onClick={() => navigate('/board/b_imo')} />
+                        <DepartmentCard title="EXPOSICIÓN DIBA 2026" icon={FileText} count={getCount('b_diba')} onClick={() => navigate('/board/b_diba')} />
+                    </div>
+                </div>
 
-                    return (
-                        <div className="flex flex-col gap-10">
-                            {/* ROW 1: SERVICES */}
-                            <div>
-                                <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Serveis</h2>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                                    <DepartmentCard title="LG - Disseny" icon={Palette} count={getCount('b_design')} onClick={() => navigate('/board/b_design')} />
-                                    <DepartmentCard title="XARXES SOCIALS" icon={Smartphone} count={getCount('b_social')} onClick={() => navigate('/board/b_social')} />
-                                    <DepartmentCard title="WEB laGràfica" icon={Code} count={getCount('b_web')} onClick={() => navigate('/board/b_web')} />
-                                    <DepartmentCard title="Projectes IA" icon={Bot} count={getCount('b_ai')} onClick={() => navigate('/board/b_ai')} />
-                                </div>
+                {/* ROW 3: GESTIÓ (Password Protected) */}
+                <div className="bg-gray-50/50 rounded-[2.5rem] p-8 border border-gray-100 mt-2">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 bg-brand-orange/10 rounded-xl text-brand-orange">
+                                <Lock size={18} />
                             </div>
+                            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider">Gestión Administrativa</h2>
+                        </div>
+                        {!isManagementUnlocked && (
+                            <button
+                                onClick={() => setShowPasswordInput(!showPasswordInput)}
+                                className="text-[10px] font-black text-brand-orange uppercase tracking-widest hover:underline"
+                            >
+                                {showPasswordInput ? 'CANCELAR' : 'DESBLOQUEAR ACCESO'}
+                            </button>
+                        )}
+                    </div>
 
-                            {/* ROW 2: CLIENTS */}
-                            <div>
-                                <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Clients de l'Estudi</h2>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                                    <DepartmentCard title="LLEIDA EN VERD 2025" icon={Layout} count={getCount('b_lleida')} onClick={() => navigate('/board/b_lleida')} />
-                                    <DepartmentCard title="ANIMAC26" icon={Play} count={getCount('b_animac')} onClick={() => navigate('/board/b_animac')} />
-                                    <DepartmentCard title="Imo" icon={Briefcase} count={getCount('b_imo')} onClick={() => navigate('/board/b_imo')} />
-                                    <DepartmentCard title="EXPOSICIÓ DIBA 2026" icon={FileText} count={getCount('b_diba')} onClick={() => navigate('/board/b_diba')} />
+                    {!isManagementUnlocked ? (
+                        <div className="flex flex-col items-center justify-center py-12 text-center">
+                            {showPasswordInput ? (
+                                <form onSubmit={handleUnlockManagement} className="flex flex-col items-center gap-4 w-full max-w-xs">
+                                    <input
+                                        type="password"
+                                        placeholder="Introduce la contraseña..."
+                                        className="w-full px-5 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-orange/20"
+                                        value={managementPassword}
+                                        onChange={(e) => setManagementPassword(e.target.value)}
+                                        autoFocus
+                                    />
+                                    <button type="submit" className="w-full bg-brand-orange text-white py-3 rounded-2xl text-xs font-black tracking-widest uppercase shadow-lg shadow-orange-500/20">
+                                        ENTRAR
+                                    </button>
+                                </form>
+                            ) : (
+                                <>
+                                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm border border-gray-100">
+                                        <Lock size={24} className="text-gray-300" />
+                                    </div>
+                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Sección Privada</p>
+                                </>
+                            )}
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <DepartmentCard title="PRESUPUESTOS" icon={Calculator} count={getCount('b_budget')} onClick={() => navigate('/board/b_budget')} />
+                            <DepartmentCard title="FACTURACIÓN" icon={Receipt} count={getCount('b_billing')} onClick={() => navigate('/board/b_billing')} />
+                            <DepartmentCard title="KIT DIGITAL" icon={Gavel} count={getCount('b_kit_digital')} onClick={() => navigate('/board/b_kit_digital')} />
+                        </div>
+                    )}
+                </div>
+
+                {/* ROW 4: URGENT NOTICES */}
+                <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100 flex flex-col h-full border-l-4 border-l-brand-orange">
+                    <div className="flex items-center justify-between mb-6 md:mb-8">
+                        <div className="flex items-center gap-3">
+                            <Bell size={20} className="text-brand-orange" />
+                            <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Avisos Urgentes</h3>
+                        </div>
+                        <span className="text-[10px] font-black bg-orange-50 text-brand-orange px-3 py-1 rounded-full">{urgentNotes.filter(n => !n.done).length} PENDIENTES</span>
+                    </div>
+                    <div className="flex gap-2 mb-6">
+                        <input
+                            type="text"
+                            placeholder="¿Qué hay que hacer ahora mismo?..."
+                            className="flex-1 px-5 py-4 bg-gray-50 rounded-2xl text-sm font-bold border border-gray-100 outline-none focus:ring-2 focus:ring-brand-orange/10 transition-all"
+                            value={newNote}
+                            onChange={(e) => setNewNote(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && addUrgentNote()}
+                        />
+                        <button onClick={addUrgentNote} className="bg-brand-orange text-white px-5 rounded-2xl shadow-lg shadow-orange-500/20 active:scale-90 transition-all">
+                            <Plus size={24} />
+                        </button>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                        {urgentNotes.map(note => (
+                            <div key={note.id} className={`flex items-start gap-4 p-5 rounded-2xl border transition-all ${note.done ? 'bg-gray-50 border-gray-100 opacity-60' : 'bg-white border-orange-100 shadow-sm border-l-4 border-l-brand-orange'}`}>
+                                <button onClick={() => toggleUrgentNoteDone(note.id)} className={`w-6 h-6 shrink-0 rounded-lg border-2 ${note.done ? 'bg-brand-orange border-brand-orange text-white' : 'bg-white border-brand-orange/30 text-transparent'} flex items-center justify-center transition-all mt-0.5`}>
+                                    <Check size={14} strokeWidth={3} />
+                                </button>
+                                <div className="flex-1 min-w-0">
+                                    <p className={`text-sm font-black whitespace-pre-wrap leading-tight ${note.done ? 'line-through text-gray-400' : 'text-gray-800'}`}>
+                                        {note.text}
+                                    </p>
+                                    <p className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-widest">{note.date}</p>
                                 </div>
-                            </div>
-
-                            {/* ROW 3: GESTIÓ (Password Protected) */}
-                            <div className="bg-gray-50/50 rounded-[2.5rem] p-8 border border-gray-100 mt-2 mb-2">
-                                <div className="flex items-center justify-between mb-6">
-                                    <div className="flex items-center gap-3">
-                                        <div className="p-2 bg-brand-orange/10 rounded-xl text-brand-orange">
-                                            <Lock size={18} />
-                                        </div>
-                                        <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider">Gestió Administrativa</h2>
-                                    </div>
-                                    {!isManagementUnlocked && (
-                                        <button
-                                            onClick={() => setShowPasswordInput(!showPasswordInput)}
-                                            className="text-[10px] font-black text-brand-orange uppercase tracking-widest hover:underline"
-                                        >
-                                            {showPasswordInput ? 'CANCEL·LAR' : 'DESBLOQUEJAR ACCÉS'}
-                                        </button>
-                                    )}
-                                </div>
-
-                                {!isManagementUnlocked ? (
-                                    <div className="flex flex-col items-center justify-center py-12 text-center">
-                                        {showPasswordInput ? (
-                                            <form onSubmit={handleUnlockManagement} className="flex flex-col items-center gap-4 w-full max-w-xs">
-                                                <input
-                                                    type="password"
-                                                    placeholder="Introdueix la contrasenya..."
-                                                    className="w-full px-5 py-3 bg-white border border-gray-100 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-orange/20"
-                                                    value={managementPassword}
-                                                    onChange={(e) => setManagementPassword(e.target.value)}
-                                                    autoFocus
-                                                />
-                                                <button type="submit" className="w-full bg-brand-orange text-white py-3 rounded-2xl text-xs font-black tracking-widest uppercase shadow-lg shadow-orange-500/20">
-                                                    ENTRAR
-                                                </button>
-                                            </form>
-                                        ) : (
-                                            <>
-                                                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm border border-gray-100">
-                                                    <Lock size={24} className="text-gray-300" />
-                                                </div>
-                                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Secció Privada</p>
-                                            </>
-                                        )}
-                                    </div>
-                                ) : (
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                        <DepartmentCard title="PRESSUPOSTOS" icon={Calculator} count={getCount('b_budget')} onClick={() => navigate('/board/b_budget')} />
-                                        <DepartmentCard title="FACTURACIÓ" icon={Receipt} count={getCount('b_billing')} onClick={() => navigate('/board/b_billing')} />
-                                        <DepartmentCard title="KIT DIGITAL" icon={Gavel} count={getCount('b_kit_digital')} onClick={() => navigate('/board/b_kit_digital')} />
-                                    </div>
+                                {note.done && (
+                                    <button onClick={() => handleArchiveNote(note)} className="p-2 text-gray-300 hover:text-brand-orange transition-colors">
+                                        <Archive size={14} />
+                                    </button>
                                 )}
                             </div>
+                        ))}
+                        {urgentNotes.length === 0 && <div className="py-12 text-center text-gray-300 font-bold uppercase tracking-widest text-xs col-span-full italic">No hay avisos urgentes</div>}
+                    </div>
+                </div>
+            </div>
 
-                            {/* ROW 4: URGENT NOTICES (Moved Up and Highlighted) */}
-                            <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100 flex flex-col h-full border-l-4 border-l-brand-orange">
-                                <div className="flex items-center justify-between mb-6 md:mb-8">
-                                    <div className="flex items-center gap-3">
-                                        <Bell size={20} className="text-brand-orange" />
-                                        <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Avisos Urgents</h3>
-                                    </div>
-                                    <span className="text-[10px] font-black bg-orange-50 text-brand-orange px-3 py-1 rounded-full">{urgentNotes.filter(n => !n.done).length} PENDENTS</span>
-                                </div>
-                                <div className="flex gap-2 mb-6 text-2xl">
-                                    <input
-                                        type="text"
-                                        placeholder="Què cal fer ara mateix?..."
-                                        className="flex-1 px-5 py-4 bg-gray-50 rounded-2xl text-sm font-bold border border-gray-100 outline-none focus:ring-2 focus:ring-brand-orange/10 transition-all"
-                                        value={newNote}
-                                        onChange={(e) => setNewNote(e.target.value)}
-                                        onKeyDown={(e) => e.key === 'Enter' && addUrgentNote()}
-                                    />
-                                    <button onClick={addUrgentNote} className="bg-brand-orange text-white px-5 rounded-2xl shadow-lg shadow-orange-500/20 active:scale-90 transition-all">
-                                        <Plus size={24} />
-                                    </button>
-                                </div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 flex-1 overflow-y-auto pr-1 custom-scrollbar">
-                                    {urgentNotes.map(note => (
-                                        <div key={note.id} className={`flex items-start gap-4 p-5 rounded-2xl border transition-all ${note.done ? 'bg-gray-50 border-gray-100' : 'bg-white border-orange-100 shadow-sm border-l-4 border-l-brand-orange'}`}>
-                                            <div onClick={() => toggleUrgentNoteDone(note.id)} className={`w-6 h-6 shrink-0 rounded-lg border-2 ${note.done ? 'bg-brand-orange border-brand-orange' : 'bg-white border-brand-orange/30'} cursor-pointer flex items-center justify-center transition-all mt-0.5`}>
-                                                {note.done && <Check size={14} className="text-white" />}
-                                            </div>
-                                            <div className="flex-1 min-w-0">
-                                                <span className={`text-sm font-bold block ${note.done ? 'line-through text-gray-300' : 'text-gray-700'}`}>{note.text}</span>
-                                                <div className="flex justify-end mt-2">
-                                                    <button onClick={() => handleArchiveNote(note)} className="p-1.5 text-gray-300 hover:text-brand-orange transition-colors"><Archive size={16} /></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                    {urgentNotes.length === 0 && (
-                                        <div className="flex flex-col items-center justify-center py-12 text-center">
-                                            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
-                                                <Check size={32} className="text-gray-200" />
-                                            </div>
-                                            <p className="text-[10px] font-black uppercase text-gray-300 tracking-[0.2em]">Tot al dia, bon treball!</p>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    );
-                })()
-            }
-
-            {/* Calendar Widget and Time Control Row */}
+            {/* Widgets Section */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {/* Calendar Widget */}
+                {/* Calendar */}
                 <div onClick={() => navigate('/calendar')} className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100 cursor-pointer hover:border-brand-orange/30 hover:shadow-xl transition-all group">
                     <div className="flex items-center gap-3 mb-6">
                         <Calendar size={20} className="text-brand-orange" />
-                        <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Calendari</h3>
+                        <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Calendario</h3>
                     </div>
-                    <div className="h-40 md:h-48 bg-gray-50 rounded-3xl flex flex-col items-center justify-center text-gray-300 text-[10px] md:text-xs font-black uppercase tracking-widest italic group-hover:bg-orange-50 transition-all gap-4">
+                    <div className="h-40 bg-gray-50 rounded-3xl flex flex-col items-center justify-center text-gray-300 text-[10px] font-black uppercase tracking-widest italic group-hover:bg-orange-50 transition-all gap-4">
                         <Calendar size={32} className="opacity-20" />
-                        <span className="px-6 text-center">Prem per veure l'agenda completa</span>
+                        <span className="px-6 text-center">Pulsa para ver la agenda completa</span>
                     </div>
                 </div>
 
                 {/* Time Control */}
                 <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100">
-                    <div onClick={handleAddTimeLog} className="flex justify-between items-center mb-6 md:mb-8 cursor-pointer">
+                    <div className="flex justify-between items-center mb-6">
                         <div className="flex items-center gap-3">
                             <Clock size={20} className="text-brand-orange" />
-                            <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Control Horari</h3>
+                            <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Control Horario</h3>
                         </div>
-                        <ChevronRight size={20} className="text-gray-300" />
+                        <button onClick={handleAddTimeLog} className="text-[10px] font-bold text-gray-400 hover:text-brand-orange uppercase tracking-widest flex items-center gap-1">VER TODO <ChevronRight size={12} /></button>
                     </div>
-                    <div className="space-y-4">
-                        <div className="flex items-center justify-between p-6 bg-orange-50/50 rounded-3xl border border-brand-orange/10 shadow-inner">
+                    <div className="p-6 bg-orange-50/50 rounded-3xl border border-brand-orange/10">
+                        <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-brand-orange text-white flex items-center justify-center font-black text-lg shadow-lg shadow-orange-500/20">M</div>
+                                <div className="w-12 h-12 rounded-2xl bg-brand-orange text-white flex items-center justify-center font-black text-lg">{currentUser.name[0]}</div>
                                 <div>
-                                    <p className="text-xs font-black text-brand-black uppercase">TU (Montse)</p>
+                                    <p className="text-xs font-black text-brand-black uppercase">{currentUser.name.split(' ')[0]}</p>
                                     <p className={`text-[10px] font-black uppercase tracking-widest mt-0.5 ${activeEntry ? 'text-green-600' : 'text-gray-400'}`}>
-                                        {activeEntry ? `En actiu • ${formatTime(elapsedTime)}` : 'Desconnectat'}
+                                        {activeEntry ? `Activo • ${formatTime(elapsedTime)}` : 'Desconectado'}
                                     </p>
                                 </div>
                             </div>
@@ -553,28 +440,24 @@ const Dashboard = ({ selectedUsers }) => {
                 </div>
             </div>
 
-            {/* Activity Log Section */}
-            <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 shadow-sm border border-gray-100 mt-4">
-                <div className="flex items-center gap-3 mb-8 md:mb-10">
+            {/* Activity History */}
+            <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 shadow-sm border border-gray-100">
+                <div className="flex items-center gap-3 mb-8">
                     <div className="p-2 bg-orange-50 rounded-lg"><Archive size={20} className="text-brand-orange" /></div>
                     <div>
-                        <h3 className="text-lg md:text-xl font-black text-gray-800 uppercase tracking-tight leading-none">Historial d'Activitat</h3>
-                        <p className="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Registre d'accions recents</p>
+                        <h3 className="text-lg md:text-xl font-black text-gray-800 uppercase tracking-tight leading-none">Historial de Actividad</h3>
+                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-1">Registro de acciones recientes</p>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-6">
-                    {activity.length === 0 && (
-                        <p className="text-center text-xs text-gray-400 py-10 col-span-full">No hi ha activitat recent.</p>
-                    )}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {activity.length === 0 && <p className="text-center text-xs text-gray-400 py-10 col-span-full">No hay actividad reciente.</p>}
                     {activity.slice(0, 9).map((item) => (
                         <div key={item.id} className="flex gap-4 p-4 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-50">
-                            <div className="mt-1 w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center shrink-0 shadow-sm">
+                            <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center shrink-0">
                                 {item.type === 'card' && <Layout size={16} className="text-brand-orange" />}
                                 {item.type === 'doc' && <FileText size={16} className="text-brand-orange" />}
                                 {item.type === 'mail' && <Mail size={16} className="text-brand-orange" />}
-                                {item.type === 'event' && <Calendar size={16} className="text-brand-orange" />}
-                                {item.type === 'chat' && <Send size={16} className="text-brand-orange" />}
-                                {!['card', 'doc', 'mail', 'event', 'chat'].includes(item.type) && <Bell size={16} className="text-brand-orange" />}
+                                {!['card', 'doc', 'mail'].includes(item.type) && <Bell size={16} className="text-brand-orange" />}
                             </div>
                             <div className="flex-1 min-w-0">
                                 <p className="text-xs font-bold text-gray-800 leading-tight truncate">{item.text}</p>
@@ -588,7 +471,42 @@ const Dashboard = ({ selectedUsers }) => {
                 </div>
             </div>
 
-        </div >
+            {/* Trello Import Modal */}
+            {isImportModalOpen && (
+                <div className="fixed inset-0 bg-brand-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
+                    <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl">
+                        <h3 className="text-xl font-black text-gray-800 uppercase tracking-tight mb-4">Importar desde Trello</h3>
+                        <p className="text-sm text-gray-500 mb-6">Selecciona el tablero de destino y sube el fichero JSON exportado de Trello.</p>
+                        <div className="space-y-4">
+                            <div>
+                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tablero de Destino</label>
+                                <select
+                                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-brand-orange/20"
+                                    value={importingBoardId || ''}
+                                    onChange={(e) => setImportingBoardId(e.target.value)}
+                                >
+                                    <option value="">Selecciona un tablero...</option>
+                                    {boards.map(b => <option key={b.id} value={b.id}>{b.title}</option>)}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Fichero JSON de Trello</label>
+                                <input
+                                    type="file"
+                                    accept=".json"
+                                    onChange={handleTrelloImport}
+                                    disabled={!importingBoardId}
+                                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-brand-orange hover:file:bg-orange-100 cursor-pointer disabled:opacity-50"
+                                />
+                            </div>
+                        </div>
+                        <div className="mt-8 flex justify-end gap-3">
+                            <button onClick={() => setIsImportModalOpen(false)} className="px-6 py-2 text-sm font-bold text-gray-400 hover:text-gray-600">CANCELAR</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
     );
 };
 

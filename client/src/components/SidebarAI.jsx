@@ -6,7 +6,7 @@ const SidebarAI = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [input, setInput] = useState('');
     const [messages, setMessages] = useState([
-        { role: 'assistant', text: 'Hola! Sóc l\'assistent de LaGràfica. En què et puc ajudar avui?' }
+        { role: 'assistant', text: '¡Hola! Soy el asistente de LaGràfica. ¿En qué puedo ayudarte hoy?' }
     ]);
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef(null);
@@ -21,15 +21,15 @@ const SidebarAI = () => {
 
     const handleSend = async (e) => {
         e.preventDefault();
-        if (!input.trim()) return;
+        const msgText = e.target.msg?.value || input;
+        if (!msgText.trim()) return;
 
-        const userMsg = input;
+        const userMsg = msgText;
         setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
         setInput('');
         setIsTyping(true);
 
         try {
-            // Load data for context
             const db = await api.getData();
             const contacts = await api.getContacts();
             const tenders = await api.getTenders();
@@ -38,56 +38,52 @@ const SidebarAI = () => {
 
             let response = "";
 
-            // Helper for currency/numbers
             const parseAmount = (amt) => {
                 if (!amt) return 0;
                 return parseFloat(amt.toString().replace(/[^0-9,.]/g, '').replace(',', '.')) || 0;
             };
 
-            // 1. Calculations: Sum of Tenders/Amounts
-            if (lowerInput.includes('suma') || lowerInput.includes('total') || lowerInput.includes('quant') || lowerInput.includes('presupuesto')) {
+            if (lowerInput.includes('suma') || lowerInput.includes('total') || lowerInput.includes('cuanto') || lowerInput.includes('presupuesto')) {
                 if (lowerInput.includes('licitaci') || lowerInput.includes('tenders')) {
                     const total = tenders.reduce((acc, t) => acc + parseAmount(t.amount), 0);
                     const won = tenders.filter(t => t.result === 'won').reduce((acc, t) => acc + parseAmount(t.amount), 0);
-                    response = `Actualment hi ha un total de **${tenders.length} licitacions** al sistema. \n\n` +
-                        `• Import total: **${total.toLocaleString()}€**\n` +
-                        `• Import guanyat: **${won.toLocaleString()}€**`;
-                } else if (lowerInput.includes('balanç') || lowerInput.includes('compte')) {
-                    response = "Estic analitzant els balanços... Segons la documentació de l'exercici actual, el saldo és positiu amb una facturació creixent del 12% respecte l'any anterior.";
+                    response = `Actualmente hay un total de **${tenders.length} licitaciones** en el sistema. \n\n` +
+                        `• Importe total: **${total.toLocaleString()}€**\n` +
+                        `• Importe ganado: **${won.toLocaleString()}€**`;
+                } else if (lowerInput.includes('balance') || lowerInput.includes('cuenta')) {
+                    response = "Estoy analizando los balances... Según la documentación del ejercicio actual, el saldo es positivo con una facturación creciente del 12% respecto al año anterior.";
                 }
             }
-            // 2. Search Documentation
-            else if (lowerInput.includes('document') || lowerInput.includes('doc') || lowerInput.includes('fitxer') || lowerInput.includes('carpeta')) {
-                const searchPart = lowerInput.replace(/document|doc|fitxer|busca|troba|sobre/g, '').trim();
+            else if (lowerInput.includes('document') || lowerInput.includes('doc') || lowerInput.includes('fichero') || lowerInput.includes('carpeta')) {
+                const searchPart = lowerInput.replace(/documento|doc|fichero|busca|encuentra|sobre/g, '').trim();
                 const foundDocs = docs.filter(d => d.name.toLowerCase().includes(searchPart) || (d.description && d.description.toLowerCase().includes(searchPart)));
 
                 if (foundDocs.length > 0) {
-                    response = `He trobat **${foundDocs.length} fitxers** relacionats:\n\n` +
+                    response = `He encontrado **${foundDocs.length} ficheros** relacionados:\n\n` +
                         foundDocs.slice(0, 3).map(d => `• **${d.name}** (${d.type})`).join('\n') +
-                        (foundDocs.length > 3 ? `\n...i ${foundDocs.length - 3} més.` : '');
+                        (foundDocs.length > 3 ? `\n...y ${foundDocs.length - 3} más.` : '');
                 } else {
-                    response = "No he trobat cap document específic amb aquest nom, però pots revisar la Unitat de Gestió a la secció de Docs.";
+                    response = "No he encontrado ningún documento específico con ese nombre, pero puedes revisar la Unidad de Gestión en la sección de Docs.";
                 }
             }
-            // 3. Contacts / Projects (Existing)
-            else if (lowerInput.includes('busca') || lowerInput.includes('qui es') || lowerInput.includes('contacte')) {
+            else if (lowerInput.includes('busca') || lowerInput.includes('quien es') || lowerInput.includes('contacto')) {
                 const found = contacts.filter(c => lowerInput.includes(c.name.toLowerCase()));
                 if (found.length > 0) {
-                    response = `He trobat aquest contacte: **${found[0].name}**. El seu correu és ${found[0].email || 'no disponible'} i el telèfon ${found[0].phone || 'no disponible'}.`;
+                    response = `He encontrado este contacto: **${found[0].name}**. Su correo es ${found[0].email || 'no disponible'} y el teléfono ${found[0].phone || 'no disponible'}.`;
                 } else {
-                    response = "No he trobat cap contacte amb aquest nom a l'agenda.";
+                    response = "No he encontrado ningún contacto con ese nombre en la agenda.";
                 }
-            } else if (lowerInput.includes('projecte') || lowerInput.includes('targeta') || lowerInput.includes('card')) {
-                const found = (db.cards || []).filter(c => c.title.toLowerCase().includes(lowerInput.replace('projecte', '').trim()));
+            } else if (lowerInput.includes('proyecto') || lowerInput.includes('tarjeta') || lowerInput.includes('card')) {
+                const found = (db.cards || []).filter(c => c.title.toLowerCase().includes(lowerInput.replace('proyecto', '').trim()));
                 if (found.length > 0) {
-                    response = `He trobat el projecte: **${found[0].title}**. Està al taulell ${db.boards.find(b => b.id === found[0].boardId)?.title || 'desconegut'}.`;
+                    response = `He encontrado el proyecto: **${found[0].title}**. Está en el tablero ${db.boards.find(b => b.id === found[0].boardId)?.title || 'desconocido'}.`;
                 } else {
-                    response = "No he trobat cap projecte que coincideixi amb la cerca.";
+                    response = "No he encontrado ningún proyecto que coincida con la búsqueda.";
                 }
-            } else if (lowerInput.includes('hola') || lowerInput.includes('bon dia')) {
-                response = "Hola! Com va tot per l'estudi? Sóc l'IA de LaGràfica i puc sumar licitacions, buscar documents o trobar contactes. Què necessites?";
+            } else if (lowerInput.includes('hola') || lowerInput.includes('buenos dias')) {
+                response = "¡Hola! ¿Cómo va todo por el estudio? Soy la IA de LaGràfica y puedo sumar licitaciones, buscar documentos o encontrar contactos. ¿Qué necesitas?";
             } else {
-                response = "Encara estic aprenent! Prova de demanar-me 'suma de licitacions', 'busca el document de riscos' o 'qui és el client X'.";
+                response = "¡Aún estoy aprendiendo! Prueba a pedirme 'suma de licitaciones', 'busca el documento de riesgos' o 'quién es el cliente X'.";
             }
 
             setTimeout(() => {
@@ -96,7 +92,7 @@ const SidebarAI = () => {
             }, 600);
 
         } catch (err) {
-            setMessages(prev => [...prev, { role: 'assistant', text: "Em sap greu, hi ha hagut un error en processar la teva petició." }]);
+            setMessages(prev => [...prev, { role: 'assistant', text: "Lo siento, ha habido un error al procesar tu petición." }]);
             setIsTyping(false);
         }
     };
@@ -109,7 +105,7 @@ const SidebarAI = () => {
                     className="flex justify-between items-center mb-3 cursor-pointer group"
                 >
                     <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2 group-hover:text-brand-orange transition-colors">
-                        <Bot size={12} className={isOpen ? 'text-brand-orange' : ''} /> Assistent LaGràfica
+                        <Bot size={12} className={isOpen ? 'text-brand-orange' : ''} /> Asistente LaGràfica
                     </p>
                     <Sparkles size={12} className={`text-brand-orange transition-all ${isOpen ? 'rotate-180 scale-125' : 'animate-pulse'}`} />
                 </div>
@@ -136,10 +132,11 @@ const SidebarAI = () => {
 
                         <form onSubmit={handleSend} className="relative">
                             <input
+                                name="msg"
                                 type="text"
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
-                                placeholder="Suma de licitacions, busca docs..."
+                                placeholder="Suma de licitaciones, busca docs..."
                                 className="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 pr-9 text-[11px] outline-none focus:ring-2 focus:ring-brand-orange/20 transition-all font-medium"
                             />
                             <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-300 hover:text-brand-orange transition-colors">

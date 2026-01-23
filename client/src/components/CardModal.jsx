@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { api } from '../api';
-import { X, Calendar, User, AlignLeft, Flag, CheckSquare, MessageSquare, Plus, Clock, FileText, Trash2, ChevronRight, Link as LinkIcon, Paperclip, Lock, ShieldCheck, DollarSign, Play, Square, History, Cloud, FileDown, Mail } from 'lucide-react';
+import { X, Calendar, User, AlignLeft, Flag, CheckSquare, MessageSquare, Plus, Clock, FileText, Trash2, ChevronRight, Link as LinkIcon, Paperclip, Lock, ShieldCheck, DollarSign, Play, Square, History, Cloud, FileDown, Mail, Edit2 } from 'lucide-react';
 import EmailComposer from './EmailComposer';
 
-const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete }) => {
+const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete, currentUser }) => {
     if (!isOpen) return null;
-
-    // Mock Current User for Permission checks (In real app, pass this as prop)
-    const currentUser = { id: 'montse', role: 'admin' };
 
     // Email Composer
     const [showEmailComposer, setShowEmailComposer] = useState(false);
@@ -61,9 +58,15 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete 
     const [isEconomicAuthenticated, setIsEconomicAuthenticated] = useState(false);
     const [economicPassword, setEconomicPassword] = useState('');
 
-    // Refs for uploads
+    // Refs
     const attachmentInputRef = useRef(null);
     const economicAttachmentRef = useRef(null);
+    const descEditorRef = useRef(null);
+    const descCreateRef = useRef(null);
+
+    const execCommand = (cmd) => {
+        document.execCommand(cmd, false, null);
+    };
 
     useEffect(() => {
         loadUsers();
@@ -259,7 +262,7 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete 
             const newAttachment = {
                 id: Date.now(),
                 filename: result.filename,
-                url: 'http://localhost:3000' + result.url
+                url: result.url
             };
             if (section === 'general') {
                 setAttachments(prev => [...prev, newAttachment]);
@@ -280,9 +283,10 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete 
     };
 
     const addDescriptionBlock = () => {
-        if (!newDescText.trim()) return;
-        setDescriptionBlocks(prev => [...prev, { id: Date.now(), text: newDescText, author: 'Montse', date: new Date().toISOString() }]);
-        setNewDescText('');
+        const text = descCreateRef.current?.innerHTML;
+        if (!text || text === '<br>') return;
+        setDescriptionBlocks(prev => [...prev, { id: Date.now(), text, author: currentUser.name, date: new Date().toISOString() }]);
+        if (descCreateRef.current) descCreateRef.current.innerHTML = '';
     };
 
     const addChecklist = () => {
@@ -315,7 +319,8 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete 
     };
 
     const saveDescriptionEdit = (id) => {
-        setDescriptionBlocks(prev => prev.map(b => b.id === id ? { ...b, text: tempEditText } : b));
+        const text = descEditorRef.current?.innerHTML;
+        setDescriptionBlocks(prev => prev.map(b => b.id === id ? { ...b, text } : b));
         setEditingDescId(null);
         setTempEditText('');
     };
@@ -576,21 +581,33 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete 
                                     </div>
                                     <div className="space-y-4">
                                         {descriptionBlocks.map((block, idx) => (
-                                            <div key={block.id || idx} className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm relative group">
-                                                <div className="flex items-center gap-2 mb-2 text-[10px] text-brand-gray border-b border-gray-50 pb-1">
-                                                    <User size={10} /> <span className="font-semibold">{block.author}</span>
-                                                    <span className="mx-1">•</span>
-                                                    <Clock size={10} /> <span>{new Date(block.date).toLocaleString()}</span>
+                                            <div key={block.id || idx} className="bg-white p-3 rounded-xl border border-gray-100 shadow-sm relative group">
+                                                <div className="flex items-center justify-between mb-2 text-[10px] text-brand-gray border-b border-gray-50 pb-1">
+                                                    <div className="flex items-center gap-2">
+                                                        <User size={10} /> <span className="font-semibold">{block.author}</span>
+                                                        <span className="mx-1">•</span>
+                                                        <Clock size={10} /> <span>{new Date(block.date).toLocaleString()}</span>
+                                                    </div>
+                                                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
+                                                        <button onClick={() => startEditingDescription(block)} className="p-1 text-xs text-gray-400 hover:text-brand-orange">Editar</button>
+                                                        <button onClick={() => deleteDescriptionBlock(block.id)} className="p-1 text-xs text-gray-400 hover:text-red-500">Borrar</button>
+                                                    </div>
                                                 </div>
 
                                                 {editingDescId === block.id ? (
                                                     <div className="space-y-2">
-                                                        <textarea
-                                                            autoFocus
-                                                            value={tempEditText}
-                                                            onChange={(e) => setTempEditText(e.target.value)}
-                                                            className="w-full text-xs p-2 border border-brand-orange/30 rounded focus:ring-1 focus:ring-brand-orange outline-none bg-orange-50/10"
-                                                            rows={3}
+                                                        <div className="flex gap-1 mb-1">
+                                                            <button onClick={() => execCommand('bold')} className="p-1 text-[10px] font-bold bg-gray-100 rounded">B</button>
+                                                            <button onClick={() => execCommand('italic')} className="p-1 text-[10px] italic bg-gray-100 rounded">I</button>
+                                                            <button onClick={() => execCommand('underline')} className="p-1 text-[10px] underline bg-gray-100 rounded">U</button>
+                                                        </div>
+                                                        <div
+                                                            ref={descEditorRef}
+                                                            contentEditable
+                                                            spellCheck="true"
+                                                            lang="es"
+                                                            className="w-full text-xs p-3 border border-brand-orange/30 rounded-lg focus:ring-1 focus:ring-brand-orange outline-none bg-orange-50/10 min-h-[80px]"
+                                                            dangerouslySetInnerHTML={{ __html: block.text }}
                                                         />
                                                         <div className="flex justify-end gap-2">
                                                             <button onClick={() => setEditingDescId(null)} className="text-[10px] font-bold text-gray-400">Cancelar</button>
@@ -598,34 +615,32 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete 
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    <>
-                                                        <div className="text-xs text-gray-800 whitespace-pre-wrap leading-relaxed">
-                                                            {block.text}
-                                                        </div>
-                                                        <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
-                                                            <button onClick={() => startEditingDescription(block)} className="p-1 text-gray-300 hover:text-brand-orange" title="Editar"><Edit2 size={12} /></button>
-                                                            <button onClick={() => deleteDescriptionBlock(block.id)} className="p-1 text-gray-300 hover:text-red-500" title="Borrar"><Trash2 size={12} /></button>
-                                                        </div>
-                                                    </>
+                                                    <div className="text-xs text-gray-800 leading-relaxed rich-text-content" dangerouslySetInnerHTML={{ __html: block.text }} />
                                                 )}
                                             </div>
                                         ))}
 
-                                        <div className="bg-white p-3 rounded-lg border border-gray-200">
-                                            <textarea
-                                                value={newDescText}
-                                                onChange={(e) => setNewDescText(e.target.value)}
-                                                placeholder="Añadir nueva descripción..."
-                                                className="w-full min-h-[60px] p-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-brand-orange text-xs mb-2"
+                                        <div className="bg-white p-4 rounded-xl border border-gray-200">
+                                            <div className="flex gap-2 mb-2">
+                                                <button onClick={() => execCommand('bold')} className="p-1.5 text-xs font-bold hover:bg-gray-100 rounded transition-colors" title="Negrita">B</button>
+                                                <button onClick={() => execCommand('italic')} className="p-1.5 text-xs italic hover:bg-gray-100 rounded transition-colors" title="Cursiva">I</button>
+                                                <button onClick={() => execCommand('underline')} className="p-1.5 text-xs underline hover:bg-gray-100 rounded transition-colors" title="Subrayado">U</button>
+                                            </div>
+                                            <div
+                                                ref={descCreateRef}
+                                                contentEditable
+                                                spellCheck="true"
+                                                lang="es"
+                                                placeholder="Añadir nueva descripción con estilos..."
+                                                className="w-full min-h-[100px] p-3 border border-gray-100 rounded-lg focus:ring-2 focus:ring-brand-orange/20 text-xs mb-3 outline-none"
                                             />
                                             <div className="flex justify-end">
                                                 <button
                                                     type="button"
                                                     onClick={addDescriptionBlock}
-                                                    disabled={!newDescText.trim()}
-                                                    className="bg-brand-black text-white px-3 py-1.5 rounded-md text-xs font-medium hover:bg-brand-orange transition-colors disabled:opacity-50"
+                                                    className="bg-brand-black text-white px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-brand-orange transition-all"
                                                 >
-                                                    Añadir
+                                                    Añadir Nota
                                                 </button>
                                             </div>
                                         </div>

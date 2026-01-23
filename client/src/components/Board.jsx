@@ -18,14 +18,11 @@ const SortableCard = ({ card, onClick, isLocked }) => {
     };
 
     const handleClick = (e) => {
-        if (isLocked) {
-            e.stopPropagation();
-            return;
-        }
+        // We always allow opening the card to view, even if locked
+        // The lock is for editing sensitive data inside if implemented
         onClick(card);
     };
 
-    // Calculate time
     const totalDuration = (card.timeLogs || []).reduce((acc, log) => acc + log.duration, 0);
     const formatTime = (ms) => {
         if (!ms) return null;
@@ -35,8 +32,6 @@ const SortableCard = ({ card, onClick, isLocked }) => {
     };
     const timeString = formatTime(totalDuration);
     const isActive = !!card.activeTimerStart;
-
-    // Resolve Responsible
     const responsible = card.responsibleId || card.assignee;
 
     return (
@@ -47,13 +42,12 @@ const SortableCard = ({ card, onClick, isLocked }) => {
             {...listeners}
             onClick={handleClick}
             className={`bg-white p-3 rounded-lg shadow-sm border transition-all group select-none relative
-                ${isLocked ? 'border-gray-100 cursor-not-allowed grayscale-[0.5]' :
-                    isActive ? 'border-brand-orange ring-1 ring-brand-orange/20 cursor-pointer shadow-md' :
-                        'border-brand-lightgray hover:border-brand-orange/30 cursor-pointer hover:shadow-md'}`}
+                ${isActive ? 'border-brand-orange ring-1 ring-brand-orange/20 cursor-pointer shadow-md' :
+                    'border-brand-lightgray hover:border-brand-orange/30 cursor-pointer hover:shadow-md'}`}
         >
             {isLocked && (
-                <div className="absolute inset-0 bg-white/40 backdrop-blur-[1px] z-10 rounded-lg flex items-center justify-center">
-                    <Lock size={16} className="text-gray-400" />
+                <div className="absolute top-2 right-2 z-10">
+                    <Lock size={12} className="text-orange-400" />
                 </div>
             )}
             <div className="flex justify-between items-start mb-2">
@@ -75,14 +69,12 @@ const SortableCard = ({ card, onClick, isLocked }) => {
 
             <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-50">
                 <div className="flex items-center gap-3 text-gray-400 text-xs">
-                    {/* Time Tracking Badge */}
                     {(timeString || isActive) && (
                         <div className={`flex items-center gap-1 ${isActive ? 'text-brand-orange font-bold' : ''}`}>
                             <Edit2 size={10} className={isActive ? "animate-pulse" : ""} />
                             <span>{isActive ? "En curso..." : timeString}</span>
                         </div>
                     )}
-
                     {card.dueDate && !timeString && !isActive && (
                         <div className={`flex items-center gap-1 ${new Date(card.dueDate) < new Date() ? 'text-red-500 font-medium' : ''}`}>
                             <Calendar size={12} />
@@ -90,7 +82,6 @@ const SortableCard = ({ card, onClick, isLocked }) => {
                         </div>
                     )}
                 </div>
-
                 <div className="flex items-center gap-2">
                     {(card.attachments?.length > 0 || card.links?.length > 0) && (
                         <span className="text-[10px] inline-flex items-center justify-center bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">
@@ -106,19 +97,24 @@ const SortableCard = ({ card, onClick, isLocked }) => {
     );
 };
 
-const Board = ({ selectedUsers }) => {
+const Board = ({ selectedUsers, currentUser }) => {
     const { boardId } = useParams();
     const [board, setBoard] = useState(null);
     const [cards, setCards] = useState([]);
-    const [users, setUsers] = useState([]); // Users State
+    const [users, setUsers] = useState([]);
     const [activeDragCard, setActiveDragCard] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [unlockedColumns, setUnlockedColumns] = useState([]); // Track IDs of unlocked columns
+
+    // Persistent Unlock for Columns
+    const [unlockedColumns, setUnlockedColumns] = useState(() => {
+        const saved = localStorage.getItem('unlockedColumns');
+        return saved ? JSON.parse(saved) : [];
+    });
+
     const [passwordInput, setPasswordInput] = useState('');
     const [activeCard, setActiveCard] = useState(null);
     const [targetColumnId, setTargetColumnId] = useState(null);
 
-    // --- NEW STATE FOR INLINE EDITING ---
     const [editingColId, setEditingColId] = useState(null);
     const [tempColTitle, setTempColTitle] = useState("");
     const [isAddingCol, setIsAddingCol] = useState(false);
@@ -133,11 +129,11 @@ const Board = ({ selectedUsers }) => {
         loadData();
     }, [boardId]);
 
-
-
     const handleUnlockColumn = (colId) => {
-        if (passwordInput === 'admin123') {
-            setUnlockedColumns(prev => [...prev, colId]);
+        if (passwordInput === 'lagrafica2025') {
+            const newUnlocked = [...unlockedColumns, colId];
+            setUnlockedColumns(newUnlocked);
+            localStorage.setItem('unlockedColumns', JSON.stringify(newUnlocked));
             setPasswordInput('');
         } else {
             alert("Contraseña incorrecta");
@@ -152,8 +148,6 @@ const Board = ({ selectedUsers }) => {
                 setBoard(foundBoard);
                 setCards(data.cards.filter(c => c.boardId === boardId));
             }
-
-            // Load Users
             const userData = await api.getUsers();
             setUsers(userData || []);
         } catch (err) {
@@ -161,7 +155,6 @@ const Board = ({ selectedUsers }) => {
         }
     };
 
-    // --- DND HANDLERS ---
     const handleDragStart = (event) => {
         const { active } = event;
         const card = cards.find(c => c.id === active.id);
@@ -171,7 +164,6 @@ const Board = ({ selectedUsers }) => {
     const handleDragEnd = async (event) => {
         const { active, over } = event;
         setActiveDragCard(null);
-
         if (!over) return;
 
         const activeId = active.id;
@@ -200,7 +192,6 @@ const Board = ({ selectedUsers }) => {
         }
     };
 
-    // --- CARD HANDLERS ---
     const handleCreateCard = (columnId) => {
         setActiveCard(null);
         setTargetColumnId(columnId);
@@ -208,10 +199,6 @@ const Board = ({ selectedUsers }) => {
     };
 
     const handleEditCard = (card) => {
-        const column = board?.columns.find(c => c.id === card.columnId);
-        if (column?.title.toLowerCase() === 'facturación' && !unlockedColumns.includes(column.id)) {
-            return; // Bloqueado
-        }
         setActiveCard(card);
         setTargetColumnId(card.columnId);
         setIsModalOpen(true);
@@ -227,7 +214,6 @@ const Board = ({ selectedUsers }) => {
         setIsModalOpen(false);
     };
 
-    // --- COLUMN RENAME LOGIC ---
     const startRenaming = (col) => {
         setEditingColId(col.id);
         setTempColTitle(col.title);
@@ -235,25 +221,18 @@ const Board = ({ selectedUsers }) => {
 
     const saveColumnTitle = async () => {
         if (!editingColId) return;
-        if (tempColTitle.trim() && tempColTitle !== board.columns.find(c => c.id === editingColId)?.title) {
+        const col = board.columns.find(c => c.id === editingColId);
+        if (tempColTitle.trim() && tempColTitle !== col?.title) {
             try {
                 const newCols = board.columns.map(c => c.id === editingColId ? { ...c, title: tempColTitle.trim() } : c);
-                // Optimistic
                 setBoard(prev => ({ ...prev, columns: newCols }));
                 await api.updateBoard(board.id, { columns: newCols });
             } catch (err) {
-                console.error("Error renaming column:", err);
-                loadData(); // Revert
+                loadData();
                 alert("Error al renombrar la columna");
             }
         }
         setEditingColId(null);
-        setTempColTitle("");
-    };
-
-    const cancelRenaming = () => {
-        setEditingColId(null);
-        setTempColTitle("");
     };
 
     const handleDeleteCard = async (cardId) => {
@@ -263,42 +242,34 @@ const Board = ({ selectedUsers }) => {
             setIsModalOpen(false);
             loadData();
         } catch (err) {
-            console.error("Error deleting card:", err);
             alert("Error al borrar la tarjeta");
         }
     };
 
-    // --- ADD COLUMN LOGIC ---
     const saveNewColumn = async () => {
         if (newColTitle.trim()) {
             try {
                 const newCol = { id: 'col_' + Date.now(), title: newColTitle.trim() };
                 const newCols = [...board.columns, newCol];
-                // Optimistic
                 setBoard(prev => ({ ...prev, columns: newCols }));
                 await api.updateBoard(board.id, { columns: newCols });
                 setIsAddingCol(false);
                 setNewColTitle("");
             } catch (err) {
-                console.error("Error adding column:", err);
                 loadData();
                 alert("Error al añadir columna");
             }
         }
     };
 
-    // --- DELETE COLUMN LOGIC ---
-    const [deletingColId, setDeletingColId] = useState(null);
-
     const confirmDeleteColumn = async (colId) => {
+        if (!confirm("¿Borrar columna y mover tarjetas?")) return;
         try {
             const newCols = board.columns.filter(c => c.id !== colId);
             setBoard(prev => ({ ...prev, columns: newCols }));
             await api.updateBoard(board.id, { columns: newCols });
-            setDeletingColId(null);
-            loadData(); // Sync fully
+            loadData();
         } catch (err) {
-            console.error("Error deleting column:", err);
             alert("Error al borrar columna");
         }
     };
@@ -315,21 +286,23 @@ const Board = ({ selectedUsers }) => {
                     </Link>
                     <div className="min-w-0">
                         <h1 className="text-xl md:text-2xl font-black text-brand-black truncate tracking-tight">{board.title}</h1>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest -mt-1">Gestió de Projecte</p>
+                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest -mt-1">Gestión de Proyecto</p>
                     </div>
                 </div>
             </div>
 
-            {/* Canvas */}
             <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
                 <div className="flex-1 overflow-x-auto flex items-start gap-4 md:gap-6 pb-4 no-scrollbar">
                     {board.columns.map(col => {
                         const colCards = cards.filter(c => c.columnId === col.id).filter(c => {
                             if (selectedUsers.length === 0) return true;
-                            const responsible = c.responsibleId || c.assignee;
-                            const allAssignees = [responsible, ...(c.assigneeIds || [])].filter(Boolean);
-                            return allAssignees.some(uid => selectedUsers.includes(uid));
+                            const resp = c.responsibleId || c.assignee;
+                            const all = [resp, ...(c.assigneeIds || [])].filter(Boolean);
+                            return all.some(uid => selectedUsers.includes(uid));
                         });
+                        const isFacturacion = col.title.toLowerCase().includes('facturación');
+                        const isColLocked = isFacturacion && !unlockedColumns.includes(col.id);
+
                         return (
                             <div key={col.id} className="min-w-[280px] md:min-w-[300px] w-[280px] md:w-[300px] bg-brand-lightgray rounded-xl flex flex-col max-h-full shadow-sm">
                                 {/* Column Header */}
@@ -338,67 +311,24 @@ const Board = ({ selectedUsers }) => {
                                         {editingColId === col.id ? (
                                             <input
                                                 autoFocus
-                                                type="text"
                                                 value={tempColTitle}
                                                 onChange={(e) => setTempColTitle(e.target.value)}
                                                 onBlur={saveColumnTitle}
-                                                onKeyDown={(e) => {
-                                                    if (e.key === 'Enter') saveColumnTitle();
-                                                    if (e.key === 'Escape') cancelRenaming();
-                                                }}
-                                                className="w-full text-sm font-bold border-brand-orange rounded px-1 py-0.5 focus:ring-1 focus:ring-brand-orange outline-none"
+                                                onKeyDown={(e) => e.key === 'Enter' && saveColumnTitle()}
+                                                className="w-full text-sm font-bold border-brand-orange rounded px-1 py-0.5 outline-none"
                                             />
                                         ) : (
                                             <>
-                                                <h3
-                                                    className="font-bold text-brand-black truncate cursor-pointer hover:underline decoration-brand-orange/50"
-                                                    onClick={() => startRenaming(col)}
-                                                    title="Click para renombrar"
-                                                >
-                                                    {col.title}
-                                                </h3>
-                                                <button
-                                                    onClick={() => startRenaming(col)}
-                                                    className="p-1 text-gray-400 hover:text-brand-orange opacity-0 group-hover/header:opacity-100 transition-opacity"
-                                                >
-                                                    <Edit2 size={12} />
-                                                </button>
+                                                <h3 className="font-bold text-brand-black truncate cursor-pointer" onClick={() => startRenaming(col)}>{col.title}</h3>
+                                                <Edit2 size={12} className="text-gray-300 opacity-0 group-hover/header:opacity-100 cursor-pointer" onClick={() => startRenaming(col)} />
                                             </>
                                         )}
                                     </div>
-                                    <div className="flex items-center gap-1">
-                                        <span className="text-xs font-medium text-gray-400 bg-white px-2 py-1 rounded-full">{colCards.length}</span>
-
-                                        {deletingColId === col.id ? (
-                                            <div className="flex items-center gap-1 bg-red-50 p-1 rounded-lg animate-in fade-in slide-in-from-right-5 duration-200 absolute right-4 z-20 shadow-sm border border-red-100">
-                                                <span className="text-[10px] text-red-600 font-bold whitespace-nowrap">¿Borrar?</span>
-                                                <button
-                                                    onClick={() => confirmDeleteColumn(col.id)}
-                                                    className="p-1 text-red-600 hover:bg-red-200 rounded transition-colors"
-                                                    title="Confirmar"
-                                                >
-                                                    <Trash2 size={14} />
-                                                </button>
-                                                <button
-                                                    onClick={() => setDeletingColId(null)}
-                                                    className="p-1 text-gray-500 hover:bg-gray-200 rounded transition-colors"
-                                                    title="Cancelar"
-                                                >
-                                                    <ArrowLeft size={14} />
-                                                </button>
-                                            </div>
-                                        ) : (
-                                            <button
-                                                onClick={() => setDeletingColId(col.id)}
-                                                className="p-1 hover:bg-red-100 hover:text-red-500 rounded text-gray-400 transition-colors"
-                                            >
-                                                <Trash2 size={14} />
-                                            </button>
-                                        )}
-                                    </div>
+                                    <span className="text-xs font-medium text-gray-400 bg-white px-2 py-1 rounded-full">{colCards.length}</span>
+                                    <button onClick={() => confirmDeleteColumn(col.id)} className="p-1 hover:text-red-500 text-gray-300 transition-colors"><Trash2 size={14} /></button>
                                 </div>
 
-                                {col.title.toLowerCase() === 'facturación' && !unlockedColumns.includes(col.id) && (
+                                {isColLocked && (
                                     <div className="px-4 py-3 bg-orange-50 border-y border-orange-100 flex flex-col gap-2">
                                         <div className="flex items-center gap-2 text-orange-600">
                                             <Lock size={12} />
@@ -411,89 +341,58 @@ const Board = ({ selectedUsers }) => {
                                                 onChange={(e) => setPasswordInput(e.target.value)}
                                                 onKeyDown={(e) => e.key === 'Enter' && handleUnlockColumn(col.id)}
                                                 placeholder="Contraseña..."
-                                                className="flex-1 px-2 py-1 border border-orange-200 rounded text-[10px] focus:ring-1 focus:ring-brand-orange outline-none bg-white"
+                                                className="flex-1 px-2 py-1 border border-orange-200 rounded text-[10px] outline-none"
                                             />
-                                            <button
-                                                onClick={() => handleUnlockColumn(col.id)}
-                                                className="px-2 py-1 bg-brand-black text-white rounded text-[10px] font-bold hover:bg-brand-orange transition-colors"
-                                            >
-                                                Ok
-                                            </button>
+                                            <button onClick={() => handleUnlockColumn(col.id)} className="px-2 py-1 bg-brand-black text-white rounded text-[10px] font-bold">Ok</button>
                                         </div>
                                     </div>
                                 )}
 
-                                {/* Droppable Area */}
                                 <SortableContext items={colCards.map(c => c.id)} strategy={verticalListSortingStrategy}>
-                                    <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-[100px]" id={col.id}>
+                                    <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-[100px]">
                                         {colCards.map(card => (
                                             <SortableCard
                                                 key={card.id}
                                                 card={card}
                                                 onClick={handleEditCard}
-                                                isLocked={col.title.toLowerCase() === 'facturación' && !unlockedColumns.includes(col.id)}
+                                                isLocked={isColLocked}
                                             />
                                         ))}
                                     </div>
                                 </SortableContext>
 
-                                {/* Footer */}
                                 <div className="p-3">
-                                    <button
-                                        onClick={() => handleCreateCard(col.id)}
-                                        className="w-full py-2 flex items-center justify-center gap-2 text-brand-gray hover:text-brand-orange hover:bg-white rounded-lg transition-all text-sm font-medium border border-transparent hover:border-brand-orange/20"
-                                    >
-                                        <Plus size={16} />
-                                        Añadir tarjeta
+                                    <button onClick={() => handleCreateCard(col.id)} className="w-full py-2 flex items-center justify-center gap-2 text-brand-gray hover:text-brand-orange hover:bg-white rounded-lg transition-all text-sm font-medium border border-transparent">
+                                        <Plus size={16} /> Añadir tarjeta
                                     </button>
                                 </div>
                             </div>
                         );
                     })}
 
-                    {/* Add Column Section */}
                     {isAddingCol ? (
-                        <div className="min-w-[280px] md:min-w-[300px] w-[280px] md:w-[300px] bg-white rounded-xl p-4 border border-brand-orange/20 shadow-lg h-fit">
+                        <div className="min-w-[280px] w-[280px] bg-white rounded-xl p-4 border border-brand-orange shadow-lg">
                             <input
                                 autoFocus
-                                type="text"
                                 placeholder="Título de la columna..."
                                 value={newColTitle}
                                 onChange={(e) => setNewColTitle(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') saveNewColumn();
-                                    if (e.key === 'Escape') { setIsAddingCol(false); setNewColTitle(""); }
-                                }}
-                                className="w-full p-2 mb-3 border border-gray-200 rounded-lg text-sm focus:border-brand-orange focus:ring-1 focus:ring-brand-orange outline-none"
+                                onKeyDown={(e) => e.key === 'Enter' && saveNewColumn()}
+                                className="w-full p-2 mb-3 border rounded-lg text-sm outline-none"
                             />
                             <div className="flex justify-end gap-2">
-                                <button
-                                    onClick={() => { setIsAddingCol(false); setNewColTitle(""); }}
-                                    className="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md"
-                                >
-                                    Cancelar
-                                </button>
-                                <button
-                                    onClick={saveNewColumn}
-                                    className="px-3 py-1.5 text-xs font-medium text-white bg-brand-black hover:bg-brand-orange rounded-md transition-colors"
-                                >
-                                    Añadir
-                                </button>
+                                <button onClick={() => setIsAddingCol(false)} className="px-3 py-1.5 text-xs text-gray-500">Cancelar</button>
+                                <button onClick={saveNewColumn} className="px-3 py-1.5 text-xs text-white bg-brand-black rounded-md">Añadir</button>
                             </div>
                         </div>
                     ) : (
-                        <button
-                            onClick={() => setIsAddingCol(true)}
-                            className="min-w-[280px] md:min-w-[300px] h-[50px] border-2 border-dashed border-gray-200 rounded-xl flex items-center justify-center text-gray-400 hover:border-brand-orange hover:text-brand-orange transition-all font-medium shrink-0"
-                        >
-                            + Añadir Columna
-                        </button>
+                        <button onClick={() => setIsAddingCol(true)} className="min-w-[280px] h-[50px] border-2 border-dashed border-gray-200 rounded-xl flex items-center justify-center text-gray-400 hover:border-brand-orange transition-all font-medium">+ Añadir Columna</button>
                     )}
                 </div>
 
                 <DragOverlay>
                     {activeDragCard ? (
-                        <div className="bg-white p-4 rounded-xl shadow-2xl border border-brand-orange rotate-3 cursor-grabbing opacity-90 scale-105 w-[280px]">
+                        <div className="bg-white p-4 rounded-xl shadow-2xl border border-brand-orange rotate-3 w-[280px]">
                             <h3 className="font-semibold text-brand-black mb-2">{activeDragCard.title}</h3>
                         </div>
                     ) : null}
@@ -505,11 +404,12 @@ const Board = ({ selectedUsers }) => {
                 onClose={() => setIsModalOpen(false)}
                 card={activeCard}
                 columnId={targetColumnId}
-                boardId={board.id}
+                boardId={boardId}
                 onSave={handleSaveCard}
                 onDelete={handleDeleteCard}
+                currentUser={currentUser}
             />
-        </div >
+        </div>
     );
 };
 
