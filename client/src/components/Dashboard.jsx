@@ -250,215 +250,211 @@ const Dashboard = ({ selectedUsers }) => {
         <div className="flex flex-col gap-10 pb-10">
 
             {/* Header Section */}
-            <div className="flex flex-col gap-6">
-                <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
-                    <div>
-                        <h2 className="text-3xl font-black text-brand-black tracking-tighter">LaGràfica <span className="text-brand-orange">Studio</span></h2>
-                        <h1 className="text-sm font-bold text-gray-400 uppercase tracking-widest mt-1">Taulell de Control</h1>
-                    </div>
-                    <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-                        <div className="relative w-full sm:w-64">
-                            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+                <div>
+                    <h2 className="text-3xl font-black text-brand-black tracking-tighter uppercase leading-none">LaGràfica <span className="text-brand-orange">Project</span></h2>
+                    <h1 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mt-2">Workspace & Intelligence</h1>
+                </div>
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={() => setIsImportModalOpen(true)}
+                        className="bg-white text-brand-black border border-gray-100 px-5 py-2.5 rounded-2xl text-[10px] font-black tracking-widest hover:bg-gray-50 transition-all shadow-sm flex items-center gap-2 group"
+                    >
+                        <Upload size={14} className="group-hover:text-brand-orange transition-colors" /> IMPORTAR TRELLO
+                    </button>
+                    <button
+                        onClick={() => navigate('/docs')}
+                        className="bg-brand-black text-white px-6 py-2.5 rounded-2xl text-[10px] font-black tracking-widest hover:bg-brand-orange transition-all shadow-lg shadow-black/10"
+                    >
+                        DOCUMENTACIÓ
+                    </button>
+                </div>
+            </div>
+
+            {/* HERO: ASSISTENT LAGRÀFICA */}
+            <div className="bg-gradient-to-br from-brand-black to-slate-900 rounded-[2.5rem] p-8 md:p-12 text-white shadow-2xl relative overflow-hidden border border-white/5">
+                <div className="relative z-10 flex flex-col lg:flex-row items-center gap-10">
+                    <div className="flex-1 space-y-6">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2.5 bg-brand-orange rounded-2xl shadow-lg shadow-orange-500/30">
+                                <Bot size={28} className="text-white" />
+                            </div>
+                            <span className="text-xs font-black uppercase tracking-[0.2em] text-orange-200/80">Intel·ligència Artificial</span>
+                        </div>
+                        <h1 className="text-4xl md:text-5xl font-black leading-[1.1] tracking-tighter">
+                            Hola Montse, <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-orange-400">en què et puc ajudar?</span>
+                        </h1>
+                        <p className="text-gray-400 text-sm md:text-base font-medium max-w-xl leading-relaxed">
+                            Puc gestionar la teva agenda, resumir correus, crear fitxes de projecte o buscar qualsevol document de l'estudi en segons.
+                        </p>
+                        <div className="relative max-w-2xl group">
                             <input
                                 type="text"
-                                placeholder="Cerca global..."
-                                className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-orange/20 outline-none"
-                                value={searchQuery}
-                                onChange={(e) => handleSearch(e.target.value)}
+                                placeholder="Escriu la teva consulta o petició..."
+                                className="w-full bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 rounded-[2rem] py-5 pl-8 pr-20 text-lg outline-none focus:ring-2 focus:ring-brand-orange/50 transition-all placeholder:text-white/20 shadow-2xl"
+                                onKeyDown={(e) => e.key === 'Enter' && navigate('/agenda')}
                             />
-                            {isSearchOpen && (
-                                <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 z-[100] max-h-[400px] overflow-y-auto">
-                                    <div className="p-4">
-                                        {searchResults.cards.length === 0 && searchResults.docs.length === 0 ? (
-                                            <p className="text-center text-xs text-gray-400 py-4">No s'han trobat resultats.</p>
-                                        ) : (
-                                            <div className="space-y-4">
-                                                {searchResults.cards.length > 0 && (
-                                                    <div>
-                                                        <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 px-2">Tarjetas ({searchResults.cards.length})</h4>
-                                                        <div className="space-y-1">
-                                                            {searchResults.cards.map(card => (
-                                                                <div
-                                                                    key={card.id}
-                                                                    onClick={() => { navigate(`/board/${card.boardId}`); setIsSearchOpen(false); }}
-                                                                    className="p-2 hover:bg-orange-50 rounded-lg cursor-pointer"
-                                                                >
-                                                                    <div className="flex items-center justify-between">
-                                                                        <p className="text-sm font-bold text-gray-800">{card.title}</p>
-                                                                        <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">{card.boardTitle}</span>
-                                                                    </div>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            )}
+                            <button
+                                onClick={() => navigate('/agenda')}
+                                className="absolute right-3 top-3 bottom-3 bg-brand-orange text-white px-6 rounded-2xl hover:bg-orange-600 transition-all flex items-center gap-2 font-black text-xs tracking-widest uppercase shadow-lg shadow-orange-500/20"
+                            >
+                                <Send size={18} />
+                            </button>
                         </div>
-                        <button
-                            onClick={() => setIsImportModalOpen(true)}
-                            className="bg-white text-brand-black border border-gray-200 px-4 py-3 sm:py-2 rounded-xl text-xs font-bold tracking-widest hover:bg-gray-50 transition-all w-full sm:w-auto shadow-sm active:scale-95 flex items-center justify-center gap-2"
-                        >
-                            <Upload size={14} /> IMPORTAR TRELLO
-                        </button>
-                        <button
-                            onClick={() => navigate('/docs')}
-                            className="bg-brand-black text-white px-6 py-3 sm:py-2 rounded-xl text-xs font-bold tracking-widest hover:bg-brand-orange transition-all w-full sm:w-auto shadow-sm active:scale-95"
-                        >
-                            DOCUMENTACIÓ
-                        </button>
+                        <div className="flex flex-wrap gap-3 pt-2">
+                            {['Resumir emails', 'Nova tasca', 'Contacte client'].map(tag => (
+                                <button key={tag} onClick={() => navigate('/agenda')} className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-[10px] font-black uppercase tracking-widest text-gray-400 transition-all">
+                                    {tag}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="hidden lg:flex w-64 h-64 items-center justify-center relative">
+                        <div className="absolute inset-0 bg-brand-orange/20 rounded-full blur-[80px] animate-pulse"></div>
+                        <Bot size={160} className="text-brand-orange opacity-20 absolute" />
+                        <div className="relative w-full h-full border-2 border-dashed border-white/10 rounded-full animate-[spin_20s_linear_infinite] flex items-center justify-center">
+                            <div className="w-4 h-4 bg-brand-orange rounded-full absolute -top-2"></div>
+                            <div className="w-4 h-4 bg-white/20 rounded-full absolute -bottom-2"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             {/* Trello Import Modal */}
-            {isImportModalOpen && (
-                <div className="fixed inset-0 bg-brand-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-                    <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl">
-                        <h3 className="text-xl font-black text-gray-800 uppercase tracking-tight mb-4">Importar des de Trello</h3>
-                        <p className="text-sm text-gray-500 mb-6">Selecciona el tauler de destí i puja el fitxer JSON exportat de Trello.</p>
+            {
+                isImportModalOpen && (
+                    <div className="fixed inset-0 bg-brand-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
+                        <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl">
+                            <h3 className="text-xl font-black text-gray-800 uppercase tracking-tight mb-4">Importar des de Trello</h3>
+                            <p className="text-sm text-gray-500 mb-6">Selecciona el tauler de destí i puja el fitxer JSON exportat de Trello.</p>
 
-                        <div className="space-y-4">
-                            <div>
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tauler de Destí</label>
-                                <select
-                                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-brand-orange/20"
-                                    value={importingBoardId || ''}
-                                    onChange={(e) => setImportingBoardId(e.target.value)}
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tauler de Destí</label>
+                                    <select
+                                        className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-brand-orange/20"
+                                        value={importingBoardId || ''}
+                                        onChange={(e) => setImportingBoardId(e.target.value)}
+                                    >
+                                        <option value="">Selecciona un tauler...</option>
+                                        {boards.map(b => (
+                                            <option key={b.id} value={b.id}>{b.title}</option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Fitxer JSON de Trello</label>
+                                    <input
+                                        type="file"
+                                        accept=".json"
+                                        onChange={handleTrelloImport}
+                                        disabled={!importingBoardId}
+                                        className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-brand-orange hover:file:bg-orange-100 cursor-pointer disabled:opacity-50"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="mt-8 flex justify-end gap-3">
+                                <button
+                                    onClick={() => setIsImportModalOpen(false)}
+                                    className="px-6 py-2 text-sm font-bold text-gray-400 hover:text-gray-600"
                                 >
-                                    <option value="">Selecciona un tauler...</option>
-                                    {boards.map(b => (
-                                        <option key={b.id} value={b.id}>{b.title}</option>
-                                    ))}
-                                </select>
+                                    CANCEL·LAR
+                                </button>
                             </div>
-
-                            <div>
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Fitxer JSON de Trello</label>
-                                <input
-                                    type="file"
-                                    accept=".json"
-                                    onChange={handleTrelloImport}
-                                    disabled={!importingBoardId}
-                                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-brand-orange hover:file:bg-orange-100 cursor-pointer disabled:opacity-50"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="mt-8 flex justify-end gap-3">
-                            <button
-                                onClick={() => setIsImportModalOpen(false)}
-                                className="px-6 py-2 text-sm font-bold text-gray-400 hover:text-gray-600"
-                            >
-                                CANCEL·LAR
-                            </button>
                         </div>
                     </div>
-                </div>
-            )}
+                )
+            }
 
             {/* Helper for counts */}
-            {(() => {
-                const getCount = (bid) =>
-                    boards.find(b => b.id === bid)?.columns?.reduce((acc, col) =>
-                        acc + (allCards.filter(c => {
-                            if (c.columnId !== col.id) return false;
-                            if (selectedUsers.length > 0) {
-                                const responsible = c.responsibleId || c.assignee;
-                                return selectedUsers.includes(responsible);
-                            }
-                            return true;
-                        })?.length || 0), 0) || 0;
+            {
+                (() => {
+                    const getCount = (bid) =>
+                        boards.find(b => b.id === bid)?.columns?.reduce((acc, col) =>
+                            acc + (allCards.filter(c => {
+                                if (c.columnId !== col.id) return false;
+                                if (selectedUsers.length > 0) {
+                                    const responsible = c.responsibleId || c.assignee;
+                                    return selectedUsers.includes(responsible);
+                                }
+                                return true;
+                            })?.length || 0), 0) || 0;
 
-                return (
-                    <div className="flex flex-col gap-10">
-                        {/* ROW 1: SERVICES */}
-                        <div>
-                            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Serveis</h2>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                                <DepartmentCard title="LG - Disseny" icon={Palette} count={getCount('b_design')} onClick={() => navigate('/board/b_design')} />
-                                <DepartmentCard title="XARXES SOCIALS" icon={Smartphone} count={getCount('b_social')} onClick={() => navigate('/board/b_social')} />
-                                <DepartmentCard title="WEB laGràfica" icon={Code} count={getCount('b_web')} onClick={() => navigate('/board/b_web')} />
-                                <DepartmentCard title="Projectes IA" icon={Bot} count={getCount('b_ai')} onClick={() => navigate('/board/b_ai')} />
-                            </div>
-                        </div>
-
-                        {/* ROW 2: CLIENTS */}
-                        <div>
-                            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Clients</h2>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                                <DepartmentCard title="LLEIDA EN VERD 2025" icon={Layout} count={getCount('b_lleida')} onClick={() => navigate('/board/b_lleida')} />
-                                <DepartmentCard title="ANIMAC26" icon={Play} count={getCount('b_animac')} onClick={() => navigate('/board/b_animac')} />
-                                <DepartmentCard title="Imo" icon={Briefcase} count={getCount('b_imo')} onClick={() => navigate('/board/b_imo')} />
-                                <DepartmentCard title="EXPOSICIÓ DIBA 2026" icon={FileText} count={getCount('b_diba')} onClick={() => navigate('/board/b_diba')} />
-                            </div>
-                        </div>
-
-                        {/* ROW 3: MANAGEMENT & URGENT NOTICES */}
-                        <div className="flex flex-col xl:grid xl:grid-cols-3 gap-8">
-                            <div className="xl:col-span-2 bg-brand-orange p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] shadow-lg relative overflow-hidden flex flex-col h-full">
-                                <h2 className="text-sm font-black text-white uppercase tracking-wider mb-6">Gestió i Administració</h2>
-                                {isManagementUnlocked ? (
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                        <DepartmentCard title="FACTURACIÓ 2025" icon={Receipt} count={getCount('b_billing')} onClick={() => navigate('/board/b_billing')} />
-                                        <DepartmentCard title="PRESSUPOSTOS 2025" icon={DollarSign} count={getCount('b_budget')} onClick={() => navigate('/board/b_budget')} />
-                                        <DepartmentCard title="KIT DIGITAL" icon={Briefcase} count={getCount('b_kit_digital')} onClick={() => navigate('/board/b_kit_digital')} />
-                                        <DepartmentCard title="Gestió" icon={Clipboard} count={getCount('b_management')} onClick={() => navigate('/board/b_management')} />
-                                        <DepartmentCard title="Licitacions" icon={Gavel} count={getCount('b_tenders')} onClick={() => navigate('/board/b_tenders')} />
-                                    </div>
-                                ) : (
-                                    <div className="flex flex-col items-center justify-center py-10 gap-6 flex-1">
-                                        <Lock size={40} className="text-white/30" />
-                                        <button onClick={() => setShowPasswordInput(true)} className="bg-white text-brand-orange px-10 py-3 rounded-full font-black text-xs uppercase tracking-widest shadow-xl active:scale-95 transition-all">Accedir al Sistema</button>
-                                        {showPasswordInput && (
-                                            <form onSubmit={handleUnlockManagement} className="flex gap-2 animate-in slide-in-from-bottom-2">
-                                                <input type="password" placeholder="Contrasenya..." className="px-5 py-3 rounded-2xl text-sm outline-none shadow-inner text-slate-900" value={managementPassword} onChange={e => setManagementPassword(e.target.value)} />
-                                                <button type="submit" className="bg-brand-black text-white px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-widest">OK</button>
-                                            </form>
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* URGENT NOTICES */}
-                            <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100 flex flex-col h-full">
-                                <div className="flex items-center gap-3 mb-6 md:mb-8">
-                                    <Bell size={20} className="text-brand-orange" />
-                                    <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Avisos Urgents</h3>
+                    return (
+                        <div className="flex flex-col gap-10">
+                            {/* ROW 1: SERVICES */}
+                            <div>
+                                <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Serveis</h2>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                    <DepartmentCard title="LG - Disseny" icon={Palette} count={getCount('b_design')} onClick={() => navigate('/board/b_design')} />
+                                    <DepartmentCard title="XARXES SOCIALS" icon={Smartphone} count={getCount('b_social')} onClick={() => navigate('/board/b_social')} />
+                                    <DepartmentCard title="WEB laGràfica" icon={Code} count={getCount('b_web')} onClick={() => navigate('/board/b_web')} />
+                                    <DepartmentCard title="Projectes IA" icon={Bot} count={getCount('b_ai')} onClick={() => navigate('/board/b_ai')} />
                                 </div>
-                                <div className="flex gap-2 mb-6">
+                            </div>
+
+                            {/* ROW 2: CLIENTS */}
+                            <div>
+                                <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Clients</h2>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                    <DepartmentCard title="LLEIDA EN VERD 2025" icon={Layout} count={getCount('b_lleida')} onClick={() => navigate('/board/b_lleida')} />
+                                    <DepartmentCard title="ANIMAC26" icon={Play} count={getCount('b_animac')} onClick={() => navigate('/board/b_animac')} />
+                                    <DepartmentCard title="Imo" icon={Briefcase} count={getCount('b_imo')} onClick={() => navigate('/board/b_imo')} />
+                                    <DepartmentCard title="EXPOSICIÓ DIBA 2026" icon={FileText} count={getCount('b_diba')} onClick={() => navigate('/board/b_diba')} />
+                                </div>
+                            </div>
+
+                            {/* ROW 3: URGENT NOTICES (Moved Up and Highlighted) */}
+                            <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100 flex flex-col h-full border-l-4 border-l-brand-orange">
+                                <div className="flex items-center justify-between mb-6 md:mb-8">
+                                    <div className="flex items-center gap-3">
+                                        <Bell size={20} className="text-brand-orange" />
+                                        <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Avisos Urgents</h3>
+                                    </div>
+                                    <span className="text-[10px] font-black bg-orange-50 text-brand-orange px-3 py-1 rounded-full">{urgentNotes.filter(n => !n.done).length} PENDENTS</span>
+                                </div>
+                                <div className="flex gap-2 mb-6 text-2xl">
                                     <input
                                         type="text"
-                                        placeholder="Acció urgent..."
-                                        className="flex-1 px-5 py-3 bg-gray-50 rounded-2xl text-xs font-bold border border-gray-100 outline-none focus:ring-2 focus:ring-brand-orange/10 transition-all"
+                                        placeholder="Què cal fer ara mateix?..."
+                                        className="flex-1 px-5 py-4 bg-gray-50 rounded-2xl text-sm font-bold border border-gray-100 outline-none focus:ring-2 focus:ring-brand-orange/10 transition-all"
                                         value={newNote}
                                         onChange={(e) => setNewNote(e.target.value)}
                                         onKeyDown={(e) => e.key === 'Enter' && addUrgentNote()}
                                     />
-                                    <button onClick={addUrgentNote} className="bg-brand-orange text-white p-3 rounded-2xl shadow-lg shadow-orange-500/20 active:scale-90 transition-all">
-                                        <Plus size={20} />
+                                    <button onClick={addUrgentNote} className="bg-brand-orange text-white px-5 rounded-2xl shadow-lg shadow-orange-500/20 active:scale-90 transition-all">
+                                        <Plus size={24} />
                                     </button>
                                 </div>
-                                <div className="space-y-3 flex-1 overflow-y-auto max-h-[300px] pr-1 custom-scrollbar">
+                                <div className="space-y-3 flex-1 overflow-y-auto max-h-[400px] pr-1 custom-scrollbar">
                                     {urgentNotes.map(note => (
-                                        <div key={note.id} className={`flex items-center gap-4 p-4 rounded-2xl border transition-all ${note.done ? 'bg-gray-50 border-gray-100' : 'bg-orange-50/30 border-orange-100 shadow-sm'}`}>
-                                            <div onClick={() => toggleUrgentNoteDone(note.id)} className={`w-5 h-5 rounded-full border-2 ${note.done ? 'bg-brand-orange border-brand-orange' : 'bg-white border-brand-orange/30'} cursor-pointer flex items-center justify-center`}>
-                                                {note.done && <Check size={12} className="text-white" />}
+                                        <div key={note.id} className={`flex items-center gap-4 p-5 rounded-2xl border transition-all ${note.done ? 'bg-gray-50 border-gray-100' : 'bg-white border-orange-100 shadow-sm border-l-4 border-l-brand-orange'}`}>
+                                            <div onClick={() => toggleUrgentNoteDone(note.id)} className={`w-6 h-6 rounded-lg border-2 ${note.done ? 'bg-brand-orange border-brand-orange' : 'bg-white border-brand-orange/30'} cursor-pointer flex items-center justify-center transition-all`}>
+                                                {note.done && <Check size={14} className="text-white" />}
                                             </div>
-                                            <span className={`text-[11px] font-bold flex-1 ${note.done ? 'line-through text-gray-300' : 'text-gray-700'}`}>{note.text}</span>
-                                            <button onClick={() => handleArchiveNote(note)} className="text-gray-300 hover:text-red-500 transition-colors"><Archive size={16} /></button>
+                                            <span className={`text-sm font-bold flex-1 ${note.done ? 'line-through text-gray-300' : 'text-gray-700'}`}>{note.text}</span>
+                                            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100">
+                                                <button onClick={() => handleArchiveNote(note)} className="p-2 text-gray-300 hover:text-brand-orange transition-colors"><Archive size={18} /></button>
+                                            </div>
                                         </div>
                                     ))}
-                                    {urgentNotes.length === 0 && <p className="text-[10px] font-black uppercase text-gray-300 text-center py-10 tracking-widest">Cap avís pendent</p>}
+                                    {urgentNotes.length === 0 && (
+                                        <div className="flex flex-col items-center justify-center py-12 text-center">
+                                            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+                                                <Check size={32} className="text-gray-200" />
+                                            </div>
+                                            <p className="text-[10px] font-black uppercase text-gray-300 tracking-[0.2em]">Tot al dia, bon treball!</p>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
-                    </div>
-                );
-            })()}
+                    );
+                })()
+            }
 
             {/* Calendar Widget and Time Control Row */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -537,7 +533,7 @@ const Dashboard = ({ selectedUsers }) => {
                 </div>
             </div>
 
-        </div>
+        </div >
     );
 };
 
