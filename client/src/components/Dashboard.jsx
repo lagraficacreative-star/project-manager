@@ -398,7 +398,7 @@ const Dashboard = ({ selectedUsers }) => {
 
                             {/* ROW 2: CLIENTS */}
                             <div>
-                                <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Clients</h2>
+                                <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Clients de l'Estudi</h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                     <DepartmentCard title="LLEIDA EN VERD 2025" icon={Layout} count={getCount('b_lleida')} onClick={() => navigate('/board/b_lleida')} />
                                     <DepartmentCard title="ANIMAC26" icon={Play} count={getCount('b_animac')} onClick={() => navigate('/board/b_animac')} />
@@ -407,7 +407,60 @@ const Dashboard = ({ selectedUsers }) => {
                                 </div>
                             </div>
 
-                            {/* ROW 3: URGENT NOTICES (Moved Up and Highlighted) */}
+                            {/* ROW 3: GESTIÓ (Password Protected) */}
+                            <div className="bg-gray-50/50 rounded-[2.5rem] p-8 border border-gray-100 mt-2 mb-2">
+                                <div className="flex items-center justify-between mb-6">
+                                    <div className="flex items-center gap-3">
+                                        <div className="p-2 bg-brand-orange/10 rounded-xl text-brand-orange">
+                                            <Lock size={18} />
+                                        </div>
+                                        <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider">Gestió Administrativa</h2>
+                                    </div>
+                                    {!isManagementUnlocked && (
+                                        <button
+                                            onClick={() => setShowPasswordInput(!showPasswordInput)}
+                                            className="text-[10px] font-black text-brand-orange uppercase tracking-widest hover:underline"
+                                        >
+                                            {showPasswordInput ? 'CANCEL·LAR' : 'DESBLOQUEJAR ACCÉS'}
+                                        </button>
+                                    )}
+                                </div>
+
+                                {!isManagementUnlocked ? (
+                                    <div className="flex flex-col items-center justify-center py-12 text-center">
+                                        {showPasswordInput ? (
+                                            <form onSubmit={handleUnlockManagement} className="flex flex-col items-center gap-4 w-full max-w-xs">
+                                                <input
+                                                    type="password"
+                                                    placeholder="Introdueix la contrasenya..."
+                                                    className="w-full px-5 py-3 bg-white border border-gray-100 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-orange/20"
+                                                    value={managementPassword}
+                                                    onChange={(e) => setManagementPassword(e.target.value)}
+                                                    autoFocus
+                                                />
+                                                <button type="submit" className="w-full bg-brand-orange text-white py-3 rounded-2xl text-xs font-black tracking-widest uppercase shadow-lg shadow-orange-500/20">
+                                                    ENTRAR
+                                                </button>
+                                            </form>
+                                        ) : (
+                                            <>
+                                                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm border border-gray-100">
+                                                    <Lock size={24} className="text-gray-300" />
+                                                </div>
+                                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Secció Privada</p>
+                                            </>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                        <DepartmentCard title="PRESSUPOSTOS" icon={Calculator} count={getCount('b_budget')} onClick={() => navigate('/board/b_budget')} />
+                                        <DepartmentCard title="FACTURACIÓ" icon={Receipt} count={getCount('b_billing')} onClick={() => navigate('/board/b_billing')} />
+                                        <DepartmentCard title="KIT DIGITAL" icon={Gavel} count={getCount('b_kit_digital')} onClick={() => navigate('/board/b_kit_digital')} />
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* ROW 4: URGENT NOTICES (Moved Up and Highlighted) */}
                             <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100 flex flex-col h-full border-l-4 border-l-brand-orange">
                                 <div className="flex items-center justify-between mb-6 md:mb-8">
                                     <div className="flex items-center gap-3">
