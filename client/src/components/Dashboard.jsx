@@ -429,15 +429,17 @@ const Dashboard = ({ selectedUsers }) => {
                                         <Plus size={24} />
                                     </button>
                                 </div>
-                                <div className="space-y-3 flex-1 overflow-y-auto max-h-[400px] pr-1 custom-scrollbar">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 flex-1 overflow-y-auto pr-1 custom-scrollbar">
                                     {urgentNotes.map(note => (
-                                        <div key={note.id} className={`flex items-center gap-4 p-5 rounded-2xl border transition-all ${note.done ? 'bg-gray-50 border-gray-100' : 'bg-white border-orange-100 shadow-sm border-l-4 border-l-brand-orange'}`}>
-                                            <div onClick={() => toggleUrgentNoteDone(note.id)} className={`w-6 h-6 rounded-lg border-2 ${note.done ? 'bg-brand-orange border-brand-orange' : 'bg-white border-brand-orange/30'} cursor-pointer flex items-center justify-center transition-all`}>
+                                        <div key={note.id} className={`flex items-start gap-4 p-5 rounded-2xl border transition-all ${note.done ? 'bg-gray-50 border-gray-100' : 'bg-white border-orange-100 shadow-sm border-l-4 border-l-brand-orange'}`}>
+                                            <div onClick={() => toggleUrgentNoteDone(note.id)} className={`w-6 h-6 shrink-0 rounded-lg border-2 ${note.done ? 'bg-brand-orange border-brand-orange' : 'bg-white border-brand-orange/30'} cursor-pointer flex items-center justify-center transition-all mt-0.5`}>
                                                 {note.done && <Check size={14} className="text-white" />}
                                             </div>
-                                            <span className={`text-sm font-bold flex-1 ${note.done ? 'line-through text-gray-300' : 'text-gray-700'}`}>{note.text}</span>
-                                            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100">
-                                                <button onClick={() => handleArchiveNote(note)} className="p-2 text-gray-300 hover:text-brand-orange transition-colors"><Archive size={18} /></button>
+                                            <div className="flex-1 min-w-0">
+                                                <span className={`text-sm font-bold block ${note.done ? 'line-through text-gray-300' : 'text-gray-700'}`}>{note.text}</span>
+                                                <div className="flex justify-end mt-2">
+                                                    <button onClick={() => handleArchiveNote(note)} className="p-1.5 text-gray-300 hover:text-brand-orange transition-colors"><Archive size={16} /></button>
+                                                </div>
                                             </div>
                                         </div>
                                     ))}
