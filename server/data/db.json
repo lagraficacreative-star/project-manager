@@ -4577,7 +4577,7 @@
     {
       "id": "card_1769238074922hs0b1",
       "boardId": "b_design_montse",
-      "columnId": "c_todo_b_design_montse",
+      "columnId": "c_revision_b_design_montse",
       "title": "Alerta de seguridad para lagraficacreative@gmail.com",
       "descriptionBlocks": [
         {
@@ -4592,7 +4592,17 @@
       ],
       "createdAt": "2026-01-24T07:01:14.922Z",
       "message_id": 580266,
-      "attachments": []
+      "attachments": [],
+      "comments": [
+        {
+          "id": "msg_1769245154971",
+          "user": "Sistema",
+          "text": "📩 Nou Correu:\nDe: Google <no-reply@accounts.google.com>\nAssumpte: Alerta de seguridad para lagraficacreative@gmail.com\n\nEste mensaje es una copia de una alerta de seguridad enviada a\r\nlagraficacreative@gmail.com. montse@lagrafica.com es el correo de\r\nrecuperación de esta cuenta. Si no reconoces esta cuenta, quítala\r\n<https://accounts.google.com/AccountDisavow?adt=AOX8kirCn46fJ23J4y_5KY9Cl_wCPfRkk394L7vlENbi8O58TIqwlDvXqGxFYbs8&rfn=127>\r\n.\r\n[image: Google]\r\nSe ha concedido el acceso a tu cuenta de Google vinculada a...",
+          "timestamp": "2026-01-24T08:59:14.971Z",
+          "isEmail": true,
+          "senderEmail": "Google <no-reply@accounts.google.com>"
+        }
+      ]
     },
     {
       "id": "card_176924276062216wp1",
@@ -5231,6 +5241,13 @@
   ],
   "activity": [
     {
+      "id": "1769245154971x8kkp",
+      "type": "mail",
+      "text": "Correu vinculat a \"Alerta de seguridad para lagraficacreative@gmail.com\" (Mogut a Revisió)",
+      "user": "Sistema",
+      "timestamp": "2026-01-24T08:59:14.971Z"
+    },
+    {
       "id": "1769242874781o62f0",
       "type": "mail",
       "text": "Nova fitxa creada per a Montse: Sanitas Autónomos: El Seguro completo para ti y tu familia",
@@ -5572,13 +5589,6 @@
       "text": "Correu vinculat a \"Pagina web\" (Mogut a Revisió)",
       "user": "Sistema",
       "timestamp": "2026-01-23T13:32:16.581Z"
-    },
-    {
-      "id": "1769175107079znmrl",
-      "type": "mail",
-      "text": "Correu vinculat a \"Re: CALENDARI - PROGRAMA\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T13:31:47.079Z"
     }
   ],
   "contacts": [
@@ -7535,6 +7545,7 @@
     "team_auto_montse_580265",
     "team_auto_montse_580266",
     "team_auto_neus_31149",
-    "team_auto_montse_580267"
+    "team_auto_montse_580267",
+    "team_auto_montse_580268"
   ]
 }
