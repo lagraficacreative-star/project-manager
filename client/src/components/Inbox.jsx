@@ -298,18 +298,34 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{selectedEmail.from}</p>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-3 w-full md:w-auto">
-                                    <button onClick={() => handleDeleteEmail(selectedEmail.messageId)} className="p-4 text-gray-300 hover:bg-red-50 hover:text-red-500 rounded-2xl transition-all"><Trash2 size={24} /></button>
-                                    <button
-                                        onClick={() => {
-                                            setEmailComposerData({ to: selectedEmail.from, subject: `RE: ${selectedEmail.subject}`, body: `\n\n--- Missatge original ---\nDe: ${selectedEmail.from}\nAssumpte: ${selectedEmail.subject}\n\n${selectedEmail.body}`, memberId: currentUser.id, replyToId: selectedEmail.messageId });
-                                            setShowEmailComposer(true);
-                                        }}
-                                        className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-4 bg-brand-black text-white rounded-2xl hover:bg-brand-orange transition-all text-xs font-black uppercase tracking-widest shadow-lg shadow-black/10"
-                                    >
-                                        <Send size={18} /> Responder
-                                    </button>
-                                    <button onClick={() => handleConvertToCard(selectedEmail)} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-8 py-4 bg-brand-orange text-white rounded-2xl hover:bg-orange-600 transition-all text-xs font-black uppercase tracking-widest shadow-xl shadow-orange-500/20"><Plus size={18} /> Crear Ficha</button>
+                                <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                                    <button onClick={() => handleDeleteEmail(selectedEmail.messageId)} className="p-3 text-gray-300 hover:bg-red-50 hover:text-red-500 rounded-2xl transition-all border border-transparent hover:border-red-100" title="Mover a papelera"><Trash2 size={24} /></button>
+
+                                    <div className="flex flex-wrap gap-2 flex-1 md:flex-none">
+                                        <button
+                                            onClick={() => {
+                                                setEmailComposerData({
+                                                    to: selectedEmail.from,
+                                                    subject: `RE: ${selectedEmail.subject}`,
+                                                    body: `\n\n--- Missatge original ---\nDe: ${selectedEmail.from}\nAssumpte: ${selectedEmail.subject}\n\n${selectedEmail.body}`,
+                                                    memberId: currentUser.id,
+                                                    replyToId: selectedEmail.messageId
+                                                });
+                                                setShowEmailComposer(true);
+                                            }}
+                                            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-brand-black text-white border border-brand-black rounded-xl hover:bg-brand-orange hover:border-brand-orange transition-all text-[10px] font-black uppercase tracking-widest shadow-lg shadow-black/10"
+                                        >
+                                            <Send size={16} /> Responder
+                                        </button>
+
+                                        <button onClick={() => handleAddToCard(selectedEmail)} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-gray-50 text-gray-500 border border-gray-100 rounded-xl hover:bg-gray-100 transition-all text-[10px] font-black uppercase tracking-widest shadow-sm">
+                                            <Plus size={16} /> A Proyecto
+                                        </button>
+
+                                        <button onClick={() => handleConvertToCard(selectedEmail)} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-brand-orange text-white rounded-xl hover:bg-orange-600 transition-all text-[10px] font-black uppercase tracking-widest shadow-xl shadow-orange-500/20">
+                                            <Plus size={16} /> Crear Ficha
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <div className="flex-1 overflow-y-auto p-8 md:p-12 lg:p-16 custom-scrollbar bg-gray-50/20">
