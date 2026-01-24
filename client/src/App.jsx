@@ -289,7 +289,7 @@ function App() {
                         </div>
                     </header>
 
-                    <div className="flex-1 overflow-y-auto no-scrollbar relative p-4 md:p-8 lg:p-10">
+                    <div className="flex-1 overflow-y-auto no-scrollbar relative p-2 md:p-4">
                         <Routes>
                             <Route path="/" element={<Dashboard selectedUsers={selectedUsers} selectedClient={selectedClient} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
                             <Route path="/board/:boardId" element={<Board selectedUsers={selectedUsers} selectedClient={selectedClient} currentUser={currentUser} />} />

@@ -113,10 +113,10 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
     };
 
     return (
-        <div className="fixed inset-0 z-[150] flex items-center justify-center bg-brand-black/60 backdrop-blur-md p-4 animate-in fade-in duration-300">
-            <div className="bg-white rounded-[2.5rem] w-full max-w-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] border border-white/20">
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-brand-black/60 backdrop-blur-md p-2 md:p-4 animate-in fade-in duration-300">
+            <div className="bg-white rounded-[2rem] w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] border border-white/20">
                 {/* Header */}
-                <div className="p-8 border-b border-gray-100 flex justify-between items-center bg-gray-50/30">
+                <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/30">
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-brand-orange rounded-2xl flex items-center justify-center text-white shadow-lg shadow-orange-500/20">
                             <Mail size={24} />
@@ -132,7 +132,7 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
                 </div>
 
                 {/* Form Content */}
-                <div className="flex-1 overflow-y-auto custom-scrollbar p-8 md:p-10 space-y-8">
+                <div className="flex-1 overflow-y-auto custom-scrollbar p-6 md:p-8 space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-3">
                             <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] flex items-center gap-2">
@@ -181,7 +181,7 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
                             ref={editorRef}
                             contentEditable
                             onKeyDown={handleKeyDown}
-                            className="w-full p-8 bg-gray-50 border border-gray-100 rounded-[2rem] text-sm font-medium focus:ring-4 focus:ring-brand-orange/5 outline-none transition-all min-h-[300px] overflow-y-auto font-sans leading-relaxed shadow-inner"
+                            className="w-full p-6 bg-gray-50 border border-gray-100 rounded-[1.5rem] text-sm font-medium focus:ring-4 focus:ring-brand-orange/5 outline-none transition-all min-h-[250px] overflow-y-auto font-sans leading-relaxed shadow-inner"
                             placeholder="Escriu la teva resposta aquí..."
                         />
                     </div>
