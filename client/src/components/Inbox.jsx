@@ -279,7 +279,10 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                         </div>
                                         <div className="flex flex-col items-end gap-1">
                                             <span className="text-[9px] font-bold text-gray-300 whitespace-nowrap">{new Date(email.date).toLocaleDateString()}</span>
-                                            <div className="p-1 px-2 bg-orange-50 text-brand-orange rounded-full text-[8px] font-black opacity-0 group-hover:opacity-100 transition-all uppercase">Responder</div>
+                                            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
+                                                <button onClick={(e) => { e.stopPropagation(); handleConvertToCard(email); }} className="p-1 px-2 bg-orange-100 text-brand-orange rounded-full text-[8px] font-black uppercase hover:bg-brand-orange hover:text-white transition-colors">+ Ficha</button>
+                                                <button onClick={(e) => { e.stopPropagation(); handleSelectEmail(email); setEmailComposerData({ to: email.from, subject: `RE: ${email.subject}`, body: `\n\n--- Original ---\n${email.body}`, memberId: currentUser.id, replyToId: email.messageId }); setShowEmailComposer(true); }} className="p-1 px-2 bg-gray-100 text-gray-600 rounded-full text-[8px] font-black uppercase hover:bg-brand-black hover:text-white transition-colors">Responder</button>
+                                            </div>
                                         </div>
                                     </div>
                                     <h4 className={`text-sm font-bold truncate mb-2 ${isSelected ? 'text-brand-orange' : 'text-gray-800'}`}>{email.subject}</h4>
@@ -397,6 +400,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             )}
 
             <EmailComposer
+                key={emailComposerData.replyToId || 'new'}
                 isOpen={showEmailComposer}
                 onClose={() => setShowEmailComposer(false)}
                 memberId={emailComposerData.memberId}
