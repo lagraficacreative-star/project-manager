@@ -198,7 +198,24 @@ const Dashboard = ({ selectedUsers, currentUser, isManagementUnlocked, unlockMan
         reader.readAsText(file);
     };
 
-    const getCount = (bid) => allCards.filter(c => c.boardId === bid).length;
+    const [isExporting, setIsExporting] = useState(false);
+
+    const handleSyncSheets = async () => {
+        setIsExporting(true);
+        try {
+            const res = await api.exportToSheets();
+            if (res.success) {
+                alert("Sincronización con Google Sheets iniciada correctamente.");
+            } else {
+                alert("Error al sincronizar: " + (res.error || "Desconocido"));
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Error de conexión al sincronizar.");
+        } finally {
+            setIsExporting(false);
+        }
+    };
 
     return (
         <div className="flex flex-col gap-10 pb-10">
@@ -210,6 +227,13 @@ const Dashboard = ({ selectedUsers, currentUser, isManagementUnlocked, unlockMan
                     <h1 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mt-2">Workspace & Intelligence</h1>
                 </div>
                 <div className="flex items-center gap-3">
+                    <button
+                        onClick={handleSyncSheets}
+                        disabled={isExporting}
+                        className={`bg-white text-green-600 border border-green-100 px-5 py-2.5 rounded-2xl text-[10px] font-black tracking-widest hover:bg-green-50 transition-all shadow-sm flex items-center gap-2 group ${isExporting ? 'opacity-50' : ''}`}
+                    >
+                        <Table size={14} className={isExporting ? 'animate-spin' : ''} /> {isExporting ? 'SINCRONIZANDO...' : 'SINCRONIZAR SHEETS'}
+                    </button>
                     <button
                         onClick={() => setIsImportModalOpen(true)}
                         className="bg-white text-brand-black border border-gray-100 px-5 py-2.5 rounded-2xl text-[10px] font-black tracking-widest hover:bg-gray-50 transition-all shadow-sm flex items-center gap-2 group"

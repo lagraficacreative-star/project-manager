@@ -341,5 +341,9 @@ export const api = {
     syncGoogle: async () => {
         const res = await fetch(`${API_URL}/sync-google`);
         return res.json();
+    },
+    exportToSheets: async () => {
+        const res = await fetch(`${API_URL}/export-sheets`, { method: 'POST' });
+        return res.json();
     }
 };

@@ -1504,6 +1504,33 @@ app.get('/api/sync-google', async (req, res) => {
     }
 });
 
+app.post('/api/export-sheets', async (req, res) => {
+    if (!GOOGLE_SCRIPT_URL) {
+        return res.status(400).json({ error: "Google Script URL not configured" });
+    }
+    try {
+        const db = readDB();
+        const payload = {
+            action: 'export_all',
+            boards: db.boards || [],
+            cards: db.cards || [],
+            users: db.users || []
+        };
+
+        await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        res.json({ success: true, message: "Export initiated" });
+    } catch (err) {
+        console.error("Error exporting to Google Sheets:", err);
+        res.status(500).json({ error: "Failed to export to Google Sheets" });
+    }
+});
+
 // --- SPA FALLBACK ---
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));

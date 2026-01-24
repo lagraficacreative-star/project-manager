@@ -4,34 +4,34 @@ import { Package, FileText, Globe, Image, Settings, Download, ExternalLink } fro
 const Resources = () => {
     const categories = [
         {
-            title: "Identitat Corporativa",
-            icon: <Image className="text-brand-orange" size={20} />,
-            description: "Accedeix a logotips, guies d'estil i paletes de colors.",
-            link: "https://drive.google.com/drive/folders/15L2H3q1Y1vMDRj7YpE9R6m9z9fB3i5b6"
+            title: "Proyectos LaGràfica",
+            icon: <Globe className="text-brand-orange" size={20} />,
+            description: "Carpeta maestra con todos los proyectos activos del estudio.",
+            link: "https://drive.google.com/drive/u/0/folders/1eJ_8TVeuDEqSGPtH6wIsmLNwe43eerCq"
         },
         {
-            title: "Projectes Clients",
+            title: "IA & Desarrollo Web",
             icon: <Globe className="text-blue-500" size={20} />,
-            description: "Carpetes i documentació específica de clients.",
-            link: "https://drive.google.com/drive/folders/13_uB3vP6v9H4w-p9U7n9K5FqLz7mX9e4"
+            description: "Recursos específicos de Inteligencia Artificial y programación Web.",
+            link: "https://drive.google.com/drive/u/0/folders/1eJ_8TVeuDEqSGPtH6wIsmLNwe43eerCq"
         },
         {
-            title: "Plantilles de Disseny",
-            icon: <FileText className="text-purple-500" size={20} />,
-            description: "Plantilles per a pressupostos, presentacions i més.",
+            title: "Diseño (DISSENY)",
+            icon: <Image className="text-purple-500" size={20} />,
+            description: "Carpetas de Inés, Montse, Neus y Alba.",
+            link: "https://drive.google.com/drive/u/0/folders/1eJ_8TVeuDEqSGPtH6wIsmLNwe43eerCq"
+        },
+        {
+            title: "Redes (XARXES)",
+            icon: <Smartphone className="text-green-500" size={20} />,
+            description: "Gestión de redes sociales y contenidos de Alba T.",
+            link: "https://drive.google.com/drive/u/0/folders/1eJ_8TVeuDEqSGPtH6wIsmLNwe43eerCq"
+        },
+        {
+            title: "Plantillas & Corporativo",
+            icon: <FileText className="text-cyan-500" size={20} />,
+            description: "Modelos de presupuestos, facturas y guías de estilo.",
             link: "https://drive.google.com/drive/folders/1z_8y1_v-9pM4w-P9U7n9K5FqLz7mX9e4"
-        },
-        {
-            title: "Banc d'Imatges",
-            icon: <Image className="text-green-500" size={20} />,
-            description: "Recursos visuals, fotografies i stock corporatiu.",
-            link: "https://drive.google.com/drive/folders/1w_8y1_v-9pM4w-P9U7n9K5FqLz7mX9e4"
-        },
-        {
-            title: "Eines Digitals",
-            icon: <Settings className="text-cyan-500" size={20} />,
-            description: "Accessos a programari, utilitats i eines de treball.",
-            link: "https://drive.google.com/drive/folders/1y_8y1_v-9pM4w-P9U7n9K5FqLz7mX9e4"
         }
     ];
 
@@ -76,11 +76,11 @@ const Resources = () => {
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl group-hover:scale-110 transition-transform duration-1000" />
                 <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div>
-                        <h2 className="text-2xl font-black mb-2">Necessites un recurs personalitzat?</h2>
-                        <p className="opacity-90 text-sm font-medium">Si no trobes el que busques o necessites una adaptació específica, contacta amb el departament de disseny.</p>
+                        <h2 className="text-2xl font-black mb-2">¿Necesitas un recurso personalizado?</h2>
+                        <p className="opacity-90 text-sm font-medium">Si no encuentras lo que buscas o necesitas una adaptación específica, contacta con el departamento de diseño.</p>
                     </div>
-                    <button className="px-8 py-4 bg-white text-brand-orange font-black text-sm rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-xl shadow-black/5 whitespace-nowrap">
-                        Sol·licitar Recurs
+                    <button className="px-8 py-4 bg-white text-brand-orange font-black text-sm rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-xl shadow-black/5 whitespace-nowrap uppercase tracking-widest">
+                        Solicitar Recurso
                     </button>
                 </div>
             </div>
