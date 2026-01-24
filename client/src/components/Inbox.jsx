@@ -236,7 +236,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                 <div className="p-2 bg-brand-orange/10 rounded-xl text-brand-orange">
                                     <InboxIcon size={24} />
                                 </div>
-                                <h2 className="text-2xl font-black text-brand-black tracking-tight uppercase leading-none">Buzón <span className="text-brand-orange">Smart</span></h2>
+                                <h2 className="text-2xl font-black text-brand-black tracking-tight uppercase leading-none">Buzón <span className="text-brand-orange">Smart</span> <span className="text-[8px] opacity-20">v2.5</span></h2>
                             </div>
                             <button onClick={fetchEmails} className="p-3 hover:bg-orange-50 text-gray-400 hover:text-brand-orange transition-all rounded-2xl border border-transparent hover:border-orange-100">
                                 <RefreshCw size={20} className={loading ? 'animate-spin' : ''} />
@@ -256,7 +256,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                             <button onClick={() => setActiveTab('inbox')} className={`flex-1 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all ${activeTab === 'inbox' ? 'bg-white text-brand-orange shadow-md border border-gray-100' : 'text-gray-400 opacity-60'}`}>Pendientes</button>
                             <button onClick={() => setActiveTab('archived')} className={`flex-1 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all ${activeTab === 'archived' ? 'bg-white text-brand-orange shadow-md border border-gray-100' : 'text-gray-400 opacity-60'}`}>Gestionados</button>
                         </div>
-                        <div className="flex p-1 bg-100/50 rounded-2xl">
+                        <div className="flex p-1 bg-gray-100 rounded-2xl">
                             <button onClick={() => setActiveFolder('INBOX')} className={`flex-1 py-1.5 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${activeFolder === 'INBOX' ? 'bg-brand-black text-white' : 'text-gray-400 hover:text-gray-600'}`}>Entrada</button>
                             <button onClick={() => setActiveFolder('Sent')} className={`flex-1 py-1.5 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${activeFolder === 'Sent' ? 'bg-brand-black text-white' : 'text-gray-400 hover:text-gray-600'}`}>Enviados</button>
                         </div>
@@ -277,7 +277,10 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                             <span className="text-[11px] font-black text-brand-black truncate max-w-[200px] mb-0.5">{email.from}</span>
                                             {tag && <div className="flex items-center gap-1.5"><Tag size={10} className="text-blue-500" /><span className="text-[8px] font-black text-blue-500 uppercase tracking-widest">{tag.name}</span></div>}
                                         </div>
-                                        <span className="text-[9px] font-bold text-gray-300 whitespace-nowrap">{new Date(email.date).toLocaleDateString()}</span>
+                                        <div className="flex flex-col items-end gap-1">
+                                            <span className="text-[9px] font-bold text-gray-300 whitespace-nowrap">{new Date(email.date).toLocaleDateString()}</span>
+                                            <div className="p-1 px-2 bg-orange-50 text-brand-orange rounded-full text-[8px] font-black opacity-0 group-hover:opacity-100 transition-all uppercase">Responder</div>
+                                        </div>
                                     </div>
                                     <h4 className={`text-sm font-bold truncate mb-2 ${isSelected ? 'text-brand-orange' : 'text-gray-800'}`}>{email.subject}</h4>
                                     <p className="text-[11px] text-gray-400 line-clamp-2 leading-relaxed mb-3">{email.body}</p>
@@ -304,18 +307,12 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                     <div className="flex flex-wrap gap-2 flex-1 md:flex-none">
                                         <button
                                             onClick={() => {
-                                                setEmailComposerData({
-                                                    to: selectedEmail.from,
-                                                    subject: `RE: ${selectedEmail.subject}`,
-                                                    body: `\n\n--- Missatge original ---\nDe: ${selectedEmail.from}\nAssumpte: ${selectedEmail.subject}\n\n${selectedEmail.body}`,
-                                                    memberId: currentUser.id,
-                                                    replyToId: selectedEmail.messageId
-                                                });
+                                                setEmailComposerData({ to: selectedEmail.from, subject: `RE: ${selectedEmail.subject}`, body: `\n\n--- Missatge original ---\nDe: ${selectedEmail.from}\nAssumpte: ${selectedEmail.subject}\n\n${selectedEmail.body}`, memberId: currentUser.id, replyToId: selectedEmail.messageId });
                                                 setShowEmailComposer(true);
                                             }}
-                                            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-brand-black text-white border border-brand-black rounded-xl hover:bg-brand-orange hover:border-brand-orange transition-all text-[10px] font-black uppercase tracking-widest shadow-lg shadow-black/10"
+                                            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-4 bg-brand-orange text-white rounded-2xl hover:bg-orange-600 transition-all text-sm font-black uppercase tracking-widest shadow-xl shadow-orange-500/30 ring-4 ring-orange-100"
                                         >
-                                            <Send size={16} /> Responder
+                                            <Send size={18} /> RESPONDER AHORA
                                         </button>
 
                                         <button onClick={() => handleAddToCard(selectedEmail)} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-gray-50 text-gray-500 border border-gray-100 rounded-xl hover:bg-gray-100 transition-all text-[10px] font-black uppercase tracking-widest shadow-sm">
