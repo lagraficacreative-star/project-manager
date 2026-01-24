@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { api } from '../api';
-import { Search, Plus, Mail, Phone, MapPin, Globe, Trash2, Edit2, X, Briefcase, ChevronRight, MessageSquare, Send, Sparkles, User, Tag, FileText, LayoutDashboard, Table } from 'lucide-react';
+import { Search, Plus, Mail, Phone, MapPin, Globe, Trash2, Edit2, X, Briefcase, ChevronRight, MessageSquare, Send, Sparkles, User, Tag, FileText, LayoutDashboard, Table, Book, Bot } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const AgendaGPT = ({ currentUser, setSelectedClient }) => {
