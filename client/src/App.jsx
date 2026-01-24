@@ -12,7 +12,7 @@ import Licitaciones from './components/Licitaciones';
 import { api } from './api';
 import Calendar from './components/Calendar';
 import ChatWidget from './components/ChatWidget';
-import { LayoutDashboard, Inbox as InboxIcon, Users, Book, Calendar as CalIcon, Folder, Menu, X, Package, Gavel, LogOut, ChevronRight, User as UserIcon } from 'lucide-react';
+import { LayoutDashboard, Inbox as InboxIcon, Users, Book, Calendar as CalIcon, Folder, Menu, X, Package, Gavel, LogOut, ChevronRight, User as UserIcon, Tag } from 'lucide-react';
 
 // Sub-component to handle page title/context in TopBar
 const PageContext = () => {
@@ -33,6 +33,7 @@ const PageContext = () => {
 
 function App() {
     const [selectedUsers, setSelectedUsers] = useState([]);
+    const [selectedClient, setSelectedClient] = useState(null);
     const [users, setUsers] = useState([]);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [messages, setMessages] = useState([]);
@@ -49,7 +50,10 @@ function App() {
         );
     };
 
-    const clearFilters = () => setSelectedUsers([]);
+    const clearFilters = () => {
+        setSelectedUsers([]);
+        setSelectedClient(null);
+    };
 
     const [isManagementUnlocked, setIsManagementUnlocked] = useState(() => {
         return localStorage.getItem('isManagementUnlocked') === 'true';
@@ -131,7 +135,6 @@ function App() {
 
     const handleSwitchSession = (userId) => {
         setCurrentUserId(userId);
-        // Automatically filter for that user when switching session
         setSelectedUsers([userId]);
     };
 
@@ -226,6 +229,13 @@ function App() {
                                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Sección Actual</p>
                                 <h2 className="text-sm font-black text-brand-black uppercase tracking-tight"><PageContext /></h2>
                             </div>
+                            {selectedClient && (
+                                <div className="ml-6 flex items-center gap-2 bg-blue-50 text-blue-600 px-4 py-1.5 rounded-full border border-blue-100 animate-in slide-in-from-left-4">
+                                    <Tag size={12} className="font-black" />
+                                    <span className="text-[10px] font-black uppercase tracking-widest">Cliente: {selectedClient}</span>
+                                    <button onClick={() => setSelectedClient(null)} className="hover:text-blue-800 ml-1"><X size={12} /></button>
+                                </div>
+                            )}
                         </div>
 
                         <div className="flex items-center gap-4">
@@ -233,14 +243,13 @@ function App() {
                             <div className="flex items-center gap-1.5 bg-gray-50 p-1 rounded-full border border-gray-100 shadow-inner">
                                 <button
                                     onClick={clearFilters}
-                                    className={`px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest transition-all ${selectedUsers.length === 0 ? 'bg-white text-brand-orange shadow-md' : 'text-gray-400 hover:text-gray-600'}`}
+                                    className={`px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest transition-all ${(selectedUsers.length === 0 && !selectedClient) ? 'bg-white text-brand-orange shadow-md' : 'text-gray-400 hover:text-gray-600'}`}
                                 >
                                     Ver Todo
                                 </button>
                                 <div className="w-px h-4 bg-gray-200 mx-1"></div>
                                 {users.map(u => {
                                     const isActiveSession = currentUserId === u.id;
-                                    const isFilterActive = selectedUsers.includes(u.id);
 
                                     return (
                                         <button
@@ -282,17 +291,17 @@ function App() {
 
                     <div className="flex-1 overflow-y-auto no-scrollbar relative p-4 md:p-8 lg:p-10">
                         <Routes>
-                            <Route path="/" element={<Dashboard selectedUsers={selectedUsers} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
-                            <Route path="/board/:boardId" element={<Board selectedUsers={selectedUsers} currentUser={currentUser} />} />
+                            <Route path="/" element={<Dashboard selectedUsers={selectedUsers} selectedClient={selectedClient} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
+                            <Route path="/board/:boardId" element={<Board selectedUsers={selectedUsers} selectedClient={selectedClient} currentUser={currentUser} />} />
                             <Route path="/inbox" element={<Inbox selectedUsers={selectedUsers} currentUser={currentUser} />} />
                             <Route path="/rrhh" element={<HRManagement selectedUsers={selectedUsers} currentUser={currentUser} />} />
                             <Route path="/docs" element={<CompanyDocs selectedUsers={selectedUsers} currentUser={currentUser} />} />
-                            <Route path="/agenda" element={<AgendaGPT selectedUsers={selectedUsers} currentUser={currentUser} />} />
-                            <Route path="/agenda/:filterType" element={<AgendaGPT selectedUsers={selectedUsers} currentUser={currentUser} />} />
+                            <Route path="/agenda" element={<AgendaGPT selectedUsers={selectedUsers} currentUser={currentUser} setSelectedClient={setSelectedClient} />} />
+                            <Route path="/agenda/:filterType" element={<AgendaGPT selectedUsers={selectedUsers} currentUser={currentUser} setSelectedClient={setSelectedClient} />} />
                             <Route path="/calendar" element={<Calendar currentUser={currentUser} />} />
                             <Route path="/resources" element={<Resources currentUser={currentUser} />} />
                             <Route path="/licitaciones" element={<Licitaciones currentUser={currentUser} />} />
-                            <Route path="*" element={<Dashboard selectedUsers={selectedUsers} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
+                            <Route path="*" element={<Dashboard selectedUsers={selectedUsers} selectedClient={selectedClient} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
                         </Routes>
 
                         <div className="h-20"></div> {/* Space for chat widget */}

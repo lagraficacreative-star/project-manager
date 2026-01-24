@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../api';
-import { Trash2, Edit2, Plus, Layout, Palette, Code, Smartphone, Clipboard, DollarSign, Receipt, Mail, Send, Calendar, Clock, Bell, Search, Mic, ChevronRight, Square, Play, Bot, Briefcase, FileText, Gavel, Archive, Check, Lock, Calculator, Upload, Table } from 'lucide-react';
+import { Trash2, Edit2, Plus, Layout, Palette, Code, Smartphone, Clipboard, DollarSign, Receipt, Mail, Send, Calendar, Clock, Bell, Search, Mic, ChevronRight, Square, Play, Bot, Briefcase, FileText, Gavel, Archive, Check, Lock, Calculator, Upload, Table, User, Tag } from 'lucide-react';
 
 
-const Dashboard = ({ selectedUsers, currentUser, isManagementUnlocked, unlockManagement }) => {
+const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocked, unlockManagement }) => {
     const navigate = useNavigate();
     const CURRENT_USER_ID = currentUser.id;
 
@@ -90,8 +90,6 @@ const Dashboard = ({ selectedUsers, currentUser, isManagementUnlocked, unlockMan
         const emailData = await api.getEmails(CURRENT_USER_ID, 'INBOX');
         setEmails(Array.isArray(emailData) ? emailData.slice(0, 3) : []);
     };
-
-
 
     const handleClockIn = async () => {
         try {
@@ -217,6 +215,20 @@ const Dashboard = ({ selectedUsers, currentUser, isManagementUnlocked, unlockMan
         }
     };
 
+    // FILTER LOGIC
+    const filteredCards = useMemo(() => {
+        let result = allCards;
+        if (selectedUsers.length > 0) {
+            result = result.filter(c => selectedUsers.includes(c.responsibleId));
+        }
+        if (selectedClient) {
+            result = result.filter(c => c.economic?.client === selectedClient || c.client === selectedClient);
+        }
+        return result;
+    }, [allCards, selectedUsers, selectedClient]);
+
+    const getCount = (bid) => filteredCards.filter(c => c.boardId === bid).length;
+
     return (
         <div className="flex flex-col gap-10 pb-10">
 
@@ -263,6 +275,12 @@ const Dashboard = ({ selectedUsers, currentUser, isManagementUnlocked, unlockMan
                             Hola {currentUser.name.split(' ')[0]}, <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-orange-400">¿en qué puedo ayudarte?</span>
                         </h1>
+                        {selectedClient && (
+                            <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-xl border border-white/10 w-fit">
+                                <Tag size={14} className="text-brand-orange" />
+                                <span className="text-xs font-black uppercase tracking-widest text-orange-200">Filtrando por: {selectedClient}</span>
+                            </div>
+                        )}
                         <p className="text-gray-400 text-sm md:text-base font-medium max-w-xl leading-relaxed">
                             Puedo gestionar tu agenda, resumir correos, crear fichas de proyecto o buscar cualquier documento del estudio en segundos.
                         </p>
@@ -448,88 +466,27 @@ const Dashboard = ({ selectedUsers, currentUser, isManagementUnlocked, unlockMan
                     <div className="p-6 bg-orange-50/50 rounded-3xl border border-brand-orange/10">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-brand-orange text-white flex items-center justify-center font-black text-lg">{currentUser.name[0]}</div>
+                                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-black text-sm shadow-lg ${activeEntry ? 'bg-red-500 animate-pulse' : 'bg-brand-orange'}`}>
+                                    {isActive ? <Play size={20} /> : <Square size={20} />}
+                                </div>
                                 <div>
-                                    <p className="text-xs font-black text-brand-black uppercase">{currentUser.name.split(' ')[0]}</p>
-                                    <p className={`text-[10px] font-black uppercase tracking-widest mt-0.5 ${activeEntry ? 'text-green-600' : 'text-gray-400'}`}>
-                                        {activeEntry ? `Activo • ${formatTime(elapsedTime)}` : 'Desconectado'}
-                                    </p>
+                                    <p className="text-xs font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Tu jornada hoy</p>
+                                    <p className="text-2xl font-black text-brand-black tracking-tighter">{formatTime(elapsedTime)}</p>
                                 </div>
                             </div>
-                            <button onClick={activeEntry ? handleClockOut : handleClockIn} className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all shadow-lg active:scale-90 ${activeEntry ? 'bg-red-500 shadow-red-500/20' : 'bg-brand-black shadow-black/20'} text-white`}>
-                                {activeEntry ? <Square size={20} /> : <Play size={20} className="ml-1" />}
+                            <button
+                                onClick={activeEntry ? handleClockOut : handleClockIn}
+                                className={`px-6 py-3 rounded-2xl text-[10px] font-black tracking-widest uppercase transition-all shadow-lg ${activeEntry
+                                    ? 'bg-red-50 text-red-600 hover:bg-red-100 shadow-red-200'
+                                    : 'bg-brand-orange text-white hover:bg-orange-600 shadow-orange-200'
+                                    }`}
+                            >
+                                {activeEntry ? 'Detener' : 'Comenzar'}
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/* Activity History */}
-            <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 shadow-sm border border-gray-100">
-                <div className="flex items-center gap-3 mb-8">
-                    <div className="p-2 bg-orange-50 rounded-lg"><Archive size={20} className="text-brand-orange" /></div>
-                    <div>
-                        <h3 className="text-lg md:text-xl font-black text-gray-800 uppercase tracking-tight leading-none">Historial de Actividad</h3>
-                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-1">Registro de acciones recientes</p>
-                    </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {activity.length === 0 && <p className="text-center text-xs text-gray-400 py-10 col-span-full">No hay actividad reciente.</p>}
-                    {activity.slice(0, 9).map((item) => (
-                        <div key={item.id} className="flex gap-4 p-4 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-50">
-                            <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center shrink-0">
-                                {item.type === 'card' && <Layout size={16} className="text-brand-orange" />}
-                                {item.type === 'doc' && <FileText size={16} className="text-brand-orange" />}
-                                {item.type === 'mail' && <Mail size={16} className="text-brand-orange" />}
-                                {!['card', 'doc', 'mail'].includes(item.type) && <Bell size={16} className="text-brand-orange" />}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-xs font-bold text-gray-800 leading-tight truncate">{item.text}</p>
-                                <div className="flex items-center gap-2 mt-1.5">
-                                    <span className="text-[9px] font-black text-brand-orange uppercase">{item.user}</span>
-                                    <span className="text-[9px] text-gray-300 font-bold uppercase">{new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {/* Trello Import Modal */}
-            {isImportModalOpen && (
-                <div className="fixed inset-0 bg-brand-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-                    <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl">
-                        <h3 className="text-xl font-black text-gray-800 uppercase tracking-tight mb-4">Importar desde Trello</h3>
-                        <p className="text-sm text-gray-500 mb-6">Selecciona el tablero de destino y sube el fichero JSON exportado de Trello.</p>
-                        <div className="space-y-4">
-                            <div>
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tablero de Destino</label>
-                                <select
-                                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-brand-orange/20"
-                                    value={importingBoardId || ''}
-                                    onChange={(e) => setImportingBoardId(e.target.value)}
-                                >
-                                    <option value="">Selecciona un tablero...</option>
-                                    {boards.map(b => <option key={b.id} value={b.id}>{b.title}</option>)}
-                                </select>
-                            </div>
-                            <div>
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Fichero JSON de Trello</label>
-                                <input
-                                    type="file"
-                                    accept=".json"
-                                    onChange={handleTrelloImport}
-                                    disabled={!importingBoardId}
-                                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-brand-orange hover:file:bg-orange-100 cursor-pointer disabled:opacity-50"
-                                />
-                            </div>
-                        </div>
-                        <div className="mt-8 flex justify-end gap-3">
-                            <button onClick={() => setIsImportModalOpen(false)} className="px-6 py-2 text-sm font-bold text-gray-400 hover:text-gray-600">CANCELAR</button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
