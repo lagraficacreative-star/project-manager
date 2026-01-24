@@ -467,7 +467,7 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
                                 <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-black text-sm shadow-lg ${activeEntry ? 'bg-red-500 animate-pulse' : 'bg-brand-orange'}`}>
-                                    {isActive ? <Play size={20} /> : <Square size={20} />}
+                                    {activeEntry ? <Play size={20} /> : <Square size={20} />}
                                 </div>
                                 <div>
                                     <p className="text-xs font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Tu jornada hoy</p>
