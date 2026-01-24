@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../api';
-import { ChevronLeft, ChevronRight, Plus, X, Clock, MapPin, User, Calendar as CalIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, X, Clock, MapPin, User, Calendar as CalIcon, Briefcase, AlertTriangle } from 'lucide-react';
 
 
 const Calendar = ({ selectedUsers, currentUser }) => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [events, setEvents] = useState([]);
+    const [projects, setProjects] = useState([]);
     const [users, setUsers] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [showEventModal, setShowEventModal] = useState(false);
@@ -32,12 +33,14 @@ const Calendar = ({ selectedUsers, currentUser }) => {
 
     const loadData = async () => {
         try {
-            const [evts, usrs] = await Promise.all([
+            const [evts, usrs, db] = await Promise.all([
                 api.getEvents(),
-                api.getUsers()
+                api.getUsers(),
+                api.getData()
             ]);
             setEvents(evts || []);
             setUsers(usrs || []);
+            setProjects(db.cards || []);
         } catch (err) {
             console.error("Failed to load calendar data", err);
         }
@@ -119,6 +122,23 @@ const Calendar = ({ selectedUsers, currentUser }) => {
     const { days, firstDay } = getDaysInMonth(currentDate);
     const startOffset = firstDay === 0 ? 6 : firstDay - 1;
 
+    // Combine events and projects into a single list of calendar entries
+    const getCalendarEntries = () => {
+        const entries = [
+            ...events.map(e => ({ ...e, calendarType: 'event' })),
+            ...projects.filter(p => p.dueDate).map(p => ({
+                id: p.id,
+                title: p.title,
+                start: p.dueDate + "T00:00:00Z", // Deadlines as all-day or start of day
+                description: p.descriptionBlocks?.[0]?.text || '',
+                userIds: [p.responsibleId].filter(Boolean),
+                calendarType: 'project',
+                priority: p.priority
+            }))
+        ];
+        return entries;
+    };
+
     return (
         <div className="flex flex-col h-full bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden relative">
             <div className="flex-1 flex flex-col">
@@ -146,59 +166,85 @@ const Calendar = ({ selectedUsers, currentUser }) => {
 
                 <div className="flex-1 overflow-y-auto bg-gray-50/30">
                     <div className="p-4 md:p-8 lg:p-12 space-y-8 max-w-4xl mx-auto">
+                        <div className="flex items-center gap-4 mb-4">
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full bg-brand-orange"></div>
+                                <span className="text-[9px] font-black uppercase text-gray-400">Reuniones</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                                <span className="text-[9px] font-black uppercase text-gray-400">Entregas de Proyecto</span>
+                            </div>
+                        </div>
+
                         {(() => {
-                            const monthEvents = events.filter(e => {
-                                const evtDate = new Date(e.start);
-                                return evtDate.getMonth() === currentDate.getMonth() && evtDate.getFullYear() === currentDate.getFullYear();
+                            const entries = getCalendarEntries().filter(e => {
+                                const entryDate = new Date(e.start);
+                                return entryDate.getMonth() === currentDate.getMonth() && entryDate.getFullYear() === currentDate.getFullYear();
                             }).sort((a, b) => new Date(a.start) - new Date(b.start));
 
-                            if (monthEvents.length === 0) {
-                                return <div className="text-center py-20 text-gray-400 italic text-sm">No hay eventos para este mes.</div>
+                            if (entries.length === 0) {
+                                return <div className="text-center py-20 text-gray-400 italic text-sm">No hay eventos ni proyectos para este mes.</div>
                             }
 
-                            const groups = monthEvents.reduce((acc, evt) => {
-                                const d = new Date(evt.start).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+                            const groups = entries.reduce((acc, entry) => {
+                                const d = new Date(entry.start).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
                                 if (!acc[d]) acc[d] = [];
-                                acc[d].push(evt);
+                                acc[d].push(entry);
                                 return acc;
                             }, {});
 
-                            return Object.entries(groups).map(([date, evts]) => (
+                            return Object.entries(groups).map(([date, dayEntries]) => (
                                 <div key={date} className="space-y-4">
                                     <div className="flex items-center gap-4">
                                         <span className="text-[10px] font-black text-brand-orange uppercase tracking-[0.2em] whitespace-nowrap">{date}</span>
                                         <div className="h-px bg-orange-100 flex-1"></div>
                                     </div>
                                     <div className="space-y-3">
-                                        {evts.map(evt => (
-                                            <div key={evt.id} className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex flex-col sm:flex-row gap-4 hover:shadow-md transition-all group">
-                                                <div className="flex items-center gap-4 sm:flex-col sm:items-center sm:justify-center sm:min-w-[70px] sm:border-r sm:border-gray-50 sm:pr-4">
-                                                    <span className="text-sm font-black text-brand-black">{new Date(evt.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                                                    <span className="text-[9px] font-bold text-gray-300 uppercase">{evt.duration} min</span>
-                                                </div>
-                                                <div className="flex-1 min-w-0">
-                                                    <div className="flex justify-between items-start mb-1">
-                                                        <h4 className="font-bold text-gray-800 truncate">{evt.title}</h4>
-                                                        <button onClick={(e) => deleteEvent(evt.id, e)} className="p-1 opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-500 transition-all"><X size={14} /></button>
-                                                    </div>
-                                                    <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">{evt.description}</p>
-                                                    <div className="flex items-center justify-between">
-                                                        <div className="flex -space-x-2">
-                                                            {(evt.userIds || [evt.userId]).map(uid => (
-                                                                <div key={uid} className={`w-6 h-6 rounded-full border-2 border-white flex items-center justify-center text-[9px] font-bold text-white shadow-sm ${uid === 'montse' ? 'bg-brand-orange' : 'bg-gray-400'}`}>
-                                                                    {users.find(u => u.id === uid)?.avatar || uid[0]}
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                        {evt.meetingLink && (
-                                                            <a href={evt.meetingLink.startsWith('http') ? evt.meetingLink : `https://${evt.meetingLink}`} target="_blank" rel="noreferrer" className="text-[10px] text-brand-orange font-black uppercase tracking-widest hover:underline flex items-center gap-1">
-                                                                <CalIcon size={12} /> Link Reunión
-                                                            </a>
+                                        {dayEntries.map(entry => {
+                                            const isProject = entry.calendarType === 'project';
+                                            return (
+                                                <div key={entry.id + entry.calendarType} className={`bg-white p-5 rounded-3xl border ${isProject ? 'border-blue-100 border-l-4 border-l-blue-500' : 'border-gray-100'} shadow-sm flex flex-col sm:flex-row gap-4 hover:shadow-md transition-all group`}>
+                                                    <div className="flex items-center gap-4 sm:flex-col sm:items-center sm:justify-center sm:min-w-[70px] sm:border-r sm:border-gray-50 sm:pr-4">
+                                                        {isProject ? (
+                                                            <Briefcase size={20} className="text-blue-500 mb-1" />
+                                                        ) : (
+                                                            <span className="text-sm font-black text-brand-black">{new Date(entry.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                                         )}
+                                                        <span className="text-[9px] font-bold text-gray-300 uppercase">{isProject ? 'ENTREGA' : `${entry.duration || 0} min`}</span>
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <div className="flex justify-between items-start mb-1">
+                                                            <div className="flex items-center gap-2">
+                                                                <h4 className={`font-bold truncate ${isProject ? 'text-blue-700' : 'text-gray-800'}`}>{entry.title}</h4>
+                                                                {isProject && entry.priority === 'high' && <AlertTriangle size={14} className="text-red-500 animate-pulse" />}
+                                                            </div>
+                                                            {!isProject && (
+                                                                <button onClick={(e) => deleteEvent(entry.id, e)} className="p-1 opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-500 transition-all"><X size={14} /></button>
+                                                            )}
+                                                        </div>
+                                                        <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">{entry.description}</p>
+                                                        <div className="flex items-center justify-between">
+                                                            <div className="flex -space-x-2">
+                                                                {(entry.userIds || []).map(uid => (
+                                                                    <div key={uid} className={`w-6 h-6 rounded-full border-2 border-white flex items-center justify-center text-[9px] font-bold text-white shadow-sm ${uid === 'montse' ? 'bg-brand-orange' : 'bg-gray-400'}`}>
+                                                                        {users.find(u => u.id === uid)?.avatar || uid[0]}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                            {!isProject && entry.meetingLink && (
+                                                                <a href={entry.meetingLink.startsWith('http') ? entry.meetingLink : `https://${entry.meetingLink}`} target="_blank" rel="noreferrer" className="text-[10px] text-brand-orange font-black uppercase tracking-widest hover:underline flex items-center gap-1">
+                                                                    <CalIcon size={12} /> Link Reunión
+                                                                </a>
+                                                            )}
+                                                            {isProject && (
+                                                                <span className="text-[9px] font-black text-blue-400 uppercase tracking-widest">PROYECTO STUDIO</span>
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             ));

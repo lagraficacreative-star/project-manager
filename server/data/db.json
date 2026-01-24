@@ -4573,6 +4573,66 @@
       "createdAt": "2026-01-24T04:29:30.248Z",
       "message_id": 580265,
       "attachments": []
+    },
+    {
+      "id": "card_1769238074922hs0b1",
+      "boardId": "b_design_montse",
+      "columnId": "c_todo_b_design_montse",
+      "title": "Alerta de seguridad para lagraficacreative@gmail.com",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Google <no-reply@accounts.google.com>\n\nEste mensaje es una copia de una alerta de seguridad enviada a\r\nlagraficacreative@gmail.com. montse@lagrafica.com es el correo de\r\nrecuperación de esta cuenta. Si no reconoces esta cuenta, quítala\r\n<https://accounts.google.com/AccountDisavow?adt=AOX8kipys9JhjCXZRlMa-MP06-HIN4ZNnoxHheDsDz9MjJeakQ5zGg2eEyHZ3nko&rfn=127>\r\n.\r\n[image: Google]\r\nSe ha concedido el acceso a tu cuenta de Google vinculada a Proyecto sin\r\ntítulo\r\n\r\n\r\nlagraficacreative@gmail.com\r\n\r\nSi no has concedido este acceso, revisa la actividad y protege tu cuenta.\r\nComprobar actividad\r\n<https://accounts.google.com/AccountChooser?Email=lagraficacreative@gmail.com&continue=https://myaccount.google.com/alert/nt/1769237978000?rfn%3D127%26rfnc%3D1%26eid%3D-5266095985047094695%26et%3D1>\r\nTambién puedes ver toda la actividad de seguridad en\r\nhttps://myaccount.google.com/notifications\r\nTe hemos enviado este correo electrónico para informarte de cambios\r\nimportantes en tu cuenta y en los servicios de Google.\r\n© 2026 Google Ireland L"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-24T07:01:14.922Z",
+      "message_id": 580266,
+      "attachments": []
+    },
+    {
+      "id": "card_176924276062216wp1",
+      "boardId": "b_design_neus",
+      "columnId": "c_todo_b_design_neus",
+      "title": "Llévate hasta 250eu por domiciliar tu nómina en CaixaBank",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Cuenta Online · Sin comisiones <info@e.comerposdat.com>\n\n\r\n \r\r\n**********************************************************************\r\r\n\r\r\nPuede proceder a:\r\r\n * darse de baja:\r\r\n//e.comerposdat.com/track/pre-unsubscribe/category/EMAIL/empId/117953/subId/1050/listId/2/conId/185717/signature/9aae4c672551626ff68aae375038028d/conEmail/neus@lagrafica.com/conMovil/-/snapId/157780\r\r\n\r\n"
+        }
+      ],
+      "labels": [
+        "Neus",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-24T08:19:20.622Z",
+      "message_id": 31149,
+      "attachments": []
+    },
+    {
+      "id": "card_176924287478113ndw",
+      "boardId": "b_design_montse",
+      "columnId": "c_todo_b_design_montse",
+      "title": "Sanitas Autónomos: El Seguro completo para ti y tu familia",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Seguro de Salud <info@news.posdat.com>\n\nSanitas Autónomos\r\n     \r\n     \r\n  Seguro médico más completo para autónomos y familiares       \r\n   \r\n      \r\n               \r\n  Autónomos/as           \r\n  \r\n         \r\n  Da el paso a Sanitas y disfruta 1 año de servicios a domicilio y reembolso de gastos de farmacia. Desde 38€ al mes.               \r\n    \r\n Calcular precio      \r\n ›                  \r\n  1. Estos servicios no constituyen un diagnóstico clínico de un profesional médico. Su propósito es mejorar el conocimiento del bienestar general. No diagnostican, tratan, mitigan ni previenen ninguna enfermedad, síntoma, desorden o condición física anormal. Los pacientes deben consultar con un profesional médico o servicio de urgencias si creen tener algún problema médico. Incluye todas las especialidades médicas que sean susceptibles de ser tratadas en una consulta digital. \r\n 2. Promoción aplicable a nuevos asegurados que causen alta en pólizas que hayan sido contratadas con fecha efecto entre el 01/11/2025 y el 01/02/2026 en toda l"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-24T08:21:14.781Z",
+      "message_id": 580267,
+      "attachments": []
     }
   ],
   "emails": [],
@@ -5171,6 +5231,27 @@
   ],
   "activity": [
     {
+      "id": "1769242874781o62f0",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Montse: Sanitas Autónomos: El Seguro completo para ti y tu familia",
+      "user": "Sistema",
+      "timestamp": "2026-01-24T08:21:14.781Z"
+    },
+    {
+      "id": "1769242760622n2xsa",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Neus: Llévate hasta 250eu por domiciliar tu nómina en CaixaBank",
+      "user": "Sistema",
+      "timestamp": "2026-01-24T08:19:20.622Z"
+    },
+    {
+      "id": "1769238074922v8iua",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Montse: Alerta de seguridad para lagraficacreative@gmail.com",
+      "user": "Sistema",
+      "timestamp": "2026-01-24T07:01:14.922Z"
+    },
+    {
       "id": "1769228970248dypbt",
       "type": "mail",
       "text": "Nova fitxa creada per a Montse: Atenció: el domini olgasocialmedia.com expira dintre de 7 dies!",
@@ -5498,27 +5579,6 @@
       "text": "Correu vinculat a \"Re: CALENDARI - PROGRAMA\" (Mogut a Revisió)",
       "user": "Sistema",
       "timestamp": "2026-01-23T13:31:47.079Z"
-    },
-    {
-      "id": "1769175098729uldhm",
-      "type": "mail",
-      "text": "Correu vinculat a \"Pagina web\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T13:31:38.729Z"
-    },
-    {
-      "id": "1769174871771h0o0t",
-      "type": "mail",
-      "text": "Correu vinculat a \"Re: CALENDARI - PROGRAMA\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T13:27:51.771Z"
-    },
-    {
-      "id": "17691740546817zr83",
-      "type": "mail",
-      "text": "Correu vinculat a \"Fwd: Akrocard 2000 S.L.: Su factura 202610019\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T13:14:14.681Z"
     }
   ],
   "contacts": [
@@ -7472,6 +7532,9 @@
     "team_auto_montse_580262",
     "team_auto_montse_580264",
     "team_auto_neus_31148",
-    "team_auto_montse_580265"
+    "team_auto_montse_580265",
+    "team_auto_montse_580266",
+    "team_auto_neus_31149",
+    "team_auto_montse_580267"
   ]
 }
