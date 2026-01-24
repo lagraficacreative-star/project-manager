@@ -35,3 +35,5 @@ services:
         sync: false
       - key: IMAP_PASS_WEB
         sync: false
+      - key: GOOGLE_SCRIPT_URL
+        sync: false
