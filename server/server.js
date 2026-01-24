@@ -84,7 +84,8 @@ const processAutomations = (userId, emails) => {
         'omar': { boardId: 'b_web', name: 'Omar' },
         'albap': { boardId: 'b_design', name: 'Alba' },
         'albat': { boardId: 'b_social', name: 'A. Teixidó' },
-        'web': { boardId: 'b_web', name: 'Web' }
+        'web': { boardId: 'b_web', name: 'Web' },
+        'licitacions': { boardId: 'b_licitaciones', name: 'Licitaciones' }
     };
 
     const SPAM_WORDS = ['newsletter', 'publicitat', 'publi', 'promoció', 'oferta exclusiva', 'guanya diners', 'unsubscription', 'donar-se de baixa', 'poker', 'casino', 'viagra'];
@@ -520,7 +521,8 @@ async function fetchRealEmails(memberId, folder = 'INBOX') {
     const CRED_MAP = {
         'albat': 'ATEIXIDO',
         'albap': 'ALBA',
-        'web': 'WEB'
+        'web': 'WEB',
+        'licitacions': 'LICITACIONS'
     };
 
     const envKey = CRED_MAP[memberId] || memberId.toUpperCase();
@@ -579,7 +581,8 @@ async function archiveEmail(memberId, uid) {
     const CRED_MAP = {
         'albat': 'ATEIXIDO',
         'albap': 'ALBA',
-        'web': 'WEB'
+        'web': 'WEB',
+        'licitacions': 'LICITACIONS'
     };
 
     const envKey = CRED_MAP[memberId] || memberId.toUpperCase();
@@ -778,7 +781,8 @@ app.post('/api/emails/send', async (req, res) => {
     const CRED_MAP = {
         'albat': 'ATEIXIDO',
         'albap': 'ALBA',
-        'web': 'WEB'
+        'web': 'WEB',
+        'licitacions': 'LICITACIONS'
     };
 
     const envKey = CRED_MAP[memberId] || memberId.toUpperCase();

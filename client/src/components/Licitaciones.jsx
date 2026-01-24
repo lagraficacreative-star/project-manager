@@ -4,8 +4,9 @@ import {
     Zap, Globe, LayoutDashboard, ShieldCheck, RefreshCw, Plus,
     ListFilter, X, Clock, CheckCircle, AlertCircle, Trophy, Ban,
     ExternalLink, Trash2, Archive, ChevronLeft, Calendar as CalIcon,
-    Bot, MessageSquare, StickyNote, Database, Send, Sparkles, Folder
+    Bot, MessageSquare, StickyNote, Database, Send, Sparkles, Folder, Mail
 } from 'lucide-react';
+import EmailComposer from './EmailComposer';
 import { api } from '../api';
 
 const Licitaciones = () => {
@@ -24,6 +25,10 @@ const Licitaciones = () => {
         { role: 'assistant', text: 'Hola Montse! Sóc el teu assistent especialitzat en licitacions. Què vols saber sobre els plecs o la documentació?' }
     ]);
     const [isAiTyping, setIsAiTyping] = useState(false);
+    const [licitacionEmails, setLicitacionEmails] = useState([]);
+    const [loadingEmails, setLoadingEmails] = useState(false);
+    const [showEmailComposer, setShowEmailComposer] = useState(false);
+    const [emailComposerData, setEmailComposerData] = useState({ to: '', subject: '', body: '', memberId: 'licitacions' });
 
     const [newTender, setNewTender] = useState({
         title: '', institution: '', amount: '', deadline: '', link: ''
@@ -55,6 +60,24 @@ const Licitaciones = () => {
     useEffect(() => {
         loadData();
     }, []);
+
+    useEffect(() => {
+        if (selectedFilter === 'mailbox') {
+            loadEmails();
+        }
+    }, [selectedFilter]);
+
+    const loadEmails = async () => {
+        setLoadingEmails(true);
+        try {
+            const data = await api.getEmails('licitacions');
+            setLicitacionEmails(data || []);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoadingEmails(false);
+        }
+    };
 
     const metrics = useMemo(() => ({
         alerts: alerts.length,
@@ -188,10 +211,11 @@ const Licitaciones = () => {
                         <StatCard label="Presentadas" value={metrics.presented} icon={<CheckCircle size={24} />} color="indigo" active={selectedFilter === 'presented'} onClick={() => setSelectedFilter('presented')} />
                         <StatCard label="Requisitos" value={metrics.requirements} icon={<AlertCircle size={24} />} color="orange" active={selectedFilter === 'requirements'} onClick={() => setSelectedFilter('requirements')} />
                         <StatCard label="Ganadas" value={metrics.won} icon={<Trophy size={24} />} color="green" active={selectedFilter === 'won'} onClick={() => setSelectedFilter('won')} />
+                        <StatCard label="Buzón" value={"Gmail"} icon={<Mail size={24} />} color="indigo" active={selectedFilter === 'mailbox'} onClick={() => setSelectedFilter('mailbox')} />
                         <StatCard label="No Aptas" value={metrics.discarded} icon={<Ban size={24} />} color="red" active={selectedFilter === 'discarded'} onClick={() => setSelectedFilter('discarded')} />
                     </div>
 
-                    {selectedFilter ? (
+                    {selectedFilter && selectedFilter !== 'mailbox' ? (
                         <div className="animate-in slide-in-from-bottom-4 duration-500 bg-white rounded-[2.5rem] shadow-2xl border border-orange-100 overflow-hidden">
                             <div className="bg-slate-900 p-8 flex justify-between items-center text-white">
                                 <div className="flex items-center gap-4 text-slate-100">
@@ -266,6 +290,76 @@ const Licitaciones = () => {
                                     <p className="text-sm mt-2 font-medium">No hay registros cargados en esta categoría.</p>
                                 </div>
                             )}
+                        </div>
+                    ) : selectedFilter === 'mailbox' ? (
+                        <div className="animate-in slide-in-from-bottom-4 duration-500 bg-white rounded-[2.5rem] shadow-2xl border border-indigo-100 overflow-hidden flex flex-col h-[600px]">
+                            <div className="bg-indigo-900 p-8 flex justify-between items-center text-white">
+                                <div className="flex items-center gap-4 text-indigo-100">
+                                    <div className="p-3 bg-brand-orange rounded-2xl"><Mail size={24} /></div>
+                                    <div>
+                                        <h3 className="font-black uppercase tracking-widest text-lg leading-none">Buzón: Licitaciones Gmail</h3>
+                                        <p className="text-indigo-400 text-[10px] font-bold uppercase mt-1">lagraficalicitacions@gmail.com</p>
+                                    </div>
+                                </div>
+                                <button onClick={() => setSelectedFilter(null)} className="p-2 hover:bg-white/10 rounded-full transition-all text-indigo-300 hover:text-white"><X size={24} /></button>
+                            </div>
+
+                            <div className="flex-1 overflow-y-auto custom-scrollbar p-0">
+                                {loadingEmails ? (
+                                    <div className="flex flex-col items-center justify-center h-full gap-4 text-indigo-200 animate-pulse">
+                                        <RefreshCw size={40} className="animate-spin" />
+                                        <p className="font-black uppercase text-[10px] tracking-widest">Sincronitzant correus de Licitacions...</p>
+                                    </div>
+                                ) : (
+                                    <div className="divide-y divide-gray-50">
+                                        {licitacionEmails.length === 0 ? (
+                                            <div className="p-32 text-center text-slate-300 flex flex-col items-center opacity-50">
+                                                <Mail size={60} className="mb-6" />
+                                                <p className="text-xl font-black italic uppercase tracking-widest">Inbox Net</p>
+                                            </div>
+                                        ) : licitacionEmails.map(email => (
+                                            <div key={email.id} className="p-8 hover:bg-slate-50 transition-all group flex flex-col gap-4">
+                                                <div className="flex justify-between items-start">
+                                                    <div className="min-w-0 pr-4">
+                                                        <p className="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-1">{email.from}</p>
+                                                        <h4 className="text-lg font-black text-slate-800 leading-tight group-hover:text-brand-orange transition-colors">{email.subject}</h4>
+                                                    </div>
+                                                    <span className="text-[10px] font-bold text-slate-300 whitespace-nowrap">{new Date(email.date).toLocaleDateString()}</span>
+                                                </div>
+                                                <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed">{email.body}</p>
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        onClick={() => {
+                                                            setEmailComposerData({ to: email.from, subject: `RE: ${email.subject}`, body: `\n\n--- Original ---\n${email.body}`, memberId: 'licitacions', replyToId: email.id });
+                                                            setShowEmailComposer(true);
+                                                        }}
+                                                        className="px-6 py-2 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-brand-orange transition-all"
+                                                    >
+                                                        Responder
+                                                    </button>
+                                                    <button
+                                                        onClick={async () => {
+                                                            await api.createTender({
+                                                                title: email.subject,
+                                                                institution: email.from.split('<')[0].trim(),
+                                                                status: 'pending',
+                                                                amount: 'Per definir',
+                                                                deadline: 'Pendent'
+                                                            });
+                                                            alert("Convertit en licitació activa!");
+                                                            setSelectedFilter('pending');
+                                                            loadData();
+                                                        }}
+                                                        className="px-6 py-2 bg-indigo-50 text-indigo-600 border border-indigo-100 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-100 transition-all"
+                                                    >
+                                                        Convertir a Licitació
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     ) : (
                         <div className="py-20 text-center opacity-20 flex flex-col items-center">
@@ -386,46 +480,58 @@ const Licitaciones = () => {
                 )}
             </div>
 
-            {isModalOpen && (
-                <div className="fixed inset-0 bg-slate-900/95 backdrop-blur-xl z-[70] flex items-center justify-center p-6 text-slate-900">
-                    <div className="bg-white rounded-[3.5rem] shadow-2xl w-full max-w-3xl overflow-hidden border border-slate-200 animate-fade-in">
-                        <div className="bg-slate-900 p-12 flex justify-between items-center text-white relative">
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1 bg-brand-orange rounded-b-full"></div>
-                            <div>
-                                <h3 className="font-black text-3xl uppercase italic tracking-tighter leading-none">Registrar Licitació</h3>
-                                <p className="text-slate-500 text-[10px] font-black uppercase mt-1 tracking-widest">Manual Data Entry 2026</p>
+            {
+                isModalOpen && (
+                    <div className="fixed inset-0 bg-slate-900/95 backdrop-blur-xl z-[70] flex items-center justify-center p-6 text-slate-900">
+                        <div className="bg-white rounded-[3.5rem] shadow-2xl w-full max-w-3xl overflow-hidden border border-slate-200 animate-fade-in">
+                            <div className="bg-slate-900 p-12 flex justify-between items-center text-white relative">
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1 bg-brand-orange rounded-b-full"></div>
+                                <div>
+                                    <h3 className="font-black text-3xl uppercase italic tracking-tighter leading-none">Registrar Licitació</h3>
+                                    <p className="text-slate-500 text-[10px] font-black uppercase mt-1 tracking-widest">Manual Data Entry 2026</p>
+                                </div>
+                                <button onClick={() => setIsModalOpen(false)} className="p-3 bg-white/5 hover:bg-red-500 rounded-full transition-all text-white"><X size={32} /></button>
                             </div>
-                            <button onClick={() => setIsModalOpen(false)} className="p-3 bg-white/5 hover:bg-red-500 rounded-full transition-all text-white"><X size={32} /></button>
+                            <form onSubmit={handleSaveManual} className="p-12 space-y-10">
+                                <div className="space-y-3">
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-6 block">Nombre del Expediente</label>
+                                    <input required type="text" value={newTender.title} onChange={(e) => setNewTender({ ...newTender, title: e.target.value })} className="w-full bg-slate-50 border-2 border-slate-100 rounded-[2rem] px-8 py-5 font-bold text-lg text-slate-900 focus:border-brand-orange outline-none transition-all shadow-inner" placeholder="Ej: Acuerdo Marco Diseño Corporativo" />
+                                </div>
+                                <div className="grid grid-cols-2 gap-8">
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-6 block">Institución</label>
+                                        <input required type="text" value={newTender.institution} onChange={(e) => setNewTender({ ...newTender, institution: e.target.value })} className="bg-slate-50 border-2 border-slate-100 rounded-2xl px-8 py-4 text-sm font-semibold text-slate-900 focus:border-brand-orange outline-none transition-all" placeholder="Ej: Generalitat" />
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-6 block">Importe Estimado (€)</label>
+                                        <input required type="text" value={newTender.amount} onChange={(e) => setNewTender({ ...newTender, amount: e.target.value })} className="bg-slate-50 border-2 border-slate-100 rounded-2xl px-8 py-4 text-sm font-semibold text-slate-900 focus:border-brand-orange outline-none transition-all" placeholder="Ej: 45.000€" />
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-6 block">Fecha Límite Entrega</label>
+                                        <input required type="text" value={newTender.deadline} onChange={(e) => setNewTender({ ...newTender, deadline: e.target.value })} className="bg-slate-50 border-2 border-slate-100 rounded-2xl px-8 py-4 text-sm font-semibold text-slate-900 focus:border-brand-orange outline-none transition-all" placeholder="Ej: 24/02/2026" />
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-6 block">Enlace al Pliego / Drive</label>
+                                        <input type="text" value={newTender.link} onChange={(e) => setNewTender({ ...newTender, link: e.target.value })} className="bg-slate-50 border-2 border-slate-100 rounded-2xl px-8 py-4 text-sm font-semibold text-slate-900 focus:border-brand-orange outline-none transition-all shadow-inner" placeholder="https://..." />
+                                    </div>
+                                </div>
+                                <button type="submit" className="w-full bg-brand-orange text-white py-8 rounded-[2.5rem] font-black shadow-2xl shadow-orange-500/30 hover:bg-orange-700 transition-all uppercase text-xs tracking-[0.3em] active:scale-[0.98]">Inyectar en Pipeline de Éxito</button>
+                            </form>
                         </div>
-                        <form onSubmit={handleSaveManual} className="p-12 space-y-10">
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-6 block">Nombre del Expediente</label>
-                                <input required type="text" value={newTender.title} onChange={(e) => setNewTender({ ...newTender, title: e.target.value })} className="w-full bg-slate-50 border-2 border-slate-100 rounded-[2rem] px-8 py-5 font-bold text-lg text-slate-900 focus:border-brand-orange outline-none transition-all shadow-inner" placeholder="Ej: Acuerdo Marco Diseño Corporativo" />
-                            </div>
-                            <div className="grid grid-cols-2 gap-8">
-                                <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-6 block">Institución</label>
-                                    <input required type="text" value={newTender.institution} onChange={(e) => setNewTender({ ...newTender, institution: e.target.value })} className="bg-slate-50 border-2 border-slate-100 rounded-2xl px-8 py-4 text-sm font-semibold text-slate-900 focus:border-brand-orange outline-none transition-all" placeholder="Ej: Generalitat" />
-                                </div>
-                                <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-6 block">Importe Estimado (€)</label>
-                                    <input required type="text" value={newTender.amount} onChange={(e) => setNewTender({ ...newTender, amount: e.target.value })} className="bg-slate-50 border-2 border-slate-100 rounded-2xl px-8 py-4 text-sm font-semibold text-slate-900 focus:border-brand-orange outline-none transition-all" placeholder="Ej: 45.000€" />
-                                </div>
-                                <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-6 block">Fecha Límite Entrega</label>
-                                    <input required type="text" value={newTender.deadline} onChange={(e) => setNewTender({ ...newTender, deadline: e.target.value })} className="bg-slate-50 border-2 border-slate-100 rounded-2xl px-8 py-4 text-sm font-semibold text-slate-900 focus:border-brand-orange outline-none transition-all" placeholder="Ej: 24/02/2026" />
-                                </div>
-                                <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-6 block">Enlace al Pliego / Drive</label>
-                                    <input type="text" value={newTender.link} onChange={(e) => setNewTender({ ...newTender, link: e.target.value })} className="bg-slate-50 border-2 border-slate-100 rounded-2xl px-8 py-4 text-sm font-semibold text-slate-900 focus:border-brand-orange outline-none transition-all shadow-inner" placeholder="https://..." />
-                                </div>
-                            </div>
-                            <button type="submit" className="w-full bg-brand-orange text-white py-8 rounded-[2.5rem] font-black shadow-2xl shadow-orange-500/30 hover:bg-orange-700 transition-all uppercase text-xs tracking-[0.3em] active:scale-[0.98]">Inyectar en Pipeline de Éxito</button>
-                        </form>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+
+            <EmailComposer
+                isOpen={showEmailComposer}
+                onClose={() => setShowEmailComposer(false)}
+                memberId={emailComposerData.memberId}
+                defaultTo={emailComposerData.to}
+                defaultSubject={emailComposerData.subject}
+                defaultBody={emailComposerData.body}
+                replyToId={emailComposerData.replyToId}
+            />
+        </div >
     );
 };
 

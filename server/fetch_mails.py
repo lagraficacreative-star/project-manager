@@ -18,12 +18,17 @@ def decode_mime_words(s):
     except:
         return str(s)
 
-def fetch_emails(user, password, host="mail-es.securemail.pro", port=993, folder="INBOX"):
+def fetch_emails(user, password, host=None, port=993, folder="INBOX"):
     try:
-    # Connect to server
-        host = os.environ.get('IMAP_HOST')
         if not host:
-            return {"error": "IMAP_HOST env var is missing in Python script!"}
+            # Auto-detect Gmail
+            if "@gmail.com" in user.lower():
+                host = "imap.gmail.com"
+            else:
+                host = os.environ.get('IMAP_HOST', "mail-es.securemail.pro")
+        
+        if not host:
+            return {"error": "IMAP_HOST env var is missing and couldn't auto-detect!"}
             
         mail = imaplib.IMAP4_SSL(host, port)
         mail.login(user, password)
@@ -240,8 +245,14 @@ if __name__ == "__main__":
         import time
         import json
         
-        host_env = os.environ.get('SMTP_HOST', "mail-es.securemail.pro")
-        port = int(os.environ.get('SMTP_PORT', 465))
+        if "@gmail.com" in username.lower():
+            host_env = "smtp.gmail.com"
+            port = 465
+            imap_host_auto = "imap.gmail.com"
+        else:
+            host_env = os.environ.get('SMTP_HOST', "mail-es.securemail.pro")
+            port = int(os.environ.get('SMTP_PORT', 465))
+            imap_host_auto = os.environ.get('IMAP_HOST', "mail-es.securemail.pro")
         
         try:
             # Create message
@@ -284,9 +295,7 @@ if __name__ == "__main__":
             
             # 2. Append to Sent folder via IMAP
             try:
-                imap_host = os.environ.get('IMAP_HOST', "mail-es.securemail.pro")
-                imap_port = int(os.environ.get('IMAP_PORT', 993))
-                mail = imaplib.IMAP4_SSL(imap_host, imap_port)
+                mail = imaplib.IMAP4_SSL(imap_host_auto, 993)
                 mail.login(username, password)
                 
                 # Try common sent folder names
