@@ -222,7 +222,7 @@ if __name__ == "__main__":
             print(json.dumps({"error": str(e)}))
             
     elif len(sys.argv) > 3 and sys.argv[3] == "--send":
-        # Format: python fetch_mails.py user pass --send to_addr subject body
+        # Format: python fetch_mails.py user pass --send to_addr subject body [attachments_json]
         if len(sys.argv) < 7:
             print(json.dumps({"error": "Missing send arguments"}))
             sys.exit(1)
@@ -230,28 +230,52 @@ if __name__ == "__main__":
         to_addr = sys.argv[4]
         subject = sys.argv[5]
         body = sys.argv[6]
+        attachments_json = sys.argv[7] if len(sys.argv) > 7 else "[]"
         
         import smtplib
         from email.mime.text import MIMEText
         from email.mime.multipart import MIMEMultipart
+        from email.mime.base import MIMEBase
+        from email import encoders
         import time
+        import json
         
         host_env = os.environ.get('SMTP_HOST', "mail-es.securemail.pro")
         port = int(os.environ.get('SMTP_PORT', 465))
         
         try:
             # Create message
-            msg = MIMEMultipart("alternative")
+            msg = MIMEMultipart()
             msg['Subject'] = subject
             msg['From'] = username
             msg['To'] = to_addr
             msg['Date'] = email.utils.formatdate(localtime=True)
 
-            # If body contains html tags, send as HTML
+            # Body part
+            msg_body = MIMEMultipart("alternative")
             if "<html>" in body.lower() or "<p>" in body.lower() or "<b>" in body.lower() or "<br" in body.lower():
-                 msg.attach(MIMEText(body, "html"))
+                 msg_body.attach(MIMEText(body, "html"))
             else:
-                 msg.attach(MIMEText(body, "plain"))
+                 msg_body.attach(MIMEText(body, "plain"))
+            msg.attach(msg_body)
+
+            # Attachments part
+            try:
+                files_to_attach = json.loads(attachments_json)
+                for file_path in files_to_attach:
+                    if os.path.exists(file_path):
+                        filename = os.path.basename(file_path)
+                        with open(file_path, "rb") as attachment:
+                            part = MIMEBase("application", "octet-stream")
+                            part.set_payload(attachment.read())
+                        encoders.encode_base64(part)
+                        part.add_header(
+                            "Content-Disposition",
+                            f"attachment; filename= {filename}",
+                        )
+                        msg.attach(part)
+            except Exception as e:
+                pass # Continue even if attachment fails
             
             # 1. Send via SMTP
             with smtplib.SMTP_SSL(host_env, port) as server:
@@ -280,7 +304,7 @@ if __name__ == "__main__":
             except:
                 pass # Sent via SMTP but failed to save in Sent folder
                 
-            print(json.dumps({"status": "sent", "to": to_addr, "subject": subject, "body": body}))
+            print(json.dumps({"status": "sent", "to": to_addr, "subject": subject}))
         except Exception as e:
             print(json.dumps({"error": str(e)}))
 

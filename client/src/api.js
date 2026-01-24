@@ -100,11 +100,11 @@ export const api = {
         });
         return res.json();
     },
-    sendEmail: async (memberId, to, subject, body, replyToId) => {
+    sendEmail: async (memberId, to, subject, body, replyToId, attachments = []) => {
         const res = await fetch(`${API_URL}/emails/send`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ memberId, to, subject, body, replyToId })
+            body: JSON.stringify({ memberId, to, subject, body, replyToId, attachments })
         });
         return res.json();
     },

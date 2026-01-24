@@ -766,8 +766,14 @@ app.post('/api/emails/save-attachments', (req, res) => {
 });
 
 app.post('/api/emails/send', async (req, res) => {
-    const { memberId, to, subject, body, replyToId } = req.body;
+    const { memberId, to, subject, body, replyToId, attachments } = req.body;
     const config = loadEnv();
+
+    // Prepare attachment paths for python (ensure they exist and are relative to server dir)
+    const attachmentPaths = (attachments || []).map(p => {
+        const filename = p.split('/').pop();
+        return path.join(__dirname, 'uploads', filename);
+    });
 
     const CRED_MAP = {
         'albat': 'ATEIXIDO',
@@ -797,7 +803,8 @@ app.post('/api/emails/send', async (req, res) => {
             '--send',
             to,
             subject,
-            body
+            body,
+            JSON.stringify(attachmentPaths)
         ], { env });
 
         let dataStr = "";
