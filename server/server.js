@@ -26,7 +26,7 @@ const loadEnv = () => {
     return config;
 };
 const env = loadEnv();
-const GOOGLE_SCRIPT_URL = env.GOOGLE_SCRIPT_URL || '';
+const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL || env.GOOGLE_SCRIPT_URL || '';
 
 // --- UPLOAD CONFIG ---
 const UPLOADS_DIR = path.join(__dirname, 'uploads');
@@ -60,7 +60,6 @@ const logToGoogleSheet = async (emailData) => {
     try {
         await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors', // Avoid CORS issues with Google Script
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 action: 'log_email',
@@ -1519,7 +1518,6 @@ app.post('/api/export-sheets', async (req, res) => {
 
         await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
