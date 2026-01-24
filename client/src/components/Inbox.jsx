@@ -296,36 +296,36 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                 <div className="flex-1 flex flex-col bg-white">
                     {selectedEmail ? (
                         <>
-                            <div className="p-8 md:p-12 border-b border-gray-100 flex flex-col md:flex-row justify-between items-start md:items-center bg-white shadow-sm shrink-0 gap-6">
-                                <div className="flex items-center gap-5 min-w-0">
-                                    <div className="w-16 h-16 rounded-[1.5rem] bg-brand-orange text-white flex items-center justify-center font-black text-2xl shadow-lg ring-4 ring-orange-100 shrink-0">{selectedEmail.from[0]}</div>
-                                    <div className="min-w-0">
-                                        <h3 className="text-xl md:text-2xl font-black text-brand-black truncate uppercase tracking-tighter leading-tight mb-1">{selectedEmail.subject}</h3>
-                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{selectedEmail.from}</p>
+                            <div className="p-6 md:p-8 border-b border-gray-100 flex flex-col gap-6 bg-white shadow-sm shrink-0">
+                                <div className="flex justify-between items-start">
+                                    <div className="flex items-center gap-4 min-w-0">
+                                        <div className="w-14 h-14 rounded-[1.2rem] bg-brand-orange text-white flex items-center justify-center font-black text-xl shadow-lg ring-4 ring-orange-100 shrink-0">{selectedEmail.from[0]}</div>
+                                        <div className="min-w-0">
+                                            <h3 className="text-lg md:text-xl font-black text-brand-black truncate uppercase tracking-tighter leading-tight mb-1">{selectedEmail.subject}</h3>
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{selectedEmail.from}</p>
+                                        </div>
                                     </div>
+                                    <button onClick={() => handleDeleteEmail(selectedEmail.messageId)} className="p-3 text-gray-300 hover:bg-red-50 hover:text-red-500 rounded-2xl transition-all" title="Mover a papelera"><Trash2 size={20} /></button>
                                 </div>
-                                <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
-                                    <button onClick={() => handleDeleteEmail(selectedEmail.messageId)} className="p-3 text-gray-300 hover:bg-red-50 hover:text-red-500 rounded-2xl transition-all border border-transparent hover:border-red-100" title="Mover a papelera"><Trash2 size={24} /></button>
 
-                                    <div className="flex flex-wrap gap-2 flex-1 md:flex-none">
-                                        <button
-                                            onClick={() => {
-                                                setEmailComposerData({ to: selectedEmail.from, subject: `RE: ${selectedEmail.subject}`, body: `\n\n--- Missatge original ---\nDe: ${selectedEmail.from}\nAssumpte: ${selectedEmail.subject}\n\n${selectedEmail.body}`, memberId: currentUser.id, replyToId: selectedEmail.messageId });
-                                                setShowEmailComposer(true);
-                                            }}
-                                            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-4 bg-brand-orange text-white rounded-2xl hover:bg-orange-600 transition-all text-sm font-black uppercase tracking-widest shadow-xl shadow-orange-500/30 ring-4 ring-orange-100"
-                                        >
-                                            <Send size={18} /> RESPONDER AHORA
-                                        </button>
+                                <div className="flex flex-wrap gap-2">
+                                    <button
+                                        onClick={() => {
+                                            setEmailComposerData({ to: selectedEmail.from, subject: `RE: ${selectedEmail.subject}`, body: `\n\n--- Missatge original ---\nDe: ${selectedEmail.from}\nAssumpte: ${selectedEmail.subject}\n\n${selectedEmail.body}`, memberId: currentUser.id, replyToId: selectedEmail.messageId });
+                                            setShowEmailComposer(true);
+                                        }}
+                                        className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-brand-orange text-white rounded-xl hover:bg-orange-600 transition-all text-xs font-black uppercase tracking-widest shadow-lg shadow-orange-500/20"
+                                    >
+                                        <Send size={16} /> RESPONDER AHORA
+                                    </button>
 
-                                        <button onClick={() => handleAddToCard(selectedEmail)} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-gray-50 text-gray-500 border border-gray-100 rounded-xl hover:bg-gray-100 transition-all text-[10px] font-black uppercase tracking-widest shadow-sm">
-                                            <Plus size={16} /> A Proyecto
-                                        </button>
+                                    <button onClick={() => handleAddToCard(selectedEmail)} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-gray-50 text-gray-500 border border-gray-100 rounded-xl hover:bg-gray-100 transition-all text-[10px] font-black uppercase tracking-widest">
+                                        <Plus size={16} /> A Proyecto
+                                    </button>
 
-                                        <button onClick={() => handleConvertToCard(selectedEmail)} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-brand-orange text-white rounded-xl hover:bg-orange-600 transition-all text-[10px] font-black uppercase tracking-widest shadow-xl shadow-orange-500/20">
-                                            <Plus size={16} /> Crear Ficha
-                                        </button>
-                                    </div>
+                                    <button onClick={() => handleConvertToCard(selectedEmail)} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-brand-black text-white rounded-xl hover:bg-gray-800 transition-all text-[10px] font-black uppercase tracking-widest shadow-md">
+                                        <Plus size={16} /> Crear Ficha
+                                    </button>
                                 </div>
                             </div>
                             <div className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-10 custom-scrollbar bg-gray-50/20">
