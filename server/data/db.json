@@ -4643,6 +4643,26 @@
       "createdAt": "2026-01-24T08:21:14.781Z",
       "message_id": 580267,
       "attachments": []
+    },
+    {
+      "id": "card_1769250554978jl989",
+      "boardId": "b_design_montse",
+      "columnId": "c_todo_b_design_montse",
+      "title": "Hi! Any Update ?",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Sanjeeta chauhan <Sanjeetachauhan2222@outlook.com>\n\nHi,\r\n\r\nAre you looking for Mobile App Development Services (Android, iPhone/iOS and iPad) for your business?\r\n\r\nWe are expert in:-\r\n\r\n• Tours and Travel App\r\n• Business/ Finance applications\r\n• Construction Company App\r\n• Fitness App\r\n• Pic or Video Uploading App\r\n• GPS navigation\r\n• Personal utility App\r\n• E-learning App\r\n• E-commerce App & etc.\r\n• Service Industry App e.g. Doctor, Lawyer, Elevator. Repair, Etc.\r\n\r\nJust share your App’s idea, requirement with us so that we can suggest you a cost-efficient solution.\r\n\r\nThanks & Regards,\r\nSanjeeta\r\n"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Entrada Automàtica"
+      ],
+      "createdAt": "2026-01-24T10:29:14.978Z",
+      "message_id": 580269,
+      "attachments": []
     }
   ],
   "emails": [],
@@ -5241,6 +5261,13 @@
   ],
   "activity": [
     {
+      "id": "1769250554978mngrj",
+      "type": "mail",
+      "text": "Nova fitxa creada per a Montse: Hi! Any Update ?",
+      "user": "Sistema",
+      "timestamp": "2026-01-24T10:29:14.978Z"
+    },
+    {
       "id": "1769245154971x8kkp",
       "type": "mail",
       "text": "Correu vinculat a \"Alerta de seguridad para lagraficacreative@gmail.com\" (Mogut a Revisió)",
@@ -5582,13 +5609,6 @@
       "text": "Correu vinculat a \"Fwd: Akrocard 2000 S.L.: Su factura 202610019\" (Mogut a Revisió)",
       "user": "Sistema",
       "timestamp": "2026-01-23T13:35:39.001Z"
-    },
-    {
-      "id": "1769175136581j2zy4",
-      "type": "mail",
-      "text": "Correu vinculat a \"Pagina web\" (Mogut a Revisió)",
-      "user": "Sistema",
-      "timestamp": "2026-01-23T13:32:16.581Z"
     }
   ],
   "contacts": [
@@ -7546,6 +7566,7 @@
     "team_auto_montse_580266",
     "team_auto_neus_31149",
     "team_auto_montse_580267",
-    "team_auto_montse_580268"
+    "team_auto_montse_580268",
+    "team_auto_montse_580269"
   ]
 }

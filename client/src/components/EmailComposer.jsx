@@ -26,17 +26,23 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
     `;
 
     useEffect(() => {
-        if (isOpen && editorRef.current) {
-            let initialHtml = '';
-            if (defaultBody) {
-                // If it looks like HTML, use it, otherwise convert newlines
-                initialHtml = defaultBody.includes('</') ? defaultBody : defaultBody.replace(/\n/g, '<br/>');
-            }
+        if (isOpen) {
+            setTo(defaultTo || '');
+            setSubject(defaultSubject || '');
+            setAttachments([]); // Netejar adjunts d'anteriors sessions
 
-            // Append signature if it's not already there
-            editorRef.current.innerHTML = initialHtml + signature;
+            if (editorRef.current) {
+                let initialHtml = '';
+                if (defaultBody) {
+                    // If it looks like HTML, use it, otherwise convert newlines
+                    initialHtml = defaultBody.includes('</') ? defaultBody : defaultBody.replace(/\n/g, '<br/>');
+                }
+
+                // Append signature
+                editorRef.current.innerHTML = initialHtml + signature;
+            }
         }
-    }, [isOpen, defaultBody]);
+    }, [isOpen, defaultTo, defaultSubject, defaultBody, signature]);
 
     if (!isOpen) return null;
 
