@@ -1449,7 +1449,18 @@ app.get('/api/sync-google', async (req, res) => {
     }
     try {
         const response = await fetch(GOOGLE_SCRIPT_URL);
-        const data = await response.json(); // Expected: { files: [], alerts: [] }
+        const textOutput = await response.text();
+
+        let data;
+        try {
+            data = JSON.parse(textOutput);
+        } catch (e) {
+            console.error("Google Script returned non-JSON:", textOutput);
+            return res.status(500).json({
+                error: "El link del Robot de Google no funciona (doGet no trobat). Revisa que el Script estigui publicat correctament.",
+                raw: textOutput.substring(0, 100)
+            });
+        }
 
         const db = readDB();
 

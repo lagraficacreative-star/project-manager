@@ -71,9 +71,15 @@ const Licitaciones = () => {
         setLoadingEmails(true);
         try {
             const data = await api.getEmails('licitacions');
-            setLicitacionEmails(data || []);
+            if (data.error) {
+                alert(`⚠️ Error de Gmail: ${data.error}. Revisa que les credencials al .env siguin correctes.`);
+                setLicitacionEmails([]);
+            } else {
+                setLicitacionEmails(data || []);
+            }
         } catch (err) {
             console.error(err);
+            setLicitacionEmails([]);
         } finally {
             setLoadingEmails(false);
         }
@@ -103,10 +109,16 @@ const Licitaciones = () => {
     const triggerScan = async () => {
         setIsScanning(true);
         try {
-            await api.syncGoogle();
+            const res = await api.syncGoogle();
+            if (res.error) {
+                alert(`⚠️ Error en el Robot: ${res.error}`);
+            } else {
+                alert(`✅ Sincronització completada: ${res.alertsFound} noves licitacions.`);
+            }
             loadData();
         } catch (err) {
             console.error(err);
+            alert("No s'ha pogut connectar amb el Robot de Google.");
         } finally {
             setIsScanning(false);
         }
