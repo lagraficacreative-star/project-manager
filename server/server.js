@@ -78,18 +78,15 @@ const processAutomations = (userId, emails) => {
     if (!db.automated_email_uids) db.automated_email_uids = [];
 
     const MEMBER_MAP = {
-        'ines': { boardId: 'b_design_ines', name: 'Ines' },
-        'neus': { boardId: 'b_design_neus', name: 'Neus' },
-        'montse': { boardId: 'b_design_montse', name: 'Montse' },
-        'omar': { boardId: 'b_design_omar', name: 'Omar' },
-        'albap': { boardId: 'b_design_alba', name: 'Alba' },
-        'albat': { boardId: 'b_design_ateixido', name: 'A. Teixidó' },
-        'web': { boardId: 'b_info', name: 'Info' },
-        'info': { boardId: 'b_info', name: 'Info' }
+        'ines': { boardId: 'b_design', name: 'Ines' },
+        'neus': { boardId: 'b_design', name: 'Neus' },
+        'montse': { boardId: 'b_design', name: 'Montse' },
+        'omar': { boardId: 'b_web', name: 'Omar' },
+        'albap': { boardId: 'b_design', name: 'Alba' },
+        'albat': { boardId: 'b_social', name: 'A. Teixidó' },
+        'web': { boardId: 'b_web', name: 'Web' }
     };
 
-    // --- SPAM FILTER ---
-    // Afegim paraules clau per ignorar correus brossa automàticament
     const SPAM_WORDS = ['newsletter', 'publicitat', 'publi', 'promoció', 'oferta exclusiva', 'guanya diners', 'unsubscription', 'donar-se de baixa', 'poker', 'casino', 'viagra'];
 
     const isSpam = (email) => {
@@ -99,128 +96,117 @@ const processAutomations = (userId, emails) => {
 
     let changes = false;
 
-    // 1. Kit Digital Specific Rule (existing)
-    const kitDigitalEmails = emails.filter(email => {
-        const from = email.from ? email.from.toLowerCase() : "";
-        return from.includes("no-reply-notifica@correo.gob.es");
-    });
-
-    kitDigitalEmails.forEach(email => {
-        const emailUid = `auto_kit_${email.id}`;
-        if (!db.automated_email_uids.includes(emailUid)) {
-            const newCard = {
-                id: 'card_' + Date.now() + Math.random().toString(36).substr(2, 5),
-                boardId: 'b_kit_digital',
-                columnId: 'col_1_b_kit_digital',
-                title: `[NOTIF] ${email.subject}`,
-                descriptionBlocks: [{ id: 'd1', type: 'text', text: `Ms: ${email.body}` }],
-                labels: ['Kit Digital', 'Automatitzat'],
-                createdAt: new Date().toISOString()
-            };
-            if (!db.cards) db.cards = [];
-            db.cards.push(newCard);
+    emails.forEach(email => {
+        const emailUid = `auto_rule_${email.id}`;
+        if (db.automated_email_uids.includes(emailUid)) return;
+        if (isSpam(email)) {
             db.automated_email_uids.push(emailUid);
             changes = true;
-
-            // Log to Google
-            logToGoogleSheet({
-                from: email.from,
-                subject: email.subject,
-                projectPath: 'Kit Digital',
-                messageId: email.id,
-                member: 'Sistema'
-            });
+            return;
         }
-    });
 
-    // 2. Member/Team Automation (New Requirements)
-    const memberInfo = MEMBER_MAP[userId];
-    if (memberInfo) {
-        emails.forEach(email => {
-            const emailUid = `team_auto_${userId}_${email.id}`;
-            if (db.automated_email_uids.includes(emailUid)) return;
+        const subject = (email.subject || "").toLowerCase();
+        const from = (email.from || "").toLowerCase();
+        let targetBoardId = null;
+        let automationTag = "Auto-Filtre";
 
-            // --- Spam Check ---
-            if (isSpam(email)) {
-                console.log(`🚫 [SPAM] Ignorant correu brossa: ${email.subject} de ${email.from}`);
-                db.automated_email_uids.push(emailUid);
-                changes = true;
-                return;
-            }
+        // --- RULE: LICITACIONS ---
+        const licitacionSenders = ['plataforma.contractacio@gencat.cat', 'noreply@bcn.cat', 'norespongueu@enotum.cat', '@enotum.cat', 'mailcontrataciondelestado@contrataciondelsectorpublico.gob.es', 'admin@lagrafica.com'];
+        const licitacionSubjects = ['important: avís de notificació', 'notificació enviada', 'recordatori: avís de notificació'];
 
-            const targetBoardId = memberInfo.boardId;
-            const subject = email.subject || "";
-            const from = email.from || "";
-            const boardObj = (db.boards || []).find(b => b.id === targetBoardId);
-            const boardName = boardObj ? boardObj.title : targetBoardId;
+        if (licitacionSenders.some(s => from.includes(s)) || licitacionSubjects.some(s => subject.includes(s))) {
+            targetBoardId = 'b_licitaciones';
+            automationTag = "Licitacions";
+        }
 
-            // --- Try to find existing card to link ---
+        // --- RULE: IMO ---
+        const imoSenders = ['elpascual@paeria.es', 'npijuan@paeria.es', 'cmolinero@paeria.es', 'mapujol@paeria.cat', 'maldabo@paeria.es', 'eclosa@paeria.es', 'oarnau@paeria.es', 'mribera@paeria.es', 'csorribas@paeria.cat', 'gdsantos@paeria.es', 'mgs@paeria.es', 'dortin@paeria.cat', 'dmontagut@paeria.es', 'mpaz@paeria.es', 'vgracia@paeria.cat', 'fcos@paeria.es', 'cvilarasau@paeria.es', 'lmasana@paeria.es', 'lbea@paeria.cat', 'agaddour@paeria.cat', 'mjbadia@paeria.es', 'imo@lagrafica.com'];
+        if (imoSenders.some(s => from.includes(s))) {
+            targetBoardId = 'b_imo';
+            automationTag = "IMO";
+        }
+
+        // --- RULE: ANIMAC ---
+        const animacSenders = ['aaguila@paeria.cat', 'mdomenech@paeria.cat', 'lmcruz@radixanimacion.com'];
+        if (animacSenders.some(s => from.includes(s))) {
+            targetBoardId = 'b_animac';
+            automationTag = "Animac";
+        }
+
+        // --- RULE: LLEIDA EN VERD ---
+        const lleidaSenders = ['jmuntane@paeria.es', 'epardell@paeria.es', 'ppizarro@paeria.es', 'mediambient@paeria.cat', 'mjouet@paeria.cat', 'mjmilian@paeria.es', 'lleidaenverd@lagrafica.com'];
+        if (lleidaSenders.some(s => from.includes(s))) {
+            targetBoardId = 'b_lleida';
+            automationTag = "Lleida en Verd";
+        }
+
+        // --- RULE: KIT DIGITAL / CONSULTING ---
+        if (from.includes("no-reply-notifica@correo.gob.es") || from.includes("comptabilitat@lagrafica.com")) {
+            targetBoardId = 'b_kit_digital';
+            automationTag = "Kit Digital";
+        }
+
+        // --- GENERIC MEMBER ROUTING (fallback) ---
+        if (!targetBoardId && MEMBER_MAP[userId]) {
+            targetBoardId = MEMBER_MAP[userId].boardId;
+            automationTag = MEMBER_MAP[userId].name;
+        }
+
+        if (targetBoardId) {
+            // Try to find existing card to link instead of creating new one
             const existingCard = (db.cards || []).find(card => {
-                if (!card.title) return false;
-                const cleanSubject = subject.toLowerCase().replace(/re:|fwd:|fw:/g, "").trim();
+                if (card.boardId !== targetBoardId || !card.title) return false;
+                const cleanSubject = subject.replace(/re:|fwd:|fw:/g, "").trim();
                 const cleanTitle = card.title.toLowerCase().trim();
                 return cleanSubject.includes(cleanTitle) || cleanTitle.includes(cleanSubject);
             });
 
-            let finalProjectPath = boardName;
-
             if (existingCard) {
-                // Link to existing card
+                // Link as comment
                 if (!existingCard.comments) existingCard.comments = [];
                 existingCard.comments.push({
-                    id: 'msg_' + Date.now(),
-                    user: 'Sistema',
-                    text: `📩 Nou Correu:\nDe: ${from}\nAssumpte: ${subject}\n\n${email.body.substring(0, 400)}...`,
-                    timestamp: new Date().toISOString(),
-                    isEmail: true,
-                    senderEmail: from // Store sender to allow replies
+                    id: 'ext_' + Date.now(),
+                    author: 'SISTEMA IA',
+                    text: `📩 NUEVO CORREO RELACIONADO:\nDe: ${email.from}\nAsunto: ${email.subject}\n\n${email.body.substring(0, 1000)}...`,
+                    date: new Date().toISOString(),
+                    isEmail: true
                 });
-
-                // Move to "Revisión" column
-                existingCard.columnId = `c_revision_${existingCard.boardId}`;
-                const cardBoard = (db.boards || []).find(b => b.id === existingCard.boardId);
-                finalProjectPath = `${cardBoard ? cardBoard.title : 'Projecte'} > ${existingCard.title}`;
-
-                logActivity(db, 'mail', `Correu vinculat a "${existingCard.title}" (Mogut a Revisió)`, 'Sistema');
+                // Auto-move to Revision if not already in a processed column
+                const board = (db.boards || []).find(b => b.id === targetBoardId);
+                if (board && board.columns.length > 1) {
+                    existingCard.columnId = board.columns[1].id; // Usually "Review" or similar
+                }
             } else {
-                // Create new card in member's board
+                // Create new card
                 const newCard = {
                     id: 'card_' + Date.now() + Math.random().toString(36).substr(2, 5),
                     boardId: targetBoardId,
-                    columnId: `c_todo_${targetBoardId}`,
-                    title: subject || `Email de ${from}`,
+                    columnId: (db.boards.find(b => b.id === targetBoardId)?.columns[0]?.id) || `col_1_${targetBoardId}`,
+                    title: email.subject || `Email de ${email.from}`,
                     descriptionBlocks: [
-                        { id: 'desc_1', type: 'text', text: `Correu automàtic de: ${from}\n\n${email.body.substring(0, 1000)}` }
+                        { id: 'desc_1', type: 'text', text: `Correu automàtic de: ${email.from}\n\n${email.body.substring(0, 1500)}` }
                     ],
-                    labels: [memberInfo.name, 'Entrada Automàtica'],
+                    labels: [automationTag, 'Email'],
                     createdAt: new Date().toISOString(),
-                    message_id: email.id, // ID ocult per rastreig
-                    attachments: email.attachments || []
+                    responsibleId: userId === 'info' ? null : userId
                 };
                 if (!db.cards) db.cards = [];
                 db.cards.push(newCard);
-                logActivity(db, 'mail', `Nova fitxa creada per a ${memberInfo.name}: ${subject}`, 'Sistema');
-                finalProjectPath = boardName;
             }
 
-            // --- Log to Google Sheets ---
+            // Sync to Google
             logToGoogleSheet({
-                from: from,
-                subject: subject,
-                projectPath: finalProjectPath,
+                from: email.from,
+                subject: email.subject,
+                projectPath: automationTag,
                 messageId: email.id,
-                member: memberInfo.name
+                member: 'Sistema Automàtic'
             });
 
             db.automated_email_uids.push(emailUid);
             changes = true;
-
-            // Trigger Google Drive sync for attachments if any
-            if (email.attachments && email.attachments.length > 0) {
-                console.log(`📎 [DRIVE] Notificant sistema per desar ${email.attachments.length} fitxers al Drive de ${memberInfo.name}`);
-            }
-        });
-    }
+        }
+    });
 
     if (changes) {
         writeDB(db);
