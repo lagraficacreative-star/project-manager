@@ -129,6 +129,12 @@ function App() {
         if (!isChatOpen) setUnreadCount(0);
     };
 
+    const handleSwitchSession = (userId) => {
+        setCurrentUserId(userId);
+        // Automatically filter for that user when switching session
+        setSelectedUsers([userId]);
+    };
+
     return (
         <Router>
             <div className="h-screen bg-brand-lightgray font-sans text-brand-black flex flex-col md:flex-row overflow-hidden">
@@ -179,40 +185,6 @@ function App() {
                             ))}
                         </nav>
 
-                        {/* Members Filter (Vertical List now to avoid overlap) */}
-                        <div className="border-t border-gray-100 pt-6 mb-4">
-                            <div className="flex justify-between items-center mb-4 px-2">
-                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Filtro de Equipo</p>
-                                <button onClick={clearFilters} className="text-[10px] font-bold text-brand-orange hover:underline uppercase tracking-widest">Todos</button>
-                            </div>
-                            <div className="flex flex-col gap-1.5">
-                                {users.map(u => {
-                                    const isSelected = selectedUsers.includes(u.id);
-                                    const isSessionUser = u.id === currentUserId;
-                                    return (
-                                        <div
-                                            key={u.id}
-                                            onClick={() => toggleUserFilter(u.id)}
-                                            className={`flex items-center gap-3 px-3 py-2 rounded-xl cursor-pointer transition-all border
-                                                ${isSelected
-                                                    ? 'bg-orange-50 border-brand-orange/20 shadow-sm'
-                                                    : 'bg-white border-transparent hover:bg-gray-50'}`}
-                                        >
-                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-black text-white shrink-0
-                                                ${isSessionUser ? 'bg-brand-orange ring-4 ring-orange-100 shadow-md' : 'bg-gray-400'}`}>
-                                                {u.avatar || u.name[0]}
-                                            </div>
-                                            <div className="min-w-0 flex-1">
-                                                <p className={`text-[10px] font-black leading-tight uppercase truncate ${isSelected ? 'text-brand-orange' : 'text-gray-600'}`}>{u.name}</p>
-                                                {isSessionUser && <p className="text-[8px] font-bold text-brand-orange uppercase tracking-widest">Sesión</p>}
-                                            </div>
-                                            {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-brand-orange"></div>}
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-
                         <div className="pt-4 border-t border-gray-100">
                             <SidebarAI />
                         </div>
@@ -244,7 +216,7 @@ function App() {
                 {/* MAIN CONTENT AREA */}
                 <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative bg-brand-lightgray">
 
-                    {/* NEW GLOBAL TOPBAR / LOGIN MENU */}
+                    {/* GLOBAL TOPBAR / LOGIN MENU */}
                     <header className="hidden md:flex items-center justify-between px-8 py-4 bg-white border-b border-gray-100 sticky top-0 z-[40] shadow-sm shrink-0">
                         <div className="flex items-center gap-4">
                             <div className="bg-brand-lightgray p-2 rounded-xl text-brand-orange">
@@ -257,18 +229,38 @@ function App() {
                         </div>
 
                         <div className="flex items-center gap-4">
-                            {/* NEW LOGIN SELECTOR (SAME COLUMN AS MEMBERS FILTER BUT IN TOP BAR) */}
-                            <div className="flex items-center gap-2 bg-gray-50 p-1 rounded-2xl border border-gray-100">
-                                <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest ml-3 mr-2">Acceso Rápido:</span>
-                                {users.map(u => (
-                                    <button
-                                        key={u.id}
-                                        onClick={() => setCurrentUserId(u.id)}
-                                        className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${currentUserId === u.id ? 'bg-brand-black text-white shadow-xl shadow-black/10' : 'text-gray-400 hover:text-brand-orange hover:bg-white'}`}
-                                    >
-                                        {u.name.split(' ')[0]}
-                                    </button>
-                                ))}
+                            {/* UNIFIED LOGIN & FILTER SELECTOR */}
+                            <div className="flex items-center gap-1.5 bg-gray-50 p-1 rounded-full border border-gray-100 shadow-inner">
+                                <button
+                                    onClick={clearFilters}
+                                    className={`px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest transition-all ${selectedUsers.length === 0 ? 'bg-white text-brand-orange shadow-md' : 'text-gray-400 hover:text-gray-600'}`}
+                                >
+                                    Ver Todo
+                                </button>
+                                <div className="w-px h-4 bg-gray-200 mx-1"></div>
+                                {users.map(u => {
+                                    const isActiveSession = currentUserId === u.id;
+                                    const isFilterActive = selectedUsers.includes(u.id);
+
+                                    return (
+                                        <button
+                                            key={u.id}
+                                            onClick={() => handleSwitchSession(u.id)}
+                                            className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-all group border-2
+                                                ${isActiveSession
+                                                    ? 'bg-white border-brand-orange text-brand-black shadow-lg scale-105'
+                                                    : 'bg-transparent border-transparent text-gray-400 hover:bg-white/50'}`}
+                                        >
+                                            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[8px] font-black text-white shrink-0
+                                                ${isActiveSession ? 'bg-brand-orange ring-2 ring-orange-100' : 'bg-gray-300 group-hover:bg-gray-400'}`}>
+                                                {u.avatar || u.name[0]}
+                                            </div>
+                                            <span className={`text-[9px] font-black uppercase tracking-widest ${isActiveSession ? 'text-brand-orange' : ''}`}>
+                                                {u.name.split(' ')[0]}
+                                            </span>
+                                        </button>
+                                    );
+                                })}
                             </div>
 
                             <div className="h-8 w-px bg-gray-100 mx-2"></div>
