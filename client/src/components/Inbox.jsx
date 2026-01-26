@@ -10,7 +10,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
     const [selectedEmail, setSelectedEmail] = useState(null);
     const [users, setUsers] = useState([]);
     const [contacts, setContacts] = useState([]);
-    const [activeTab, setActiveTab] = useState('inbox');
+    const [activeTab, setActiveTab] = useState('inbox'); // 'inbox', 'archived', 'trash', 'spam'
     const [activeFolder, setActiveFolder] = useState('INBOX');
     const [repliedIds, setRepliedIds] = useState([]);
 
@@ -28,6 +28,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
     const [includeInComments, setIncludeInComments] = useState(false);
     const [processedIds, setProcessedIds] = useState([]);
     const [deletedIds, setDeletedIds] = useState([]);
+    const [spamIds, setSpamIds] = useState([]);
 
     const [showCardPicker, setShowCardPicker] = useState(false);
     const [cards, setCards] = useState([]);
@@ -40,6 +41,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
         loadBoards();
         loadProcessed();
         loadDeleted();
+        loadSpam();
         loadCards();
         loadRepliedStatus();
         loadContacts();
@@ -69,6 +71,11 @@ const Inbox = ({ selectedUsers, currentUser }) => {
     const loadDeleted = async () => {
         const ids = await api.getDeletedEmails();
         setDeletedIds(ids.map(String));
+    };
+
+    const loadSpam = async () => {
+        const ids = await api.getSpamEmails ? await api.getSpamEmails() : [];
+        setSpamIds(ids.map(String));
     };
 
     const loadRepliedStatus = async () => {
@@ -122,17 +129,14 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             const result = await api.createCard(cardData);
             if (emailToConvert && result) {
                 await api.markEmailProcessed(emailToConvert.messageId, result.id);
+                // Move to "Gestionados" (Archivo folder)
+                await api.archiveEmail(currentUser.id, emailToConvert.messageId);
+
                 if (includeInComments) {
-                    await api.updateCard(result.id, {
-                        comments: [{
-                            id: Date.now(),
-                            text: `--- EMAIL IMPORTADO ---\nDe: ${emailToConvert.from}\nAsunto: ${emailToConvert.subject}\n\n${emailToConvert.body}`,
-                            author: currentUser.name,
-                            date: new Date().toISOString()
-                        }]
-                    });
+                    await api.addCommentToCard(result.id, `--- EMAIL IMPORTADO ---\nDe: ${emailToConvert.from}\nAsunto: ${emailToConvert.subject}\n\n${emailToConvert.body}`, currentUser.id);
                 }
                 loadProcessed();
+                fetchEmails(); // Refresh to see him moved
             }
             setShowCardModal(false);
             setEmailToConvert(null);
@@ -151,18 +155,14 @@ const Inbox = ({ selectedUsers, currentUser }) => {
     const handleAddToCardFinish = async (card) => {
         setIsSaving(true);
         try {
-            const newComment = {
-                id: Date.now(),
-                text: `--- NUEVA ACTUALIZACIÓN POR EMAIL ---\nDe: ${emailToConvert.from}\nAsunto: ${emailToConvert.subject}\n\n${emailToConvert.body}`,
-                author: currentUser.name,
-                date: new Date().toISOString(),
-                isEmail: true,
-                senderEmail: emailToConvert.from
-            };
-            const updatedComments = [...(card.comments || []), newComment];
-            await api.updateCard(card.id, { comments: updatedComments });
+            const commentText = `--- NUEVA ACTUALIZACIÓN POR EMAIL ---\nDe: ${emailToConvert.from}\nAsunto: ${emailToConvert.subject}\n\n${emailToConvert.body}`;
+            await api.addCommentToCard(card.id, commentText, currentUser.id);
             await api.markEmailProcessed(emailToConvert.messageId, card.id);
+            // Move to "Gestionados" (Archivo folder)
+            await api.archiveEmail(currentUser.id, emailToConvert.messageId);
+
             loadProcessed();
+            fetchEmails();
             setShowCardPicker(false);
             setEmailToConvert(null);
         } catch (error) {
@@ -175,11 +175,41 @@ const Inbox = ({ selectedUsers, currentUser }) => {
     const handleDeleteEmail = async (emailId) => {
         if (!confirm("¿Mover a papelera?")) return;
         try {
-            await api.deleteEmail(emailId);
+            const db = await api.getData();
+            if (!db.deleted_emails) db.deleted_emails = [];
+            db.deleted_emails.push(String(emailId));
+            await api.saveData(db);
             loadDeleted();
             if (selectedEmail?.messageId === emailId) setSelectedEmail(null);
         } catch (error) {
             console.error("Delete failed", error);
+        }
+    };
+
+    const handleSpamEmail = async (emailId) => {
+        if (!confirm("¿Marcar como SPAM?")) return;
+        try {
+            const db = await api.getData();
+            if (!db.spam_emails) db.spam_emails = [];
+            db.spam_emails.push(String(emailId));
+            await api.saveData(db);
+            loadSpam();
+            if (selectedEmail?.messageId === emailId) setSelectedEmail(null);
+        } catch (error) {
+            console.error("Spam failed", error);
+        }
+    };
+
+    const handleRestoreEmail = async (emailId) => {
+        try {
+            const db = await api.getData();
+            if (db.deleted_emails) db.deleted_emails = db.deleted_emails.filter(id => id !== String(emailId));
+            if (db.spam_emails) db.spam_emails = db.spam_emails.filter(id => id !== String(emailId));
+            await api.saveData(db);
+            loadDeleted();
+            loadSpam();
+        } catch (error) {
+            console.error("Restore failed", error);
         }
     };
 
@@ -205,10 +235,18 @@ const Inbox = ({ selectedUsers, currentUser }) => {
 
     const filteredEmails = useMemo(() => {
         return emails.filter(e => {
-            if (deletedIds.includes(String(e.messageId))) return false;
-            const isProcessed = processedIds.includes(String(e.messageId));
-            if (activeTab === 'inbox' && isProcessed) return false;
-            if (activeTab === 'archived' && !isProcessed) return false;
+            const id = String(e.messageId || e.id);
+            const isDeleted = deletedIds.includes(id);
+            const isSpam = spamIds.includes(id);
+            const isProcessed = processedIds.includes(id);
+
+            if (activeTab === 'trash') return isDeleted;
+            if (activeTab === 'spam') return isSpam;
+            if (isDeleted || isSpam) return false;
+
+            if (activeTab === 'inbox') return !isProcessed;
+            if (activeTab === 'archived') return isProcessed;
+
             if (emailFilter) {
                 const search = emailFilter.toLowerCase();
                 const matches = (e.from || "").toLowerCase().includes(search) ||
@@ -218,7 +256,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             }
             return true;
         });
-    }, [emails, deletedIds, processedIds, activeTab, emailFilter]);
+    }, [emails, deletedIds, spamIds, processedIds, activeTab, emailFilter]);
 
     const prefilledCard = emailToConvert ? {
         title: emailToConvert.subject,
@@ -252,13 +290,16 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                 className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-[11px] font-bold outline-none focus:ring-2 focus:ring-brand-orange/10 transition-all placeholder:text-gray-300"
                             />
                         </div>
-                        <div className="flex p-1 bg-gray-50 rounded-2xl mb-4">
-                            <button onClick={() => setActiveTab('inbox')} className={`flex-1 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all ${activeTab === 'inbox' ? 'bg-white text-brand-orange shadow-md border border-gray-100' : 'text-gray-400 opacity-60'}`}>Pendientes</button>
-                            <button onClick={() => setActiveTab('archived')} className={`flex-1 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all ${activeTab === 'archived' ? 'bg-white text-brand-orange shadow-md border border-gray-100' : 'text-gray-400 opacity-60'}`}>Gestionados</button>
+                        <div className="flex p-1 bg-gray-50 rounded-2xl mb-4 overflow-x-auto no-scrollbar">
+                            <button onClick={() => { setActiveTab('inbox'); setActiveFolder('INBOX'); }} className={`flex-1 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all min-w-[80px] ${activeTab === 'inbox' ? 'bg-white text-brand-orange shadow-md border border-gray-100' : 'text-gray-400 opacity-60'}`}>Pendientes</button>
+                            <button onClick={() => { setActiveTab('archived'); setActiveFolder('Archivo_Fichas/Correos_Procesados'); }} className={`flex-1 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all min-w-[80px] ${activeTab === 'archived' ? 'bg-white text-brand-orange shadow-md border border-gray-100' : 'text-gray-400 opacity-60'}`}>Gestionados</button>
+                            <button onClick={() => { setActiveTab('spam'); }} className={`flex-1 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all min-w-[60px] ${activeTab === 'spam' ? 'bg-white text-brand-orange shadow-md border border-gray-100' : 'text-gray-400 opacity-60'}`}>Spam</button>
+                            <button onClick={() => { setActiveTab('trash'); }} className={`flex-1 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all min-w-[60px] ${activeTab === 'trash' ? 'bg-white text-brand-orange shadow-md border border-gray-100' : 'text-gray-400 opacity-60'}`}>Papelera</button>
                         </div>
                         <div className="flex p-1 bg-gray-100 rounded-2xl">
                             <button onClick={() => setActiveFolder('INBOX')} className={`flex-1 py-1.5 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${activeFolder === 'INBOX' ? 'bg-brand-black text-white' : 'text-gray-400 hover:text-gray-600'}`}>Entrada</button>
                             <button onClick={() => setActiveFolder('Sent')} className={`flex-1 py-1.5 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${activeFolder === 'Sent' ? 'bg-brand-black text-white' : 'text-gray-400 hover:text-gray-600'}`}>Enviados</button>
+                            <button onClick={() => setActiveFolder('Archivo_Fichas/Correos_Procesados')} className={`flex-1 py-1.5 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${activeFolder.includes('Archivo') || activeTab === 'archived' ? 'bg-brand-black text-white' : 'text-gray-400 hover:text-gray-600'}`}>Archivo</button>
                         </div>
                     </div>
 
@@ -281,7 +322,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                             <span className="text-[9px] font-bold text-gray-300 whitespace-nowrap">{new Date(email.date).toLocaleDateString()}</span>
                                             <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
                                                 <button onClick={(e) => { e.stopPropagation(); handleConvertToCard(email); }} className="p-1 px-2 bg-orange-100 text-brand-orange rounded-full text-[8px] font-black uppercase hover:bg-brand-orange hover:text-white transition-colors">+ Ficha</button>
-                                                <button onClick={(e) => { e.stopPropagation(); handleSelectEmail(email); setEmailComposerData({ to: email.from, subject: `RE: ${email.subject}`, body: `\n\n--- Original ---\n${email.body}`, memberId: currentUser.id, replyToId: email.messageId }); setShowEmailComposer(true); }} className="p-1 px-2 bg-gray-100 text-gray-600 rounded-full text-[8px] font-black uppercase hover:bg-brand-black hover:text-white transition-colors">Responder</button>
+                                                <button onClick={(e) => { e.stopPropagation(); setEmailComposerData({ to: email.from, subject: `RE: ${email.subject}`, body: `\n\n--- Original ---\nDe: ${email.from}\nAsunto: ${email.subject}\n\n${email.body}`, memberId: currentUser.id, replyToId: email.messageId }); setShowEmailComposer(true); }} className="p-1 px-2 bg-gray-100 text-gray-600 rounded-full text-[8px] font-black uppercase hover:bg-brand-black hover:text-white transition-colors">Responder</button>
                                             </div>
                                         </div>
                                     </div>
@@ -305,7 +346,17 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{selectedEmail.from}</p>
                                         </div>
                                     </div>
-                                    <button onClick={() => handleDeleteEmail(selectedEmail.messageId)} className="p-3 text-gray-300 hover:bg-red-50 hover:text-red-500 rounded-2xl transition-all" title="Mover a papelera"><Trash2 size={20} /></button>
+                                    <div className="flex gap-2">
+                                        {(activeTab === 'trash' || activeTab === 'spam') && (
+                                            <button onClick={() => handleRestoreEmail(selectedEmail.messageId)} className="p-3 text-green-500 hover:bg-green-50 rounded-2xl transition-all" title="Restaurar a entrada"><RefreshCw size={20} /></button>
+                                        )}
+                                        {activeTab !== 'trash' && (
+                                            <button onClick={() => handleDeleteEmail(selectedEmail.messageId)} className="p-3 text-gray-300 hover:bg-red-50 hover:text-red-500 rounded-2xl transition-all" title="Mover a papelera"><Trash2 size={20} /></button>
+                                        )}
+                                        {activeTab !== 'spam' && (
+                                            <button onClick={() => handleSpamEmail(selectedEmail.messageId)} className="p-3 text-gray-300 hover:bg-orange-50 hover:text-brand-orange rounded-2xl transition-all" title="Marcar como SPAM"><Archive size={20} /></button>
+                                        )}
+                                    </div>
                                 </div>
 
                                 <div className="flex flex-wrap gap-2">

@@ -248,6 +248,18 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
 
     const getCount = (bid) => filteredCards.filter(c => c.boardId === bid).length;
 
+    const [bannerQuery, setBannerQuery] = useState('');
+
+    const handleBannerSearch = (e) => {
+        if (e.key === 'Enter' || e.type === 'click') {
+            if (bannerQuery.trim()) {
+                navigate(`/agenda?q=${encodeURIComponent(bannerQuery)}`);
+            } else {
+                navigate('/agenda');
+            }
+        }
+    };
+
     return (
         <div className="flex flex-col gap-10 pb-10">
 
@@ -288,62 +300,47 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
                         onClick={() => navigate('/docs')}
                         className="bg-brand-black text-white px-6 py-2.5 rounded-2xl text-[10px] font-black tracking-widest hover:bg-brand-orange transition-all shadow-lg shadow-black/10"
                     >
-                        DOCUMENTACIÓN
+                        GESTIÓN
                     </button>
                 </div>
             </div>
 
             {/* HERO: ASSISTENT LAGRÀFICA */}
-            <div className="bg-gradient-to-br from-brand-black to-slate-900 rounded-[2.5rem] p-8 md:p-12 text-white shadow-2xl relative overflow-hidden border border-white/5">
-                <div className="relative z-10 flex flex-col lg:flex-row items-center gap-10">
-                    <div className="flex-1 space-y-6">
-                        <div className="flex items-center gap-3">
-                            <div className="p-2.5 bg-brand-orange rounded-2xl shadow-lg shadow-orange-500/30">
-                                <Bot size={28} className="text-white" />
+            <div className="bg-gradient-to-br from-brand-black to-slate-900 rounded-[2.5rem] p-6 text-white shadow-2xl relative overflow-hidden border border-white/5">
+                <div className="relative z-10 flex flex-col lg:flex-row items-center gap-6">
+                    <div className="flex-1 space-y-4">
+                        <div className="flex items-center gap-2">
+                            <div className="p-1.5 bg-brand-orange rounded-xl shadow-lg shadow-orange-500/30">
+                                <Bot size={18} className="text-white" />
                             </div>
-                            <span className="text-xs font-black uppercase tracking-[0.2em] text-orange-200/80">Inteligencia Artificial</span>
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-200/80">Inteligencia Artificial</span>
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-black leading-[1.1] tracking-tighter">
+                        <h1 className="text-2xl md:text-3xl font-black leading-tight tracking-tighter">
                             Hola {currentUser.name.split(' ')[0]}, <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-orange-400">¿en qué puedo ayudarte?</span>
                         </h1>
-                        {selectedClient && (
-                            <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-xl border border-white/10 w-fit">
-                                <Tag size={14} className="text-brand-orange" />
-                                <span className="text-xs font-black uppercase tracking-widest text-orange-200">Filtrando por: {selectedClient}</span>
-                            </div>
-                        )}
-                        <p className="text-gray-400 text-sm md:text-base font-medium max-w-xl leading-relaxed">
-                            Puedo gestionar tu agenda, resumir correos, crear fichas de proyecto o buscar cualquier documento del estudio en segundos.
-                        </p>
-                        <div className="relative max-w-2xl group">
+                        <div className="relative max-w-xl group">
                             <input
                                 type="text"
+                                value={bannerQuery}
+                                onChange={(e) => setBannerQuery(e.target.value)}
                                 placeholder="Escribe tu consulta o petición..."
-                                className="w-full bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 rounded-[2rem] py-5 pl-8 pr-20 text-lg outline-none focus:ring-2 focus:ring-brand-orange/50 transition-all placeholder:text-white/20 shadow-2xl"
-                                onKeyDown={(e) => e.key === 'Enter' && navigate('/agenda')}
+                                className="w-full bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl py-4 pl-6 pr-16 text-sm md:text-base outline-none focus:ring-2 focus:ring-brand-orange/50 transition-all placeholder:text-white/20 shadow-2xl"
+                                onKeyDown={handleBannerSearch}
                             />
                             <button
-                                onClick={() => navigate('/agenda')}
-                                className="absolute right-3 top-3 bottom-3 bg-brand-orange text-white px-6 rounded-2xl hover:bg-orange-600 transition-all flex items-center gap-2 font-black text-xs tracking-widest uppercase shadow-lg shadow-orange-500/20"
+                                onClick={handleBannerSearch}
+                                className="absolute right-2 top-2 bottom-2 bg-brand-orange text-white px-5 rounded-xl hover:bg-orange-600 transition-all flex items-center gap-2 font-black text-[10px] tracking-widest uppercase shadow-lg shadow-orange-500/20"
                             >
-                                <Send size={18} />
+                                <Send size={16} />
                             </button>
                         </div>
-                        <div className="flex flex-wrap gap-3 pt-2">
-                            {['Resumir emails', 'Nueva tarea', 'Contacto cliente'].map(tag => (
-                                <button key={tag} onClick={() => navigate('/agenda')} className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-[10px] font-black uppercase tracking-widest text-gray-400 transition-all">
-                                    {tag}
-                                </button>
-                            ))}
-                        </div>
                     </div>
-                    <div className="hidden lg:flex w-64 h-64 items-center justify-center relative">
-                        <div className="absolute inset-0 bg-brand-orange/20 rounded-full blur-[80px] animate-pulse"></div>
-                        <Bot size={160} className="text-brand-orange opacity-20 absolute" />
-                        <div className="relative w-full h-full border-2 border-dashed border-white/10 rounded-full animate-[spin_20s_linear_infinite] flex items-center justify-center">
-                            <div className="w-4 h-4 bg-brand-orange rounded-full absolute -top-2"></div>
-                            <div className="w-4 h-4 bg-white/20 rounded-full absolute -bottom-2"></div>
+                    <div className="hidden lg:flex w-40 h-40 items-center justify-center relative">
+                        <div className="absolute inset-0 bg-brand-orange/20 rounded-full blur-[60px] animate-pulse"></div>
+                        <Bot size={80} className="text-brand-orange opacity-10 absolute" />
+                        <div className="relative w-full h-full border-2 border-dashed border-white/5 rounded-full animate-[spin_30s_linear_infinite] flex items-center justify-center">
+                            <div className="w-2 h-2 bg-brand-orange rounded-full absolute -top-1"></div>
                         </div>
                     </div>
                 </div>
@@ -430,10 +427,10 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
                 <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100 flex flex-col h-full border-l-4 border-l-brand-orange">
                     <div className="flex items-center justify-between mb-6 md:mb-8">
                         <div className="flex items-center gap-3">
-                            <Bell size={20} className="text-brand-orange" />
-                            <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Avisos Urgentes</h3>
+                            <Calendar size={20} className="text-brand-orange" />
+                            <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Agenda (Orden del día)</h3>
                         </div>
-                        <span className="text-[10px] font-black bg-orange-50 text-brand-orange px-3 py-1 rounded-full">{urgentNotes.filter(n => !n.done).length} PENDIENTES</span>
+                        <span className="text-[10px] font-black bg-orange-50 text-brand-orange px-3 py-1 rounded-full">{urgentNotes.filter(n => !n.done).length} POR HACER</span>
                     </div>
                     <div className="flex gap-2 mb-6">
                         <input

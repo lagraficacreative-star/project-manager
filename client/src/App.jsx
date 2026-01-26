@@ -25,7 +25,7 @@ const PageContext = () => {
     if (path === '/agenda') return "Agenda & Contactos";
     if (path === '/calendar') return "Calendario de Trabajo";
     if (path === '/rrhh') return "Gestión de Equipo";
-    if (path === '/docs') return "Documentación de Empresa";
+    if (path === '/docs') return "Gestión de Empresa";
     if (path === '/resources') return "Recursos & Assets";
     if (path === '/licitaciones') return "Gestión de Licitaciones";
     return "LaGràfica Project Manager";
@@ -88,9 +88,9 @@ function App() {
         },
         { to: "/calendar", icon: <CalIcon size={18} />, label: "Calendario" },
         { to: "/rrhh", icon: <Users size={18} />, label: "Equipo" },
-        { to: "/docs", icon: <Folder size={18} />, label: "Docs" },
         { to: "/resources", icon: <Package size={18} />, label: "Recursos" },
         { to: "/licitaciones", icon: <Gavel size={18} />, label: "Licitaciones" },
+        { to: "/docs", icon: <Folder size={18} />, label: "Gestión" },
     ];
 
     useEffect(() => {
@@ -295,7 +295,7 @@ function App() {
                             <Route path="/board/:boardId" element={<Board selectedUsers={selectedUsers} selectedClient={selectedClient} currentUser={currentUser} />} />
                             <Route path="/inbox" element={<Inbox selectedUsers={selectedUsers} currentUser={currentUser} />} />
                             <Route path="/rrhh" element={<HRManagement selectedUsers={selectedUsers} currentUser={currentUser} />} />
-                            <Route path="/docs" element={<CompanyDocs selectedUsers={selectedUsers} currentUser={currentUser} />} />
+                            <Route path="/docs" element={<CompanyDocs selectedUsers={selectedUsers} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
                             <Route path="/agenda" element={<AgendaGPT selectedUsers={selectedUsers} currentUser={currentUser} setSelectedClient={setSelectedClient} />} />
                             <Route path="/agenda/:filterType" element={<AgendaGPT selectedUsers={selectedUsers} currentUser={currentUser} setSelectedClient={setSelectedClient} />} />
                             <Route path="/calendar" element={<Calendar currentUser={currentUser} />} />

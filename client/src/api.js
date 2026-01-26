@@ -176,6 +176,18 @@ export const api = {
         const res = await fetch(`${API_URL}/emails/deleted`);
         return res.json();
     },
+    getSpamEmails: async () => {
+        const res = await fetch(`${API_URL}/emails/spam`);
+        return res.json();
+    },
+    saveData: async (data) => {
+        const res = await fetch(`${API_URL}/save-data`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        return res.json();
+    },
     addCommentToCard: async (cardId, text, author) => {
         const res = await fetch(`${API_URL}/cards/${cardId}/comments`, {
             method: 'POST',

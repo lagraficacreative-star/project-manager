@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { api } from '../api';
 import { Search, Plus, Mail, Phone, MapPin, Globe, Trash2, Edit2, X, Briefcase, ChevronRight, MessageSquare, Send, Sparkles, User, Tag, FileText, LayoutDashboard, Table, Book, Bot } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const AgendaGPT = ({ currentUser, setSelectedClient }) => {
     const navigate = useNavigate();
@@ -22,9 +22,17 @@ const AgendaGPT = ({ currentUser, setSelectedClient }) => {
         notes: ''
     });
 
+    const location = useLocation();
+
     useEffect(() => {
         loadContacts();
-    }, []);
+        const params = new URLSearchParams(location.search);
+        const query = params.get('q');
+        if (query) {
+            setViewMode('chat');
+            // We can pre-fill search if needed, but for now we'll just switch to AI mode
+        }
+    }, [location]);
 
     const loadContacts = async () => {
         try {

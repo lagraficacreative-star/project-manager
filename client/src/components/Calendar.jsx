@@ -10,6 +10,7 @@ const Calendar = ({ selectedUsers, currentUser }) => {
     const [users, setUsers] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [showEventModal, setShowEventModal] = useState(false);
+    const [view, setView] = useState('month'); // 'month', 'week', 'day'
 
     const [alerts, setAlerts] = useState([]);
 
@@ -147,13 +148,30 @@ const Calendar = ({ selectedUsers, currentUser }) => {
                         <div className="flex items-center gap-1 md:gap-2 bg-gray-100 rounded-lg p-1 shrink-0">
                             <button onClick={() => changeMonth(-1)} className="p-1 md:p-2 hover:bg-white rounded-md shadow-sm transition-all text-gray-600"><ChevronLeft size={16} /></button>
                             <span className="w-32 md:w-48 text-center font-bold text-gray-800 uppercase text-[10px] md:text-sm truncate">
-                                {currentDate.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })}
+                                {view === 'month'
+                                    ? currentDate.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })
+                                    : view === 'week'
+                                        ? `Semana ${Math.ceil(currentDate.getDate() / 7)} - ${currentDate.toLocaleDateString('es-ES', { month: 'short' })}`
+                                        : currentDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' })
+                                }
                             </span>
                             <button onClick={() => changeMonth(1)} className="p-1 md:p-2 hover:bg-white rounded-md shadow-sm transition-all text-gray-600"><ChevronRight size={16} /></button>
                         </div>
                         <button onClick={() => setCurrentDate(new Date())} className="px-2 md:px-4 py-1.5 md:py-2 border border-gray-200 rounded-lg text-[10px] md:text-xs font-bold text-gray-600 hover:bg-gray-50 whitespace-nowrap uppercase tracking-widest">
                             Hoy
                         </button>
+                    </div>
+
+                    <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-xl">
+                        {['month', 'week', 'day'].map(v => (
+                            <button
+                                key={v}
+                                onClick={() => setView(v)}
+                                className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${view === v ? 'bg-white text-brand-orange shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+                            >
+                                {v === 'month' ? 'Mes' : v === 'week' ? 'Semana' : 'Día'}
+                            </button>
+                        ))}
                     </div>
 
                     <button
@@ -164,92 +182,143 @@ const Calendar = ({ selectedUsers, currentUser }) => {
                     </button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto bg-gray-50/30">
-                    <div className="p-4 md:p-8 lg:p-12 space-y-8 max-w-4xl mx-auto">
-                        <div className="flex items-center gap-4 mb-4">
-                            <div className="flex items-center gap-2">
-                                <div className="w-3 h-3 rounded-full bg-brand-orange"></div>
-                                <span className="text-[9px] font-black uppercase text-gray-400">Reuniones</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                                <span className="text-[9px] font-black uppercase text-gray-400">Entregas de Proyecto</span>
+                <div className="flex-1 overflow-y-auto bg-gray-50/10">
+                    {view === 'month' && (
+                        <div className="p-4 h-full flex flex-col">
+                            <div className="grid grid-cols-7 gap-px bg-gray-100 rounded-xl overflow-hidden border border-gray-100">
+                                {['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'].map(d => (
+                                    <div key={d} className="bg-white p-2 text-center text-[10px] font-black text-gray-400 uppercase tracking-widest">{d}</div>
+                                ))}
+                                {Array.from({ length: startOffset }).map((_, i) => (
+                                    <div key={`empty-${i}`} className="bg-gray-50/50 min-h-[100px]"></div>
+                                ))}
+                                {Array.from({ length: days }).map((_, i) => {
+                                    const day = i + 1;
+                                    const dateStr = new Date(currentDate.getFullYear(), currentDate.getMonth(), day).toISOString().split('T')[0];
+                                    const dayEntries = getCalendarEntries().filter(e => e.start.startsWith(dateStr));
+                                    const isToday = new Date().toISOString().split('T')[0] === dateStr;
+
+                                    return (
+                                        <div
+                                            key={day}
+                                            onClick={() => handleDateClick(day)}
+                                            className={`bg-white min-h-[120px] p-2 border-t border-l border-gray-50 hover:bg-orange-50/30 transition-colors cursor-pointer group flex flex-col gap-1`}
+                                        >
+                                            <span className={`text-[10px] font-black w-6 h-6 flex items-center justify-center rounded-full ${isToday ? 'bg-brand-orange text-white' : 'text-gray-400'}`}>
+                                                {day}
+                                            </span>
+                                            <div className="flex flex-col gap-1 overflow-y-auto max-h-[80px] no-scrollbar">
+                                                {dayEntries.map(entry => (
+                                                    <div
+                                                        key={entry.id + entry.calendarType}
+                                                        className={`text-[8px] p-1.5 rounded-lg border truncate font-bold uppercase tracking-tight
+                                                            ${entry.calendarType === 'project' ? 'bg-blue-50 border-blue-100 text-blue-600' : 'bg-orange-50 border-orange-100 text-brand-orange'}`}
+                                                    >
+                                                        {entry.calendarType !== 'project' && `${new Date(entry.start).getHours().toString().padStart(2, '0')}:${new Date(entry.start).getMinutes().toString().padStart(2, '0')} `}
+                                                        {entry.title}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
+                    )}
 
-                        {(() => {
-                            const entries = getCalendarEntries().filter(e => {
-                                const entryDate = new Date(e.start);
-                                return entryDate.getMonth() === currentDate.getMonth() && entryDate.getFullYear() === currentDate.getFullYear();
-                            }).sort((a, b) => new Date(a.start) - new Date(b.start));
+                    {(view === 'week' || view === 'day') && (
+                        <div className="p-4 h-full">
+                            <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden flex flex-col h-full">
+                                <div className="flex border-b border-gray-100 bg-white sticky top-0 z-10">
+                                    <div className="w-16 md:w-24 shrink-0 border-r border-gray-50"></div>
+                                    <div className={`flex-1 grid ${view === 'week' ? 'grid-cols-7' : 'grid-cols-1'}`}>
+                                        {(() => {
+                                            const today = new Date();
+                                            const startOfWeek = new Date(currentDate);
+                                            const day = startOfWeek.getDay();
+                                            const diff = startOfWeek.getDate() - (day === 0 ? 6 : day - 1);
+                                            startOfWeek.setDate(diff);
 
-                            if (entries.length === 0) {
-                                return <div className="text-center py-20 text-gray-400 italic text-sm">No hay eventos ni proyectos para este mes.</div>
-                            }
+                                            const daysToShow = view === 'week' ? 7 : 1;
+                                            const baseDate = view === 'week' ? startOfWeek : currentDate;
 
-                            const groups = entries.reduce((acc, entry) => {
-                                const d = new Date(entry.start).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
-                                if (!acc[d]) acc[d] = [];
-                                acc[d].push(entry);
-                                return acc;
-                            }, {});
-
-                            return Object.entries(groups).map(([date, dayEntries]) => (
-                                <div key={date} className="space-y-4">
-                                    <div className="flex items-center gap-4">
-                                        <span className="text-[10px] font-black text-brand-orange uppercase tracking-[0.2em] whitespace-nowrap">{date}</span>
-                                        <div className="h-px bg-orange-100 flex-1"></div>
-                                    </div>
-                                    <div className="space-y-3">
-                                        {dayEntries.map(entry => {
-                                            const isProject = entry.calendarType === 'project';
-                                            return (
-                                                <div key={entry.id + entry.calendarType} className={`bg-white p-5 rounded-3xl border ${isProject ? 'border-blue-100 border-l-4 border-l-blue-500' : 'border-gray-100'} shadow-sm flex flex-col sm:flex-row gap-4 hover:shadow-md transition-all group`}>
-                                                    <div className="flex items-center gap-4 sm:flex-col sm:items-center sm:justify-center sm:min-w-[70px] sm:border-r sm:border-gray-50 sm:pr-4">
-                                                        {isProject ? (
-                                                            <Briefcase size={20} className="text-blue-500 mb-1" />
-                                                        ) : (
-                                                            <span className="text-sm font-black text-brand-black">{new Date(entry.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                                                        )}
-                                                        <span className="text-[9px] font-bold text-gray-300 uppercase">{isProject ? 'ENTREGA' : `${entry.duration || 0} min`}</span>
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <div className="flex justify-between items-start mb-1">
-                                                            <div className="flex items-center gap-2">
-                                                                <h4 className={`font-bold truncate ${isProject ? 'text-blue-700' : 'text-gray-800'}`}>{entry.title}</h4>
-                                                                {isProject && entry.priority === 'high' && <AlertTriangle size={14} className="text-red-500 animate-pulse" />}
-                                                            </div>
-                                                            {!isProject && (
-                                                                <button onClick={(e) => deleteEvent(entry.id, e)} className="p-1 opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-500 transition-all"><X size={14} /></button>
-                                                            )}
-                                                        </div>
-                                                        <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">{entry.description}</p>
-                                                        <div className="flex items-center justify-between">
-                                                            <div className="flex -space-x-2">
-                                                                {(entry.userIds || []).map(uid => (
-                                                                    <div key={uid} className={`w-6 h-6 rounded-full border-2 border-white flex items-center justify-center text-[9px] font-bold text-white shadow-sm ${uid === 'montse' ? 'bg-brand-orange' : 'bg-gray-400'}`}>
-                                                                        {users.find(u => u.id === uid)?.avatar || uid[0]}
-                                                                    </div>
-                                                                ))}
-                                                            </div>
-                                                            {!isProject && entry.meetingLink && (
-                                                                <a href={entry.meetingLink.startsWith('http') ? entry.meetingLink : `https://${entry.meetingLink}`} target="_blank" rel="noreferrer" className="text-[10px] text-brand-orange font-black uppercase tracking-widest hover:underline flex items-center gap-1">
-                                                                    <CalIcon size={12} /> Link Reunión
-                                                                </a>
-                                                            )}
-                                                            {isProject && (
-                                                                <span className="text-[9px] font-black text-blue-400 uppercase tracking-widest">PROYECTO STUDIO</span>
-                                                            )}
+                                            return Array.from({ length: daysToShow }).map((_, i) => {
+                                                const d = new Date(baseDate);
+                                                d.setDate(baseDate.getDate() + i);
+                                                const isToday = d.toDateString() === today.toDateString();
+                                                return (
+                                                    <div key={i} className={`p-4 text-center border-l border-gray-50 first:border-l-0 ${isToday ? 'bg-orange-50/30' : ''}`}>
+                                                        <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{d.toLocaleDateString('es-ES', { weekday: 'short' })}</div>
+                                                        <div className={`inline-flex items-center justify-center w-8 h-8 mt-1 rounded-full text-sm font-black ${isToday ? 'bg-brand-orange text-white' : 'text-brand-black'}`}>
+                                                            {d.getDate()}
                                                         </div>
                                                     </div>
-                                                </div>
-                                            );
-                                        })}
+                                                );
+                                            });
+                                        })()}
                                     </div>
                                 </div>
-                            ));
-                        })()}
-                    </div>
+
+                                <div className="flex-1 overflow-y-auto no-scrollbar relative min-h-[600px]">
+                                    {/* Hour Grid */}
+                                    <div className="absolute inset-0 flex">
+                                        <div className="w-16 md:w-24 shrink-0 border-r border-gray-50 bg-white">
+                                            {Array.from({ length: 24 }).map((_, h) => (
+                                                <div key={h} className="h-20 border-b border-gray-50 px-2 text-[9px] font-black text-gray-300 text-right pt-2">
+                                                    {h.toString().padStart(2, '0')}:00
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div className={`flex-1 grid ${view === 'week' ? 'grid-cols-7' : 'grid-cols-1'} divide-x divide-gray-50`}>
+                                            {Array.from({ length: view === 'week' ? 7 : 1 }).map((_, i) => (
+                                                <div key={i} className="relative h-[1920px]">
+                                                    {Array.from({ length: 24 }).map((_, h) => (
+                                                        <div key={h} className="h-20 border-b border-gray-50/50"></div>
+                                                    ))}
+
+                                                    {(() => {
+                                                        const colDate = new Date(currentDate);
+                                                        if (view === 'week') {
+                                                            const day = colDate.getDay();
+                                                            const diff = colDate.getDate() - (day === 0 ? 6 : day - 1);
+                                                            colDate.setDate(diff + i);
+                                                        }
+                                                        const dateStr = colDate.toISOString().split('T')[0];
+                                                        const dayEntries = getCalendarEntries().filter(e => e.start.startsWith(dateStr));
+
+                                                        return dayEntries.map(entry => {
+                                                            const start = new Date(entry.start);
+                                                            const mins = start.getHours() * 60 + start.getMinutes();
+                                                            const duration = entry.duration || 60;
+                                                            const isProject = entry.calendarType === 'project';
+
+                                                            return (
+                                                                <div
+                                                                    key={entry.id + entry.calendarType}
+                                                                    className={`absolute left-1 right-1 rounded-xl p-2 border shadow-sm flex flex-col gap-1 overflow-hidden z-20 hover:scale-[1.02] transition-transform cursor-pointer
+                                                                        ${isProject ? 'bg-blue-50 border-blue-100 text-blue-700' : 'bg-orange-50 border-orange-100 text-brand-orange'}`}
+                                                                    style={{
+                                                                        top: `${(mins / 60) * 80}px`,
+                                                                        height: `${Math.max((duration / 60) * 80, 40)}px`
+                                                                    }}
+                                                                >
+                                                                    <div className="flex items-center justify-between">
+                                                                        <span className="text-[9px] font-black uppercase text-gray-400">{isProject ? 'Entrega' : start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                                                        {!isProject && <button onClick={(e) => deleteEvent(entry.id, e)} className="p-0.5 hover:bg-orange-200/50 rounded"><X size={10} /></button>}
+                                                                    </div>
+                                                                    <h5 className="text-[10px] font-bold leading-tight line-clamp-2">{entry.title}</h5>
+                                                                </div>
+                                                            );
+                                                        });
+                                                    })()}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 

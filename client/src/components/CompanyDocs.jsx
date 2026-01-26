@@ -7,7 +7,9 @@ import {
     Circle, X, Bot, Sparkles, TrendingUp, DollarSign, Wallet, RefreshCw
 } from 'lucide-react';
 
-const CompanyDocs = ({ selectedUsers }) => {
+const CompanyDocs = ({ selectedUsers, isManagementUnlocked, unlockManagement }) => {
+    const [password, setPassword] = useState('');
+    const [showError, setShowError] = useState(false);
     const [docs, setDocs] = useState([]);
     const [currentFolderId, setCurrentFolderId] = useState(null); // null = root
     const [path, setPath] = useState([{ id: null, name: 'Inici' }]);
@@ -153,6 +155,43 @@ const CompanyDocs = ({ selectedUsers }) => {
         setViewMode('embed');
     };
 
+    const handleUnlock = (e) => {
+        e.preventDefault();
+        if (password === 'lagrafica2025') {
+            unlockManagement(true);
+        } else {
+            setShowError(true);
+            setTimeout(() => setShowError(false), 2000);
+        }
+    };
+
+    if (!isManagementUnlocked) {
+        return (
+            <div className="flex flex-col items-center justify-center h-[70vh] bg-white rounded-[2.5rem] shadow-sm border border-gray-100 p-10 text-center animate-in fade-in duration-500">
+                <div className="w-24 h-24 bg-brand-orange/10 rounded-[2rem] flex items-center justify-center text-brand-orange mb-8">
+                    <Lock size={40} />
+                </div>
+                <h2 className="text-3xl font-black text-brand-black uppercase tracking-tighter mb-4">Sección Reservada</h2>
+                <p className="text-gray-400 text-sm font-medium max-w-sm mb-10 leading-relaxed">Esta sección contiene documentos sensibles de gestión. Por favor, introduce la contraseña para continuar.</p>
+
+                <form onSubmit={handleUnlock} className="w-full max-w-sm space-y-4">
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Contraseña de gestión..."
+                        className={`w-full px-6 py-4 bg-gray-50 border ${showError ? 'border-red-500 ring-4 ring-red-50' : 'border-gray-100 focus:ring-4 focus:ring-brand-orange/5'} rounded-2xl text-center font-bold outline-none transition-all`}
+                        autoFocus
+                    />
+                    <button type="submit" className="w-full bg-brand-black text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl hover:bg-brand-orange transition-all active:scale-95">
+                        DESBLOQUEAR ACCESO
+                    </button>
+                    {showError && <p className="text-red-500 text-[10px] font-black uppercase tracking-widest animate-bounce">Contraseña incorrecta</p>}
+                </form>
+            </div>
+        );
+    }
+
     return (
         <div className="flex flex-col h-full bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
             {/* Header / Breadcrumbs */}
@@ -164,7 +203,7 @@ const CompanyDocs = ({ selectedUsers }) => {
                         </div>
                         <div>
                             <h1 className="text-2xl font-black text-brand-black uppercase tracking-tight leading-none">
-                                {currentFolderId ? (currentFolder?.name || 'Carregant...') : 'Centre de Documentació'}
+                                {currentFolderId ? (currentFolder?.name || 'Carregant...') : "Gestió d'Empresa"}
                             </h1>
                             <div className="flex items-center gap-2 mt-2">
                                 <span className="text-[10px] font-black text-gray-300 uppercase tracking-widest hover:text-brand-orange cursor-pointer" onClick={() => navigateTo(null)}>Inici</span>
@@ -267,9 +306,9 @@ const CompanyDocs = ({ selectedUsers }) => {
 
                             {/* Main Categories Section */}
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                                <DocCategory label="Balanços i Finaces" icon={<DollarSign size={24} />} color="green" onClick={() => navigateTo('f_balanços', 'Balanços')} />
+                                <DocCategory label="Balanços i Finances" icon={<DollarSign size={24} />} color="green" onClick={() => navigateTo('f_balanços', 'Balanços')} />
                                 <DocCategory label="Licitacions i Contractes" icon={<Table size={24} />} color="blue" onClick={() => navigateTo('f_licitacions', 'Licitacions')} />
-                                <DocCategory label="Documentació Empresa" icon={<FileText size={24} />} color="orange" onClick={() => navigateTo('f_empresa', 'Empresa')} />
+                                <DocCategory label="Gestió d'Empresa" icon={<FileText size={24} />} color="orange" onClick={() => navigateTo('f_empresa', 'Empresa')} />
                                 <DocCategory label="Recursos Google Drive" icon={<Globe size={24} />} color="blue" onClick={() => navigateTo('f_drive', 'Recursos Drive')} />
                             </div>
 

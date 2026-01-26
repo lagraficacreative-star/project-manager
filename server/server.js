@@ -707,6 +707,11 @@ app.get('/api/emails/deleted', (req, res) => {
     res.json(db.deleted_emails || []);
 });
 
+app.get('/api/emails/spam', (req, res) => {
+    const db = readDB();
+    res.json(db.spam_emails || []);
+});
+
 app.post('/api/emails/delete-local', (req, res) => {
     const { uid } = req.body;
     const db = readDB();
@@ -815,10 +820,16 @@ app.post('/api/emails/send', async (req, res) => {
         ], { env });
 
         let dataStr = "";
+        let errorStr = "";
         pythonProcess.stdout.on('data', (d) => { dataStr += d.toString(); });
+        pythonProcess.stderr.on('data', (d) => { errorStr += d.toString(); });
+
         pythonProcess.on('close', (code) => {
-            if (code !== 0) return res.status(500).json({ error: "Sender script error" });
+            if (code !== 0) return res.status(500).json({ error: "Sender script error", details: errorStr });
             try {
+                if (!dataStr.trim()) {
+                    return res.status(500).json({ error: "Empty response from sender script", details: errorStr });
+                }
                 const result = JSON.parse(dataStr);
                 if (result.error) return res.status(500).json(result);
 
@@ -836,10 +847,9 @@ app.post('/api/emails/send', async (req, res) => {
                 }
 
                 writeDB(db);
-
                 res.json(result);
             } catch (err) {
-                res.status(500).json({ error: "Parse error" });
+                res.status(500).json({ error: "Parse error", raw: dataStr, details: errorStr });
             }
         });
     } catch (err) {
@@ -865,6 +875,14 @@ app.get('/api/activity', (req, res) => {
 app.get('/api/data', (req, res) => {
     const data = readDB();
     res.json(data);
+});
+
+// Save all data (Global sync)
+app.post('/api/save-data', (req, res) => {
+    const data = req.body;
+    if (!data) return res.status(400).json({ error: "No data provided" });
+    writeDB(data);
+    res.json({ success: true });
 });
 
 // Reset DB
