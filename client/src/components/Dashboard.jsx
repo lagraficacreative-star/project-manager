@@ -324,7 +324,7 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
                                 type="text"
                                 value={bannerQuery}
                                 onChange={(e) => setBannerQuery(e.target.value)}
-                                placeholder="Escribe tu consulta o petición..."
+                                placeholder="Busca proyectos, contactos, documentos..."
                                 className="w-full bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl py-4 pl-6 pr-16 text-sm md:text-base outline-none focus:ring-2 focus:ring-brand-orange/50 transition-all placeholder:text-white/20 shadow-2xl"
                                 onKeyDown={handleBannerSearch}
                             />

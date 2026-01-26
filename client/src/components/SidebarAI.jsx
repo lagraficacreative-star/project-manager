@@ -43,16 +43,8 @@ const SidebarAI = () => {
                 return parseFloat(amt.toString().replace(/[^0-9,.]/g, '').replace(',', '.')) || 0;
             };
 
-            if (lowerInput.includes('suma') || lowerInput.includes('total') || lowerInput.includes('cuanto') || lowerInput.includes('presupuesto')) {
-                if (lowerInput.includes('licitaci') || lowerInput.includes('tenders')) {
-                    const total = tenders.reduce((acc, t) => acc + parseAmount(t.amount), 0);
-                    const won = tenders.filter(t => t.result === 'won').reduce((acc, t) => acc + parseAmount(t.amount), 0);
-                    response = `Actualmente hay un total de **${tenders.length} licitaciones** en el sistema. \n\n` +
-                        `• Importe total: **${total.toLocaleString()}€**\n` +
-                        `• Importe ganado: **${won.toLocaleString()}€**`;
-                } else if (lowerInput.includes('balance') || lowerInput.includes('cuenta')) {
-                    response = "Estoy analizando los balances... Según la documentación del ejercicio actual, el saldo es positivo con una facturación creciente del 12% respecto al año anterior.";
-                }
+            if (lowerInput.includes('suma') || lowerInput.includes('total') || lowerInput.includes('cuanto') || lowerInput.includes('presupuesto') || lowerInput.includes('facturaci') || lowerInput.includes('balance') || lowerInput.includes('cuenta') || lowerInput.includes('dinero') || lowerInput.includes('€') || lowerInput.includes('pago')) {
+                response = "Lo siento, como asistente general no tengo permisos para acceder a información financiera, presupuestos o facturación por motivos de seguridad. Para gestionar estos datos, por favor dirígete a la sección de **Gestión** protegida por contraseña.";
             }
             else if (lowerInput.includes('document') || lowerInput.includes('doc') || lowerInput.includes('fichero') || lowerInput.includes('carpeta')) {
                 const searchPart = lowerInput.replace(/documento|doc|fichero|busca|encuentra|sobre/g, '').trim();
@@ -81,9 +73,9 @@ const SidebarAI = () => {
                     response = "No he encontrado ningún proyecto que coincida con la búsqueda.";
                 }
             } else if (lowerInput.includes('hola') || lowerInput.includes('buenos dias')) {
-                response = "¡Hola! ¿Cómo va todo por el estudio? Soy la IA de LaGràfica y puedo sumar licitaciones, buscar documentos o encontrar contactos. ¿Qué necesitas?";
+                response = "¡Hola! ¿Cómo va todo por el estudio? Soy el asistente de LaGràfica y puedo ayudarte a encontrar contactos, documentos o proyectos. ¿Qué necesitas?";
             } else {
-                response = "¡Aún estoy aprendiendo! Prueba a pedirme 'suma de licitaciones', 'busca el documento de riesgos' o 'quién es el cliente X'.";
+                response = "¡Aún estoy aprendiendo! Prueba a pedirme 'busca el documento de riesgos', 'busca el proyecto X' o 'quién es el cliente Y'. (Nota: No tengo acceso a datos financieros)";
             }
 
             setTimeout(() => {
@@ -136,7 +128,7 @@ const SidebarAI = () => {
                                 type="text"
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
-                                placeholder="Suma de licitaciones, busca docs..."
+                                placeholder="Busca proyectos, contactos, documentos..."
                                 className="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 pr-9 text-[11px] outline-none focus:ring-2 focus:ring-brand-orange/20 transition-all font-medium"
                             />
                             <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-300 hover:text-brand-orange transition-colors">
@@ -152,7 +144,7 @@ const SidebarAI = () => {
                         <input
                             readOnly
                             onClick={() => setIsOpen(true)}
-                            placeholder="IA: Suma balances o busca docs..."
+                            placeholder="IA: Busca proyectos, contactos o documentos..."
                             className="w-full bg-gray-50 border border-gray-100 rounded-xl py-2 pl-9 pr-4 text-[11px] text-gray-400 cursor-pointer hover:bg-white hover:border-brand-orange/20 transition-all outline-none"
                         />
                     </div>
