@@ -9,7 +9,9 @@ import {
 import EmailComposer from './EmailComposer';
 import { api } from '../api';
 
-const Licitaciones = () => {
+const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement }) => {
+    const [password, setPassword] = useState('');
+    const [showError, setShowError] = useState(false);
     const [tenders, setTenders] = useState([]);
     const [alerts, setAlerts] = useState([]);
     const [docs, setDocs] = useState([]);
@@ -182,6 +184,49 @@ const Licitaciones = () => {
         // For now, let's pretend it's saved.
         console.log("Saving notes:", notes);
     };
+
+    const handleUnlock = (e) => {
+        e.preventDefault();
+        const AUTHORIZED_EMAILS = ['montse@lagrafica.com', 'admin@lagrafica.com', 'alba@lagrafica.com'];
+        if (password === 'lagrafica2025') {
+            if (!AUTHORIZED_EMAILS.includes(currentUser.email)) {
+                alert("Acceso denegado: Tu usuario no tiene permisos para esta sección.");
+                setPassword('');
+                return;
+            }
+            unlockManagement(true);
+        } else {
+            setShowError(true);
+            setTimeout(() => setShowError(false), 2000);
+        }
+    };
+
+    if (!isManagementUnlocked) {
+        return (
+            <div className="flex flex-col items-center justify-center h-[70vh] bg-white rounded-[2.5rem] shadow-sm border border-gray-100 p-10 text-center animate-in fade-in duration-500">
+                <div className="w-24 h-24 bg-brand-orange/10 rounded-[2rem] flex items-center justify-center text-brand-orange mb-8">
+                    <ShieldCheck size={40} />
+                </div>
+                <h2 className="text-3xl font-black text-brand-black uppercase tracking-tighter mb-4">LicitacIA Pro - Acceso Reservado</h2>
+                <p className="text-gray-400 text-sm font-medium max-w-sm mb-10 leading-relaxed">Esta sección contiene información estratégica de licitaciones. Introduce la contraseña para continuar.</p>
+
+                <form onSubmit={handleUnlock} className="w-full max-w-sm space-y-4">
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Contraseña de gestión..."
+                        className={`w-full px-6 py-4 bg-gray-50 border ${showError ? 'border-red-500 ring-4 ring-red-50' : 'border-gray-100 focus:ring-4 focus:ring-brand-orange/5'} rounded-2xl text-center font-bold outline-none transition-all`}
+                        autoFocus
+                    />
+                    <button type="submit" className="w-full bg-brand-black text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl hover:bg-brand-orange transition-all active:scale-95">
+                        DESBLOQUEAR PANELL
+                    </button>
+                    {showError && <p className="text-red-500 text-[10px] font-black uppercase tracking-widest animate-bounce mt-4">Contraseña incorrecta</p>}
+                </form>
+            </div>
+        );
+    }
 
     return (
         <div className="flex h-full flex-col animate-in fade-in duration-500 overflow-hidden bg-white rounded-[2.5rem] border border-gray-100 shadow-sm">

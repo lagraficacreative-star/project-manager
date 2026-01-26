@@ -3,14 +3,23 @@
     {
       "id": "montse",
       "name": "Montse",
+      "email": "montse@lagrafica.com",
       "role": "admin",
       "avatar": "M",
       "vacationDaysUsed": 1,
       "avatarImage": "/avatars/montse.jpg"
     },
     {
+      "id": "admin",
+      "name": "Administrador",
+      "email": "admin@lagrafica.com",
+      "role": "admin",
+      "avatar": "A"
+    },
+    {
       "id": "neus",
       "name": "Neus",
+      "email": "neus@lagrafica.com",
       "role": "team",
       "avatar": "N",
       "avatarImage": "/avatars/neus.jpg"
@@ -18,10 +27,41 @@
     {
       "id": "omar",
       "name": "Omar",
+      "email": "omar@lagrafica.com",
       "role": "team",
       "avatar": "O",
       "avatarImage": "/avatars/omar.png",
       "vacationDaysUsed": 1
+    },
+    {
+      "id": "alba",
+      "name": "Alba",
+      "email": "alba@lagrafica.com",
+      "role": "team",
+      "avatar": "A",
+      "avatarImage": "/avatars/albat.jpg"
+    },
+    {
+      "id": "ines",
+      "name": "Ines",
+      "email": "ines@lagrafica.com",
+      "role": "team",
+      "avatar": "I"
+    },
+    {
+      "id": "maribel",
+      "name": "Maribel",
+      "email": "maribel@lagrafica.com",
+      "role": "team",
+      "avatar": "Ma",
+      "avatarImage": "/avatars/maribel.jpg"
+    },
+    {
+      "id": "web",
+      "name": "Web",
+      "email": "web@lagrafica.com",
+      "role": "team",
+      "avatar": "W"
     },
     {
       "id": "albat",
@@ -36,25 +76,6 @@
       "role": "team",
       "avatar": "AP",
       "avatarImage": "/avatars/albap.jpg"
-    },
-    {
-      "id": "ines",
-      "name": "Ines",
-      "role": "team",
-      "avatar": "I"
-    },
-    {
-      "id": "maribel",
-      "name": "Maribel",
-      "role": "team",
-      "avatar": "Ma",
-      "avatarImage": "/avatars/maribel.jpg"
-    },
-    {
-      "id": "web",
-      "name": "Web",
-      "role": "team",
-      "avatar": "W"
     }
   ],
   "boards": [
@@ -5264,6 +5285,13 @@
           "text": "📩 NUEVO CORREO RELACIONADO:\nDe: Àngels Aguilà i Santaulària<aaguila@paeria.cat>\nAsunto: RE: CALENDARI - PROGRAMA\n\nHola muriel\r\nA punto de tirarme al rio\r\nOMG\r\n¡Lástima que este tan sucio!\r\n\r\nHa ha ha\r\n\r\nEn breve te lo mando\r\n\r\nSacare la parte de l’open screen ya que no esta aún confirmado, ya se lo he comunicado a Carolina. El dosier pedagógico lo han enviado directamente a maquetar a la Neus.\r\n\r\nDame media hora para que me reponga\r\n\r\nVaya dia\r\n[Emoji cara cansada diseño 3d realista emoticon color amarillo brillante ...]\r\n\r\n\r\n\r\nÀngels Aguilà Santaulària\r\nTècnica d'Audiovisuals- Regidoria de Cultura\r\naaguila@paeria.cat<mailto:aaguila@paeria.cat>\r\n973 700 394 - extensió 1270\r\nAvinguda Blondel, 64\r\n25002 Lleida\r\n\r\n[cid:image001.jpg@01DC8C70.02587690]\r\n\r\n\r\n\r\n\r\n\r\nDe: Muriel De Armas Gil <muriel@subbabel.com>\r\nEnviado el: viernes, 23 de enero de 2026 11:53\r\nPara: Àngels Aguilà i Santaulària <aaguila@paeria.cat>\r\nCC: Maria Domènech Nadal <mdomenech@paeria.cat>; Neus LaGràfica <neus@lagrafica.com>; jordi.animac <jordi.animac@paeria.cat>\r\nAsunto: Re: CALENDARI - PROGRAMA\r\n\r\nPrecaució: Aquest correu electrò...",
           "date": "2026-01-24T11:38:23.646Z",
           "isEmail": true
+        },
+        {
+          "id": "ext_1769420733127",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: Àngels Aguilà i Santaulària<aaguila@paeria.cat>\nAsunto: RE: CALENDARI - PROGRAMA\n\nBuenos días Muriel\r\nGracias\r\nA lo mejor habrá unos pequeños cambios en dos sesiones, cuando lo aclare con Carolina te lo confirmo. Lo ha decido este fin de semana. Lo siento\r\nTe avanzo lo que nos ha dicho del texto de la inauguración y del cierre\r\n\r\nDIJOUS\r\n20.30 h\r\nLa Llotja, Sala 1\r\nInauguració\r\nLliurament de premis especials a Nora Twomey i Andreas Hykade. Estrena catalana del darrer curt de Cartoon Saloon, Éiru, de Giovanna Ferrari.\r\nLOCUS és una performance creada en exclusiva per a la inauguració del 30è aniversari de l’Animac, per l’innovador duo artístic català Hamill Industries. La peça recull el lema Things Change, tot difuminant les fronteres entre el digital i allò físic.\r\nCreació audiovisual en directe.\r\nPresenta l’acte Xavi Menós.\r\nTots els públics\r\nLSC\r\n\r\n\r\n\r\n\r\nDIUMENGE\r\n19 h\r\nLa Llotja, Sala 1\r\nCloenda\r\nLliurament del Premi Trajectòria i conversa amb Montxo Algora.\r\nLliurament de premis, projecció dels curts guardonats i del curt Anaglifo, dirigit per Valle Comba.\r\nPres...",
+          "date": "2026-01-26T09:45:33.127Z",
+          "isEmail": true
         }
       ]
     },
@@ -7016,7 +7044,7 @@
     {
       "id": "card_1769416047868nh6rp",
       "boardId": "b_design",
-      "columnId": "col_1_b_design",
+      "columnId": "col_2_b_design",
       "title": "RE: Cartró ploma gran i cartell esmorzar amb els autors",
       "descriptionBlocks": [
         {
@@ -7030,7 +7058,16 @@
         "Email"
       ],
       "createdAt": "2026-01-26T08:27:27.868Z",
-      "responsibleId": "montse"
+      "responsibleId": "montse",
+      "comments": [
+        {
+          "id": "ext_1769418448522",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: Neus <neus@lagrafica.com>\nAsunto: Re: Cartró ploma gran i cartell esmorzar amb els autors\n\nHola,\r\nhem pujat els aaff: aaff_animac26_cartell esmorzar 4000x1500.pdf <https://paerialleida.sharepoint.com/:b:/r/sites/EXT_ANIMAC2023-EXT_AMIMAC2026/Documentos%20compartidos/EXT_ANIMAC%202026/LA%20GRAFICA/aaff_animac26_cartells%20i%20opis/aaff_animac26_cartell%20esmorzar%204000x1500.pdf?csf=1&web=1&e=atOOcg>\r\n\r\n:)\r\n\r\n\r\n\r\nNEUS VERA\r\nDisseny gràfic\r\nneus@lagrafica.com <mailto:neus@lagrafica.com>\r\n973 21 63 63 \r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n> El 26 ene 2026, a las 9:16, Maria Domènech Nadal <mdomenech@paeria.cat> escribió:\r\n> \r\n> Neus, falta l’original del cartró ploma gran cartell esmorzar.\r\n> Li enviaria ara al sergi.\r\n> Ja em dius! \r\n>  \r\n> Maria Domènech Nadal\r\n> Tècnica del Departament d’Audiovisuals – Regidoria de Cultura\r\n>  \r\n> mdomenech@paeria.cat <mailto:correu@paeria.cat>\r\n> Tel.: 973 700 393  · ext. 1753 \r\n> Av. Blondel núm. 64, 25002 - Lleida\r\n>  \r\n>  \r\n>  \r\n> De: Maria Domènech Nadal \r\n> Enviat: viernes, 23 de enero de 2026 9:29\r\n> Per a: 'Neus' <neus@la...",
+          "date": "2026-01-26T09:07:28.522Z",
+          "isEmail": true
+        }
+      ]
     },
     {
       "id": "card_1769416291139bma7l",
@@ -7196,6 +7233,110 @@
       ],
       "createdAt": "2026-01-26T08:55:28.281Z",
       "responsibleId": "montse"
+    },
+    {
+      "id": "card_17694188092593iuf1",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "RE: Proposta cartell  Ruta Pantà de Sant Ponç",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Arturo Jose Pino Romero <ajpino@exland.cat>\n\nHola Montse, lo transmito ahora mismo a la dirección de obra.\r\n\r\nAlgunas consultas:\r\n\r\n  *   Cual será el tamaño del cartel?\r\n  *   En cuanto tiempo estaría disponible?\r\n  *   Cual es la forma de pago?\r\n  *   Incluye transporte e instalación? En caso de no ser así podrían hacer alguna de las dos?\r\n\r\nSaludos,\r\nArturo Pino Romero  |  681 00 08 52\r\n\r\nJEFE DE OBRA\r\n\r\n__________________________________________________________________________________________________________________\r\n[cid:image001.png@01DC8EAC.384DE3A0]   [cid:image002.png@01DC8EAC.384DE3A0]\r\n\r\n\r\nEXLAND EXCAVACIONS I TRANSPORTS, S.L.  |  938789520\r\n\r\nC/ De l'Energia Nº 52, 08250 Sant Joan de Vilatorrada\r\n\r\n[cid:image003.png@01DC8EAC.384DE3A0]<https://www.instagram.com/exland.cat/> [cid:image004.png@01DC8EAC.384DE3A0] <https://www.linkedin.com/company/exland-excavacions-i-transports-sl/>   [cid:image005.png@01DC8EAC.384DE3A0] <https://exland.cat/>\r\n\r\nAquest missatge conté informació confidencial per al seu destinatari. Queda prohibit l'ús, divulgació, còpia o distribució de la informació inclosa en aquest missatge sense l'autorització per escrit de EXLAND EXCAVACIONS I TRANSPORTS SL. En cas de rebre aquest missatge per error, l'informem que el seu contingut, inclosos els fitxers adjunts, està protegit per la legislació europea, que garanteix la confidencialitat, protecció i secret de les comunicacions. No difongui el contingut del missatge ni en faci còpies i procedeixi a esborrar-lo com més aviat millor. Així mateix"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-26T09:13:29.259Z",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_1769419051348j2m80",
+      "boardId": "b_design",
+      "columnId": "col_2_b_design",
+      "title": "RV: Proposta cartell  Ruta Pantà de Sant Ponç",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Arturo Jose Pino Romero <ajpino@exland.cat>\n\nHola, anexo una primera propuesta para el cartel de Sant Ponç, quedamos a la espera de vuestros comentarios para pasar a fabricación.\r\n\r\nPongo en copia a la empresa encargadas de los trabajos para que puedan recibir los comentarios directamente.\r\n\r\nSaludos,\r\nArturo Pino Romero  |  681 00 08 52\r\n\r\nJEFE DE OBRA\r\n\r\n__________________________________________________________________________________________________________________\r\n[cid:image001.png@01DC8EAC.F3E1C190]   [cid:image002.png@01DC8EAC.F3E1C190]\r\n\r\n\r\nEXLAND EXCAVACIONS I TRANSPORTS, S.L.  |  938789520\r\n\r\nC/ De l'Energia Nº 52, 08250 Sant Joan de Vilatorrada\r\n\r\n[cid:image003.png@01DC8EAC.F3E1C190]<https://www.instagram.com/exland.cat/> [cid:image004.png@01DC8EAC.F3E1C190] <https://www.linkedin.com/company/exland-excavacions-i-transports-sl/>   [cid:image005.png@01DC8EAC.F3E1C190] <https://exland.cat/>\r\n\r\nAquest missatge conté informació confidencial per al seu destinatari. Queda prohibit l'ús, divulgació, còpia o distribució de la informació inclosa en aquest missatge sense l'autorització per escrit de EXLAND EXCAVACIONS I TRANSPORTS SL. En cas de rebre aquest missatge per error, l'informem que el seu contingut, inclosos els fitxers adjunts, està protegit per la legislació europea, que garanteix la confidencialitat, protecció i secret de les comunicacions. No difongui el contingut del missatge ni en faci còpies i procedeixi a esborrar-lo com més aviat millor. Així mateix li preguem que es posi en contacte amb el remitent "
+        }
+      ],
+      "labels": [
+        "Neus",
+        "Email"
+      ],
+      "createdAt": "2026-01-26T09:17:31.348Z",
+      "responsibleId": "neus",
+      "comments": [
+        {
+          "id": "ext_1769419169394",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: Arturo Jose Pino Romero <ajpino@exland.cat>\nAsunto: RV: Proposta cartell  Ruta Pantà de Sant Ponç\n\nHola, anexo una primera propuesta para el cartel de Sant Ponç, quedamos a la espera de vuestros comentarios para pasar a fabricación.\r\n\r\nPongo en copia a la empresa encargadas de los trabajos para que puedan recibir los comentarios directamente.\r\n\r\nSaludos,\r\nArturo Pino Romero  |  681 00 08 52\r\n\r\nJEFE DE OBRA\r\n\r\n__________________________________________________________________________________________________________________\r\n[cid:image001.png@01DC8EAC.F3E1C190]   [cid:image002.png@01DC8EAC.F3E1C190]\r\n\r\n\r\nEXLAND EXCAVACIONS I TRANSPORTS, S.L.  |  938789520\r\n\r\nC/ De l'Energia Nº 52, 08250 Sant Joan de Vilatorrada\r\n\r\n[cid:image003.png@01DC8EAC.F3E1C190]<https://www.instagram.com/exland.cat/> [cid:image004.png@01DC8EAC.F3E1C190] <https://www.linkedin.com/company/exland-excavacions-i-transports-sl/>   [cid:image005.png@01DC8EAC.F3E1C190] <https://exland.cat/>\r\n\r\nAquest missatge conté informació confidencial per al seu destinatari. Queda prohibit l'ús, divulgació, còpia o distribució de la ...",
+          "date": "2026-01-26T09:19:29.394Z",
+          "isEmail": true
+        }
+      ]
+    },
+    {
+      "id": "card_1769419424853vlw86",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "Re: CALENDARI - PROGRAMA",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Muriel De Armas Gil <muriel@subbabel.com>\n\nBon dia, equipo:\r\n\r\nEspero que hayan pasado un buen finde.\r\n\r\nNo sé si les servirá de mucha ayuda (espero que sí), pero les adjunto ya\r\nrevisada la parte final del programa de mano, donde figura el listado de\r\npelículas por sesión (de la página 25 a la 46), para que puedan ir\r\navanzando con la maquetación. Verán que he dejado tres comentarios.\r\n\r\nEl programa completo revisado lo mandaremos esta tarde. Aún no puedo\r\nconfirmarles la hora, pero trataremos que sea lo antes posible.\r\n\r\nAquí me tienen si les surge cualquier duda.\r\n\r\nQue vaya bien el lunes,\r\n\r\nEl vie, 23 ene 2026 a las 13:50, Àngels Aguilà i Santaulària (<\r\naaguila@paeria.cat>) escribió:\r\n\r\n> Tranqui Muriel\r\n>\r\n> Lo que podáis\r\n>\r\n> Me sabe mal\r\n>\r\n> Nosotras lo queríamos antes de Navidad pero no hay forma\r\n>\r\n>\r\n>\r\n>\r\n>\r\n> Àngels Aguilà Santaulària\r\n>\r\n> Tècnica d'Audiovisuals- Regidoria de Cultura\r\n>\r\n> aaguila@paeria.cat\r\n>\r\n> 973 700 394 - extensió 1270\r\n>\r\n> Avinguda Blondel, 64\r\n>\r\n> 25002 Lleida\r\n>\r\n>\r\n>\r\n>\r\n>\r\n>\r\n>\r\n>\r\n>\r\n>\r\n>\r\n>\r\n>\r\n> *De:* Muriel De Armas Gil <muriel@subbabel.com>\r\n> *Enviado el:* viernes, 23 de enero de 2026 14:46\r\n> *Para:* Àngels Aguilà i Santaulària <aaguila@paeria.cat>\r\n> *CC:* Maria Domènech Nadal <mdomenech@paeria.cat>; Neus LaGràfica <\r\n> neus@lagrafica.com>; jordi.animac <jordi.animac@paeria.cat>\r\n> *Asunto:* Re: CALENDARI - PROGRAMA\r\n>\r\n>\r\n>\r\n> Precaució: Aquest correu electrònic s'ha generat fora dels sistemes de\r\n> correu de l'Ajuntament de Lleida. Reviseu el correu abans de cl"
+        }
+      ],
+      "labels": [
+        "Neus",
+        "Email"
+      ],
+      "createdAt": "2026-01-26T09:23:44.853Z",
+      "responsibleId": "neus"
+    },
+    {
+      "id": "card_1769419889538xya1c",
+      "boardId": "b_licitaciones",
+      "columnId": "col_1_b_licitaciones",
+      "title": "Novetats de 2025/4442 Consell Comarcal del Berguedà",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: plataforma.contractacio@gencat.cat\n\nDepartament d'Innovació, Universitats i Empresa | Perfils de contractant | Portal de contractacions | Generalitat de Catalunya\nbody {font-family:Verdana,Arial,Helvetica,sans-serif; font-size:62.5%;}\n#marc-web{ font-size: 1.1em; margin: 0 0.91em 0 0; overflow: hidden;}\nh1 {clear: both; font-size: 1em; height: 11.36em; margin-bottom: 1em; padding: 0; position: relative;}\nh1 img { border: none;}\n#contingut {margin: 0; overflow: hidden; padding: 0;}\nh2 {color: #660303;\tclear: both; font-size: 1.55em; margin: 0 0 0.5em 0;}\n.perfils-contractant h3 {color: #660303; font-size: 1.18em; margin: 0; padding: 0;}\na {color: #ac2115; text-decoration: none;}\nul#llista-licitacions {list-style: none; margin-left: 0; padding: 0;}\nul#llista-licitacions li {background: url(https://contractaciopublica.cat/images/pscp/dl-bullet.png) no-repeat 0 0.4em; font-weight: bold; margin:0.5em 0; padding-left: 1em;}\nul#llista-licitacions li a {color: #ac2115; text-decoration: none;}\nul#links-subscripcio {margin-top: 2em; padding-left: 0; margin-left: -0.5em;}\nul#links-subscripcio li {border-right: 1px solid; display: inline; font-weight: bold; padding: 0 0.5em;}\nul#links-subscripcio li.ultim {border: none;}\nul#links-subscripcio li a {color: #666; text-decoration: none;}\nSr/Sra. TORRELLES TEIXIDÓ MONTSERRAT\nA la Plataforma de Serveis de Contractació Pública s&#39;han produït les següents novetats en relació a l&#39;expedient  Redacció del Pla Estratègic de Turisme 2026-2030 al Berguedà, dins el &quot;Pla de Re"
+        }
+      ],
+      "labels": [
+        "Licitacions",
+        "Email"
+      ],
+      "createdAt": "2026-01-26T09:31:29.538Z",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_1769420625826l61gl",
+      "boardId": "b_animac",
+      "columnId": "col_1_b_animac",
+      "title": "RE: Dates lliurament material Animac",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Maria Domènech Nadal <mdomenech@paeria.cat>\n\nBon dia, Sergi, com estàs??\r\nAvui et volem enviar la primera tanda de material, que necessitem el 9 de febrer al MORERA. Museu d'Art Modern i Contemporani de Lleida a les 10h.\r\n\r\nAvui et passem per wetransfer : https://we.tl/t-KwrGwWwxKl\r\n\r\n\r\n  *   Acreditacions CAMPUS 600 unitats 80 x 80 mm Extrems rodons\r\nPaper: Munken Lynx 300 g. Impressió: 4 + 0 tintes (digital) Plastificat brillo dur dues cares\r\n\r\n\r\n  *   Acreditacions STAFF 60 unitats 80 x 80 mm Extrems rodons\r\nPaper: Munken Lynx 300 g. Impressió: 4 + 0 tintes (digital) Plastificat brillo dur dues cares\r\n\r\n  *   Cartró ploma amb franja 50x70 1 unitat\r\n  *   Cartro ploma 150x200 1 unitat\r\n  *   Cartro ploma esmorzar 400x150 1 unitat\r\n  *   Cartell A3 700 unitats\r\n  *   Cartell 50x70 100 unitats (sense la franja!!!!)\r\n  *   Tiquet invitació 1 dia 6 talonaris 50 unitats\r\n\r\nLlavors, si et sembla podeu aprofitar per endur-vos els rollups per aprofitar l'estructura\r\n\r\nTenim pendent d'enviar-te el programa de ma, que també necessitem pel dia 9 al MUSEU MORERA, Ens vas dir 7 dies abans. El dijous te l'enviem màxim?????????\r\n\r\nMErci\r\n\r\nMaria Domènech Nadal\r\nTècnica del Departament d'Audiovisuals - Regidoria de Cultura\r\n\r\nmdomenech@paeria.cat<mailto:correu@paeria.cat>\r\nTel.: 973 700 393  · ext. 1753\r\nAv. Blondel núm. 64, 25002 - Lleida\r\n\r\n\r\n\r\nDe: Sergi <sergi@goprinters.es>\r\nEnviat: martes, 2 de diciembre de 2025 19:46\r\nPer a: Maria Domènech Nadal <mdomenech@paeria.cat>\r\nA/c: Neus LaGràfica <neus@lagrafica.com>; Àngels Aguilà i S"
+        }
+      ],
+      "labels": [
+        "Animac",
+        "Email"
+      ],
+      "createdAt": "2026-01-26T09:43:45.826Z",
+      "responsibleId": "neus"
     }
   ],
   "emails": [],
@@ -10275,7 +10416,23 @@
     "auto_rule_31159",
     "auto_rule_31160",
     "auto_rule_18157",
-    "auto_rule_18158"
+    "auto_rule_18158",
+    "auto_rule_580328",
+    "auto_rule_580330",
+    "auto_rule_580329",
+    "auto_rule_832",
+    "auto_rule_18159",
+    "auto_rule_31161",
+    "auto_rule_580331",
+    "auto_rule_31162",
+    "auto_rule_580332",
+    "auto_rule_580334",
+    "auto_rule_580333",
+    "auto_rule_18160",
+    "auto_rule_580335",
+    "auto_rule_31163",
+    "auto_rule_18161",
+    "auto_rule_31164"
   ],
   "events": [
     {

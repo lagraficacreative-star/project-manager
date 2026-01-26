@@ -3,7 +3,7 @@ import { api } from '../api';
 import { X, Calendar, User, AlignLeft, Flag, CheckSquare, MessageSquare, Plus, Clock, FileText, Trash2, ChevronRight, Link as LinkIcon, Paperclip, Lock, ShieldCheck, DollarSign, Play, Square, History, Cloud, FileDown, Mail, Edit2 } from 'lucide-react';
 import EmailComposer from './EmailComposer';
 
-const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete, currentUser, allBoards = [], allClients = [] }) => {
+const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete, currentUser, allBoards = [], allClients = [], isManagementUnlocked, unlockManagement }) => {
     if (!isOpen) return null;
 
     // Movement
@@ -1071,36 +1071,53 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
                     {/* TAB: ECONOMIC (PROTECTED) */}
                     {activeTab === 'economic' && (
                         <div className="h-full">
-                            {!isEconomicAuthenticated ? (
-                                <div className="flex flex-col items-center justify-center h-full p-8 text-center space-y-6 bg-brand-lightgray rounded-xl border-2 border-dashed border-gray-200">
-                                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
-                                        <Lock size={32} className="text-gray-400" />
+                            {!isManagementUnlocked ? (
+                                <div className="flex flex-col items-center justify-center h-[50vh] p-8 text-center space-y-6 bg-brand-lightgray rounded-[2.5rem] border-2 border-dashed border-gray-200">
+                                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm">
+                                        <Lock size={32} className="text-brand-orange" />
                                     </div>
                                     <div className="space-y-2">
-                                        <h3 className="text-lg font-bold text-gray-800">Contenido Protegido</h3>
-                                        <p className="text-sm text-gray-500">Introduce la contraseña para ver la información económica.</p>
+                                        <h3 className="text-lg font-black text-gray-800 uppercase tracking-tighter">Contenido Protegido</h3>
+                                        <p className="text-xs font-bold text-gray-500 uppercase">Introduce la contraseña para ver la información económica.</p>
                                     </div>
-                                    <div className="flex gap-2 w-full max-w-xs">
+                                    <div className="flex flex-col gap-4 w-full max-w-xs">
                                         <input
                                             type="password"
                                             value={economicPassword}
                                             onChange={(e) => setEconomicPassword(e.target.value)}
-                                            placeholder="Contraseña"
-                                            className="flex-1 p-2 border border-gray-300 rounded-lg text-sm text-center"
+                                            placeholder="Contraseña de gestión"
+                                            className="w-full p-4 border border-gray-200 rounded-2xl text-sm font-bold text-center outline-none focus:ring-2 focus:ring-brand-orange/20 transition-all"
                                             onKeyDown={(e) => {
-                                                if (e.key === 'Enter' && economicPassword === 'lagrafica2025') {
-                                                    setIsEconomicAuthenticated(true);
+                                                if (e.key === 'Enter') {
+                                                    const AUTHORIZED_EMAILS = ['montse@lagrafica.com', 'admin@lagrafica.com', 'alba@lagrafica.com'];
+                                                    if (economicPassword === 'lagrafica2025') {
+                                                        if (AUTHORIZED_EMAILS.includes(currentUser.email)) {
+                                                            unlockManagement(true);
+                                                        } else {
+                                                            alert('Acceso denegado: Tu usuario no tiene permisos.');
+                                                        }
+                                                    } else {
+                                                        alert('Contraseña incorrecta');
+                                                    }
                                                 }
                                             }}
                                         />
                                         <button
                                             onClick={() => {
-                                                if (economicPassword === 'lagrafica2025') setIsEconomicAuthenticated(true);
-                                                else alert('Contraseña incorrecta');
+                                                const AUTHORIZED_EMAILS = ['montse@lagrafica.com', 'admin@lagrafica.com', 'alba@lagrafica.com'];
+                                                if (economicPassword === 'lagrafica2025') {
+                                                    if (AUTHORIZED_EMAILS.includes(currentUser.email)) {
+                                                        unlockManagement(true);
+                                                    } else {
+                                                        alert('Acceso denegado: Tu usuario no tiene permisos.');
+                                                    }
+                                                } else {
+                                                    alert('Contraseña incorrecta');
+                                                }
                                             }}
-                                            className="bg-brand-orange text-white px-4 rounded-lg font-bold text-sm"
+                                            className="w-full bg-brand-black text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-brand-orange transition-all shadow-xl"
                                         >
-                                            Ver
+                                            DESBLOQUEAR DATOS
                                         </button>
                                     </div>
                                 </div>

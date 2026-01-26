@@ -161,7 +161,7 @@ const DroppableColumn = ({ col, children, colCards, addCard, isLocked, passwordI
 };
 
 
-const Board = ({ selectedUsers, selectedClient, currentUser }) => {
+const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocked, unlockManagement, AUTHORIZED_EMAILS }) => {
     const { boardId } = useParams();
     const [board, setBoard] = useState(null);
     const [cards, setCards] = useState([]);
@@ -451,6 +451,8 @@ const Board = ({ selectedUsers, selectedClient, currentUser }) => {
                     currentUser={currentUser}
                     allBoards={allBoards}
                     allClients={filterOptions}
+                    isManagementUnlocked={isManagementUnlocked}
+                    unlockManagement={unlockManagement}
                 />
             )}
         </div>

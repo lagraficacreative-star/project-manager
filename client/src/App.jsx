@@ -15,6 +15,8 @@ import ChatWidget from './components/ChatWidget';
 import { LayoutDashboard, Inbox as InboxIcon, Users, Book, Calendar as CalIcon, Folder, Menu, X, Package, Gavel, LogOut, ChevronRight, User as UserIcon, Tag } from 'lucide-react';
 
 // Sub-component to handle page title/context in TopBar
+const AUTHORIZED_EMAILS = ['montse@lagrafica.com', 'admin@lagrafica.com', 'alba@lagrafica.com'];
+
 const PageContext = () => {
     const location = useLocation();
     const path = location.pathname;
@@ -60,6 +62,10 @@ function App() {
     });
 
     const unlockManagement = (unlocked) => {
+        if (unlocked && !AUTHORIZED_EMAILS.includes(currentUser.email)) {
+            alert("Acceso denegado: Tu usuario no tiene permisos para esta sección.");
+            return;
+        }
         setIsManagementUnlocked(unlocked);
         localStorage.setItem('isManagementUnlocked', unlocked ? 'true' : 'false');
     };
@@ -254,7 +260,13 @@ function App() {
                                     return (
                                         <button
                                             key={u.id}
-                                            onClick={() => handleSwitchSession(u.id)}
+                                            onClick={() => {
+                                                handleSwitchSession(u.id);
+                                                if (isManagementUnlocked && !AUTHORIZED_EMAILS.includes(u.email)) {
+                                                    setIsManagementUnlocked(false);
+                                                    localStorage.setItem('isManagementUnlocked', 'false');
+                                                }
+                                            }}
                                             className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-all group border-2
                                                 ${isActiveSession
                                                     ? 'bg-white border-brand-orange text-brand-black shadow-lg scale-105'
@@ -291,16 +303,16 @@ function App() {
 
                     <div className="flex-1 overflow-y-auto no-scrollbar relative p-2 md:p-4">
                         <Routes>
-                            <Route path="/" element={<Dashboard selectedUsers={selectedUsers} selectedClient={selectedClient} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
-                            <Route path="/board/:boardId" element={<Board selectedUsers={selectedUsers} selectedClient={selectedClient} currentUser={currentUser} />} />
-                            <Route path="/inbox" element={<Inbox selectedUsers={selectedUsers} currentUser={currentUser} />} />
+                            <Route path="/" element={<Dashboard selectedUsers={selectedUsers} selectedClient={selectedClient} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} AUTHORIZED_EMAILS={AUTHORIZED_EMAILS} />} />
+                            <Route path="/board/:boardId" element={<Board selectedUsers={selectedUsers} selectedClient={selectedClient} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} AUTHORIZED_EMAILS={AUTHORIZED_EMAILS} />} />
+                            <Route path="/inbox" element={<Inbox selectedUsers={selectedUsers} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} AUTHORIZED_EMAILS={AUTHORIZED_EMAILS} />} />
                             <Route path="/rrhh" element={<HRManagement selectedUsers={selectedUsers} currentUser={currentUser} />} />
                             <Route path="/docs" element={<CompanyDocs selectedUsers={selectedUsers} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
                             <Route path="/agenda" element={<AgendaGPT selectedUsers={selectedUsers} currentUser={currentUser} setSelectedClient={setSelectedClient} />} />
                             <Route path="/agenda/:filterType" element={<AgendaGPT selectedUsers={selectedUsers} currentUser={currentUser} setSelectedClient={setSelectedClient} />} />
                             <Route path="/calendar" element={<Calendar currentUser={currentUser} />} />
                             <Route path="/resources" element={<Resources currentUser={currentUser} />} />
-                            <Route path="/licitaciones" element={<Licitaciones currentUser={currentUser} />} />
+                            <Route path="/licitaciones" element={<Licitaciones currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
                             <Route path="*" element={<Dashboard selectedUsers={selectedUsers} selectedClient={selectedClient} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
                         </Routes>
 

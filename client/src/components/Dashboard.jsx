@@ -4,7 +4,7 @@ import { api } from '../api';
 import { Trash2, Edit2, Plus, Layout, Palette, Code, Smartphone, Clipboard, DollarSign, Receipt, Mail, Send, Calendar, Clock, Bell, Search, Mic, ChevronRight, Square, Play, Bot, Briefcase, FileText, Gavel, Archive, Check, Lock, Calculator, Upload, Table, User, Tag } from 'lucide-react';
 
 
-const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocked, unlockManagement }) => {
+const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocked, unlockManagement, AUTHORIZED_EMAILS }) => {
     const navigate = useNavigate();
     const CURRENT_USER_ID = currentUser.id;
 
@@ -179,6 +179,12 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
     const handleUnlockManagement = (e) => {
         e.preventDefault();
         if (managementPassword === 'lagrafica2025') {
+            if (!AUTHORIZED_EMAILS.includes(currentUser.email)) {
+                alert("Acceso denegado: Tu usuario no tiene permisos para esta sección.");
+                setManagementPassword('');
+                setShowPasswordInput(false);
+                return;
+            }
             unlockManagement(true);
             setManagementPassword('');
             setShowPasswordInput(false);

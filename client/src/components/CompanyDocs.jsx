@@ -101,19 +101,25 @@ const CompanyDocs = ({ selectedUsers, isManagementUnlocked, unlockManagement }) 
         if (!aiQuery.trim()) return;
         setIsAiLoading(true);
         try {
+            const db = await api.getData();
             const tenders = await api.getTenders();
             const query = aiQuery.toLowerCase();
 
-            if (query.includes('suma') || query.includes('balanç') || query.includes('total')) {
-                const total = tenders.reduce((acc, t) => acc + (parseFloat(t.amount?.replace(/[^0-9.]/g, '')) || 0), 0);
-                const guanyades = tenders.filter(t => t.result === 'won').reduce((acc, t) => acc + (parseFloat(t.amount?.replace(/[^0-9.]/g, '')) || 0), 0);
+            if (query.includes('suma') || query.includes('balanç') || query.includes('total') || query.includes('presupuesto') || query.includes('facturaci')) {
+                const totalTenders = tenders.reduce((acc, t) => acc + (parseFloat(t.amount?.replace(/[^0-9.]/g, '')) || 0), 0);
+                const wonTenders = tenders.filter(t => t.result === 'won').reduce((acc, t) => acc + (parseFloat(t.amount?.replace(/[^0-9.]/g, '')) || 0), 0);
+
+                // Get budget info from cards
+                const allCards = db.cards || [];
+                const totalBudgets = allCards.reduce((acc, c) => acc + (parseFloat(c.economic?.budget?.replace(/[^0-9.]/g, '')) || 0), 0);
+                const totalCosts = allCards.reduce((acc, c) => acc + (parseFloat(c.economic?.cost?.replace(/[^0-9.]/g, '')) || 0), 0);
 
                 setAiResponse({
-                    text: `He analitzat les dades documentals:`,
+                    text: `Resum d'informació econòmica i de gestió:`,
                     stats: [
-                        { label: 'Suma de Licitacions', value: `${total.toLocaleString()}€`, icon: <TrendingUp size={16} /> },
-                        { label: 'Suma de Guanyades', value: `${guanyades.toLocaleString()}€`, icon: <CheckCircle size={16} /> },
-                        { label: 'Balanç Estimats', value: `+${(guanyades * 0.25).toLocaleString()}€ (marge 25%)`, icon: <TrendingUp size={16} /> }
+                        { label: 'Total Licitacions', value: `${totalTenders.toLocaleString()}€`, icon: <TrendingUp size={16} /> },
+                        { label: 'Total Pressupostos', value: `${totalBudgets.toLocaleString()}€`, icon: <DollarSign size={16} /> },
+                        { label: 'Balanç Net Est.', value: `${(totalBudgets - totalCosts).toLocaleString()}€`, icon: <Wallet size={16} /> }
                     ]
                 });
             } else {
@@ -121,7 +127,7 @@ const CompanyDocs = ({ selectedUsers, isManagementUnlocked, unlockManagement }) 
                 setAiResponse({
                     text: found.length > 0
                         ? `He trobat ${found.length} documents relacionats amb la teva cerca.`
-                        : `No he trobat documents específics, però pots buscar a la carpeta de 'Balances' o 'Projectes'.`,
+                        : `No he trobat documents específics, però pots buscar a la carpeta de 'Balanços' o 'Empresa'.`,
                     docs: found.slice(0, 3)
                 });
             }
