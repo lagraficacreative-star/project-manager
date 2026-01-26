@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragOverlay } from '@dnd-kit/core';
+import { DndContext, rectIntersection, KeyboardSensor, PointerSensor, useSensor, useSensors, DragOverlay, useDroppable } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { api } from '../api';
 import CardModal from './CardModal';
-import { Plus, ArrowLeft, MoreHorizontal, Calendar, User, Trash2, Edit2, Lock, Unlock, Tag, Search, Filter, Layout } from 'lucide-react';
+import { Plus, ArrowLeft, MoreHorizontal, Calendar, User, Lock, Tag, Layout } from 'lucide-react';
 
 
 const SortableCard = ({ card, onClick, isLocked }) => {
@@ -39,7 +39,7 @@ const SortableCard = ({ card, onClick, isLocked }) => {
             {...attributes}
             {...listeners}
             onClick={handleClick}
-            className={`bg-white p-3 rounded-xl shadow-sm border transition-all group select-none relative
+            className={`bg-white p-3 rounded-xl shadow-sm border transition-all group select-none relative h-fit 
                 ${isActive ? 'border-brand-orange ring-1 ring-brand-orange/20 cursor-pointer shadow-md' :
                     'border-brand-lightgray hover:border-brand-orange/30 cursor-pointer hover:shadow-md'}`}
         >
@@ -49,7 +49,7 @@ const SortableCard = ({ card, onClick, isLocked }) => {
                 </div>
             )}
             <div className="flex justify-between items-start mb-2">
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider 
                     ${card.priority === 'high' ? 'bg-red-50 text-red-600' :
                         card.priority === 'medium' ? 'bg-orange-50 text-orange-600' :
                             'bg-green-50 text-green-600'}`}>
@@ -65,10 +65,20 @@ const SortableCard = ({ card, onClick, isLocked }) => {
 
             <h4 className="font-bold text-gray-800 text-xs mb-3 line-clamp-2 leading-relaxed">{card.title}</h4>
 
-            {card.economic?.client && (
+            {card.labels && card.labels.length > 0 && (
+                <div className="flex flex-wrap gap-1 mb-2">
+                    {card.labels.map((label, idx) => (
+                        <span key={idx} className="bg-gray-100 text-gray-600 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-tighter">
+                            {label}
+                        </span>
+                    ))}
+                </div>
+            )}
+
+            {(card.economic?.client || card.client) && (
                 <div className="flex items-center gap-1.5 mb-2">
                     <Tag size={10} className="text-blue-400" />
-                    <span className="text-[9px] font-black text-blue-500 uppercase truncate max-w-full">{card.economic.client}</span>
+                    <span className="text-[9px] font-black text-blue-500 uppercase truncate max-w-full">{card.economic?.client || card.client}</span>
                 </div>
             )}
 
@@ -76,7 +86,7 @@ const SortableCard = ({ card, onClick, isLocked }) => {
                 <div className="flex items-center gap-3 text-gray-400 text-[10px] font-bold">
                     {(timeString || isActive) && (
                         <div className={`flex items-center gap-1 ${isActive ? 'text-brand-orange' : ''}`}>
-                            <Edit2 size={10} className={isActive ? "animate-pulse" : ""} />
+                            <span className={isActive ? "animate-pulse" : ""}>⏱</span>
                             <span>{isActive ? "En curso..." : timeString}</span>
                         </div>
                     )}
@@ -88,15 +98,63 @@ const SortableCard = ({ card, onClick, isLocked }) => {
                     )}
                 </div>
                 <div className="flex items-center gap-2">
-                    {(card.attachments?.length > 0 || card.links?.length > 0) && (
-                        <span className="text-[8px] font-black inline-flex items-center justify-center bg-gray-50 text-gray-400 border border-gray-100 w-5 h-5 rounded-lg">
-                            {(card.attachments?.length || 0) + (card.links?.length || 0)}
-                        </span>
-                    )}
-                    <div className="w-6 h-6 rounded-full bg-brand-orange text-white flex items-center justify-center text-[10px] font-black border border-white shadow-sm overflow-hidden">
+                    <div className="w-6 h-6 rounded-full bg-brand-orange text-white flex items-center justify-center text-[10px] font-black border border-white shadow-sm overflow-hidden text-center">
                         {responsible ? responsible.charAt(0).toUpperCase() : <User size={10} />}
                     </div>
                 </div>
+            </div>
+        </div>
+    );
+};
+
+
+const DroppableColumn = ({ col, children, colCards, addCard, isLocked, passwordInput, setPasswordInput, handleUnlockColumn }) => {
+    const { setNodeRef } = useDroppable({
+        id: col.id,
+    });
+
+    return (
+        <div
+            ref={setNodeRef}
+            className="min-w-[320px] max-w-[320px] flex flex-col bg-brand-lightgray/50 rounded-[2rem] border border-gray-100/50 p-4"
+        >
+            <div className="flex justify-between items-center mb-4 px-2">
+                <div className="flex items-center gap-3">
+                    <h3 className="font-black text-xs uppercase text-gray-500 tracking-widest">{col.title}</h3>
+                    <span className="bg-white border border-gray-100 text-[10px] font-black text-gray-400 px-2.5 py-0.5 rounded-full">{colCards.length}</span>
+                </div>
+                <button onClick={() => addCard(col.id)} className="p-2 hover:bg-brand-orange hover:text-white text-gray-400 rounded-xl transition-all">
+                    <Plus size={16} />
+                </button>
+            </div>
+
+            <div className="flex-1 flex flex-col gap-3 overflow-y-auto no-scrollbar pr-1 pb-4">
+                {isLocked ? (
+                    <div className="flex-1 flex flex-col items-center justify-center bg-white/50 backdrop-blur-sm rounded-[1.5rem] border border-dashed border-gray-200 p-8 text-center space-y-4 shadow-inner">
+                        <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-gray-300"><Lock size={20} /></div>
+                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Contenido Bloqueado</p>
+                        <div className="w-full space-y-2">
+                            <input
+                                type="password"
+                                placeholder="Contraseña..."
+                                className="w-full p-3 bg-white border border-gray-100 rounded-xl text-xs outline-none focus:ring-2 focus:ring-brand-orange/20"
+                                value={passwordInput}
+                                onChange={e => setPasswordInput(e.target.value)}
+                            />
+                            <button onClick={() => handleUnlockColumn(col.id)} className="w-full bg-brand-orange text-white py-3 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-orange-500/10">DESBLOQUEAR</button>
+                        </div>
+                    </div>
+                ) : (
+                    <SortableContext items={colCards.map(c => c.id)} strategy={verticalListSortingStrategy}>
+                        {children}
+                        {colCards.length === 0 && (
+                            <div className="py-12 border-2 border-dashed border-gray-200 rounded-[1.5rem] flex flex-col items-center justify-center text-gray-300 gap-3 opacity-50">
+                                <Layout size={24} />
+                                <span className="text-[9px] font-black uppercase tracking-widest">Sin proyectos</span>
+                            </div>
+                        )}
+                    </SortableContext>
+                )}
             </div>
         </div>
     );
@@ -110,6 +168,20 @@ const Board = ({ selectedUsers, selectedClient, currentUser }) => {
     const [users, setUsers] = useState([]);
     const [activeDragCard, setActiveDragCard] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [localSelectedClient, setLocalSelectedClient] = useState(selectedClient || '');
+
+    // Get unique clients & labels for filter
+    const filterOptions = useMemo(() => {
+        const options = new Set();
+        cards.forEach(c => {
+            const clientName = c.economic?.client || c.client;
+            if (clientName) options.add(clientName);
+            if (c.labels && Array.isArray(c.labels)) {
+                c.labels.forEach(l => options.add(l));
+            }
+        });
+        return Array.from(options).sort();
+    }, [cards]);
 
     // Filter cards based on users and CLIENT
     const filteredCards = useMemo(() => {
@@ -117,11 +189,16 @@ const Board = ({ selectedUsers, selectedClient, currentUser }) => {
         if (selectedUsers && selectedUsers.length > 0) {
             result = result.filter(c => selectedUsers.includes(c.responsibleId));
         }
-        if (selectedClient) {
-            result = result.filter(c => c.economic?.client === selectedClient || c.client === selectedClient);
+        const clientFilter = localSelectedClient || selectedClient;
+        if (clientFilter) {
+            result = result.filter(c =>
+                (c.economic?.client === clientFilter) ||
+                (c.client === clientFilter) ||
+                (c.labels && c.labels.includes(clientFilter))
+            );
         }
         return result;
-    }, [cards, selectedUsers, selectedClient]);
+    }, [cards, selectedUsers, selectedClient, localSelectedClient]);
 
     const [unlockedColumns, setUnlockedColumns] = useState(() => {
         const saved = localStorage.getItem('unlockedColumns');
@@ -152,19 +229,29 @@ const Board = ({ selectedUsers, selectedClient, currentUser }) => {
         }
     };
 
+    const [allBoards, setAllBoards] = useState([]);
+
     const loadData = async () => {
         try {
             const data = await api.getData();
+            setAllBoards(data.boards || []);
             const foundBoard = data.boards.find(b => b.id === boardId);
             if (foundBoard) {
                 setBoard(foundBoard);
-                setCards(data.cards.filter(c => c.boardId === boardId));
+                setCards(data.cards.filter(c => c.boardId === boardId).sort((a, b) => (a.order || 0) - (b.order || 0)));
             }
             const userData = await api.getUsers();
             setUsers(userData || []);
         } catch (err) {
             console.error("Failed to load board data", err);
         }
+    };
+
+    const findContainer = (id) => {
+        if (!board) return null;
+        if (board.columns.some(col => col.id === id)) return id;
+        const card = cards.find(c => c.id === id);
+        return card ? card.columnId : null;
     };
 
     const handleDragStart = (event) => {
@@ -176,52 +263,100 @@ const Board = ({ selectedUsers, selectedClient, currentUser }) => {
     const handleDragOver = (event) => {
         const { active, over } = event;
         if (!over) return;
+
         const activeId = active.id;
         const overId = over.id;
-        const activeCard = cards.find(c => c.id === activeId);
-        const overColumn = board.columns.find(col => col.id === overId);
-        if (overColumn && activeCard.columnId !== overId) {
-            setCards(prev => prev.map(c => c.id === activeId ? { ...c, columnId: overId } : c));
+
+        const activeContainer = findContainer(activeId);
+        const overContainer = findContainer(overId);
+
+        if (!activeContainer || !overContainer || activeContainer === overContainer) {
+            return;
         }
+
+        setCards(prev => {
+            const activeIndex = prev.findIndex(c => c.id === activeId);
+            const overIndex = prev.findIndex(c => c.id === overId);
+
+            let newIndex;
+            if (board.columns.some(col => col.id === overId)) {
+                newIndex = prev.length;
+            } else {
+                newIndex = overIndex >= 0 ? overIndex : prev.length;
+            }
+
+            const newCards = [...prev];
+            newCards[activeIndex] = { ...newCards[activeIndex], columnId: overContainer };
+            return arrayMove(newCards, activeIndex, newIndex);
+        });
     };
 
     const handleDragEnd = async (event) => {
         const { active, over } = event;
         setActiveDragCard(null);
         if (!over) return;
+
         const activeId = active.id;
         const overId = over.id;
-        const activeCard = cards.find(c => c.id === activeId);
+
+        const activeContainer = findContainer(activeId);
+        const overContainer = findContainer(overId);
+
+        if (!activeContainer || !overContainer) return;
+
+        const activeIndex = cards.findIndex(c => c.id === activeId);
+        const overIndex = cards.findIndex(c => c.id === overId);
+
         let newCards = [...cards];
-        if (activeId !== overId) {
-            const oldIndex = cards.findIndex(c => c.id === activeId);
-            const newIndex = cards.findIndex(c => c.id === overId);
-            newCards = arrayMove(cards, oldIndex, newIndex);
-            setCards(newCards);
+        if (activeContainer === overContainer) {
+            if (activeIndex !== overIndex && overIndex !== -1) {
+                newCards = arrayMove(cards, activeIndex, overIndex);
+            }
+        } else {
+            newCards[activeIndex] = { ...newCards[activeIndex], columnId: overContainer };
+            if (overIndex !== -1) {
+                const newOverIndex = newCards.findIndex(c => c.id === overId);
+                newCards = arrayMove(newCards, activeIndex, newOverIndex);
+            }
         }
+
+        setCards(newCards);
+
         try {
-            await api.updateCard(activeId, { columnId: activeCard.columnId, order: newCards.findIndex(c => c.id === activeId) });
+            const cardsInCol = newCards.filter(c => c.columnId === overContainer);
+            const finalIndex = cardsInCol.findIndex(c => c.id === activeId);
+
+            await api.updateCard(activeId, {
+                columnId: overContainer,
+                order: finalIndex >= 0 ? finalIndex : 0
+            });
         } catch (err) {
             console.error("Save drag failed", err);
             loadData();
         }
     };
 
-    const addCard = (colId) => {
-        setTargetColumnId(colId);
-        setActiveCard(null);
-        setIsModalOpen(true);
-    };
-
-    const onCardSave = async (savedCard) => {
-        await loadData();
-        setIsModalOpen(false);
+    const handleCardSave = async (cardData) => {
+        try {
+            if (activeCard) {
+                await api.updateCard(activeCard.id, cardData);
+            } else {
+                await api.createCard({ ...cardData, boardId, columnId: targetColumnId });
+            }
+            await loadData();
+            setIsModalOpen(false);
+        } catch (err) {
+            console.error("Failed to save card", err);
+            alert("Error al guardar la tarjeta");
+        }
     };
 
     if (!board) return <div className="p-20 text-center font-black uppercase text-gray-300 animate-pulse">Cargando Tablero...</div>;
 
+
     return (
         <div className="flex flex-col h-full animate-in fade-in duration-500">
+            {/* ... header remains same ... */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 px-1">
                 <div className="flex items-center gap-4">
                     <Link to="/" className="p-3 bg-white hover:bg-orange-50 text-gray-400 hover:text-brand-orange rounded-2xl shadow-sm border border-gray-100 transition-all">
@@ -231,11 +366,30 @@ const Board = ({ selectedUsers, selectedClient, currentUser }) => {
                         <h2 className="text-2xl font-black text-brand-black tracking-tighter uppercase">{board.title}</h2>
                         <div className="flex items-center gap-2 mt-1">
                             <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{cards.length} PROYECTOS EN TOTAL</span>
-                            {selectedClient && (
+                            {(selectedClient || localSelectedClient) && (
                                 <span className="flex items-center gap-1 bg-blue-50 text-blue-500 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest animate-bounce">
-                                    <Tag size={10} /> Filtrando por {selectedClient}
+                                    <Tag size={10} /> Filtrando por {localSelectedClient || selectedClient}
                                 </span>
                             )}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-3 w-full sm:w-auto">
+                    <div className="relative flex-1 sm:w-64">
+                        <Tag className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
+                        <select
+                            value={localSelectedClient}
+                            onChange={(e) => setLocalSelectedClient(e.target.value)}
+                            className="w-full pl-10 pr-4 py-3 bg-white border border-gray-100 rounded-2xl text-[10px] font-black uppercase tracking-widest text-gray-600 outline-none focus:ring-2 focus:ring-brand-orange/20 shadow-sm appearance-none cursor-pointer"
+                        >
+                            <option value="">TODOS LOS FILTROS (CLIENTES/ETIQUETAS)</option>
+                            {filterOptions.map(option => (
+                                <option key={option} value={option}>{option}</option>
+                            ))}
+                        </select>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                            <MoreHorizontal size={14} rotate={90} />
                         </div>
                     </div>
                 </div>
@@ -243,7 +397,7 @@ const Board = ({ selectedUsers, selectedClient, currentUser }) => {
 
             <DndContext
                 sensors={sensors}
-                collisionDetection={closestCenter}
+                collisionDetection={rectIntersection}
                 onDragStart={handleDragStart}
                 onDragOver={handleDragOver}
                 onDragEnd={handleDragEnd}
@@ -254,53 +408,32 @@ const Board = ({ selectedUsers, selectedClient, currentUser }) => {
                         const isLocked = col.isLocked && !unlockedColumns.includes(col.id);
 
                         return (
-                            <div key={col.id} className="min-w-[320px] max-w-[320px] flex flex-col bg-brand-lightgray/50 rounded-[2rem] border border-gray-100/50 p-4">
-                                <div className="flex justify-between items-center mb-4 px-2">
-                                    <div className="flex items-center gap-3">
-                                        <h3 className="font-black text-xs uppercase text-gray-500 tracking-widest">{col.title}</h3>
-                                        <span className="bg-white border border-gray-100 text-[10px] font-black text-gray-400 px-2.5 py-0.5 rounded-full">{colCards.length}</span>
-                                    </div>
-                                    <button onClick={() => addCard(col.id)} className="p-2 hover:bg-brand-orange hover:text-white text-gray-400 rounded-xl transition-all"><Plus size={16} /></button>
-                                </div>
-
-                                <div className="flex-1 flex flex-col gap-3 overflow-y-auto no-scrollbar pr-1 pb-4">
-                                    {isLocked ? (
-                                        <div className="flex-1 flex flex-col items-center justify-center bg-white/50 backdrop-blur-sm rounded-[1.5rem] border border-dashed border-gray-200 p-8 text-center space-y-4 shadow-inner">
-                                            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-gray-300"><Lock size={20} /></div>
-                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Contenido Bloqueado</p>
-                                            <div className="w-full space-y-2">
-                                                <input
-                                                    type="password"
-                                                    placeholder="Contraseña..."
-                                                    className="w-full p-3 bg-white border border-gray-100 rounded-xl text-xs outline-none focus:ring-2 focus:ring-brand-orange/20"
-                                                    value={passwordInput}
-                                                    onChange={e => setPasswordInput(e.target.value)}
-                                                />
-                                                <button onClick={() => handleUnlockColumn(col.id)} className="w-full bg-brand-orange text-white py-3 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-orange-500/10">DESBLOQUEAR</button>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <SortableContext items={colCards.map(c => c.id)} strategy={verticalListSortingStrategy}>
-                                            {colCards.map(card => (
-                                                <SortableCard key={card.id} card={card} isLocked={col.isLocked} onClick={c => { setActiveCard(c); setIsModalOpen(true); }} />
-                                            ))}
-                                            {colCards.length === 0 && (
-                                                <div className="py-12 border-2 border-dashed border-gray-200 rounded-[1.5rem] flex flex-col items-center justify-center text-gray-300 gap-3 opacity-50">
-                                                    <Layout size={24} />
-                                                    <span className="text-[9px] font-black uppercase tracking-widest">Sin proyectos</span>
-                                                </div>
-                                            )}
-                                        </SortableContext>
-                                    )}
-                                </div>
-                            </div>
+                            <DroppableColumn
+                                key={col.id}
+                                col={col}
+                                colCards={colCards}
+                                isLocked={isLocked}
+                                addCard={(cid) => { setTargetColumnId(cid); setActiveCard(null); setIsModalOpen(true); }}
+                                passwordInput={passwordInput}
+                                setPasswordInput={setPasswordInput}
+                                handleUnlockColumn={handleUnlockColumn}
+                            >
+                                {colCards.map(card => (
+                                    <SortableCard
+                                        key={card.id}
+                                        card={card}
+                                        isLocked={col.isLocked}
+                                        onClick={c => { setActiveCard(c); setIsModalOpen(true); }}
+                                    />
+                                ))}
+                            </DroppableColumn>
                         );
                     })}
                 </div>
 
                 <DragOverlay>
                     {activeDragCard ? (
-                        <div className="bg-white p-3 rounded-xl shadow-2xl border-2 border-brand-orange scale-105 opacity-90 rotate-2">
+                        <div className="bg-white p-3 rounded-xl shadow-2xl border-2 border-brand-orange scale-105 opacity-90 rotate-2 pointer-events-none">
                             <h4 className="font-bold text-gray-800 text-xs">{activeDragCard.title}</h4>
                         </div>
                     ) : null}
@@ -314,8 +447,10 @@ const Board = ({ selectedUsers, selectedClient, currentUser }) => {
                     card={activeCard}
                     columnId={targetColumnId}
                     boardId={boardId}
-                    onSave={onCardSave}
+                    onSave={handleCardSave}
                     currentUser={currentUser}
+                    allBoards={allBoards}
+                    allClients={filterOptions}
                 />
             )}
         </div>

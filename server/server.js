@@ -60,7 +60,10 @@ const logToGoogleSheet = async (emailData) => {
     try {
         await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'Mozilla/5.0 (LaGràfica Project Manager)'
+            },
             body: JSON.stringify({
                 action: 'log_email',
                 ...emailData
@@ -1448,16 +1451,20 @@ app.get('/api/sync-google', async (req, res) => {
         return res.status(400).json({ error: "Google Script URL not configured" });
     }
     try {
-        const response = await fetch(GOOGLE_SCRIPT_URL);
+        console.log("Syncing with Google Script:", GOOGLE_SCRIPT_URL);
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (LaGràfica Project Manager)' }
+        });
         const textOutput = await response.text();
 
         let data;
         try {
             data = JSON.parse(textOutput);
         } catch (e) {
-            console.error("Google Script returned non-JSON:", textOutput);
+            console.error("Google Script returned non-JSON:", textOutput.substring(0, 200));
             return res.status(500).json({
-                error: "El link del Robot de Google no funciona (doGet no trobat). Revisa que el Script estigui publicat correctament.",
+                error: "El servidor de Google no ha retornat un format correcte (JSON). Revisa que el Script estigui publicat com a 'Aplicació Web' i amb accés per a 'Cadascú' (Anyone).",
+                details: "doGet no ha retornat JSON",
                 raw: textOutput.substring(0, 100)
             });
         }
@@ -1526,7 +1533,10 @@ app.post('/api/export-sheets', async (req, res) => {
 
         await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'Mozilla/5.0 (LaGràfica Project Manager)'
+            },
             body: JSON.stringify(payload)
         });
 

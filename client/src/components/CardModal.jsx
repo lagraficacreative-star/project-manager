@@ -3,8 +3,20 @@ import { api } from '../api';
 import { X, Calendar, User, AlignLeft, Flag, CheckSquare, MessageSquare, Plus, Clock, FileText, Trash2, ChevronRight, Link as LinkIcon, Paperclip, Lock, ShieldCheck, DollarSign, Play, Square, History, Cloud, FileDown, Mail, Edit2 } from 'lucide-react';
 import EmailComposer from './EmailComposer';
 
-const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete, currentUser }) => {
+const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete, currentUser, allBoards = [], allClients = [] }) => {
     if (!isOpen) return null;
+
+    // Movement
+    const [selectedBoardId, setSelectedBoardId] = useState(boardId);
+    const [selectedColumnId, setSelectedColumnId] = useState(columnId);
+    const [availableColumns, setAvailableColumns] = useState([]);
+
+    useEffect(() => {
+        const board = allBoards.find(b => b.id === (selectedBoardId || boardId));
+        if (board) {
+            setAvailableColumns(board.columns || []);
+        }
+    }, [selectedBoardId, allBoards]);
 
     // Email Composer
     const [showEmailComposer, setShowEmailComposer] = useState(false);
@@ -159,8 +171,8 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
         checklists,
         comments,
         economic,
-        boardId,
-        columnId: card ? card.columnId : columnId
+        boardId: selectedBoardId || boardId,
+        columnId: selectedColumnId || (card ? card.columnId : columnId)
     });
 
     const handleSubmit = async (e) => {
@@ -555,13 +567,58 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
                                         <label className="text-sm font-bold text-gray-900 flex items-center gap-2">
                                             <User size={16} className="text-brand-orange" /> Cliente
                                         </label>
-                                        <input
-                                            type="text"
-                                            value={economic.client}
-                                            onChange={(e) => setEconomic({ ...economic, client: e.target.value })}
-                                            placeholder="Nombre del cliente..."
-                                            className="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
-                                        />
+                                        <div className="relative">
+                                            <input
+                                                type="text"
+                                                list="client-suggestions"
+                                                value={economic.client}
+                                                onChange={(e) => setEconomic({ ...economic, client: e.target.value })}
+                                                placeholder="Nombre del cliente..."
+                                                className="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
+                                            />
+                                            <datalist id="client-suggestions">
+                                                {allClients.map(client => (
+                                                    <option key={client} value={client} />
+                                                ))}
+                                            </datalist>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Movement Section */}
+                                <div className="p-4 bg-gray-50 border border-gray-100 rounded-xl space-y-4">
+                                    <h3 className="text-sm font-bold text-gray-900 flex items-center gap-2">
+                                        <History size={16} className="text-brand-orange" /> Cambiar de tablero
+                                    </h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black uppercase text-gray-400">Tablero</label>
+                                            <select
+                                                value={selectedBoardId}
+                                                onChange={(e) => {
+                                                    setSelectedBoardId(e.target.value);
+                                                    const b = allBoards.find(b => b.id === e.target.value);
+                                                    if (b && b.columns.length > 0) setSelectedColumnId(b.columns[0].id);
+                                                }}
+                                                className="w-full p-2 bg-white border border-gray-200 rounded-lg text-xs"
+                                            >
+                                                {allBoards.map(b => (
+                                                    <option key={b.id} value={b.id}>{b.title}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black uppercase text-gray-400">Columna</label>
+                                            <select
+                                                value={selectedColumnId}
+                                                onChange={(e) => setSelectedColumnId(e.target.value)}
+                                                className="w-full p-2 bg-white border border-gray-200 rounded-lg text-xs"
+                                            >
+                                                {availableColumns.map(col => (
+                                                    <option key={col.id} value={col.id}>{col.title}</option>
+                                                ))}
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
 

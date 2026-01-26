@@ -13,6 +13,19 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
     const [users, setUsers] = useState([]);
     const [stats, setStats] = useState({ active: 0, completed: 0, totalProjects: 0 });
 
+    // Get unique clients & labels for filter
+    const filterOptions = useMemo(() => {
+        const options = new Set();
+        allCards.forEach(c => {
+            const clientName = c.economic?.client || c.client;
+            if (clientName) options.add(clientName);
+            if (c.labels && Array.isArray(c.labels)) {
+                c.labels.forEach(l => options.add(l));
+            }
+        });
+        return Array.from(options).sort();
+    }, [allCards]);
+
     const [activeEntry, setActiveEntry] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(0);
 
@@ -27,6 +40,7 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState({ cards: [], docs: [] });
     const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [localSelectedClient, setLocalSelectedClient] = useState(selectedClient || '');
 
     const [activity, setActivity] = useState([]);
     const [importingBoardId, setImportingBoardId] = useState(null);
@@ -65,7 +79,7 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
         try {
             const db = await api.getData();
             setBoards(db.boards || []);
-            setAllCards(db.cards || []);
+            setAllCards((db.cards || []).sort((a, b) => (a.order || 0) - (b.order || 0)));
         } catch (error) {
             console.error("Error loading boards/cards", error);
         }
@@ -221,11 +235,16 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
         if (selectedUsers.length > 0) {
             result = result.filter(c => selectedUsers.includes(c.responsibleId));
         }
-        if (selectedClient) {
-            result = result.filter(c => c.economic?.client === selectedClient || c.client === selectedClient);
+        const clientFilter = localSelectedClient || selectedClient;
+        if (clientFilter) {
+            result = result.filter(c =>
+                (c.economic?.client === clientFilter) ||
+                (c.client === clientFilter) ||
+                (c.labels && c.labels.includes(clientFilter))
+            );
         }
         return result;
-    }, [allCards, selectedUsers, selectedClient]);
+    }, [allCards, selectedUsers, selectedClient, localSelectedClient]);
 
     const getCount = (bid) => filteredCards.filter(c => c.boardId === bid).length;
 
@@ -239,6 +258,19 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
                     <h1 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mt-2">Workspace & Intelligence</h1>
                 </div>
                 <div className="flex items-center gap-3">
+                    <div className="relative mr-2">
+                        <Tag className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
+                        <select
+                            value={localSelectedClient}
+                            onChange={(e) => setLocalSelectedClient(e.target.value)}
+                            className="pl-10 pr-4 py-2.5 bg-white border border-gray-100 rounded-2xl text-[10px] font-black uppercase tracking-widest text-gray-600 outline-none focus:ring-2 focus:ring-brand-orange/20 shadow-sm appearance-none cursor-pointer w-64"
+                        >
+                            <option value="">FILTRAR POR CLIENTE/ETIQUETA</option>
+                            {filterOptions.map(option => (
+                                <option key={option} value={option}>{option}</option>
+                            ))}
+                        </select>
+                    </div>
                     <button
                         onClick={handleSyncSheets}
                         disabled={isExporting}

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Send, X, User, Mail, AlignLeft, Bold, Italic, List, Type, Paperclip, Trash2, ShieldCheck } from 'lucide-react';
 import { api } from '../api';
 
-const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, defaultBody, replyToId }) => {
+const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, defaultBody, replyToId, cardId }) => {
     const [to, setTo] = useState(defaultTo || '');
     const [subject, setSubject] = useState(defaultSubject || '');
     const [sending, setSending] = useState(false);
@@ -105,6 +105,34 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
 
             const res = await api.sendEmail(memberId, to, subject, fullHtml, replyToId, attachmentPaths);
             if (res.success || res.status === 'sent') {
+
+                // --- LOG TO CARD LOGIC ---
+                try {
+                    let targetCardId = null;
+                    const db = await api.getData();
+
+                    // 1. If we have an explicit cardId
+                    // We might need to receive cardId as a prop
+                    // Let's assume passed as cardId prop
+
+                    // 2. Fuzzy match by subject if no explicit ID
+                    const cards = db.cards || [];
+                    const cleanSubject = subject.replace(/Re:|Fwd:|RE:|FWD:/gi, '').trim().toLowerCase();
+                    const matchedCard = cards.find(c =>
+                        c.title.toLowerCase().includes(cleanSubject) ||
+                        cleanSubject.includes(c.title.toLowerCase())
+                    );
+
+                    targetCardId = matchedCard?.id;
+
+                    if (targetCardId) {
+                        await api.addCommentToCard(targetCardId, `--- EMAIL ENVIAT ---\nDestinatari: ${to}\nAssumpte: ${subject}\n\n${bodyContent.replace(/<[^>]*>/g, '\n')}`, memberId);
+                    }
+                } catch (logErr) {
+                    console.error("Failed to log email to card", logErr);
+                }
+                // -------------------------
+
                 alert("Correu enviat correctament!");
                 onClose();
             } else {
