@@ -21,6 +21,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
     const [showCardModal, setShowCardModal] = useState(false);
 
     const [emailToConvert, setEmailToConvert] = useState(null);
+    const [prefilledCard, setPrefilledCard] = useState(null);
     const [boards, setBoards] = useState([]);
     const [targetBoardId, setTargetBoardId] = useState(null);
     const [targetColumnId, setTargetColumnId] = useState(null);
@@ -119,6 +120,13 @@ const Inbox = ({ selectedUsers, currentUser }) => {
     };
 
     const handleContinueToCard = () => {
+        setPrefilledCard({
+            title: emailToConvert.subject,
+            descriptionBlocks: [
+                { id: 'desc_1', type: 'text', text: `Email de: ${emailToConvert.from}\n\n${emailToConvert.body}` }
+            ],
+            labels: ['Email']
+        });
         setShowSelector(false);
         setShowCardModal(true);
     };
@@ -266,11 +274,6 @@ const Inbox = ({ selectedUsers, currentUser }) => {
         }
     };
 
-    const prefilledCard = emailToConvert ? {
-        title: emailToConvert.subject,
-        descriptionBlocks: [{ id: 1, text: emailToConvert.body, author: emailToConvert.from, date: new Date().toISOString() }],
-        columnId: targetColumnId
-    } : null;
 
     return (
         <div className="flex flex-col h-full bg-brand-lightgray animate-in fade-in duration-500">
@@ -301,7 +304,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                     </div>
                 </div>
 
-                <div className="flex-1 flex flex-col bg-white">
+                <div className="w-[380px] flex flex-col bg-white border-r border-gray-100 shrink-0">
                     <div className="p-8 border-b border-gray-100 bg-white">
                         <div className="flex items-center justify-between mb-8">
                             <div className="flex items-center gap-4">
@@ -361,6 +364,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                             <span className="text-[9px] font-bold text-gray-300 whitespace-nowrap">{new Date(email.date).toLocaleDateString()}</span>
                                             <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
                                                 <button onClick={(e) => { e.stopPropagation(); handleConvertToCard(email); }} className="p-1 px-2 bg-orange-100 text-brand-orange rounded-full text-[8px] font-black uppercase hover:bg-brand-orange hover:text-white transition-colors">+ Ficha</button>
+                                                <button onClick={(e) => { e.stopPropagation(); handleAddToCard(email); }} className="p-1 px-2 bg-blue-100 text-blue-600 rounded-full text-[8px] font-black uppercase hover:bg-blue-600 hover:text-white transition-colors">Vincular</button>
                                                 <button onClick={(e) => { e.stopPropagation(); setEmailComposerData({ to: email.from, subject: `RE: ${email.subject}`, body: `\n\n--- Mensaje original ---\nDe: ${email.from}\nAsunto: ${email.subject}\n\n${email.body}`, memberId: currentUser.id, replyToId: email.messageId }); setShowEmailComposer(true); }} className="p-1 px-2 bg-gray-100 text-gray-600 rounded-full text-[8px] font-black uppercase hover:bg-brand-black hover:text-white transition-colors">Responder</button>
                                             </div>
                                         </div>
@@ -373,7 +377,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                     </div>
                 </div>
 
-                <div className="w-[450px] lg:w-[500px] border-l border-gray-100 flex flex-col bg-gray-50/20">
+                <div className="flex-1 flex flex-col bg-gray-50/20">
                     {selectedEmail ? (
                         <>
                             <div className="p-8 border-b border-gray-100 flex flex-col gap-8 bg-white shadow-sm">
@@ -418,6 +422,117 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                     )}
                 </div>
             </div>
+
+            {showCardPicker && (
+                <div className="fixed inset-0 z-[150] flex items-center justify-center bg-brand-black/60 backdrop-blur-md p-4 animate-in fade-in duration-300">
+                    <div className="bg-white rounded-[2.5rem] w-full max-w-xl p-10 shadow-2xl border border-white/20 flex flex-col max-h-[80vh]">
+                        <div className="flex justify-between items-center mb-8 shrink-0">
+                            <div>
+                                <h3 className="text-xl font-black text-brand-black uppercase tracking-tight">Vincular a Ficha Existente</h3>
+                                <p className="text-[10px] font-black text-gray-400 mt-1 uppercase tracking-widest">Busca la ficha por título o cliente</p>
+                            </div>
+                            <button onClick={() => setShowCardPicker(false)} className="p-2 hover:bg-gray-100 rounded-xl transition-all"><X size={20} /></button>
+                        </div>
+
+                        <div className="relative mb-6 shrink-0">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                            <input
+                                autoFocus
+                                type="text"
+                                placeholder="Escribe para buscar..."
+                                className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-brand-orange/5 transition-all"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="flex-1 overflow-y-auto space-y-2 custom-scrollbar p-1">
+                            {cards
+                                .filter(c => c.title.toLowerCase().includes(searchQuery.toLowerCase()))
+                                .slice(0, 10)
+                                .map(card => (
+                                    <div
+                                        key={card.id}
+                                        onClick={() => handleAddToCardFinish(card)}
+                                        className="p-4 bg-white border border-gray-100 rounded-2xl hover:border-brand-orange hover:bg-orange-50/30 cursor-pointer transition-all flex items-center justify-between group"
+                                    >
+                                        <div>
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{boards.find(b => b.id === card.boardId)?.title}</p>
+                                            <h4 className="text-sm font-black text-brand-black group-hover:text-brand-orange transition-colors">{card.title}</h4>
+                                        </div>
+                                        <ArrowRight size={18} className="text-gray-300 group-hover:text-brand-orange group-hover:translate-x-1 transition-all" />
+                                    </div>
+                                ))
+                            }
+                            {cards.filter(c => c.title.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && (
+                                <div className="p-10 text-center opacity-30">
+                                    <Search size={40} className="mx-auto mb-4" />
+                                    <p className="text-xs font-black uppercase">No se han encontrado fichas</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showSelector && (
+                <div className="fixed inset-0 z-[150] flex items-center justify-center bg-brand-black/60 backdrop-blur-md p-4 animate-in fade-in duration-300">
+                    <div className="bg-white rounded-[2.5rem] w-full max-w-md p-10 shadow-2xl border border-white/20">
+                        <div className="flex justify-between items-center mb-8">
+                            <h3 className="text-xl font-black text-brand-black uppercase tracking-tight">Destino de la Ficha</h3>
+                            <button onClick={() => setShowSelector(false)} className="p-2 hover:bg-gray-100 rounded-xl transition-all"><X size={20} /></button>
+                        </div>
+
+                        <div className="space-y-6">
+                            <div className="space-y-3">
+                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Tablero</label>
+                                <select
+                                    className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-brand-orange/5 transition-all"
+                                    value={targetBoardId}
+                                    onChange={(e) => {
+                                        const bId = e.target.value;
+                                        setTargetBoardId(bId);
+                                        const b = boards.find(x => x.id === bId);
+                                        if (b && b.columns.length > 0) setTargetColumnId(b.columns[0].id);
+                                    }}
+                                >
+                                    {boards.map(b => <option key={b.id} value={b.id}>{b.title}</option>)}
+                                </select>
+                            </div>
+
+                            <div className="space-y-3">
+                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Columna</label>
+                                <select
+                                    className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-brand-orange/5 transition-all"
+                                    value={targetColumnId}
+                                    onChange={(e) => setTargetColumnId(e.target.value)}
+                                >
+                                    {boards.find(b => b.id === targetBoardId)?.columns.map(c => (
+                                        <option key={c.id} value={c.id}>{c.title}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <label className="flex items-center gap-3 p-4 bg-orange-50 rounded-2xl border border-orange-100 cursor-pointer group">
+                                <input
+                                    type="checkbox"
+                                    checked={includeInComments}
+                                    onChange={(e) => setIncludeInComments(e.target.checked)}
+                                    className="w-5 h-5 rounded-lg border-2 border-brand-orange text-brand-orange focus:ring-brand-orange transition-all"
+                                />
+                                <span className="text-[11px] font-black text-gray-600 uppercase tracking-widest group-hover:text-brand-orange transition-colors">Incluir correo en comentarios</span>
+                            </label>
+
+                            <button
+                                onClick={handleContinueToCard}
+                                className="w-full py-5 bg-brand-black text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-brand-orange transition-all shadow-xl shadow-black/10 active:scale-95"
+                            >
+                                Siguiente paso
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <CardModal
                 isOpen={showCardModal}

@@ -47,6 +47,7 @@ const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement }) =
     const [showEmailComposer, setShowEmailComposer] = useState(false);
     const [emailComposerData, setEmailComposerData] = useState({ to: '', subject: '', body: '', memberId: 'licitacions' });
     const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedMail, setSelectedMail] = useState(null);
     const [activeMailTab, setActiveMailTab] = useState('inbox');
     const [activeMailFolder, setActiveMailFolder] = useState('INBOX');
     const [repliedIds, setRepliedIds] = useState([]);
@@ -298,31 +299,100 @@ const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement }) =
                             </div>
                         </div>
                     ) : selectedFilter === 'mailbox' ? (
-                        <div className="bg-white rounded-[2.5rem] shadow-2xl border border-indigo-100 overflow-hidden flex h-[600px]">
-                            <div className="w-48 bg-indigo-900 p-6 text-white flex flex-col gap-4">
-                                <NavItemMail active={activeMailTab === 'inbox'} label="Inbox" onClick={() => { setActiveMailTab('inbox'); setActiveMailFolder('INBOX'); }} />
-                                <NavItemMail active={activeMailTab === 'sent'} label="Enviados" onClick={() => { setActiveMailTab('sent'); setActiveMailFolder('Enviados'); }} />
-                            </div>
-                            <div className="flex-1 flex flex-col overflow-hidden">
-                                <div className="p-6 border-b flex justify-between items-center">
-                                    <h3 className="font-black uppercase text-sm">Buzón Licitaciones</h3>
-                                    <button onClick={() => setSelectedFilter(null)}><X size={20} /></button>
+                        <div className="bg-white rounded-[3rem] shadow-2xl border border-indigo-100 overflow-hidden flex h-[750px] animate-in slide-in-from-bottom-10 duration-500">
+                            {/* Menú Lateral Buzón */}
+                            <div className="w-48 bg-slate-900 p-8 text-white flex flex-col gap-4 shrink-0">
+                                <h3 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] mb-4">Carpetas</h3>
+                                <NavItemMail active={activeMailTab === 'inbox'} label="Inbox" onClick={() => { setActiveMailTab('inbox'); setActiveMailFolder('INBOX'); setSelectedMail(null); }} />
+                                <NavItemMail active={activeMailTab === 'sent'} label="Enviados" onClick={() => { setActiveMailTab('sent'); setActiveMailFolder('Enviados'); setSelectedMail(null); }} />
+                                <div className="mt-auto pt-8 border-t border-white/10">
+                                    <button onClick={() => setSelectedFilter(null)} className="w-full text-left px-4 py-3 rounded-xl text-[10px] font-black uppercase text-red-400 hover:bg-red-400/10 flex items-center gap-2">
+                                        <X size={14} /> Salir Buzón
+                                    </button>
                                 </div>
-                                <div className="flex-1 overflow-y-auto">
-                                    {loadingEmails ? <div className="p-20 text-center animate-pulse">Cargando...</div> : (
-                                        <div className="divide-y">
+                            </div>
+
+                            {/* Listado de Mails (Más pequeño) */}
+                            <div className="w-80 flex flex-col overflow-hidden border-r border-slate-50 bg-white shrink-0">
+                                <div className="p-6 border-b border-slate-50 flex justify-between items-center bg-white/50">
+                                    <h3 className="font-black uppercase text-[11px] tracking-widest text-slate-900">Buzón Licitaciones</h3>
+                                    {loadingEmails && <RefreshCw size={14} className="animate-spin text-indigo-500" />}
+                                </div>
+                                <div className="flex-1 overflow-y-auto custom-scrollbar">
+                                    {loadingEmails && licitacionEmails.length === 0 ? (
+                                        <div className="p-12 text-center animate-pulse text-[10px] font-black text-slate-300 uppercase italic">Sincronizando...</div>
+                                    ) : (
+                                        <div className="divide-y divide-slate-50">
                                             {filteredMailbox.map(email => (
-                                                <div key={email.id} className="p-6 hover:bg-slate-50">
-                                                    <p className="text-[10px] font-black text-indigo-500 uppercase">{email.from}</p>
-                                                    <h4 className="font-black text-slate-800 my-1">{email.subject}</h4>
-                                                    <div className="flex gap-2 mt-3">
-                                                        <button onClick={() => { setEmailComposerData({ to: email.from, subject: 'RE: ' + email.subject, body: '', memberId: 'licitacions', replyToId: email.id }); setShowEmailComposer(true); }} className="px-4 py-2 bg-slate-900 text-white rounded-lg text-[9px] font-black uppercase">Responder</button>
-                                                    </div>
+                                                <div
+                                                    key={email.messageId}
+                                                    onClick={() => setSelectedMail(email)}
+                                                    className={`p-6 cursor-pointer transition-all hover:bg-indigo-50/30 border-l-4 ${selectedMail?.messageId === email.messageId ? 'bg-indigo-50/50 border-l-indigo-600' : 'border-l-transparent'}`}
+                                                >
+                                                    <p className="text-[9px] font-black text-indigo-500 uppercase tracking-widest mb-1 truncate">{email.from}</p>
+                                                    <h4 className={`text-xs font-black leading-tight mb-2 ${selectedMail?.messageId === email.messageId ? 'text-indigo-900' : 'text-slate-800'}`}>{email.subject}</h4>
+                                                    <p className="text-[10px] text-slate-400 line-clamp-2 leading-relaxed">{email.body}</p>
                                                 </div>
                                             ))}
                                         </div>
                                     )}
                                 </div>
+                            </div>
+
+                            {/* Contenido del Mail (Más grande) */}
+                            <div className="flex-1 flex flex-col overflow-hidden bg-slate-50/30">
+                                {selectedMail ? (
+                                    <>
+                                        <div className="p-8 border-b border-slate-100 bg-white flex flex-col gap-6 shadow-sm">
+                                            <div className="flex justify-between items-start">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-black text-lg shadow-lg shadow-indigo-600/20">{selectedMail.from[0]}</div>
+                                                    <div>
+                                                        <h3 className="text-lg font-black text-slate-900 leading-tight uppercase italic">{selectedMail.subject}</h3>
+                                                        <p className="text-[9px] font-black text-slate-400 mt-1 uppercase tracking-widest">{selectedMail.from}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="flex gap-3">
+                                                <button
+                                                    onClick={() => { setEmailComposerData({ to: selectedMail.from, subject: 'RE: ' + selectedMail.subject, body: '\n\n--- Mensaje original ---\n' + selectedMail.body, memberId: 'licitacions', replyToId: selectedMail.messageId }); setShowEmailComposer(true); }}
+                                                    className="flex-1 py-4 bg-indigo-600 text-white rounded-2xl text-[9px] font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-xl shadow-indigo-600/10"
+                                                >
+                                                    Responder
+                                                </button>
+                                                <button
+                                                    onClick={async () => {
+                                                        const confirmConvert = confirm('¿Convertir este correo en una nueva licitación?');
+                                                        if (confirmConvert) {
+                                                            await api.createTender({
+                                                                title: selectedMail.subject,
+                                                                institution: selectedMail.from,
+                                                                description: selectedMail.body,
+                                                                status: 'pending'
+                                                            });
+                                                            alert('✅ Licitación creada correctamente');
+                                                            loadData();
+                                                            setSelectedFilter(null);
+                                                        }
+                                                    }}
+                                                    className="py-4 px-8 bg-slate-900 text-white rounded-2xl text-[9px] font-black uppercase tracking-widest hover:bg-brand-orange transition-all"
+                                                >
+                                                    Convertir a Licitación
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className="flex-1 overflow-y-auto p-10 custom-scrollbar">
+                                            <div className="bg-white p-10 rounded-[2.5rem] shadow-xl border border-slate-50 text-slate-600 text-sm leading-relaxed whitespace-pre-wrap font-medium">
+                                                {selectedMail.body}
+                                            </div>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="flex-1 flex flex-col items-center justify-center text-center p-20 opacity-20">
+                                        <Mail size={80} className="text-slate-300 mb-8" />
+                                        <h3 className="text-xl font-black text-slate-900 uppercase italic tracking-tighter">Selecciona un correo</h3>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     ) : <div className="py-20 text-center opacity-20"><Database size={60} className="mx-auto mb-4" /><h3 className="text-2xl font-black uppercase">Pipeline Vacío</h3></div>}
