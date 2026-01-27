@@ -522,6 +522,10 @@ async function fetchRealEmails(memberId, folder = 'INBOX') {
 
     // Mapping internal IDs to ENV keys
     const CRED_MAP = {
+        'montse': 'MONTSE',
+        'neus': 'NEUS',
+        'alba': 'ALBA',
+        'omar': 'OMAR',
         'albat': 'ATEIXIDO',
         'albap': 'ALBA',
         'web': 'WEB',
@@ -639,11 +643,13 @@ app.post('/api/emails/archive', async (req, res) => {
 
     // Invalidate/Update cache
     if (result && !result.error) {
-        if (emailCache[userId] && emailCache[userId]['INBOX']) {
-            emailCache[userId]['INBOX'].emails = emailCache[userId]['INBOX'].emails.filter(e => String(e.messageId) !== String(uid));
+        if (emailCache[memberId]) {
+            if (emailCache[memberId]['INBOX']) {
+                emailCache[memberId]['INBOX'].emails = emailCache[memberId]['INBOX'].emails.filter(e => String(e.messageId) !== String(emailId));
+            }
+            // Instead of immediate fetch (memory spike), just clear cache forcing refresh on next visit
+            delete emailCache[memberId]['Gestionados'];
         }
-        updateEmailCache(userId, 'INBOX');
-        updateEmailCache(userId, 'Gestionados');
     }
 
     res.json(result);
@@ -653,11 +659,13 @@ app.post('/api/emails/move', async (req, res) => {
     const { userId, uid, source, target } = req.body;
     const result = await moveEmail(userId, uid, source, target);
     if (result && !result.error) {
-        if (emailCache[userId] && emailCache[userId][source]) {
-            emailCache[userId][source].emails = emailCache[userId][source].emails.filter(e => String(e.messageId) !== String(uid));
+        if (emailCache[userId]) {
+            if (emailCache[userId][source]) {
+                emailCache[userId][source].emails = emailCache[userId][source].emails.filter(e => String(e.messageId) !== String(uid));
+            }
+            // Invalidate target cache instead of immediate fetch
+            delete emailCache[userId][target];
         }
-        updateEmailCache(userId, source);
-        updateEmailCache(userId, target);
     }
     res.json(result);
 });
@@ -718,10 +726,31 @@ app.post('/api/emails/delete-local', (req, res) => {
     if (!db.deleted_emails) db.deleted_emails = [];
     if (!db.deleted_emails.includes(String(uid))) {
         db.deleted_emails.push(String(uid));
+        // Also save timestamp for auto-cleanup (30 days)
+        if (!db.deleted_meta) db.deleted_meta = {};
+        db.deleted_meta[String(uid)] = Date.now();
         writeDB(db);
     }
     res.json({ success: true });
 });
+
+// Auto-cleanup Job: runs every 24h
+setInterval(() => {
+    const db = readDB();
+    const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
+    let changed = false;
+
+    if (db.deleted_meta) {
+        for (const uid in db.deleted_meta) {
+            if (db.deleted_meta[uid] < thirtyDaysAgo) {
+                delete db.deleted_meta[uid];
+                db.deleted_emails = (db.deleted_emails || []).filter(id => id !== uid);
+                changed = true;
+            }
+        }
+    }
+    if (changed) writeDB(db);
+}, 24 * 60 * 60 * 1000);
 
 app.post('/api/emails/save-attachments', (req, res) => {
     const { memberId, attachments } = req.body;
@@ -787,10 +816,15 @@ app.post('/api/emails/send', async (req, res) => {
     });
 
     const CRED_MAP = {
+        'montse': 'MONTSE',
+        'neus': 'NEUS',
+        'alba': 'ALBA',
+        'omar': 'OMAR',
         'albat': 'ATEIXIDO',
         'albap': 'ALBA',
         'web': 'WEB',
-        'licitacions': 'LICITACIONS'
+        'licitacions': 'LICITACIONS',
+        'test': 'TEST'
     };
 
     const envKey = CRED_MAP[memberId] || memberId.toUpperCase();
@@ -844,6 +878,10 @@ app.post('/api/emails/send', async (req, res) => {
                     if (!db.replied_emails.includes(uniqueUid)) {
                         db.replied_emails.push(uniqueUid);
                     }
+                    // RULE: Move to Respondidos folder in IMAP
+                    moveEmail(memberId, replyToId, 'INBOX', 'Respondidos').catch(err => console.error("Move to Respondidos failed", err));
+                    updateEmailCache(memberId, 'INBOX');
+                    updateEmailCache(memberId, 'Respondidos');
                 }
 
                 writeDB(db);

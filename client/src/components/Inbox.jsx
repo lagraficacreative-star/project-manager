@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { api } from '../api';
-import { Mail, RefreshCw, ArrowRight, CheckCircle, Search, Archive, Trash2, Plus, Send, Inbox as InboxIcon, Tag, Filter, X, Folder } from 'lucide-react';
+import { Mail, RefreshCw, ArrowRight, CheckCircle, Search, Archive, Trash2, Plus, Send, Inbox as InboxIcon, Tag, Filter, X, Folder, ShieldCheck, Ban } from 'lucide-react';
 import CardModal from './CardModal';
 import EmailComposer from './EmailComposer';
 
@@ -74,7 +74,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
     };
 
     const loadSpam = async () => {
-        const ids = await api.getSpamEmails ? await api.getSpamEmails() : [];
+        const ids = api.getSpamEmails ? await api.getSpamEmails() : [];
         setSpamIds(ids.map(String));
     };
 
@@ -103,7 +103,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             const data = await api.getEmails(currentUser.id, activeFolder);
             setEmails(data || []);
         } catch (error) {
-            console.error("Fetch emails failed", error);
+            console.error('Fetch emails failed', error);
         } finally {
             setLoading(false);
         }
@@ -129,7 +129,6 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             const result = await api.createCard(cardData);
             if (emailToConvert && result) {
                 await api.markEmailProcessed(emailToConvert.messageId, emailToConvert.subject, currentUser.name);
-                // Move to "Gestionados" folder in IMAP
                 await api.moveEmail(currentUser.id, emailToConvert.messageId, activeFolder, 'Gestionados');
 
                 if (includeInComments) {
@@ -141,7 +140,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             setShowCardModal(false);
             setEmailToConvert(null);
         } catch (error) {
-            console.error("Save card failed", error);
+            console.error('Save card failed', error);
         } finally {
             setIsSaving(false);
         }
@@ -158,7 +157,6 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             const commentText = `--- NUEVA ACTUALIZACIÓN POR EMAIL ---\nDe: ${emailToConvert.from}\nAsunto: ${emailToConvert.subject}\n\n${emailToConvert.body}`;
             await api.addCommentToCard(card.id, commentText, currentUser.id);
             await api.markEmailProcessed(emailToConvert.messageId, emailToConvert.subject, currentUser.name);
-            // Move to "Gestionados" folder in IMAP
             await api.moveEmail(currentUser.id, emailToConvert.messageId, activeFolder, 'Gestionados');
 
             loadProcessed();
@@ -166,31 +164,31 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             setShowCardPicker(false);
             setEmailToConvert(null);
         } catch (error) {
-            console.error("Add to card failed", error);
+            console.error('Add to card failed', error);
         } finally {
             setIsSaving(false);
         }
     };
 
     const handleDeleteEmail = async (emailId) => {
-        if (!confirm("¿Mover a papelera?")) return;
+        if (!confirm('¿Mover a papelera?')) return;
         try {
             await api.moveEmail(currentUser.id, emailId, activeFolder, 'Papelera');
             fetchEmails();
             if (selectedEmail?.messageId === emailId) setSelectedEmail(null);
         } catch (error) {
-            console.error("Delete failed", error);
+            console.error('Delete failed', error);
         }
     };
 
     const handleSpamEmail = async (emailId) => {
-        if (!confirm("¿Marcar como SPAM?")) return;
+        if (!confirm('¿Marcar como SPAM?')) return;
         try {
             await api.moveEmail(currentUser.id, emailId, activeFolder, 'Spam');
             fetchEmails();
             if (selectedEmail?.messageId === emailId) setSelectedEmail(null);
         } catch (error) {
-            console.error("Spam failed", error);
+            console.error('Spam failed', error);
         }
     };
 
@@ -199,7 +197,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             await api.moveEmail(currentUser.id, emailId, activeFolder, 'INBOX');
             fetchEmails();
         } catch (error) {
-            console.error("Restore failed", error);
+            console.error('Restore failed', error);
         }
     };
 
@@ -210,11 +208,10 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             fetchEmails();
             if (selectedEmail?.messageId === emailId) setSelectedEmail(null);
         } catch (error) {
-            console.error("Unmanage failed", error);
+            console.error('Unmanage failed', error);
         }
     };
 
-    // --- Label Logic ---
     const getContactTag = (from) => {
         if (!from) return null;
         const lowerFrom = from.toLowerCase();
@@ -225,27 +222,49 @@ const Inbox = ({ selectedUsers, currentUser }) => {
         return contact ? { name: contact.tag, company: contact.company } : null;
     };
 
-    const getEmailCategory = (subject, from) => {
-        const text = `${subject} ${from}`.toLowerCase();
-        if (text.includes('presupuesto') || text.includes('factura') || text.includes('vencimiento')) return 'ECONÓMICO';
-        if (text.includes('diseño') || text.includes('logo') || text.includes('estilo')) return 'DISEÑO';
-        if (text.includes('web') || text.includes('hosting') || text.includes('dominio')) return 'WEB';
-        if (text.includes('redes') || text.includes('instagram') || text.includes('facebook')) return 'REDES';
-        return null;
-    };
-
     const filteredEmails = useMemo(() => {
         return emails.filter(e => {
+            const subject = (e.subject || '').toLowerCase();
+            const from = (e.from || '').toLowerCase();
+            const uniqueId = `${currentUser.id}-${e.messageId}`;
+
+            const isGencatNotif = (from.includes('gencat') || from.includes('contractacio')) && (subject.includes('notificació') || subject.includes('notificación'));
+            if (activeTab === 'licitaciones' && !isGencatNotif) return false;
+
+            const isReplied = repliedIds.includes(uniqueId);
+            if (activeTab === 'replied' && !isReplied) return false;
+
+            const isProcessed = processedIds.includes(String(e.messageId));
+            if (activeTab === 'managed' && !isProcessed) return false;
+
+            if (activeTab === 'inbox') {
+                if (isReplied || isGencatNotif || isProcessed) return false;
+            }
+
             if (emailFilter) {
                 const search = emailFilter.toLowerCase();
-                const matches = (e.from || "").toLowerCase().includes(search) ||
-                    (e.subject || "").toLowerCase().includes(search) ||
-                    (e.body || "").toLowerCase().includes(search);
+                const matches = from.includes(search) || subject.includes(search) || (e.body || '').toLowerCase().includes(search);
                 if (!matches) return false;
             }
             return true;
         });
-    }, [emails, emailFilter]);
+    }, [emails, emailFilter, activeTab, repliedIds, processedIds, currentUser.id]);
+
+    const handleEmptyTrash = async () => {
+        if (!confirm('¿Borrar permanentemente todos los correos de la papelera?')) return;
+        setIsSaving(true);
+        try {
+            for (const email of emails) {
+                await api.deleteEmailLocal(email.messageId);
+            }
+            fetchEmails();
+            alert('Papelera vaciada (localmente).');
+        } catch (error) {
+            console.error('Empty trash failed', error);
+        } finally {
+            setIsSaving(false);
+        }
+    };
 
     const prefilledCard = emailToConvert ? {
         title: emailToConvert.subject,
@@ -256,57 +275,74 @@ const Inbox = ({ selectedUsers, currentUser }) => {
     return (
         <div className="flex flex-col h-full bg-brand-lightgray animate-in fade-in duration-500">
             <div className="flex-1 flex overflow-hidden">
-                <div className="w-full md:w-[360px] lg:w-[400px] border-r border-gray-200 bg-white flex flex-col shadow-xl z-10 shrink-0">
-                    <div className="p-6 border-b border-gray-100 bg-white">
-                        <div className="flex items-center justify-between mb-6">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 bg-brand-orange/10 rounded-xl text-brand-orange">
-                                    <InboxIcon size={24} />
+                <div className="w-64 border-r border-gray-100 bg-gray-50/50 flex flex-col shrink-0">
+                    <div className="p-8">
+                        <h3 className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] mb-6">Categorías</h3>
+                        <nav className="space-y-1">
+                            <NavItem active={activeTab === 'inbox'} icon={<InboxIcon size={18} />} label="Pendientes" onClick={() => { setActiveTab('inbox'); setActiveFolder('INBOX'); }} />
+                            <NavItem active={activeTab === 'licitaciones'} icon={<ShieldCheck size={18} />} label="Licitaciones" onClick={() => { setActiveTab('licitaciones'); setActiveFolder('INBOX'); }} color="orange" />
+                            <NavItem active={activeTab === 'replied'} icon={<Send size={18} />} label="Respondidos" onClick={() => { setActiveTab('replied'); setActiveFolder('Respondidos'); }} color="blue" />
+                            <NavItem active={activeTab === 'managed'} icon={<Archive size={18} />} label="Archivados" onClick={() => { setActiveTab('managed'); setActiveFolder('Gestionados'); }} color="green" />
+                        </nav>
+
+                        <h3 className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] mt-10 mb-6">Sistema</h3>
+                        <nav className="space-y-1">
+                            <NavItem active={activeTab === 'all'} icon={<Mail size={18} />} label="Entrada Real" onClick={() => { setActiveTab('all'); setActiveFolder('INBOX'); }} />
+                            <NavItem active={activeTab === 'sent'} icon={<Send size={18} />} label="Enviados" onClick={() => { setActiveTab('sent'); setActiveFolder('Enviados'); }} />
+                            <NavItem active={activeTab === 'spam'} icon={<Ban size={18} />} label="Correo Spam" onClick={() => { setActiveTab('spam'); setActiveFolder('Spam'); }} />
+                            <NavItem active={activeTab === 'trash'} icon={<Trash2 size={18} />} label="Papelera" onClick={() => { setActiveTab('trash'); setActiveFolder('Papelera'); }} color="red" />
+                        </nav>
+
+                        {activeTab === 'trash' && (
+                            <button onClick={handleEmptyTrash} className="w-full mt-10 py-3 bg-red-100/50 text-red-600 text-[9px] font-black uppercase rounded-2xl border border-red-200 hover:bg-red-600 hover:text-white transition-all">
+                                Vaciar Papelera
+                            </button>
+                        )}
+                    </div>
+                </div>
+
+                <div className="flex-1 flex flex-col bg-white">
+                    <div className="p-8 border-b border-gray-100 bg-white">
+                        <div className="flex items-center justify-between mb-8">
+                            <div className="flex items-center gap-4">
+                                <div className="p-3 bg-brand-orange rounded-2xl text-white shadow-lg shadow-orange-500/20">
+                                    <Mail size={24} />
                                 </div>
-                                <h2 className="text-2xl font-black text-brand-black tracking-tight uppercase leading-none">Buzón <span className="text-brand-orange">Smart</span> <span className="text-[8px] opacity-20">v2.5</span></h2>
+                                <div>
+                                    <h2 className="text-2xl font-black text-brand-black uppercase tracking-tight">
+                                        {activeTab === 'licitaciones' ? 'Filtro Licitaciones' : 'Buzón Studio'}
+                                    </h2>
+                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{currentUser.email}</p>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-3">
                                 <button
                                     onClick={() => {
                                         setEmailComposerData({ to: '', subject: '', body: '', memberId: currentUser.id });
                                         setShowEmailComposer(true);
                                     }}
-                                    className="p-3 bg-brand-orange text-white rounded-2xl hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/20 flex items-center gap-2"
-                                    title="Nuevo Correo"
+                                    className="px-6 py-4 bg-brand-black text-white rounded-2xl hover:bg-brand-orange transition-all shadow-xl shadow-black/10 flex items-center gap-3 text-[10px] font-black uppercase tracking-widest"
                                 >
-                                    <Plus size={20} />
-                                    <span className="text-[10px] font-black uppercase tracking-widest hidden lg:inline">Nuevo Mail</span>
+                                    <Plus size={20} /> Nuevo Mail
                                 </button>
-                                <button onClick={fetchEmails} className="p-3 hover:bg-orange-50 text-gray-400 hover:text-brand-orange transition-all rounded-2xl border border-transparent hover:border-orange-100">
+                                <button onClick={fetchEmails} className="p-4 hover:bg-gray-100 text-gray-400 transition-all rounded-2xl border border-gray-100">
                                     <RefreshCw size={20} className={loading ? 'animate-spin' : ''} />
                                 </button>
                             </div>
                         </div>
-                        <div className="relative mb-6">
+                        <div className="relative">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                             <input
                                 type="text"
-                                placeholder="Filtrar correos..."
+                                placeholder="Buscar en esta carpeta..."
                                 value={emailFilter}
                                 onChange={(e) => setEmailFilter(e.target.value)}
-                                className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-[11px] font-bold outline-none focus:ring-2 focus:ring-brand-orange/10 transition-all placeholder:text-gray-300"
+                                className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-transparent rounded-2xl text-[11px] font-bold outline-none focus:ring-4 focus:ring-brand-orange/5 transition-all"
                             />
-                        </div>
-                        <div className="flex p-1 bg-gray-50 rounded-2xl mb-4 overflow-x-auto no-scrollbar gap-1">
-                            <button onClick={() => { setActiveTab('inbox'); setActiveFolder('INBOX'); }} className={`flex-1 py-3 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all min-w-[80px] ${activeTab === 'inbox' ? 'bg-white text-brand-orange shadow-md border border-gray-100' : 'text-gray-400 opacity-60 hover:opacity-100'}`}>Pendientes</button>
-                            <button onClick={() => { setActiveTab('managed'); setActiveFolder('Gestionados'); }} className={`flex-1 py-3 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all min-w-[80px] ${activeTab === 'managed' ? 'bg-white text-brand-orange shadow-md border border-gray-100' : 'text-gray-400 opacity-60 hover:opacity-100'}`}>Gestionados</button>
-                            <button onClick={() => { setActiveTab('sent'); setActiveFolder('Enviados'); }} className={`flex-1 py-3 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all min-w-[80px] ${activeTab === 'sent' ? 'bg-white text-brand-orange shadow-md border border-gray-100' : 'text-gray-400 opacity-60 hover:opacity-100'}`}>Enviados</button>
-                            <button onClick={() => { setActiveTab('spam'); setActiveFolder('Spam'); }} className={`flex-1 py-3 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all min-w-[60px] ${activeTab === 'spam' ? 'bg-white text-brand-orange shadow-md border border-gray-100' : 'text-gray-400 opacity-60 hover:opacity-100'}`}>Spam</button>
-                            <button onClick={() => { setActiveTab('trash'); setActiveFolder('Papelera'); }} className={`flex-1 py-3 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all min-w-[60px] ${activeTab === 'trash' ? 'bg-white text-brand-orange shadow-md border border-gray-100' : 'text-gray-400 opacity-60 hover:opacity-100'}`}>Papelera</button>
-                        </div>
-                        <div className="flex p-1 bg-gray-100 rounded-2xl">
-                            <button onClick={() => { setActiveTab('inbox'); setActiveFolder('INBOX'); }} className={`flex-1 py-1.5 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${activeFolder === 'INBOX' ? 'bg-brand-black text-white shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}>Entrada</button>
-                            <button onClick={() => { setActiveTab('sent'); setActiveFolder('Enviados'); }} className={`flex-1 py-1.5 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${activeFolder === 'Enviados' ? 'bg-brand-black text-white shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}>Enviados</button>
-                            <button onClick={() => { setActiveTab('managed'); setActiveFolder('Gestionados'); }} className={`flex-1 py-1.5 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${activeFolder === 'Gestionados' ? 'bg-brand-black text-white shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}>Gestionados</button>
                         </div>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto divide-y divide-gray-50 bg-white custom-scrollbar">
+                    <div className="flex-1 overflow-y-auto divide-y divide-gray-50 custom-scrollbar">
                         {loading && emails.length === 0 ? (
                             <div className="p-20 text-center animate-pulse"><RefreshCw size={40} className="text-brand-orange/20 mx-auto mb-4 animate-spin" /><p className="text-[10px] font-black text-gray-300 uppercase tracking-widest">Sincronizando...</p></div>
                         ) : filteredEmails.length === 0 ? (
@@ -325,7 +361,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                             <span className="text-[9px] font-bold text-gray-300 whitespace-nowrap">{new Date(email.date).toLocaleDateString()}</span>
                                             <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
                                                 <button onClick={(e) => { e.stopPropagation(); handleConvertToCard(email); }} className="p-1 px-2 bg-orange-100 text-brand-orange rounded-full text-[8px] font-black uppercase hover:bg-brand-orange hover:text-white transition-colors">+ Ficha</button>
-                                                <button onClick={(e) => { e.stopPropagation(); setEmailComposerData({ to: email.from, subject: `RE: ${email.subject}`, body: `\n\n--- Original ---\nDe: ${email.from}\nAsunto: ${email.subject}\n\n${email.body}`, memberId: currentUser.id, replyToId: email.messageId }); setShowEmailComposer(true); }} className="p-1 px-2 bg-gray-100 text-gray-600 rounded-full text-[8px] font-black uppercase hover:bg-brand-black hover:text-white transition-colors">Responder</button>
+                                                <button onClick={(e) => { e.stopPropagation(); setEmailComposerData({ to: email.from, subject: `RE: ${email.subject}`, body: `\n\n--- Mensaje original ---\nDe: ${email.from}\nAsunto: ${email.subject}\n\n${email.body}`, memberId: currentUser.id, replyToId: email.messageId }); setShowEmailComposer(true); }} className="p-1 px-2 bg-gray-100 text-gray-600 rounded-full text-[8px] font-black uppercase hover:bg-brand-black hover:text-white transition-colors">Responder</button>
                                             </div>
                                         </div>
                                     </div>
@@ -337,93 +373,51 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                     </div>
                 </div>
 
-                <div className="flex-1 flex flex-col bg-white">
+                <div className="w-[450px] lg:w-[500px] border-l border-gray-100 flex flex-col bg-gray-50/20">
                     {selectedEmail ? (
                         <>
-                            <div className="p-6 md:p-8 border-b border-gray-100 flex flex-col gap-6 bg-white shadow-sm shrink-0">
+                            <div className="p-8 border-b border-gray-100 flex flex-col gap-8 bg-white shadow-sm">
                                 <div className="flex justify-between items-start">
-                                    <div className="flex items-center gap-4 min-w-0">
-                                        <div className="w-14 h-14 rounded-[1.2rem] bg-brand-orange text-white flex items-center justify-center font-black text-xl shadow-lg ring-4 ring-orange-100 shrink-0">{selectedEmail.from[0]}</div>
-                                        <div className="min-w-0">
-                                            <h3 className="text-lg md:text-xl font-black text-brand-black truncate uppercase tracking-tighter leading-tight mb-1">{selectedEmail.subject}</h3>
-                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{selectedEmail.from}</p>
+                                    <div className="flex items-center gap-5">
+                                        <div className="w-16 h-16 rounded-3xl bg-brand-orange text-white flex items-center justify-center font-black text-2xl shadow-xl shadow-orange-500/20">{selectedEmail.from[0]}</div>
+                                        <div>
+                                            <h3 className="text-xl font-black text-brand-black leading-tight uppercase tracking-tighter">{selectedEmail.subject}</h3>
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mt-2">{selectedEmail.from}</p>
                                         </div>
                                     </div>
                                     <div className="flex gap-2">
-                                        {(activeTab === 'trash' || activeTab === 'spam' || activeTab === 'managed') && (
-                                            <button onClick={() => activeTab === 'managed' ? handleUnmanageEmail(selectedEmail.messageId) : handleRestoreEmail(selectedEmail.messageId)} className="p-3 text-green-500 hover:bg-green-50 rounded-2xl transition-all flex items-center gap-2" title="Reponer a entrada">
-                                                <RefreshCw size={20} />
-                                                <span className="text-[10px] font-black uppercase tracking-widest">Reponer</span>
-                                            </button>
-                                        )}
-                                        {activeTab !== 'trash' && (
-                                            <button onClick={() => handleDeleteEmail(selectedEmail.messageId)} className="p-3 text-gray-300 hover:bg-red-50 hover:text-red-500 rounded-2xl transition-all" title="Mover a papelera"><Trash2 size={20} /></button>
-                                        )}
-                                        {activeTab !== 'spam' && (
-                                            <button onClick={() => handleSpamEmail(selectedEmail.messageId)} className="p-3 text-gray-300 hover:bg-orange-50 hover:text-brand-orange rounded-2xl transition-all" title="Marcar como SPAM"><Archive size={20} /></button>
-                                        )}
+                                        <button onClick={() => handleDeleteEmail(selectedEmail.messageId)} className="p-4 hover:bg-red-50 text-gray-300 hover:text-red-500 rounded-2xl transition-all"><Trash2 size={20} /></button>
                                     </div>
                                 </div>
-
-                                <div className="flex flex-wrap gap-2">
+                                <div className="flex flex-wrap gap-3">
                                     <button
                                         onClick={() => {
-                                            setEmailComposerData({ to: selectedEmail.from, subject: `RE: ${selectedEmail.subject}`, body: `\n\n--- Missatge original ---\nDe: ${selectedEmail.from}\nAssumpte: ${selectedEmail.subject}\n\n${selectedEmail.body}`, memberId: currentUser.id, replyToId: selectedEmail.messageId });
+                                            setEmailComposerData({ to: selectedEmail.from, subject: `RE: ${selectedEmail.subject}`, body: `\n\n--- Mensaje original ---\n${selectedEmail.body}`, memberId: currentUser.id, replyToId: selectedEmail.messageId });
                                             setShowEmailComposer(true);
                                         }}
-                                        className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-brand-orange text-white rounded-xl hover:bg-orange-600 transition-all text-xs font-black uppercase tracking-widest shadow-lg shadow-orange-500/20"
+                                        className="flex-1 px-8 py-5 bg-brand-orange text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-orange-500/20"
                                     >
-                                        <Send size={16} /> RESPONDER AHORA
+                                        Responder Ahora
                                     </button>
-
-                                    <button onClick={() => handleAddToCard(selectedEmail)} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-gray-50 text-gray-500 border border-gray-100 rounded-xl hover:bg-gray-100 transition-all text-[10px] font-black uppercase tracking-widest">
-                                        <Plus size={16} /> A Proyecto
-                                    </button>
-
-                                    <button onClick={() => handleConvertToCard(selectedEmail)} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-brand-black text-white rounded-xl hover:bg-gray-800 transition-all text-[10px] font-black uppercase tracking-widest shadow-md">
-                                        <Plus size={16} /> Crear Ficha
+                                    <button onClick={() => handleConvertToCard(selectedEmail)} className="px-8 py-5 bg-brand-black text-white rounded-2xl font-black text-[10px] uppercase tracking-widest">
+                                        Crear Ficha
                                     </button>
                                 </div>
                             </div>
-                            <div className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-10 custom-scrollbar bg-gray-50/20">
-                                <div className="max-w-4xl mx-auto">
-                                    <div className="bg-white rounded-[2rem] p-6 md:p-10 shadow-2xl shadow-gray-200/50 border border-gray-100 relative overflow-hidden">
-                                        <div className="relative z-10 prose max-w-none text-base md:text-lg text-gray-600 font-medium font-sans leading-relaxed whitespace-pre-wrap">
-                                            {selectedEmail.body}
-                                        </div>
-                                    </div>
+                            <div className="flex-1 overflow-y-auto p-10 custom-scrollbar">
+                                <div className="bg-white p-10 rounded-[2.5rem] shadow-xl border border-gray-100 text-gray-600 text-base leading-relaxed whitespace-pre-wrap font-medium">
+                                    {selectedEmail.body}
                                 </div>
                             </div>
                         </>
                     ) : (
-                        <div className="flex-1 flex flex-col items-center justify-center text-center p-20 bg-gray-50/30">
-                            <div className="w-32 h-32 bg-white rounded-[3rem] flex items-center justify-center shadow-2xl shadow-black/5 border border-gray-100 mb-10 text-gray-100 transform -rotate-6"><Mail size={64} className="opacity-10" /></div>
-                            <h3 className="text-2xl font-black text-brand-black uppercase tracking-tight mb-4 leading-none">Tu bandeja está lista,<br /><span className="text-brand-orange">{currentUser.name}</span></h3>
-                            <p className="text-gray-400 text-sm font-medium max-w-[300px] leading-relaxed">Selecciona un mensaje de la izquierda para comenzar a gestionar los proyectos del estudio.</p>
+                        <div className="flex-1 flex flex-col items-center justify-center text-center p-20 opacity-30">
+                            <Mail size={80} className="text-gray-400 mb-8" />
+                            <h3 className="text-2xl font-black text-brand-black uppercase">Selecciona un correo</h3>
                         </div>
                     )}
                 </div>
             </div>
-
-            {showSelector && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-brand-black/40 backdrop-blur-md p-4">
-                    <div className="bg-white rounded-[2.5rem] p-8 md:p-10 w-full max-w-md shadow-2xl border border-gray-100 animate-in zoom-in-95">
-                        <h3 className="text-xl font-black text-brand-black uppercase tracking-tight mb-8">Guardar en Studio</h3>
-                        <div className="space-y-6 mb-8">
-                            <select value={targetBoardId} onChange={(e) => { setTargetBoardId(e.target.value); const b = boards.find(board => board.id === e.target.value); if (b && b.columns.length > 0) setTargetColumnId(b.columns[0].id); }} className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold focus:ring-2 focus:ring-brand-orange/20 outline-none">
-                                {boards.map(b => <option key={b.id} value={b.id}>{b.title}</option>)}
-                            </select>
-                            <select value={targetColumnId} onChange={(e) => setTargetColumnId(e.target.value)} className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold focus:ring-2 focus:ring-brand-orange/20 outline-none">
-                                {boards.find(b => b.id === targetBoardId)?.columns.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
-                            </select>
-                        </div>
-                        <div className="flex gap-3 mt-10">
-                            <button onClick={() => setShowSelector(false)} className="flex-1 py-4 text-gray-400 font-black uppercase text-[10px] hover:bg-gray-50 rounded-2xl">Cancelar</button>
-                            <button onClick={handleContinueToCard} className="flex-1 py-4 bg-brand-black text-white rounded-2xl font-black uppercase text-[10px] hover:bg-brand-orange">Continuar</button>
-                        </div>
-                    </div>
-                </div>
-            )}
 
             <CardModal
                 isOpen={showCardModal}
@@ -434,27 +428,6 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                 onSave={handleSaveCard}
                 currentUser={currentUser}
             />
-
-            {showCardPicker && (
-                <div className="fixed inset-0 z-[110] flex items-center justify-center bg-brand-black/40 backdrop-blur-md p-4">
-                    <div className="bg-white rounded-[2.5rem] p-8 md:p-10 w-full max-w-lg shadow-2xl border border-gray-100 flex flex-col max-h-[85vh] animate-in zoom-in-95">
-                        <h3 className="text-xl font-black text-brand-black uppercase tracking-tight mb-8">Añadir a Tarjeta Existente</h3>
-                        <div className="relative mb-6">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                            <input type="text" placeholder="Buscar..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-[11px] font-bold outline-none" />
-                        </div>
-                        <div className="flex-1 overflow-y-auto space-y-3 mb-8 pr-2 custom-scrollbar">
-                            {cards.filter(c => c.title.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 30).map(card => (
-                                <div key={card.id} onClick={() => handleAddToCardFinish(card)} className="p-5 border border-gray-50 rounded-2xl hover:bg-orange-50 cursor-pointer flex items-center justify-between">
-                                    <div className="font-bold text-gray-800 text-sm">{card.title}</div>
-                                    <ArrowRight size={16} className="text-gray-200" />
-                                </div>
-                            ))}
-                        </div>
-                        <button onClick={() => setShowCardPicker(false)} className="w-full py-4 text-gray-400 font-black uppercase text-[10px] hover:bg-gray-50 rounded-2xl">Cerrar</button>
-                    </div>
-                </div>
-            )}
 
             <EmailComposer
                 key={emailComposerData.replyToId || 'new'}
@@ -467,6 +440,24 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                 replyToId={emailComposerData.replyToId}
             />
         </div>
+    );
+};
+
+const NavItem = ({ active, icon, label, onClick, color = 'orange' }) => {
+    const activeColors = {
+        orange: 'bg-orange-50 text-brand-orange',
+        blue: 'bg-blue-50 text-blue-600',
+        green: 'bg-green-50 text-green-600',
+        red: 'bg-red-50 text-red-600'
+    };
+    return (
+        <button
+            onClick={onClick}
+            className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-black text-[11px] uppercase tracking-widest ${active ? activeColors[color] : 'text-gray-400 hover:bg-gray-100/50 hover:text-gray-600'}`}
+        >
+            <span className={active ? '' : 'opacity-40'}>{icon}</span>
+            {label}
+        </button>
     );
 };
 

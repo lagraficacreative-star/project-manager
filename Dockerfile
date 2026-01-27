@@ -11,12 +11,12 @@ COPY . .
 
 # 4. Install & Build Client (Frontend)
 WORKDIR /app/client
-RUN npm install
-RUN npm run build
+RUN NODE_OPTIONS="--max-old-space-size=400" npm install
+RUN NODE_OPTIONS="--max-old-space-size=400" npm run build
 
 # 5. Install Server Dependencies
 WORKDIR /app/server
-RUN npm install
+RUN NODE_OPTIONS="--max-old-space-size=400" npm install
 
 # 6. Expose Port (will be overridden by hosting, but good for doc)
 EXPOSE 3000

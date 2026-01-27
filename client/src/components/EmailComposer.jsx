@@ -14,13 +14,13 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
     // Default signature for LaGràfica
     const signature = `
         <br/><br/>
-        <div style="font-family: Arial, sans-serif; color: #333; margin-top: 20px; border-top: 1px solid #eee; pt: 15px;">
+        <div style="font-family: Arial, sans-serif; color: #333; margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
             <p style="margin: 0; font-weight: bold; font-size: 14px; color: #f97316;">LaGràfica Creative Studio</p>
             <p style="margin: 0; font-size: 12px; color: #666;">C/ de la Creativitat, 25 | 25001 Lleida</p>
             <p style="margin: 0; font-size: 12px; color: #666;"><a href="https://lagrafica.cat" target="_blank" style="color: #f97316; text-decoration: none;">www.lagrafica.cat</a></p>
             <p style="margin: 5px 0 0 0; font-size: 10px; color: #999; line-height: 1.4;">
-                Aquest missatge i els seus fitxers adjunts van prohibits a qualsevol altra persona que no sigui el seu destinatari. 
-                Si l'heu rebut per error, si us plau, notifiqueu-ho a l'emissor i elimineu-lo.
+                Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario. 
+                Si lo ha recibido por error, por favor, notifíquelo al emisor y elimínelo.
             </p>
         </div>
     `;
@@ -29,16 +29,13 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
         if (isOpen) {
             setTo(defaultTo || '');
             setSubject(defaultSubject || '');
-            setAttachments([]); // Netejar adjunts d'anteriors sessions
+            setAttachments([]);
 
             if (editorRef.current) {
                 let initialHtml = '';
                 if (defaultBody) {
-                    // If it looks like HTML, use it, otherwise convert newlines
                     initialHtml = defaultBody.includes('</') ? defaultBody : defaultBody.replace(/\n/g, '<br/>');
                 }
-
-                // Append signature
                 editorRef.current.innerHTML = initialHtml + signature;
             }
         }
@@ -69,15 +66,15 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
                 if (res.url) {
                     setAttachments(prev => [...prev, {
                         name: file.name,
-                        path: res.url.replace('/uploads/', 'server/uploads/'), // Path for python
+                        path: res.url.replace('/uploads/', 'server/uploads/'),
                         url: res.url,
                         size: (file.size / 1024).toFixed(1) + ' KB'
                     }]);
                 }
             }
         } catch (err) {
-            console.error("Upload failed", err);
-            alert("Error al carregar l'arxiu.");
+            console.error('Upload failed', err);
+            alert('Error al cargar el archivo.');
         } finally {
             setUploading(false);
             if (fileInputRef.current) fileInputRef.current.value = '';
@@ -91,60 +88,51 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
     const handleSend = async () => {
         const bodyContent = editorRef.current.innerHTML;
         if (!to || !subject || !bodyContent || bodyContent === signature) {
-            alert("Siusplau, omple tots els camps.");
+            alert('Por favor, rellena todos los campos.');
             return;
         }
 
         setSending(true);
         try {
-            // Include <html> wrapper
             const fullHtml = `<html><head><meta charset="UTF-8"></head><body>${bodyContent}</body></html>`;
-
-            // Pass the server-side paths of attachments
             const attachmentPaths = attachments.map(a => a.path);
 
             const res = await api.sendEmail(memberId, to, subject, fullHtml, replyToId, attachmentPaths);
             if (res.success || res.status === 'sent') {
-
-                // --- LOG TO CARD LOGIC ---
                 try {
                     let targetCardId = null;
                     const db = await api.getData();
-
                     const cards = db.cards || [];
                     const cleanSubject = subject.replace(/Re:|Fwd:|RE:|FWD:/gi, '').trim().toLowerCase();
                     const matchedCard = cards.find(c =>
                         c.title.toLowerCase().includes(cleanSubject) ||
                         cleanSubject.includes(c.title.toLowerCase())
                     );
-
                     targetCardId = matchedCard?.id;
 
                     if (targetCardId) {
-                        await api.addCommentToCard(targetCardId, `--- EMAIL ENVIAT ---\nDestinatari: ${to}\nAssumpte: ${subject}\n\n${bodyContent.replace(/<[^>]*>/g, '\n')}`, memberId);
+                        await api.addCommentToCard(targetCardId, `--- EMAIL ENVIADO ---\nDestinatario: ${to}\nAsunto: ${subject}\n\n${bodyContent.replace(/<[^>]*>/g, '\n')}`, memberId);
                     }
                 } catch (logErr) {
-                    console.error("Failed to log email to card", logErr);
+                    console.error('Failed to log email to card', logErr);
                 }
 
-                // --- MOVE REPLIED EMAIL TO SENT FOLDER ---
                 if (replyToId) {
                     try {
                         await api.moveEmail(memberId, replyToId, 'INBOX', 'Enviados');
                     } catch (moveErr) {
-                        console.error("Failed to move replied email", moveErr);
+                        console.error('Failed to move replied email', moveErr);
                     }
                 }
-                // -----------------------------------------
 
-                alert("Correu enviat correctament!");
+                alert('¡Correo enviado correctamente!');
                 onClose();
             } else {
-                alert("Error al enviar el correu: " + (res.error || "Desconegut"));
+                alert('Error al enviar el correo: ' + (res.error || 'Desconocido'));
             }
         } catch (error) {
-            console.error("Error sending email:", error);
-            alert("Error al enviar el correu.");
+            console.error('Error sending email:', error);
+            alert('Error al enviar el correo.');
         } finally {
             setSending(false);
         }
@@ -153,14 +141,13 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
     return (
         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-brand-black/60 backdrop-blur-md p-2 md:p-4 animate-in fade-in duration-300">
             <div className="bg-white rounded-[2rem] w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] border border-white/20">
-                {/* Header */}
                 <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/30">
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-brand-orange rounded-2xl flex items-center justify-center text-white shadow-lg shadow-orange-500/20">
                             <Mail size={24} />
                         </div>
                         <div>
-                            <h2 className="text-xl font-black text-brand-black uppercase tracking-tight">Redactar Correu</h2>
+                            <h2 className="text-xl font-black text-brand-black uppercase tracking-tight">Redactar Correo</h2>
                             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{memberId}@lagrafica.com</p>
                         </div>
                     </div>
@@ -169,31 +156,30 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
                     </button>
                 </div>
 
-                {/* Form Content */}
                 <div className="flex-1 overflow-y-auto custom-scrollbar p-6 md:p-8 space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-3">
                             <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                                <User size={14} className="text-brand-orange" /> Destinatari
+                                <User size={14} className="text-brand-orange" /> Destinatario
                             </label>
                             <input
                                 type="email"
                                 value={to}
                                 onChange={(e) => setTo(e.target.value)}
-                                placeholder="client@exemple.com"
+                                placeholder="cliente@ejemplo.com"
                                 className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-brand-orange/5 outline-none transition-all placeholder:text-gray-300"
                             />
                         </div>
 
                         <div className="space-y-3">
                             <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                                <Mail size={14} className="text-brand-orange" /> Assumpte
+                                <Mail size={14} className="text-brand-orange" /> Asunto
                             </label>
                             <input
                                 type="text"
                                 value={subject}
                                 onChange={(e) => setSubject(e.target.value)}
-                                placeholder="Escriu l'assumpte..."
+                                placeholder="Escribe el asunto..."
                                 className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-brand-orange/5 outline-none transition-all placeholder:text-gray-300"
                             />
                         </div>
@@ -202,16 +188,15 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
                     <div className="space-y-3 flex flex-col">
                         <div className="flex items-center justify-between mb-2">
                             <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                                <AlignLeft size={14} className="text-brand-orange" /> Missatge Studio
+                                <AlignLeft size={14} className="text-brand-orange" /> Mensaje Studio
                             </label>
 
-                            {/* Toolbar */}
                             <div className="flex items-center gap-1 p-1 bg-gray-50 rounded-xl border border-gray-100">
-                                <button onClick={() => execCommand('bold')} className="p-2 hover:bg-white hover:text-brand-orange rounded-lg text-gray-400 transition-all active:scale-90" title="Negreta"><Bold size={16} /></button>
+                                <button onClick={() => execCommand('bold')} className="p-2 hover:bg-white hover:text-brand-orange rounded-lg text-gray-400 transition-all active:scale-90" title="Negrita"><Bold size={16} /></button>
                                 <button onClick={() => execCommand('italic')} className="p-2 hover:bg-white hover:text-brand-orange rounded-lg text-gray-400 transition-all active:scale-90" title="Cursiva"><Italic size={16} /></button>
                                 <div className="w-px h-4 bg-gray-200 mx-1"></div>
-                                <button onClick={() => execCommand('insertUnorderedList')} className="p-2 hover:bg-white hover:text-brand-orange rounded-lg text-gray-400 transition-all active:scale-90" title="Llista"><List size={16} /></button>
-                                <button onClick={() => execCommand('removeFormat')} className="p-2 hover:bg-white hover:text-brand-orange rounded-lg text-gray-400 transition-all active:scale-90" title="Netejar format"><Type size={16} /></button>
+                                <button onClick={() => execCommand('insertUnorderedList')} className="p-2 hover:bg-white hover:text-brand-orange rounded-lg text-gray-400 transition-all active:scale-90" title="Lista"><List size={16} /></button>
+                                <button onClick={() => execCommand('removeFormat')} className="p-2 hover:bg-white hover:text-brand-orange rounded-lg text-gray-400 transition-all active:scale-90" title="Limpiar formato"><Type size={16} /></button>
                             </div>
                         </div>
 
@@ -220,22 +205,21 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
                             contentEditable
                             onKeyDown={handleKeyDown}
                             className="w-full p-6 bg-gray-50 border border-gray-100 rounded-[1.5rem] text-sm font-medium focus:ring-4 focus:ring-brand-orange/5 outline-none transition-all min-h-[250px] overflow-y-auto font-sans leading-relaxed shadow-inner"
-                            placeholder="Escriu la teva resposta aquí..."
+                            placeholder="Escribe tu respuesta aquí..."
                         />
                     </div>
 
-                    {/* Attachments Section */}
                     <div className="space-y-4">
                         <div className="flex items-center justify-between">
                             <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                                <Paperclip size={14} className="text-brand-orange" /> Fitxers Adjunts
+                                <Paperclip size={14} className="text-brand-orange" /> Archivos Adjuntos
                             </label>
                             <button
                                 onClick={() => fileInputRef.current?.click()}
                                 disabled={uploading}
                                 className="text-[10px] font-black text-brand-orange uppercase tracking-widest hover:underline disabled:opacity-50"
                             >
-                                {uploading ? 'CARREGANT...' : '+ AFEGIR FITXER'}
+                                {uploading ? 'CARGANDO...' : '+ AÑADIR ARCHIVO'}
                             </button>
                             <input
                                 type="file"
@@ -263,32 +247,31 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
                             ))}
                             {attachments.length === 0 && !uploading && (
                                 <div className="col-span-full py-6 border-2 border-dashed border-gray-100 rounded-3xl flex items-center justify-center">
-                                    <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest italic">Sense fitxers adjunts</p>
+                                    <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest italic">Sin archivos adjuntos</p>
                                 </div>
                             )}
                         </div>
                     </div>
                 </div>
 
-                {/* Footer */}
                 <div className="p-8 bg-gray-50/50 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6">
                     <div className="flex items-center gap-2 text-green-600">
                         <ShieldCheck size={18} />
-                        <span className="text-[10px] font-black uppercase tracking-widest">Servidor Segur Studio</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest">Servidor Seguro Studio</span>
                     </div>
                     <div className="flex items-center gap-4 w-full md:w-auto">
                         <button
                             onClick={onClose}
                             className="flex-1 md:flex-none px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest hover:text-gray-600 transition-all"
                         >
-                            CANCEL·LAR
+                            CANCELAR
                         </button>
                         <button
                             onClick={handleSend}
                             disabled={sending || uploading}
                             className="flex-1 md:flex-none flex items-center justify-center gap-3 px-12 py-4 bg-brand-black text-white text-[10px] font-black rounded-2xl hover:bg-brand-orange transition-all shadow-xl shadow-black/10 hover:shadow-brand-orange/30 disabled:opacity-50 active:scale-95"
                         >
-                            {sending ? 'ENVIANT...' : 'ENVIAR CORREU'}
+                            {sending ? 'ENVIANDO...' : 'ENVIAR CORREO'}
                             <Send size={18} />
                         </button>
                     </div>
