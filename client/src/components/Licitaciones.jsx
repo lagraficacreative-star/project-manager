@@ -212,6 +212,16 @@ const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement }) =
         }, 1200);
     };
 
+    const handleArchiveLicitacion = async (emailId) => {
+        try {
+            await api.moveEmail('licitacions', emailId, activeMailFolder, 'Gestionados');
+            loadEmails();
+            if (selectedMail?.messageId === emailId) setSelectedMail(null);
+        } catch (error) {
+            console.error('Archive failed', error);
+        }
+    };
+
     const handleUnlock = (e) => {
         e.preventDefault();
         if (password === 'lagrafica2025') {
@@ -352,6 +362,9 @@ const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement }) =
                                                         <p className="text-[9px] font-black text-slate-400 mt-1 uppercase tracking-widest">{selectedMail.from}</p>
                                                     </div>
                                                 </div>
+                                                <div className="flex gap-2">
+                                                    <button onClick={() => handleArchiveLicitacion(selectedMail.messageId)} className="p-3 hover:bg-green-50 text-slate-300 hover:text-green-600 rounded-xl transition-all" title="Archivar"><Archive size={18} /></button>
+                                                </div>
                                             </div>
                                             <div className="flex gap-3">
                                                 <button
@@ -370,9 +383,11 @@ const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement }) =
                                                                 description: selectedMail.body,
                                                                 status: 'pending'
                                                             });
-                                                            alert('✅ Licitación creada correctamente');
+                                                            await api.moveEmail('licitacions', selectedMail.messageId, activeMailFolder, 'Gestionados');
+                                                            alert('✅ Licitación creada y movida a Archivados');
                                                             loadData();
-                                                            setSelectedFilter(null);
+                                                            loadEmails();
+                                                            setSelectedMail(null);
                                                         }
                                                     }}
                                                     className="py-4 px-8 bg-slate-900 text-white rounded-2xl text-[9px] font-black uppercase tracking-widest hover:bg-brand-orange transition-all"

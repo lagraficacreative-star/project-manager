@@ -144,6 +144,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                 }
                 loadProcessed();
                 fetchEmails();
+                setSelectedEmail(null);
             }
             setShowCardModal(false);
             setEmailToConvert(null);
@@ -169,6 +170,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
 
             loadProcessed();
             fetchEmails();
+            setSelectedEmail(null);
             setShowCardPicker(false);
             setEmailToConvert(null);
         } catch (error) {
@@ -197,6 +199,16 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             if (selectedEmail?.messageId === emailId) setSelectedEmail(null);
         } catch (error) {
             console.error('Spam failed', error);
+        }
+    };
+
+    const handleArchiveEmail = async (emailId) => {
+        try {
+            await api.moveEmail(currentUser.id, emailId, activeFolder, 'Gestionados');
+            fetchEmails();
+            if (selectedEmail?.messageId === emailId) setSelectedEmail(null);
+        } catch (error) {
+            console.error('Archive failed', error);
         }
     };
 
@@ -390,7 +402,8 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                         </div>
                                     </div>
                                     <div className="flex gap-2">
-                                        <button onClick={() => handleDeleteEmail(selectedEmail.messageId)} className="p-4 hover:bg-red-50 text-gray-300 hover:text-red-500 rounded-2xl transition-all"><Trash2 size={20} /></button>
+                                        <button onClick={() => handleArchiveEmail(selectedEmail.messageId)} className="p-4 hover:bg-green-50 text-gray-300 hover:text-green-600 rounded-2xl transition-all" title="Archivar"><Archive size={20} /></button>
+                                        <button onClick={() => handleDeleteEmail(selectedEmail.messageId)} className="p-4 hover:bg-red-50 text-gray-300 hover:text-red-500 rounded-2xl transition-all" title="Eliminar"><Trash2 size={20} /></button>
                                     </div>
                                 </div>
                                 <div className="flex flex-wrap gap-3">
