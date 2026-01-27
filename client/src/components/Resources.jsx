@@ -1,5 +1,5 @@
 import React from 'react';
-import { Package, FileText, Globe, Image, Settings, Download, ExternalLink } from 'lucide-react';
+import { Package, FileText, Globe, Image, Settings, Download, ExternalLink, Smartphone } from 'lucide-react';
 
 const Resources = () => {
     const categories = [

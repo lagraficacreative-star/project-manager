@@ -183,22 +183,45 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
         return Array.from(options).sort();
     }, [cards]);
 
-    // Filter cards based on users and CLIENT
+    // Filter cards based on users, CLIENT and Search
     const filteredCards = useMemo(() => {
         let result = cards;
+
+        // Prop filter (App.jsx)
         if (selectedUsers && selectedUsers.length > 0) {
             result = result.filter(c => selectedUsers.includes(c.responsibleId));
         }
+
+        // Local Member filter
+        if (selectedMember) {
+            result = result.filter(c => c.responsibleId === selectedMember);
+        }
+
+        // Client/Tag Filter
         const clientFilter = localSelectedClient || selectedClient;
         if (clientFilter) {
             result = result.filter(c =>
                 (c.economic?.client === clientFilter) ||
                 (c.client === clientFilter) ||
-                (c.labels && c.labels.includes(clientFilter))
+                (c.labels && Array.isArray(c.labels) && c.labels.includes(clientFilter))
             );
         }
+
+        // Text Search
+        if (cardsSearch.trim()) {
+            const q = cardsSearch.toLowerCase();
+            result = result.filter(c =>
+                c.title?.toLowerCase().includes(q) ||
+                (c.client || c.economic?.client)?.toLowerCase().includes(q)
+            );
+        }
+
         return result;
-    }, [cards, selectedUsers, selectedClient, localSelectedClient]);
+    }, [cards, selectedUsers, selectedClient, localSelectedClient, cardsSearch, selectedMember]);
+
+    const [cardsSearch, setCardsSearch] = useState('');
+    const [selectedMember, setSelectedMember] = useState('');
+    const [allBoards, setAllBoards] = useState([]);
 
     const [unlockedColumns, setUnlockedColumns] = useState(() => {
         const saved = localStorage.getItem('unlockedColumns');
@@ -229,7 +252,6 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
         }
     };
 
-    const [allBoards, setAllBoards] = useState([]);
 
     const loadData = async () => {
         try {
@@ -375,8 +397,36 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
                     </div>
                 </div>
 
-                <div className="flex items-center gap-3 w-full sm:w-auto">
-                    <div className="relative flex-1 sm:w-64">
+                <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                    {/* Search Input */}
+                    <div className="relative flex-1 sm:w-64 min-w-[200px]">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
+                        <input
+                            type="text"
+                            value={cardsSearch}
+                            onChange={(e) => setCardsSearch(e.target.value)}
+                            placeholder="BUSCAR PROYECTO O CLIENTE..."
+                            className="w-full pl-10 pr-4 py-3 bg-white border border-gray-100 rounded-2xl text-[10px] font-black uppercase tracking-widest text-gray-600 outline-none focus:ring-2 focus:ring-brand-orange/20 shadow-sm"
+                        />
+                    </div>
+
+                    {/* Member Filter */}
+                    <div className="relative flex-1 sm:w-48 min-w-[150px]">
+                        <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
+                        <select
+                            value={selectedMember}
+                            onChange={(e) => setSelectedMember(e.target.value)}
+                            className="w-full pl-10 pr-4 py-3 bg-white border border-gray-100 rounded-2xl text-[10px] font-black uppercase tracking-widest text-gray-600 outline-none focus:ring-2 focus:ring-brand-orange/20 shadow-sm appearance-none cursor-pointer"
+                        >
+                            <option value="">TODOS MIEMBROS</option>
+                            {users.map(u => (
+                                <option key={u.id} value={u.id}>{u.name.toUpperCase()}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* Client Filter */}
+                    <div className="relative flex-1 sm:w-64 min-w-[200px]">
                         <Tag className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
                         <select
                             value={localSelectedClient}
@@ -389,7 +439,7 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
                             ))}
                         </select>
                         <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                            <MoreHorizontal size={14} rotate={90} />
+                            <MoreHorizontal size={14} className="rotate-90" />
                         </div>
                     </div>
                 </div>

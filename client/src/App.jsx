@@ -24,7 +24,7 @@ const PageContext = () => {
     if (path === '/') return "Dashboard Principal";
     if (path.startsWith('/board')) return "Gestión de Tablero";
     if (path === '/inbox') return "Buzón de Comunicaciones";
-    if (path === '/agenda') return "Agenda & Contactos";
+    if (path === '/agenda') return "Orden del Día";
     if (path === '/calendar') return "Calendario de Trabajo";
     if (path === '/rrhh') return "Gestión de Equipo";
     if (path === '/docs') return "Gestión de Empresa";
@@ -86,7 +86,7 @@ function App() {
         {
             to: "/agenda",
             icon: <Book size={18} />,
-            label: "Agenda",
+            label: "Orden del Día",
             subItems: [
                 { to: "/agenda/clients", label: "Clientes" },
                 { to: "/agenda/suppliers", label: "Proveedores" }

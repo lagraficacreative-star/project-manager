@@ -146,7 +146,7 @@ def fetch_emails(user, password, host=None, port=993, folder="INBOX"):
                     pass
 
             emails_data.append({
-                "id": int(uid),
+                "messageId": int(uid),
                 "from": sender,
                 "to": user,
                 "subject": subject,
@@ -156,8 +156,8 @@ def fetch_emails(user, password, host=None, port=993, folder="INBOX"):
                 "attachments": attachments
             })
 
-        # Sort emails by ID descending (newest first)
-        emails_data.sort(key=lambda x: x['id'], reverse=True)
+        # Sort emails by messageId descending (newest first)
+        emails_data.sort(key=lambda x: x['messageId'], reverse=True)
         
         mail.close()
         mail.logout()
@@ -174,52 +174,79 @@ if __name__ == "__main__":
     username = sys.argv[1]
     password = sys.argv[2]
     
-    if len(sys.argv) > 3 and sys.argv[3] == "--archive":
+    if len(sys.argv) > 3 and (sys.argv[3] == "--archive" or sys.argv[3] == "--move"):
         if len(sys.argv) < 5:
-            print(json.dumps({"error": "Missing UID for archiving"}))
+            print(json.dumps({"error": "Missing UID for moving"}))
             sys.exit(1)
         
         uid = sys.argv[4]
+        source_folder = "INBOX"
+        target_folder = ""
+
+        if sys.argv[3] == "--archive":
+            target_folder = "Archivo_Fichas/Correos_Procesados"
+        else:
+            if len(sys.argv) < 7:
+                print(json.dumps({"error": "Missing source or target folder"}))
+                sys.exit(1)
+            source_folder = sys.argv[5]
+            target_folder = sys.argv[6]
+
         host_env = os.environ.get('IMAP_HOST', "mail-es.securemail.pro")
         try:
             port = int(os.environ.get('IMAP_PORT', 993))
             mail = imaplib.IMAP4_SSL(host_env, port)
             mail.login(username, password)
-            mail.select("INBOX")
             
-            # Define folder candidates
-            folder_candidates = [
-                ("Archivo_Fichas", "Archivo_Fichas/Correos_Procesados"),
-                ("INBOX.Archivo_Fichas", "INBOX.Archivo_Fichas.Correos_Procesados")
-            ]
+            source_quoted = f'"{source_folder}"' if (" " in source_folder or "/" in source_folder) and not source_folder.startswith('"') else source_folder
+            mail.select(source_quoted)
+            
+            # IMPROVED CANDIDATES: Try literal name and INBOX. prefixed name
+            folder_candidates = [target_folder]
+            if not target_folder.startswith("INBOX."):
+                folder_candidates.append(f"INBOX.{target_folder}")
+            
+            # Special case for archive command backward compatibility
+            if sys.argv[3] == "--archive":
+                if "Archivo_Fichas" not in folder_candidates:
+                    folder_candidates.extend([
+                        "Archivo_Fichas/Correos_Procesados",
+                        "INBOX.Archivo_Fichas.Correos_Procesados"
+                    ])
             
             success = False
             last_error = ""
 
-            for root_folder, target_folder in folder_candidates:
+            for candidate in folder_candidates:
                 try:
-                    # Try to create
-                    try:
-                        mail.create(root_folder)
-                        mail.create(target_folder)
-                    except:
-                        pass
-                    
+                    # Always try to create folder first (imaplib handles existing folders gracefully usually, but we wrap in try)
+                    if "/" in candidate or "." in candidate:
+                        parts = candidate.replace("/", ".").split(".")
+                        curr = ""
+                        for p in parts:
+                            curr = f"{curr}.{p}" if curr else p
+                            try: mail.create(curr)
+                            except: pass
+                    else:
+                        try: mail.create(candidate)
+                        except: pass
+
                     # Try to copy using UID
-                    res, data = mail.uid('copy', uid, target_folder)
+                    target_quoted = f'"{candidate}"' if (" " in candidate or "/" in candidate) and not candidate.startswith('"') else candidate
+                    res, data = mail.uid('copy', uid, target_quoted)
                     if res == 'OK':
                         mail.uid('store', uid, '+FLAGS', '\\Deleted')
                         mail.expunge()
-                        print(json.dumps({"status": "moved", "uid": uid, "folder": target_folder}))
+                        print(json.dumps({"status": "moved", "uid": uid, "from": source_folder, "to": candidate}))
                         success = True
                         break
                     else:
-                        last_error = f"Failed to copy to {target_folder}: {res}"
+                        last_error = f"Failed to copy to {candidate}: {res}"
                 except Exception as ex:
                     last_error = str(ex)
             
             if not success:
-                print(json.dumps({"error": f"Copy failed. Last error: {last_error}"}))
+                print(json.dumps({"error": f"Move failed. Last error: {last_error}"}))
             
             mail.close()
             mail.logout()

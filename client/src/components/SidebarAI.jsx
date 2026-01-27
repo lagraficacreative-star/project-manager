@@ -11,6 +11,23 @@ const SidebarAI = () => {
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef(null);
 
+    // Auto‑query when the panel opens
+    useEffect(() => {
+        if (isOpen) {
+            // Only run the auto‑query if we haven't already answered a user question
+            const hasUserMessage = messages.some(m => m.role === 'user');
+            if (!hasUserMessage) {
+                const defaultMsg = 'Resumen del día';
+                // Simulate a submit event
+                const fakeEvent = {
+                    preventDefault: () => { },
+                    target: { msg: { value: defaultMsg } }
+                };
+                handleSend(fakeEvent);
+            }
+        }
+    }, [isOpen]);
+
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
@@ -34,56 +51,92 @@ const SidebarAI = () => {
             const contacts = await api.getContacts();
             const tenders = await api.getTenders();
             const docs = await api.getDocuments();
+            const events = await api.getEvents();
+            const users = await api.getUsers();
             const lowerInput = userMsg.toLowerCase();
 
             let response = "";
 
-            const parseAmount = (amt) => {
-                if (!amt) return 0;
-                return parseFloat(amt.toString().replace(/[^0-9,.]/g, '').replace(',', '.')) || 0;
-            };
-
+            // BLOCK: FINANCIAL SENSITIVE DATA
             if (lowerInput.includes('suma') || lowerInput.includes('total') || lowerInput.includes('cuanto') || lowerInput.includes('presupuesto') || lowerInput.includes('facturaci') || lowerInput.includes('balance') || lowerInput.includes('cuenta') || lowerInput.includes('dinero') || lowerInput.includes('€') || lowerInput.includes('pago')) {
                 response = "Lo siento, como asistente general no tengo permisos para acceder a información financiera, presupuestos o facturación por motivos de seguridad. Para gestionar estos datos, por favor dirígete a la sección de **Gestión** protegida por contraseña.";
             }
+            // FEATURE: TEAM TASKS (e.g., "Que hace Neus?")
+            else if (lowerInput.includes('que hace') || lowerInput.includes('trabajo de') || lowerInput.includes('encargado') || lowerInput.includes('que tiene') || lowerInput.includes('tareas de')) {
+                const foundUser = users.find(u => lowerInput.includes(u.name.toLowerCase()));
+                if (foundUser) {
+                    const userCards = (db.cards || []).filter(c => c.responsibleId === foundUser.id && c.columnId && !c.columnId.includes('done'));
+                    if (userCards.length > 0) {
+                        response = `**${foundUser.name}** tiene actualmente **${userCards.length} tareas** activas:\n\n` +
+                            userCards.slice(0, 5).map(c => `• ${c.title}`).join('\n') +
+                            (userCards.length > 5 ? `\n...y ${userCards.length - 5} más.` : '');
+                    } else {
+                        response = `Parece que **${foundUser.name}** no tiene tareas pendientes asignadas en este momento.`;
+                    }
+                } else {
+                    response = "¿De qué miembro del equipo quieres consultar las tareas? (Neus, Montse, Omar, Alba, Ines, Maribel...)";
+                }
+            }
+            // FEATURE: CALENDAR / EVENTS
+            else if (lowerInput.includes('calendario') || lowerInput.includes('agenda') || lowerInput.includes('evento') || lowerInput.includes('reunion') || lowerInput.includes('cita')) {
+                const upcoming = events.filter(e => new Date(e.start) >= new Date()).sort((a, b) => new Date(a.start) - new Date(b.start));
+                if (upcoming.length > 0) {
+                    response = `He revisado el calendario. Próximos eventos:\n\n` +
+                        upcoming.slice(0, 3).map(e => `• **${e.title}**: ${new Date(e.start).toLocaleDateString()} ${!e.allDay ? 'a las ' + new Date(e.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '(Todo el día)'}`).join('\n');
+                } else {
+                    response = "No he encontrado eventos próximos en el calendario.";
+                }
+            }
+            // FEATURE: CONTACTS
+            else if (lowerInput.includes('busca') || lowerInput.includes('quien es') || lowerInput.includes('contacto') || lowerInput.includes('telf') || lowerInput.includes('mail') || lowerInput.includes('orden del día')) {
+                const searchPart = lowerInput.replace(/busca|quien es|contacto|dime el|pasa el|email de|correo de/g, '').trim();
+                const found = contacts.filter(c => c.name.toLowerCase().includes(searchPart) || (c.company && c.company.toLowerCase().includes(searchPart)));
+                if (found.length > 0) {
+                    response = found.slice(0, 3).map(c =>
+                        `**${c.name}**${c.company ? ' (' + c.company + ')' : ''}:\n📧 ${c.email || 'No disponible'}\n📞 ${c.phone || 'No disponible'}`
+                    ).join('\n\n');
+                } else {
+                    response = `No he encontrado a nadie llamado "${searchPart}" en la agenda de contactos.`;
+                }
+            }
+            // FEATURE: DOCUMENTS
             else if (lowerInput.includes('document') || lowerInput.includes('doc') || lowerInput.includes('fichero') || lowerInput.includes('carpeta')) {
                 const searchPart = lowerInput.replace(/documento|doc|fichero|busca|encuentra|sobre/g, '').trim();
                 const foundDocs = docs.filter(d => d.name.toLowerCase().includes(searchPart) || (d.description && d.description.toLowerCase().includes(searchPart)));
 
                 if (foundDocs.length > 0) {
                     response = `He encontrado **${foundDocs.length} ficheros** relacionados:\n\n` +
-                        foundDocs.slice(0, 3).map(d => `• **${d.name}** (${d.type})`).join('\n') +
-                        (foundDocs.length > 3 ? `\n...y ${foundDocs.length - 3} más.` : '');
+                        foundDocs.slice(0, 5).map(d => `• **${d.name}** (${d.type})`).join('\n') +
+                        (foundDocs.length > 5 ? `\n...y ${foundDocs.length - 5} más.` : '');
                 } else {
-                    response = "No he encontrado ningún documento específico con ese nombre, pero puedes revisar la Unidad de Gestión en la sección de Docs.";
+                    response = "No he encontrado ningún documento con ese nombre. Recuerda que no puedo buscar dentro de archivos de gestión protegidos.";
                 }
             }
-            else if (lowerInput.includes('busca') || lowerInput.includes('quien es') || lowerInput.includes('contacto')) {
-                const found = contacts.filter(c => lowerInput.includes(c.name.toLowerCase()));
+            // FEATURE: PROJECTS / CARDS
+            else if (lowerInput.includes('proyecto') || lowerInput.includes('tarjeta') || lowerInput.includes('card') || lowerInput.includes('como va')) {
+                const searchPart = lowerInput.replace(/proyecto|tarjeta|card|busca|como va el/g, '').trim();
+                const found = (db.cards || []).filter(c => c.title.toLowerCase().includes(searchPart));
                 if (found.length > 0) {
-                    response = `He encontrado este contacto: **${found[0].name}**. Su correo es ${found[0].email || 'no disponible'} y el teléfono ${found[0].phone || 'no disponible'}.`;
+                    const card = found[0];
+                    const board = db.boards.find(b => b.id === card.boardId);
+                    const col = board?.columns.find(col => col.id === card.columnId);
+                    response = `El proyecto **${card.title}** está en el tablero **${board?.title || 'General'}**, columna **${col?.title || 'Pendiente'}**.`;
                 } else {
-                    response = "No he encontrado ningún contacto con ese nombre en la agenda.";
+                    response = `No encuentro ningún proyecto activo llamado "${searchPart}".`;
                 }
-            } else if (lowerInput.includes('proyecto') || lowerInput.includes('tarjeta') || lowerInput.includes('card')) {
-                const found = (db.cards || []).filter(c => c.title.toLowerCase().includes(lowerInput.replace('proyecto', '').trim()));
-                if (found.length > 0) {
-                    response = `He encontrado el proyecto: **${found[0].title}**. Está en el tablero ${db.boards.find(b => b.id === found[0].boardId)?.title || 'desconocido'}.`;
-                } else {
-                    response = "No he encontrado ningún proyecto que coincida con la búsqueda.";
-                }
-            } else if (lowerInput.includes('hola') || lowerInput.includes('buenos dias')) {
-                response = "¡Hola! ¿Cómo va todo por el estudio? Soy el asistente de LaGràfica y puedo ayudarte a encontrar contactos, documentos o proyectos. ¿Qué necesitas?";
+            } else if (lowerInput.includes('hola') || lowerInput.includes('buenos dias') || lowerInput.includes('buenas tardes')) {
+                response = "¡Hola! Estoy listo para ayudarte. Puedo decirte en qué está trabajando el equipo, buscar contactos, revisar el calendario o encontrar proyectos y documentos (excepto financieros).";
             } else {
-                response = "¡Aún estoy aprendiendo! Prueba a pedirme 'busca el documento de riesgos', 'busca el proyecto X' o 'quién es el cliente Y'. (Nota: No tengo acceso a datos financieros)";
+                response = "Entiendo. Puedo ayudarte con tareas del equipo, contactos, el calendario o buscar proyectos. ¿Qué necesitas saber exactamente?";
             }
 
             setTimeout(() => {
                 setMessages(prev => [...prev, { role: 'assistant', text: response }]);
                 setIsTyping(false);
-            }, 600);
+            }, 800);
 
         } catch (err) {
+            console.error(err);
             setMessages(prev => [...prev, { role: 'assistant', text: "Lo siento, ha habido un error al procesar tu petición." }]);
             setIsTyping(false);
         }

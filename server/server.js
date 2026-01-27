@@ -525,7 +525,8 @@ async function fetchRealEmails(memberId, folder = 'INBOX') {
         'albat': 'ATEIXIDO',
         'albap': 'ALBA',
         'web': 'WEB',
-        'licitacions': 'LICITACIONS'
+        'licitacions': 'LICITACIONS',
+        'test': 'TEST'
     };
 
     const envKey = CRED_MAP[memberId] || memberId.toUpperCase();
@@ -575,60 +576,29 @@ async function fetchRealEmails(memberId, folder = 'INBOX') {
     });
 }
 
-// --- EMAIL ARCHIVER ---
-// --- EMAIL ARCHIVER ---
-async function archiveEmail(memberId, uid) {
+async function moveEmail(memberId, uid, sourceFolder, targetFolder) {
     const config = loadEnv();
-
-    // Mapping internal IDs to ENV keys (Must match fetchRealEmails)
-    const CRED_MAP = {
-        'albat': 'ATEIXIDO',
-        'albap': 'ALBA',
-        'web': 'WEB',
-        'licitacions': 'LICITACIONS'
-    };
-
+    const CRED_MAP = { 'albat': 'ATEIXIDO', 'albap': 'ALBA', 'web': 'WEB', 'licitacions': 'LICITACIONS' };
     const envKey = CRED_MAP[memberId] || memberId.toUpperCase();
     const user = process.env[`IMAP_USER_${envKey}`] || config[`IMAP_USER_${envKey}`];
     const pass = process.env[`IMAP_PASS_${envKey}`] || config[`IMAP_PASS_${envKey}`];
 
-    if (!user || !pass) {
-        console.error(`❌ Archive Error: No credentials for ${memberId} (Key: ${envKey})`);
-        return { error: "No credentials" };
-    }
+    if (!user || !pass) return { error: "No credentials" };
 
     return new Promise((resolve) => {
-        const env = {
-            ...process.env,
-            IMAP_HOST: process.env.IMAP_HOST || config.IMAP_HOST,
-            IMAP_PORT: process.env.IMAP_PORT || config.IMAP_PORT
-        };
-
-        console.log(`📦 [ARCHIVE] Archiving email ${uid} for ${user}...`);
-
-        const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, '--archive', String(uid)], { env });
+        const env = { ...process.env, IMAP_HOST: process.env.IMAP_HOST || config.IMAP_HOST, IMAP_PORT: process.env.IMAP_PORT || config.IMAP_PORT };
+        const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, '--move', String(uid), sourceFolder, targetFolder], { env });
         let dataStr = "";
-        let errorStr = "";
-
-        pythonProcess.stdout.on('data', (data) => { dataStr += data.toString(); });
-        pythonProcess.stderr.on('data', (data) => { errorStr += data.toString(); });
-
+        pythonProcess.stdout.on('data', (d) => { dataStr += d.toString(); });
         pythonProcess.on('close', (code) => {
-            if (code !== 0) {
-                console.error(`❌ Archive Script Error (Exit Code ${code}): ${errorStr}`);
-                resolve({ error: errorStr });
-                return;
-            }
-            try {
-                const result = JSON.parse(dataStr);
-                console.log("✅ Archive Result:", result);
-                resolve(result);
-            } catch (err) {
-                console.error("❌ Archive Parse Error:", err, "Raw:", dataStr);
-                resolve({ error: "Parse error" });
-            }
+            try { resolve(JSON.parse(dataStr)); } catch (err) { resolve({ error: "Parse error" }); }
         });
     });
+}
+
+// --- EMAIL ARCHIVER (Moves to Managed folder) ---
+async function manageEmail(memberId, uid) {
+    return moveEmail(memberId, uid, 'INBOX', 'Gestionados');
 }
 
 app.get('/api/emails/:userId', async (req, res) => {
@@ -664,17 +634,31 @@ app.get('/api/emails/:userId', async (req, res) => {
 });
 
 app.post('/api/emails/archive', async (req, res) => {
-    const { userId, uid } = req.body;
-    const result = await archiveEmail(userId, uid);
+    const { memberId, emailId } = req.body;
+    const result = await moveEmail(memberId, emailId, 'INBOX', 'Gestionados');
 
     // Invalidate/Update cache
     if (result && !result.error) {
         if (emailCache[userId] && emailCache[userId]['INBOX']) {
-            emailCache[userId]['INBOX'].emails = emailCache[userId]['INBOX'].emails.filter(e => String(e.id) !== String(uid));
+            emailCache[userId]['INBOX'].emails = emailCache[userId]['INBOX'].emails.filter(e => String(e.messageId) !== String(uid));
         }
-        updateEmailCache(userId, 'INBOX'); // Trigger background refresh
+        updateEmailCache(userId, 'INBOX');
+        updateEmailCache(userId, 'Gestionados');
     }
 
+    res.json(result);
+});
+
+app.post('/api/emails/move', async (req, res) => {
+    const { userId, uid, source, target } = req.body;
+    const result = await moveEmail(userId, uid, source, target);
+    if (result && !result.error) {
+        if (emailCache[userId] && emailCache[userId][source]) {
+            emailCache[userId][source].emails = emailCache[userId][source].emails.filter(e => String(e.messageId) !== String(uid));
+        }
+        updateEmailCache(userId, source);
+        updateEmailCache(userId, target);
+    }
     res.json(result);
 });
 
@@ -693,6 +677,22 @@ app.post('/api/emails/mark-processed', (req, res) => {
         logActivity(db, 'mail', `Correu convertit a fitxa: ${subject || 'Sense assumpte'}`, user || 'Sistema');
         if (db.processed_emails.length > 500) db.processed_emails.shift();
         writeDB(db);
+    }
+    res.json({ success: true });
+});
+
+app.post('/api/emails/unmark-processed', async (req, res) => {
+    const { memberId, uid } = req.body;
+    const db = readDB();
+    if (db.processed_emails) {
+        db.processed_emails = db.processed_emails.filter(id => id !== String(uid));
+        writeDB(db);
+    }
+    // Restore back to INBOX from Gestionados
+    if (memberId && uid) {
+        await moveEmail(memberId, uid, 'Gestionados', 'INBOX');
+        updateEmailCache(memberId, 'Gestionados');
+        updateEmailCache(memberId, 'INBOX');
     }
     res.json({ success: true });
 });
@@ -856,6 +856,43 @@ app.post('/api/emails/send', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+// --- HELPER: Send Summary Email ---
+async function sendSummaryEmail(to, subject, body) {
+    const config = loadEnv();
+    const user = process.env.IMAP_USER_LICITACIONS || config.IMAP_USER_LICITACIONS;
+    const pass = process.env.IMAP_PASS_LICITACIONS || config.IMAP_PASS_LICITACIONS;
+
+    if (!user || !pass) {
+        console.error("❌ Cannot send summary: Credentials missing for licitacions");
+        return;
+    }
+
+    const env = {
+        ...process.env,
+        SMTP_HOST: process.env.SMTP_HOST || config.SMTP_HOST,
+        SMTP_PORT: process.env.SMTP_PORT || config.SMTP_PORT
+    };
+
+    const pythonProcess = spawn('python3', [
+        path.join(__dirname, 'fetch_mails.py'),
+        user,
+        pass,
+        '--send',
+        to,
+        subject,
+        body,
+        JSON.stringify([])
+    ], { env });
+
+    return new Promise((resolve) => {
+        pythonProcess.on('close', (code) => {
+            if (code === 0) console.log(`📧 Summary email sent to ${to}`);
+            else console.error(`❌ Failed to send summary email (Exit code ${code})`);
+            resolve();
+        });
+    });
+}
 
 app.post('/api/emails/log', async (req, res) => {
     const { from, subject, projectPath, messageId, member } = req.body;
@@ -1529,11 +1566,194 @@ app.get('/api/sync-google', async (req, res) => {
         }
 
         writeDB(db);
+
+        // --- Notify if new alerts found ---
+        if (alerts.length > 0) {
+            const summary = alerts.map(a => `- ${a.title}\n  🏢 Institució: ${a.source}\n  🔗 ${a.link}`).join('\n\n');
+            const emailBody = `Hola Montse,\n\nEl robot de Licitacions ha trobat ${alerts.length} noves oportunitats a PLACSP i PSC:\n\n${summary}\n\nPots revisar-les al teu Project Manager.\n\nSalutacions,\nLicitacIA Pro`;
+
+            await sendSummaryEmail('montse@lagrafica.com', `🚀 ${alerts.length} Noves Licitacions Detectades!`, emailBody);
+        }
+
         res.json({ success: true, filesFound: files.length, alertsFound: alerts.length });
     } catch (err) {
         console.error("Error syncing with Google Script:", err);
         res.status(500).json({ error: "Failed to sync with Google" });
     }
+});
+
+// --- LICITACIONS AUTOMATION (LaGrafica Pro) ---
+const CPV_LIST = [
+    { code: '79341000-6', desc: 'Servicios de publicidad' },
+    { code: '79341400-0', desc: 'Servicios de campañas publicitarias' },
+    { code: '79342000-3', desc: 'Servicios de marketing' },
+    { code: '79341200-8', desc: 'Servicios de creación y desarrollo de contenido publicitario' },
+    { code: '79416000-3', desc: 'Servicios de relaciones públicas y comunicación' },
+    { code: '79822500-7', desc: 'Servicios de diseño gráfico' },
+    { code: '79823000-2', desc: 'Servicios de maquetación' },
+    { code: '72413000-8', desc: 'Servicios de diseño de sitios web' },
+    { code: '72420000-0', desc: 'Servicios de desarrollo de sitios web' }
+];
+
+async function automateLicitaciones() {
+    console.log("🚀 [AUTOMATION] Starting Licitaciones Scan at", new Date().toLocaleString());
+    const db = readDB();
+    const config = loadEnv();
+
+    // 1. SCAN GMAIL (lagraficacreative@gmail.com) -> Targeted Tenders
+    const gmailUser = process.env.IMAP_USER_LICITACIONS || config.IMAP_USER_LICITACIONS;
+    const gmailPass = process.env.IMAP_PASS_LICITACIONS || config.IMAP_PASS_LICITACIONS;
+
+    if (gmailUser && gmailPass) {
+        try {
+            const emails = await fetchRealEmails('licitacions', 'INBOX');
+            if (Array.isArray(emails)) {
+                for (const email of emails) {
+                    if (email.from && email.from.includes('plataforma.contractacio@gencat.cat')) {
+                        // Extract fields
+                        const title = email.subject.replace(/Notificació:\s*/, '');
+                        const institution = (email.body.match(/Òrgan de contractació:\s*(.*)/) || [])[1] || 'Generalitat';
+                        const deadline = (email.body.match(/límit de presentació:\s*([0-9\/\.\-]+)/) || [])[1] || 'Pendent';
+                        const link = (email.body.match(/Enllaç:\s*(https?:\/\/[^\s]+)/) || [])[1] || '';
+                        const cpvMatch = email.body.match(/CPV:\s*([0-9\-]+)/);
+                        const cpv = cpvMatch ? cpvMatch[1] : '';
+
+                        // Check if exists
+                        const exists = (db.alerts || []).find(a => a.link === link || (a.title === title && a.date === deadline));
+                        if (!exists) {
+                            if (!db.alerts) db.alerts = [];
+                            db.alerts.push({
+                                id: 'alert_auto_' + Date.now() + Math.random().toString(36).substr(2, 5),
+                                title,
+                                source: institution,
+                                date: deadline,
+                                link,
+                                cpv,
+                                cpv_desc: CPV_LIST.find(c => c.code.includes(cpv))?.desc || '',
+                                type: 'email_tender',
+                                createdAt: Date.now(),
+                                isNew: true
+                            });
+                        }
+                    }
+                }
+            }
+        } catch (err) { console.error("Error scanning Gmail Licitacions:", err); }
+    }
+
+    // 2. SCAN MONTSE (montse@lagrafica.com) -> Urgent Alerts / Notificacions
+    const montseUser = process.env.IMAP_USER_ATEIXIDO || config.IMAP_USER_ATEIXIDO; // Assuming Montse's account
+    const montsePass = process.env.IMAP_PASS_ATEIXIDO || config.IMAP_PASS_ATEIXIDO;
+
+    if (montseUser && montsePass) {
+        try {
+            const emails = await fetchRealEmails('albat', 'INBOX');
+            if (Array.isArray(emails)) {
+                const alertSenders = ['plataforma.contractacio@gencat.cat', 'noreply@bcn.cat', 'norespongueu@enotum.cat', '@enotum.cat'];
+                const alertSubjects = ['IMPORTANT: Avís de notificació', 'Notificació enviada', 'RECORDATORI: Avís de notificació'];
+
+                for (const email of emails) {
+                    const isAlertSender = alertSenders.some(s => email.from.includes(s));
+                    const isAlertSubject = alertSubjects.some(s => email.subject.includes(s));
+
+                    if (isAlertSender && isAlertSubject) {
+                        const exists = (db.alerts || []).find(a => a.title === email.subject && a.date.includes(email.date.substring(0, 10)));
+                        if (!exists) {
+                            if (!db.alerts) db.alerts = [];
+                            db.alerts.push({
+                                id: 'alert_urgent_' + Date.now() + Math.random().toString(36).substr(2, 5),
+                                title: email.subject,
+                                source: email.from,
+                                date: email.date,
+                                body: email.body.substring(0, 500),
+                                type: 'urgent_notificacion',
+                                createdAt: Date.now(),
+                                isNew: true
+                            });
+                        }
+                    }
+                }
+            }
+        } catch (err) { console.error("Error scanning Montse's Alerts:", err); }
+    }
+
+    // 3. TEST SCAN (montsetorrelles@gmail.com) -> For testing previous tenders
+    const testUser = process.env.IMAP_USER_TEST || config.IMAP_USER_TEST;
+    const testPass = process.env.IMAP_PASS_TEST || config.IMAP_PASS_TEST;
+
+    if (testUser && testPass) {
+        try {
+            const emails = await fetchRealEmails('test', 'INBOX');
+            if (Array.isArray(emails)) {
+                const alertSenders = ['plataforma.contractacio@gencat.cat', 'noreply@bcn.cat', 'norespongueu@enotum.cat', '@enotum.cat'];
+                const alertSubjects = ['IMPORTANT: Avís de notificació', 'Notificació enviada', 'RECORDATORI: Avís de notificació'];
+
+                for (const email of emails) {
+                    const isGencat = email.from && email.from.includes('plataforma.contractacio@gencat.cat');
+                    const isAlertSender = alertSenders.some(s => email.from && email.from.includes(s));
+                    const isAlertSubject = alertSubjects.some(s => email.subject && email.subject.includes(s));
+
+                    if (isGencat || (isAlertSender && isAlertSubject)) {
+                        const exists = (db.alerts || []).find(a => a.link === email.link || (a.title === email.subject && a.date.includes(email.date.substring(0, 10))));
+                        if (!exists) {
+                            if (!db.alerts) db.alerts = [];
+
+                            if (isGencat && !isAlertSubject) {
+                                // Extract as full tender
+                                const title = email.subject.replace(/Notificació:\s*/, '');
+                                const institution = (email.body.match(/Òrgan de contractació:\s*(.*)/) || [])[1] || 'Generalitat (Test)';
+                                const deadline = (email.body.match(/límit de presentació:\s*([0-9\/\.\-]+)/) || [])[1] || 'Pendent';
+                                const link = (email.body.match(/Enllaç:\s*(https?:\/\/[^\s]+)/) || [])[1] || '';
+                                const cpvMatch = email.body.match(/CPV:\s*([0-9\-]+)/);
+                                const cpv = cpvMatch ? cpvMatch[1] : '';
+
+                                db.alerts.push({
+                                    id: 'alert_test_' + Date.now() + Math.random().toString(36).substr(2, 5),
+                                    title,
+                                    source: institution,
+                                    date: deadline,
+                                    link,
+                                    cpv,
+                                    cpv_desc: CPV_LIST.find(c => c.code.includes(cpv))?.desc || '',
+                                    type: 'test_tender',
+                                    createdAt: Date.now(),
+                                    isNew: true
+                                });
+                            } else {
+                                // Extract as alert
+                                db.alerts.push({
+                                    id: 'alert_test_urgent_' + Date.now() + Math.random().toString(36).substr(2, 5),
+                                    title: email.subject,
+                                    source: email.from,
+                                    date: email.date,
+                                    body: email.body.substring(0, 500),
+                                    type: 'test_urgent',
+                                    createdAt: Date.now(),
+                                    isNew: true
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (err) { console.error("Error scanning Test Gmail:", err); }
+    }
+
+    writeDB(db);
+    console.log("✅ [AUTOMATION] Licitaciones Scan Finished.");
+}
+
+// CRON Logic: Check every minute if it's 7:00 AM
+setInterval(() => {
+    const now = new Date();
+    if (now.getHours() === 7 && now.getMinutes() === 0) {
+        automateLicitaciones();
+    }
+}, 60000);
+
+app.post('/api/licitaciones/trigger-automation', async (req, res) => {
+    await automateLicitaciones();
+    res.json({ success: true, message: "Automation triggered successfully" });
 });
 
 app.post('/api/export-sheets', async (req, res) => {

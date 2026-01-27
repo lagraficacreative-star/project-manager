@@ -100,6 +100,14 @@ export const api = {
         });
         return res.json();
     },
+    moveEmail: async (userId, uid, source, target) => {
+        const res = await fetch(`${API_URL}/emails/move`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId, uid, source, target })
+        });
+        return res.json();
+    },
     sendEmail: async (memberId, to, subject, body, replyToId, attachments = []) => {
         const res = await fetch(`${API_URL}/emails/send`, {
             method: 'POST',
@@ -132,11 +140,22 @@ export const api = {
         const res = await fetch(`${API_URL}/emails/processed`);
         return res.json();
     },
-    markEmailAsProcessed: async (uid) => {
+    markEmailAsProcessed: async (uid, subject, user) => {
         const res = await fetch(`${API_URL}/emails/mark-processed`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ uid })
+            body: JSON.stringify({ uid, subject, user })
+        });
+        return res.json();
+    },
+    markEmailProcessed: async (uid, subject, user) => {
+        return api.markEmailAsProcessed(uid, subject, user);
+    },
+    unmarkEmailProcessed: async (memberId, uid) => {
+        const res = await fetch(`${API_URL}/emails/unmark-processed`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ memberId, uid })
         });
         return res.json();
     },

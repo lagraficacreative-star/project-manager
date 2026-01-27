@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../api';
 import { Trash2, Edit2, Plus, Layout, Palette, Code, Smartphone, Clipboard, DollarSign, Receipt, Mail, Send, Calendar, Clock, Bell, Search, Mic, ChevronRight, Square, Play, Bot, Briefcase, FileText, Gavel, Archive, Check, Lock, Calculator, Upload, Table, User, Tag } from 'lucide-react';
@@ -12,6 +12,8 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
     const [allCards, setAllCards] = useState([]);
     const [users, setUsers] = useState([]);
     const [stats, setStats] = useState({ active: 0, completed: 0, totalProjects: 0 });
+    const [allTenders, setAllTenders] = useState([]);
+    const [allDocs, setAllDocs] = useState([]);
 
     // Get unique clients & labels for filter
     const filterOptions = useMemo(() => {
@@ -41,6 +43,8 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
     const [searchResults, setSearchResults] = useState({ cards: [], docs: [] });
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [localSelectedClient, setLocalSelectedClient] = useState(selectedClient || '');
+    const [aiAnswer, setAiAnswer] = useState(null);
+    const [isAiLoading, setIsAiLoading] = useState(false);
 
     const [activity, setActivity] = useState([]);
     const [importingBoardId, setImportingBoardId] = useState(null);
@@ -49,9 +53,9 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
     useEffect(() => {
         loadData();
         loadActivity();
-        const activityInterval = setInterval(loadActivity, 10000);
+        const activityInterval = setInterval(loadActivity, 15000);
         return () => clearInterval(activityInterval);
-    }, []);
+    }, [currentUser.id]);
 
     const loadActivity = async () => {
         try {
@@ -97,6 +101,15 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
             if (ongoing) {
                 setActiveEntry(ongoing);
             }
+
+            // Load extra data for search
+            const [t, a, d] = await Promise.all([
+                api.getTenders(),
+                api.getAlerts(),
+                api.getDocuments()
+            ]);
+            setAllTenders([...t, ...a.map(item => ({ ...item, isAlert: true }))]);
+            setAllDocs(d);
         } catch (error) {
             console.error("Error loading time entries", error);
         }
@@ -113,6 +126,7 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
                 type: 'work'
             });
             setActiveEntry(entry);
+            // Optional: loadData() to refresh stats if they include time
         } catch (error) {
             console.error("Clock in failed", error);
         }
@@ -256,15 +270,131 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
 
     const [bannerQuery, setBannerQuery] = useState('');
 
-    const handleBannerSearch = (e) => {
-        if (e.key === 'Enter' || e.type === 'click') {
-            if (bannerQuery.trim()) {
-                navigate(`/agenda?q=${encodeURIComponent(bannerQuery)}`);
-            } else {
-                navigate('/agenda');
+    const performSearch = async (queryText) => {
+        const query = queryText.toLowerCase();
+        setIsSearchOpen(true);
+        setAiAnswer(null);
+
+        // Real-time Search Logic
+        const foundCards = allCards.filter(c =>
+            c.title?.toLowerCase().includes(query) ||
+            c.client?.toLowerCase().includes(query) ||
+            (c.economic?.client && c.economic.client.toLowerCase().includes(query))
+        );
+
+        const foundDocs = allDocs.filter(d =>
+            d.name?.toLowerCase().includes(query) ||
+            d.description?.toLowerCase().includes(query)
+        );
+
+        const foundTenders = allTenders.filter(t =>
+            t.title?.toLowerCase().includes(query) ||
+            t.institution?.toLowerCase().includes(query) ||
+            t.source?.toLowerCase().includes(query)
+        );
+
+        setSearchResults({
+            cards: foundCards.slice(0, 5),
+            docs: foundDocs.slice(0, 5),
+            tenders: foundTenders.slice(0, 5)
+        });
+
+        // AI Answer Logic (Deep Search / Contextual Summary)
+        if (query.length > 2 || query === 'resumen') {
+            setIsAiLoading(true);
+            let responseText = "";
+            let responseDetails = [];
+
+            // 0. Proactive Summary / General Resumen
+            if (query.includes('resumen') || query.includes('dia') || query.includes('hoy')) {
+                const userCards = allCards.filter(c => c.responsibleId === CURRENT_USER_ID && !c.columnId?.includes('done'));
+                const upcomingEvents = (await api.getEvents()).filter(e => new Date(e.start) >= new Date()).sort((a, b) => new Date(a.start) - new Date(b.start));
+
+                responseText = `¡Hola ${currentUser.name.split(' ')[0]}! Aquí tienes tu resumen para hoy:`;
+                responseDetails = [
+                    userCards.length > 0 ? `Tienes **${userCards.length} tareas** pendientes asignadas.` : "No tienes tareas pendientes para hoy.",
+                    upcomingEvents.length > 0 ? `Próximo evento: **${upcomingEvents[0].title}** (${new Date(upcomingEvents[0].start).toLocaleDateString()}).` : "Sin eventos próximos en el calendario."
+                ];
+
+                const recentDocs = allDocs.slice(0, 2);
+                if (recentDocs.length > 0) {
+                    responseDetails.push(`Últimos documentos: ${recentDocs.map(d => d.name).join(', ')}.`);
+                }
             }
+            // 1. Team Tasks ("que hace X?")
+            else if (query.includes('que hace') || query.includes('tareas de') || query.includes('trabajo de')) {
+                const foundUser = users.find(u => query.includes(u.name.toLowerCase()));
+                if (foundUser) {
+                    const userCards = allCards.filter(c => c.responsibleId === foundUser.id && !c.columnId?.includes('done'));
+                    responseText = `Actualmente **${foundUser.name}** tiene ${userCards.length} tareas pendientes asignadas.`;
+                    responseDetails = userCards.slice(0, 5).map(c => `📋 ${c.title}`);
+                    if (userCards.length === 0) responseText = `**${foundUser.name}** no tiene tareas pendientes en este momento.`;
+                }
+            }
+            // 2. Contact Search
+            else if (query.includes('contacto') || query.includes('quien es') || query.includes('telefono') || query.includes('email')) {
+                const contacts = await api.getContacts();
+                const cleanQuery = query.replace(/contacto|quien es|dime el|telefono|email|de/g, '').trim();
+                const foundContact = contacts.find(c => c.name.toLowerCase().includes(cleanQuery) || (c.company && c.company.toLowerCase().includes(cleanQuery)));
+                if (foundContact) {
+                    responseText = `He encontrado el contacto de **${foundContact.name}**.`;
+                    responseDetails = [
+                        foundContact.company ? `🏢 Empresa: ${foundContact.company}` : null,
+                        foundContact.email ? `📧 Email: ${foundContact.email}` : null,
+                        foundContact.phone ? `📞 Tel: ${foundContact.phone}` : null
+                    ].filter(Boolean);
+                }
+            }
+            // 3. Project Status
+            else if (query.includes('como va') || query.includes('estado de')) {
+                const cleanQuery = query.replace(/como va|el proyecto|la tarjeta|estado de/g, '').trim();
+                const card = allCards.find(c => c.title.toLowerCase().includes(cleanQuery));
+                if (card) {
+                    const board = boards.find(b => b.id === card.boardId);
+                    const col = board?.columns.find(cl => cl.id === card.columnId);
+                    responseText = `El proyecto **${card.title}** está en el tablero **${board?.title || 'General'}**, columna **${col?.title || 'Pendiente'}**.`;
+                    if (card.labels?.length) responseDetails = [`Etiquetas: ${card.labels.join(', ')}`];
+                }
+            }
+            // 4. Calendar Search
+            else if (query.includes('calendario') || query.includes('agenda') || query.includes('evento') || query.includes('reunion')) {
+                const events = await api.getEvents();
+                const nextEvents = events.filter(e => new Date(e.start) >= new Date()).sort((a, b) => new Date(a.start) - new Date(b.start));
+                if (nextEvents.length > 0) {
+                    responseText = `He revisado la agenda. Tienes ${nextEvents.length} eventos próximamente.`;
+                    responseDetails = nextEvents.slice(0, 3).map(e => `🗓️ ${new Date(e.start).toLocaleDateString()}: ${e.title}`);
+                } else {
+                    responseText = "No he encontrado eventos próximos en el calendario.";
+                }
+            }
+
+            if (responseText) {
+                setAiAnswer({ text: responseText, details: responseDetails });
+            }
+            setIsAiLoading(false);
         }
     };
+
+    const handleBannerSearch = async (e) => {
+        if (e.key === 'Enter' || e.type === 'click') {
+            if (!bannerQuery.trim()) {
+                setIsSearchOpen(false);
+                setAiAnswer(null);
+                return;
+            }
+            performSearch(bannerQuery);
+        }
+    };
+
+    // --- PROACTIVE AI SUMMARY ON MOUNT ---
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (allCards.length > 0 && !isSearchOpen && !bannerQuery) {
+                performSearch('resumen');
+            }
+        }, 1500); // Wait a bit for initial data to load
+        return () => clearTimeout(timer);
+    }, [allCards, allDocs]);
 
     return (
         <div className="flex flex-col gap-10 pb-10">
@@ -329,8 +459,11 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
                             <input
                                 type="text"
                                 value={bannerQuery}
-                                onChange={(e) => setBannerQuery(e.target.value)}
-                                placeholder="Busca proyectos, contactos, documentos..."
+                                onChange={(e) => {
+                                    setBannerQuery(e.target.value);
+                                    if (!e.target.value.trim()) setIsSearchOpen(false);
+                                }}
+                                placeholder="Busca proyectos, contactos, licitaciones..."
                                 className="w-full bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl py-4 pl-6 pr-16 text-sm md:text-base outline-none focus:ring-2 focus:ring-brand-orange/50 transition-all placeholder:text-white/20 shadow-2xl"
                                 onKeyDown={handleBannerSearch}
                             />
@@ -340,6 +473,107 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
                             >
                                 <Send size={16} />
                             </button>
+
+                            {/* Search Results Overlay */}
+                            {isSearchOpen && (
+                                <div className="absolute top-full left-0 right-0 mt-4 bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden z-[100] animate-in fade-in slide-in-from-top-2 duration-300">
+                                    <div className="p-4 bg-gray-50 border-b border-gray-100 flex justify-between items-center text-slate-400">
+                                        <span className="text-[10px] font-black uppercase tracking-widest">Resultados de búsqueda</span>
+                                        <button onClick={() => setIsSearchOpen(false)}><X size={16} /></button>
+                                    </div>
+                                    <div className="max-h-[500px] overflow-y-auto no-scrollbar p-2">
+                                        {/* AI QUICK ANSWER */}
+                                        {(aiAnswer || isAiLoading) && (
+                                            <div className="mb-4 bg-brand-orange/5 border border-brand-orange/10 rounded-[2rem] p-5 shadow-inner">
+                                                <div className="flex items-center gap-2 mb-3">
+                                                    <div className="p-1.5 bg-brand-orange rounded-lg shadow-lg">
+                                                        <Bot size={14} className="text-white" />
+                                                    </div>
+                                                    <span className="text-[10px] font-black uppercase tracking-widest text-brand-orange">Respuesta de IA</span>
+                                                </div>
+                                                {isAiLoading ? (
+                                                    <div className="flex gap-1 p-2">
+                                                        <div className="w-1 h-1 bg-brand-orange/40 rounded-full animate-bounce" />
+                                                        <div className="w-1 h-1 bg-brand-orange/40 rounded-full animate-bounce delay-100" />
+                                                        <div className="w-1 h-1 bg-brand-orange/40 rounded-full animate-bounce delay-200" />
+                                                    </div>
+                                                ) : aiAnswer && (
+                                                    <div className="space-y-3">
+                                                        <p className="text-sm font-bold text-slate-800 leading-relaxed">{aiAnswer.text}</p>
+                                                        {aiAnswer.details && (
+                                                            <div className="grid grid-cols-1 gap-2">
+                                                                {aiAnswer.details.map((d, i) => (
+                                                                    <div key={i} className="text-[11px] font-medium text-slate-500 bg-white/50 px-3 py-2 rounded-xl flex items-center gap-2">
+                                                                        <div className="w-1 h-1 bg-brand-orange rounded-full" /> {d}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+
+                                        {/* Cards/Projects Section */}
+                                        {searchResults.cards?.length > 0 && (
+                                            <div className="mb-4">
+                                                <div className="px-4 py-2 text-[10px] font-black text-brand-orange uppercase">Proyectos</div>
+                                                {searchResults.cards.map(c => (
+                                                    <div key={c.id} onClick={() => { navigate(`/board/${c.boardId}`); setIsSearchOpen(false); }} className="p-4 hover:bg-orange-50 cursor-pointer rounded-2xl transition-all flex items-center gap-3">
+                                                        <div className="p-2 bg-white rounded-xl shadow-sm"><Briefcase size={16} className="text-brand-orange" /></div>
+                                                        <div>
+                                                            <div className="text-sm font-bold text-slate-800">{c.title}</div>
+                                                            <div className="text-[10px] text-slate-400 font-bold uppercase">{c.economic?.client || c.client || 'Sin cliente'}</div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {/* Tenders Section */}
+                                        {searchResults.tenders?.length > 0 && (
+                                            <div className="mb-4">
+                                                <div className="px-4 py-2 text-[10px] font-black text-indigo-500 uppercase">Licitaciones</div>
+                                                {searchResults.tenders.map(t => (
+                                                    <div key={t.id} onClick={() => { navigate('/licitaciones'); setIsSearchOpen(false); }} className="p-4 hover:bg-indigo-50 cursor-pointer rounded-2xl transition-all flex items-center gap-3">
+                                                        <div className="p-2 bg-white rounded-xl shadow-sm"><Gavel size={16} className="text-indigo-600" /></div>
+                                                        <div>
+                                                            <div className="text-sm font-bold text-slate-800">{t.title}</div>
+                                                            <div className="text-[10px] text-slate-400 font-bold uppercase">{t.institution || t.source}</div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {/* Documents Section */}
+                                        {searchResults.docs?.length > 0 && (
+                                            <div className="mb-4">
+                                                <div className="px-4 py-2 text-[10px] font-black text-blue-500 uppercase">Documentos</div>
+                                                {searchResults.docs.map(d => (
+                                                    <div key={d.id} onClick={() => { navigate('/docs'); setIsSearchOpen(false); }} className="p-4 hover:bg-blue-50 cursor-pointer rounded-2xl transition-all flex items-center gap-3">
+                                                        <div className="p-2 bg-white rounded-xl shadow-sm"><FileText size={16} className="text-blue-600" /></div>
+                                                        <div>
+                                                            <div className="text-sm font-bold text-slate-800">{d.name}</div>
+                                                            <div className="text-[10px] text-slate-400 font-bold uppercase">{d.type}</div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {searchResults.cards?.length === 0 && searchResults.docs?.length === 0 && searchResults.tenders?.length === 0 && (
+                                            <div className="p-10 text-center text-slate-400">
+                                                <Search size={40} className="mx-auto mb-4 opacity-20" />
+                                                <p className="text-sm font-bold">No se han encontrado resultados</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="p-4 bg-gray-50 text-center">
+                                        <button onClick={() => navigate(`/agenda?q=${encodeURIComponent(bannerQuery)}`)} className="text-[10px] font-black text-brand-orange uppercase tracking-widest hover:underline">Ver búsqueda avanzada en Agenda IA</button>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div className="hidden lg:flex w-40 h-40 items-center justify-center relative">

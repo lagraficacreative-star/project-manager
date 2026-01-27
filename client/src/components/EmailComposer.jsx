@@ -111,11 +111,6 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
                     let targetCardId = null;
                     const db = await api.getData();
 
-                    // 1. If we have an explicit cardId
-                    // We might need to receive cardId as a prop
-                    // Let's assume passed as cardId prop
-
-                    // 2. Fuzzy match by subject if no explicit ID
                     const cards = db.cards || [];
                     const cleanSubject = subject.replace(/Re:|Fwd:|RE:|FWD:/gi, '').trim().toLowerCase();
                     const matchedCard = cards.find(c =>
@@ -131,7 +126,16 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
                 } catch (logErr) {
                     console.error("Failed to log email to card", logErr);
                 }
-                // -------------------------
+
+                // --- MOVE REPLIED EMAIL TO SENT FOLDER ---
+                if (replyToId) {
+                    try {
+                        await api.moveEmail(memberId, replyToId, 'INBOX', 'Enviados');
+                    } catch (moveErr) {
+                        console.error("Failed to move replied email", moveErr);
+                    }
+                }
+                // -----------------------------------------
 
                 alert("Correu enviat correctament!");
                 onClose();
