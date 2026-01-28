@@ -102,9 +102,15 @@ const Inbox = ({ selectedUsers, currentUser }) => {
         setLoading(true);
         try {
             const data = await api.getEmails(currentUser.id, activeFolder);
-            setEmails(data || []);
+            if (data && data.error) {
+                console.error('API Error:', data.error);
+                setEmails([]);
+            } else {
+                setEmails(Array.isArray(data) ? data : []);
+            }
         } catch (error) {
             console.error('Fetch emails failed', error);
+            setEmails([]);
         } finally {
             setLoading(false);
         }
@@ -125,7 +131,8 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             descriptionBlocks: [
                 { id: 'desc_1', type: 'text', text: `Email de: ${emailToConvert.from}\n\n${emailToConvert.body}` }
             ],
-            labels: ['Email']
+            labels: ['Email'],
+            sourceEmailDate: emailToConvert.date
         });
         setShowSelector(false);
         setShowCardModal(true);
@@ -136,8 +143,8 @@ const Inbox = ({ selectedUsers, currentUser }) => {
         try {
             const result = await api.createCard(cardData);
             if (emailToConvert && result) {
-                await api.markEmailProcessed(emailToConvert.messageId, emailToConvert.subject, currentUser.name);
-                await api.moveEmail(currentUser.id, emailToConvert.messageId, activeFolder, 'Gestionados');
+                await api.markEmailProcessed(emailToConvert.messageId, emailToConvert.subject, currentUser.name, emailToConvert.persistentId);
+                await api.moveEmail(currentUser.id, emailToConvert.messageId, activeFolder, 'Archivados');
 
                 if (includeInComments) {
                     await api.addCommentToCard(result.id, `--- EMAIL IMPORTADO ---\nDe: ${emailToConvert.from}\nAsunto: ${emailToConvert.subject}\n\n${emailToConvert.body}`, currentUser.id);
@@ -165,8 +172,8 @@ const Inbox = ({ selectedUsers, currentUser }) => {
         try {
             const commentText = `--- NUEVA ACTUALIZACIÓN POR EMAIL ---\nDe: ${emailToConvert.from}\nAsunto: ${emailToConvert.subject}\n\n${emailToConvert.body}`;
             await api.addCommentToCard(card.id, commentText, currentUser.id);
-            await api.markEmailProcessed(emailToConvert.messageId, emailToConvert.subject, currentUser.name);
-            await api.moveEmail(currentUser.id, emailToConvert.messageId, activeFolder, 'Gestionados');
+            await api.markEmailProcessed(emailToConvert.messageId, emailToConvert.subject, currentUser.name, emailToConvert.persistentId);
+            await api.moveEmail(currentUser.id, emailToConvert.messageId, activeFolder, 'Archivados');
 
             loadProcessed();
             fetchEmails();
@@ -202,9 +209,11 @@ const Inbox = ({ selectedUsers, currentUser }) => {
         }
     };
 
-    const handleArchiveEmail = async (emailId) => {
+    const handleArchiveEmail = async (emailId, subject, persistentId) => {
         try {
-            await api.moveEmail(currentUser.id, emailId, activeFolder, 'Gestionados');
+            await api.markEmailProcessed(emailId, subject || 'Sin asunto', currentUser.name, persistentId);
+            await api.moveEmail(currentUser.id, emailId, activeFolder, 'Archivados');
+            loadProcessed();
             fetchEmails();
             if (selectedEmail?.messageId === emailId) setSelectedEmail(null);
         } catch (error) {
@@ -221,9 +230,9 @@ const Inbox = ({ selectedUsers, currentUser }) => {
         }
     };
 
-    const handleUnmanageEmail = async (emailId) => {
+    const handleUnmanageEmail = async (emailId, persistentId) => {
         try {
-            await api.unmarkEmailProcessed(currentUser.id, emailId);
+            await api.unmarkEmailProcessed(currentUser.id, emailId, persistentId);
             loadProcessed();
             fetchEmails();
             if (selectedEmail?.messageId === emailId) setSelectedEmail(null);
@@ -254,8 +263,11 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             const isReplied = repliedIds.includes(uniqueId);
             if (activeTab === 'replied' && !isReplied) return false;
 
-            const isProcessed = processedIds.includes(String(e.messageId));
-            if (activeTab === 'managed' && !isProcessed) return false;
+            const isProcessed = processedIds.includes(String(e.messageId)) || (e.persistentId && processedIds.includes(String(e.persistentId)));
+            if (activeTab === 'managed') {
+                // In managed tab, we show everything in the folder OR things explicitly processed
+                if (activeFolder === 'INBOX' && !isProcessed) return false;
+            }
 
             if (activeTab === 'inbox') {
                 if (isReplied || isGencatNotif || isProcessed) return false;
@@ -274,13 +286,12 @@ const Inbox = ({ selectedUsers, currentUser }) => {
         if (!confirm('¿Borrar permanentemente todos los correos de la papelera?')) return;
         setIsSaving(true);
         try {
-            for (const email of emails) {
-                await api.deleteEmailLocal(email.messageId);
-            }
+            await api.emptyTrash(currentUser.id, 'Papelera');
             fetchEmails();
-            alert('Papelera vaciada (localmente).');
+            alert('Papelera vaciada correctamente.');
         } catch (error) {
             console.error('Empty trash failed', error);
+            alert('Error al vaciar la papelera.');
         } finally {
             setIsSaving(false);
         }
@@ -297,7 +308,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                             <NavItem active={activeTab === 'inbox'} icon={<InboxIcon size={18} />} label="Pendientes" onClick={() => { setActiveTab('inbox'); setActiveFolder('INBOX'); }} />
                             <NavItem active={activeTab === 'licitaciones'} icon={<ShieldCheck size={18} />} label="Licitaciones" onClick={() => { setActiveTab('licitaciones'); setActiveFolder('INBOX'); }} color="orange" />
                             <NavItem active={activeTab === 'replied'} icon={<Send size={18} />} label="Respondidos" onClick={() => { setActiveTab('replied'); setActiveFolder('Respondidos'); }} color="blue" />
-                            <NavItem active={activeTab === 'managed'} icon={<Archive size={18} />} label="Archivados" onClick={() => { setActiveTab('managed'); setActiveFolder('Gestionados'); }} color="green" />
+                            <NavItem active={activeTab === 'managed'} icon={<Archive size={18} />} label="Archivados" onClick={() => { setActiveTab('managed'); setActiveFolder('Archivados'); }} color="green" />
                         </nav>
 
                         <h3 className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] mt-10 mb-6">Sistema</h3>
@@ -364,19 +375,27 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                             <div className="p-20 text-center flex flex-col items-center"><div className="w-20 h-20 bg-gray-50 rounded-[2rem] flex items-center justify-center mb-6 border border-dashed border-gray-200"><CheckCircle size={40} className="text-gray-100" /></div><p className="text-[9px] font-bold text-gray-300 uppercase tracking-widest">Todo bajo control</p></div>
                         ) : filteredEmails.map(email => {
                             const tag = getContactTag(email.from);
+                            const isProcessed = processedIds.includes(String(email.messageId)) || (email.persistentId && processedIds.includes(String(email.persistentId)));
                             const isSelected = selectedEmail?.messageId === email.messageId;
                             return (
-                                <div key={email.messageId} onClick={() => handleSelectEmail(email)} className={`p-6 cursor-pointer transition-all hover:bg-gray-50 relative group border-l-4 ${isSelected ? 'bg-orange-50/50 border-l-brand-orange' : 'border-l-transparent'}`}>
+                                <div
+                                    key={email.messageId}
+                                    onClick={() => handleSelectEmail(email)}
+                                    className={`p-6 cursor-pointer transition-all hover:bg-gray-50 relative group border-l-4 ${isSelected ? 'bg-orange-50/50 border-l-brand-orange' : isProcessed ? 'bg-green-50/30 border-l-green-400' : 'border-l-transparent'}`}
+                                >
                                     <div className="flex justify-between items-start mb-2">
                                         <div className="flex flex-col min-w-0">
-                                            <span className="text-[11px] font-black text-brand-black truncate max-w-[200px] mb-0.5">{email.from}</span>
+                                            <div className="flex items-center gap-2 mb-0.5">
+                                                <span className="text-[11px] font-black text-brand-black truncate max-w-[150px]">{email.from}</span>
+                                                {isProcessed && <div className="p-1 bg-green-100 text-green-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">Procesado</div>}
+                                            </div>
                                             {tag && <div className="flex items-center gap-1.5"><Tag size={10} className="text-blue-500" /><span className="text-[8px] font-black text-blue-500 uppercase tracking-widest">{tag.name}</span></div>}
                                         </div>
                                         <div className="flex flex-col items-end gap-1">
                                             <span className="text-[9px] font-bold text-gray-300 whitespace-nowrap">{new Date(email.date).toLocaleDateString()}</span>
                                             <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
-                                                <button onClick={(e) => { e.stopPropagation(); handleConvertToCard(email); }} className="p-1 px-2 bg-orange-100 text-brand-orange rounded-full text-[8px] font-black uppercase hover:bg-brand-orange hover:text-white transition-colors">+ Ficha</button>
-                                                <button onClick={(e) => { e.stopPropagation(); handleAddToCard(email); }} className="p-1 px-2 bg-blue-100 text-blue-600 rounded-full text-[8px] font-black uppercase hover:bg-blue-600 hover:text-white transition-colors">Vincular</button>
+                                                {!isProcessed && <button onClick={(e) => { e.stopPropagation(); handleConvertToCard(email); }} className="p-1 px-2 bg-orange-100 text-brand-orange rounded-full text-[8px] font-black uppercase hover:bg-brand-orange hover:text-white transition-colors">+ Ficha</button>}
+                                                {!isProcessed && <button onClick={(e) => { e.stopPropagation(); handleAddToCard(email); }} className="p-1 px-2 bg-blue-100 text-blue-600 rounded-full text-[8px] font-black uppercase hover:bg-blue-600 hover:text-white transition-colors">Vincular</button>}
                                                 <button onClick={(e) => { e.stopPropagation(); setEmailComposerData({ to: email.from, subject: `RE: ${email.subject}`, body: `\n\n--- Mensaje original ---\nDe: ${email.from}\nAsunto: ${email.subject}\n\n${email.body}`, memberId: currentUser.id, replyToId: email.messageId }); setShowEmailComposer(true); }} className="p-1 px-2 bg-gray-100 text-gray-600 rounded-full text-[8px] font-black uppercase hover:bg-brand-black hover:text-white transition-colors">Responder</button>
                                             </div>
                                         </div>
@@ -395,14 +414,26 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                             <div className="p-8 border-b border-gray-100 flex flex-col gap-8 bg-white shadow-sm">
                                 <div className="flex justify-between items-start">
                                     <div className="flex items-center gap-5">
-                                        <div className="w-16 h-16 rounded-3xl bg-brand-orange text-white flex items-center justify-center font-black text-2xl shadow-xl shadow-orange-500/20">{selectedEmail.from[0]}</div>
+                                        <div className={`w-16 h-16 rounded-3xl text-white flex items-center justify-center font-black text-2xl shadow-xl ${processedIds.includes(String(selectedEmail.messageId)) ? 'bg-green-500 shadow-green-500/20' : 'bg-brand-orange shadow-orange-500/20'}`}>{selectedEmail.from[0]}</div>
                                         <div>
-                                            <h3 className="text-xl font-black text-brand-black leading-tight uppercase tracking-tighter">{selectedEmail.subject}</h3>
+                                            <div className="flex items-center gap-3">
+                                                <h3 className="text-xl font-black text-brand-black leading-tight uppercase tracking-tighter">{selectedEmail.subject}</h3>
+                                                {(processedIds.includes(String(selectedEmail.messageId)) || (selectedEmail.persistentId && processedIds.includes(String(selectedEmail.persistentId)))) && (
+                                                    <span className="px-3 py-1 bg-green-50 text-green-600 rounded-full text-[9px] font-black uppercase tracking-widest border border-green-100 flex items-center gap-1.5"><CheckCircle size={12} /> Procesado</span>
+                                                )}
+                                            </div>
                                             <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mt-2">{selectedEmail.from}</p>
                                         </div>
                                     </div>
                                     <div className="flex gap-2">
-                                        <button onClick={() => handleArchiveEmail(selectedEmail.messageId)} className="p-4 hover:bg-green-50 text-gray-300 hover:text-green-600 rounded-2xl transition-all" title="Archivar"><Archive size={20} /></button>
+                                        <button
+                                            onClick={() => (processedIds.includes(String(selectedEmail.messageId)) || (selectedEmail.persistentId && processedIds.includes(String(selectedEmail.persistentId)))) ? handleUnmanageEmail(selectedEmail.messageId, selectedEmail.persistentId) : api.markEmailProcessed(selectedEmail.messageId, selectedEmail.subject, currentUser.name, selectedEmail.persistentId).then(loadProcessed)}
+                                            className={`p-4 rounded-2xl transition-all ${(processedIds.includes(String(selectedEmail.messageId)) || (selectedEmail.persistentId && processedIds.includes(String(selectedEmail.persistentId)))) ? 'bg-green-50 text-green-600 hover:bg-green-100' : 'bg-gray-50 text-gray-400 hover:bg-gray-100'}`}
+                                            title={(processedIds.includes(String(selectedEmail.messageId)) || (selectedEmail.persistentId && processedIds.includes(String(selectedEmail.persistentId)))) ? "Desmarcar como procesado" : "Marcar como procesado manual"}
+                                        >
+                                            <CheckCircle size={20} />
+                                        </button>
+                                        <button onClick={() => handleArchiveEmail(selectedEmail.messageId, selectedEmail.subject, selectedEmail.persistentId)} className="p-4 hover:bg-green-50 text-gray-300 hover:text-green-600 rounded-2xl transition-all" title="Mover a carpeta Archivados"><Archive size={20} /></button>
                                         <button onClick={() => handleDeleteEmail(selectedEmail.messageId)} className="p-4 hover:bg-red-50 text-gray-300 hover:text-red-500 rounded-2xl transition-all" title="Eliminar"><Trash2 size={20} /></button>
                                     </div>
                                 </div>
@@ -416,9 +447,11 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                     >
                                         Responder Ahora
                                     </button>
-                                    <button onClick={() => handleConvertToCard(selectedEmail)} className="px-8 py-5 bg-brand-black text-white rounded-2xl font-black text-[10px] uppercase tracking-widest">
-                                        Crear Ficha
-                                    </button>
+                                    {!(processedIds.includes(String(selectedEmail.messageId)) || (selectedEmail.persistentId && processedIds.includes(String(selectedEmail.persistentId)))) && (
+                                        <button onClick={() => handleConvertToCard(selectedEmail)} className="px-8 py-5 bg-brand-black text-white rounded-2xl font-black text-[10px] uppercase tracking-widest">
+                                            Crear Ficha
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                             <div className="flex-1 overflow-y-auto p-10 custom-scrollbar">

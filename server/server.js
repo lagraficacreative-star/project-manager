@@ -156,8 +156,59 @@ const processAutomations = (userId, emails) => {
             automationTag = MEMBER_MAP[userId].name;
         }
 
+        // --- SPECIAL MULTI-ITEM RULE FOR LICITACIONES SUBSCRIPTIONS ---
+        const isSubscriptionEmail = subject.includes("suscriptores") || subject.includes("suscriptors") || from.includes("licitaciones") || subject.includes("avís de licitacions");
+
+        if (isSubscriptionEmail) {
+            targetBoardId = 'b_licitaciones';
+            automationTag = "Subscripcions";
+        }
+
+        if (isSubscriptionEmail && targetBoardId === 'b_licitaciones') {
+            const body = email.body || "";
+            const lines = body.split('\n');
+            let currentTitle = "";
+            let itemsFound = 0;
+
+            lines.forEach(line => {
+                const urlMatch = line.match(/https?:\/\/[^\s<>"]+/);
+                const dateMatch = line.match(/(\d{2}[\/\.\-]\d{2}[\/\.\-]\d{4})/);
+
+                if (urlMatch) {
+                    const title = currentTitle || (email.subject + " - Licitació " + (itemsFound + 1));
+                    const dueDate = dateMatch ? dateMatch[0].split(/[.\/-]/).reverse().join('-') : null;
+
+                    const itemCard = {
+                        id: 'card_' + Date.now() + Math.random().toString(36).substr(2, 5),
+                        boardId: 'b_licitaciones',
+                        columnId: (db.boards.find(b => b.id === 'b_licitaciones')?.columns[0]?.id) || 'col_1_b_licitaciones',
+                        title: title.substring(0, 150).trim(),
+                        descriptionBlocks: [
+                            { id: 'desc_1', type: 'text', text: `Licitació extreta de correu subscripció.\nEnllaç: ${urlMatch[0]}` }
+                        ],
+                        links: [{ id: Date.now(), type: 'url', url: urlMatch[0], title: 'Enllaç Licitació' }],
+                        labels: ['Licitacions', 'Auto-Multiple'],
+                        createdAt: new Date().toISOString(),
+                        sourceEmailDate: email.date || email.timestamp,
+                        dueDate: dueDate,
+                        responsibleId: 'licitacions'
+                    };
+                    db.cards.push(itemCard);
+                    itemsFound++;
+                    currentTitle = "";
+                } else if (line.trim().length > 15 && line.trim().length < 250) {
+                    currentTitle = line.trim();
+                }
+            });
+
+            if (itemsFound > 0) {
+                db.automated_email_uids.push(emailUid);
+                changes = true;
+                return;
+            }
+        }
+
         if (targetBoardId) {
-            // Try to find existing card to link instead of creating new one
             const existingCard = (db.cards || []).find(card => {
                 if (card.boardId !== targetBoardId || !card.title) return false;
                 const cleanSubject = subject.replace(/re:|fwd:|fw:/g, "").trim();
@@ -166,7 +217,6 @@ const processAutomations = (userId, emails) => {
             });
 
             if (existingCard) {
-                // Link as comment
                 if (!existingCard.comments) existingCard.comments = [];
                 existingCard.comments.push({
                     id: 'ext_' + Date.now(),
@@ -175,13 +225,11 @@ const processAutomations = (userId, emails) => {
                     date: new Date().toISOString(),
                     isEmail: true
                 });
-                // Auto-move to Revision if not already in a processed column
                 const board = (db.boards || []).find(b => b.id === targetBoardId);
                 if (board && board.columns.length > 1) {
-                    existingCard.columnId = board.columns[1].id; // Usually "Review" or similar
+                    existingCard.columnId = board.columns[1].id;
                 }
             } else {
-                // Create new card
                 const newCard = {
                     id: 'card_' + Date.now() + Math.random().toString(36).substr(2, 5),
                     boardId: targetBoardId,
@@ -192,13 +240,13 @@ const processAutomations = (userId, emails) => {
                     ],
                     labels: [automationTag, 'Email'],
                     createdAt: new Date().toISOString(),
+                    sourceEmailDate: email.date || email.timestamp,
                     responsibleId: userId === 'info' ? null : userId
                 };
                 if (!db.cards) db.cards = [];
                 db.cards.push(newCard);
             }
 
-            // Sync to Google
             logToGoogleSheet({
                 from: email.from,
                 subject: email.subject,
@@ -602,7 +650,7 @@ async function moveEmail(memberId, uid, sourceFolder, targetFolder) {
 
 // --- EMAIL ARCHIVER (Moves to Managed folder) ---
 async function manageEmail(memberId, uid) {
-    return moveEmail(memberId, uid, 'INBOX', 'Gestionados');
+    return moveEmail(memberId, uid, 'INBOX', 'Archivados');
 }
 
 app.get('/api/emails/:userId', async (req, res) => {
@@ -648,7 +696,7 @@ app.post('/api/emails/archive', async (req, res) => {
                 emailCache[memberId]['INBOX'].emails = emailCache[memberId]['INBOX'].emails.filter(e => String(e.messageId) !== String(emailId));
             }
             // Instead of immediate fetch (memory spike), just clear cache forcing refresh on next visit
-            delete emailCache[memberId]['Gestionados'];
+            delete emailCache[memberId]['Archivados'];
         }
     }
 
@@ -677,11 +725,15 @@ app.get('/api/emails/processed', (req, res) => {
 
 
 app.post('/api/emails/mark-processed', (req, res) => {
-    const { uid, subject, user } = req.body;
+    const { uid, persistentId, subject, user } = req.body;
     const db = readDB();
     if (!db.processed_emails) db.processed_emails = [];
-    if (!db.processed_emails.includes(String(uid))) {
-        db.processed_emails.push(String(uid));
+
+    // Store both UID and PersistentID to be safe, but we'll primarily check PersistentID
+    const idToStore = persistentId || String(uid);
+
+    if (!db.processed_emails.includes(idToStore)) {
+        db.processed_emails.push(idToStore);
         logActivity(db, 'mail', `Correu convertit a fitxa: ${subject || 'Sense assumpte'}`, user || 'Sistema');
         if (db.processed_emails.length > 500) db.processed_emails.shift();
         writeDB(db);
@@ -690,16 +742,16 @@ app.post('/api/emails/mark-processed', (req, res) => {
 });
 
 app.post('/api/emails/unmark-processed', async (req, res) => {
-    const { memberId, uid } = req.body;
+    const { memberId, uid, persistentId } = req.body;
     const db = readDB();
     if (db.processed_emails) {
-        db.processed_emails = db.processed_emails.filter(id => id !== String(uid));
+        db.processed_emails = db.processed_emails.filter(id => id !== String(uid) && id !== String(persistentId));
         writeDB(db);
     }
-    // Restore back to INBOX from Gestionados
+    // Restore back to INBOX from Archivados
     if (memberId && uid) {
-        await moveEmail(memberId, uid, 'Gestionados', 'INBOX');
-        updateEmailCache(memberId, 'Gestionados');
+        await moveEmail(memberId, uid, 'Archivados', 'INBOX');
+        updateEmailCache(memberId, 'Archivados');
         updateEmailCache(memberId, 'INBOX');
     }
     res.json({ success: true });
@@ -718,6 +770,37 @@ app.get('/api/emails/deleted', (req, res) => {
 app.get('/api/emails/spam', (req, res) => {
     const db = readDB();
     res.json(db.spam_emails || []);
+});
+
+app.post('/api/emails/empty-trash', async (req, res) => {
+    const { userId, folder } = req.body;
+    const config = loadEnv();
+    const CRED_MAP = { 'albat': 'ATEIXIDO', 'albap': 'ALBA', 'web': 'WEB', 'licitacions': 'LICITACIONS' };
+    const envKey = CRED_MAP[userId] || userId.toUpperCase();
+    const user = process.env[`IMAP_USER_${envKey}`] || config[`IMAP_USER_${envKey}`];
+    const pass = process.env[`IMAP_PASS_${envKey}`] || config[`IMAP_PASS_${envKey}`];
+
+    if (!user || !pass) return res.status(400).json({ error: "No credentials" });
+
+    const targetFolder = folder || 'Papelera';
+
+    const env = { ...process.env, IMAP_HOST: process.env.IMAP_HOST || config.IMAP_HOST, IMAP_PORT: process.env.IMAP_PORT || config.IMAP_PORT };
+    const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, '--empty-folder', targetFolder], { env });
+
+    let dataStr = "";
+    pythonProcess.stdout.on('data', (d) => { dataStr += d.toString(); });
+    pythonProcess.on('close', (code) => {
+        try {
+            const result = JSON.parse(dataStr);
+            if (result.status === 'emptied') {
+                const db = readDB();
+                db.deleted_emails = [];
+                writeDB(db);
+                if (emailCache[userId]) delete emailCache[userId][targetFolder];
+            }
+            res.json(result);
+        } catch (err) { res.status(500).json({ error: "Parse error empty trash" }); }
+    });
 });
 
 app.post('/api/emails/delete-local', (req, res) => {
@@ -1118,7 +1201,8 @@ app.post('/api/cards', (req, res) => {
     const newCard = {
         id: 'card_' + Date.now(),
         ...cardData,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        startDate: cardData.startDate || new Date().toISOString()
     };
 
     db.cards.push(newCard);

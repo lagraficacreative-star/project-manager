@@ -14,16 +14,13 @@ const SidebarAI = () => {
     // Auto‑query when the panel opens
     useEffect(() => {
         if (isOpen) {
-            // Only run the auto‑query if we haven't already answered a user question
             const hasUserMessage = messages.some(m => m.role === 'user');
             if (!hasUserMessage) {
                 const defaultMsg = 'Resumen del día';
-                // Simulate a submit event
-                const fakeEvent = {
+                handleSend({
                     preventDefault: () => { },
                     target: { msg: { value: defaultMsg } }
-                };
-                handleSend(fakeEvent);
+                });
             }
         }
     }, [isOpen]);
@@ -37,7 +34,7 @@ const SidebarAI = () => {
     }, [messages]);
 
     const handleSend = async (e) => {
-        e.preventDefault();
+        if (e && e.preventDefault) e.preventDefault();
         const msgText = e.target.msg?.value || input;
         if (!msgText.trim()) return;
 
@@ -59,13 +56,13 @@ const SidebarAI = () => {
 
             // BLOCK: FINANCIAL SENSITIVE DATA
             if (lowerInput.includes('suma') || lowerInput.includes('total') || lowerInput.includes('cuanto') || lowerInput.includes('presupuesto') || lowerInput.includes('facturaci') || lowerInput.includes('balance') || lowerInput.includes('cuenta') || lowerInput.includes('dinero') || lowerInput.includes('€') || lowerInput.includes('pago')) {
-                response = "Lo siento, como asistente general no tengo permisos para acceder a información financiera, presupuestos o facturación por motivos de seguridad. Para gestionar estos datos, por favor dirígete a la sección de **Gestión** protegida por contraseña.";
+                response = "Lo siento, como asistente general no tengo permisos para acceder a información financiera, presupuestos o facturación. Para gestionar estos datos, por favor dirígete a la sección de **Gestión** protegida por contraseña.";
             }
-            // FEATURE: TEAM TASKS (e.g., "Que hace Neus?")
-            else if (lowerInput.includes('que hace') || lowerInput.includes('trabajo de') || lowerInput.includes('encargado') || lowerInput.includes('que tiene') || lowerInput.includes('tareas de')) {
+            // FEATURE: TEAM TASKS / JOBS
+            else if (lowerInput.includes('que hace') || lowerInput.includes('trabajo de') || lowerInput.includes('encargado') || lowerInput.includes('que tiene') || lowerInput.includes('tareas de') || lowerInput.includes('proyecto') || lowerInput.includes('como va')) {
                 const foundUser = users.find(u => lowerInput.includes(u.name.toLowerCase()));
                 if (foundUser) {
-                    const userCards = (db.cards || []).filter(c => c.responsibleId === foundUser.id && c.columnId && !c.columnId.includes('done'));
+                    const userCards = (db.cards || []).filter(c => c && c.responsibleId === foundUser.id && c.columnId && !c.columnId.includes('done'));
                     if (userCards.length > 0) {
                         response = `**${foundUser.name}** tiene actualmente **${userCards.length} tareas** activas:\n\n` +
                             userCards.slice(0, 5).map(c => `• ${c.title}`).join('\n') +
@@ -73,8 +70,22 @@ const SidebarAI = () => {
                     } else {
                         response = `Parece que **${foundUser.name}** no tiene tareas pendientes asignadas en este momento.`;
                     }
+                } else if (lowerInput.includes('proyecto') || lowerInput.includes('como va') || lowerInput.includes('busca')) {
+                    const query = lowerInput.replace(/proyecto|como va|el|la|busca|encuentra/g, '').trim();
+                    if (query.length > 2) {
+                        const found = (db.cards || []).filter(c => c && c.title && c.title.toLowerCase().includes(query));
+                        if (found.length > 0) {
+                            const card = found[0];
+                            const board = db.boards.find(b => b.id === card.boardId);
+                            response = `He encontrado el proyecto **${card.title}**. Está en el tablero **${board?.title || 'General'}**.`;
+                        } else {
+                            response = `No he encontrado ningún proyecto o tarea con el nombre "${query}".`;
+                        }
+                    } else {
+                        response = "Dime el nombre del proyecto o de la persona por la que quieres preguntar.";
+                    }
                 } else {
-                    response = "¿De qué miembro del equipo quieres consultar las tareas? (Neus, Montse, Omar, Alba, Ines, Maribel...)";
+                    response = "¿De qué miembro del equipo quieres consultar las tareas? (Neus, Montse, Omar, Alba...)";
                 }
             }
             // FEATURE: CALENDAR / EVENTS
@@ -88,7 +99,7 @@ const SidebarAI = () => {
                 }
             }
             // FEATURE: CONTACTS
-            else if (lowerInput.includes('busca') || lowerInput.includes('quien es') || lowerInput.includes('contacto') || lowerInput.includes('telf') || lowerInput.includes('mail') || lowerInput.includes('orden del día')) {
+            else if (lowerInput.includes('busca') || lowerInput.includes('quien es') || lowerInput.includes('contacto') || lowerInput.includes('telf') || lowerInput.includes('mail')) {
                 const searchPart = lowerInput.replace(/busca|quien es|contacto|dime el|pasa el|email de|correo de/g, '').trim();
                 const found = contacts.filter(c => c.name.toLowerCase().includes(searchPart) || (c.company && c.company.toLowerCase().includes(searchPart)));
                 if (found.length > 0) {
@@ -103,28 +114,14 @@ const SidebarAI = () => {
             else if (lowerInput.includes('document') || lowerInput.includes('doc') || lowerInput.includes('fichero') || lowerInput.includes('carpeta')) {
                 const searchPart = lowerInput.replace(/documento|doc|fichero|busca|encuentra|sobre/g, '').trim();
                 const foundDocs = docs.filter(d => d.name.toLowerCase().includes(searchPart) || (d.description && d.description.toLowerCase().includes(searchPart)));
-
                 if (foundDocs.length > 0) {
                     response = `He encontrado **${foundDocs.length} ficheros** relacionados:\n\n` +
                         foundDocs.slice(0, 5).map(d => `• **${d.name}** (${d.type})`).join('\n') +
                         (foundDocs.length > 5 ? `\n...y ${foundDocs.length - 5} más.` : '');
                 } else {
-                    response = "No he encontrado ningún documento con ese nombre. Recuerda que no puedo buscar dentro de archivos de gestión protegidos.";
+                    response = "No he encontrado ningún documento con ese nombre.";
                 }
-            }
-            // FEATURE: PROJECTS / CARDS
-            else if (lowerInput.includes('proyecto') || lowerInput.includes('tarjeta') || lowerInput.includes('card') || lowerInput.includes('como va')) {
-                const searchPart = lowerInput.replace(/proyecto|tarjeta|card|busca|como va el/g, '').trim();
-                const found = (db.cards || []).filter(c => c.title.toLowerCase().includes(searchPart));
-                if (found.length > 0) {
-                    const card = found[0];
-                    const board = db.boards.find(b => b.id === card.boardId);
-                    const col = board?.columns.find(col => col.id === card.columnId);
-                    response = `El proyecto **${card.title}** está en el tablero **${board?.title || 'General'}**, columna **${col?.title || 'Pendiente'}**.`;
-                } else {
-                    response = `No encuentro ningún proyecto activo llamado "${searchPart}".`;
-                }
-            } else if (lowerInput.includes('hola') || lowerInput.includes('buenos dias') || lowerInput.includes('buenas tardes')) {
+            } else if (lowerInput.includes('hola') || lowerInput.includes('buenos dias')) {
                 response = "¡Hola! Estoy listo para ayudarte. Puedo decirte en qué está trabajando el equipo, buscar contactos, revisar el calendario o encontrar proyectos y documentos (excepto financieros).";
             } else {
                 response = "Entiendo. Puedo ayudarte con tareas del equipo, contactos, el calendario o buscar proyectos. ¿Qué necesitas saber exactamente?";
@@ -181,7 +178,7 @@ const SidebarAI = () => {
                                 type="text"
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
-                                placeholder="Busca proyectos, contactos, documentos..."
+                                placeholder="Busca proyectos, contactos..."
                                 className="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 pr-9 text-[11px] outline-none focus:ring-2 focus:ring-brand-orange/20 transition-all font-medium"
                             />
                             <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-300 hover:text-brand-orange transition-colors">
@@ -197,7 +194,7 @@ const SidebarAI = () => {
                         <input
                             readOnly
                             onClick={() => setIsOpen(true)}
-                            placeholder="IA: Busca proyectos, contactos o documentos..."
+                            placeholder="IA: Busca proyectos, contactos..."
                             className="w-full bg-gray-50 border border-gray-100 rounded-xl py-2 pl-9 pr-4 text-[11px] text-gray-400 cursor-pointer hover:bg-white hover:border-brand-orange/20 transition-all outline-none"
                         />
                     </div>

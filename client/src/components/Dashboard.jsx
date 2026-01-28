@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../api';
-import { Trash2, Edit2, Plus, Layout, Palette, Code, Smartphone, Clipboard, DollarSign, Receipt, Mail, Send, Calendar, Clock, Bell, Search, Mic, ChevronRight, Square, Play, Bot, Briefcase, FileText, Gavel, Archive, Check, Lock, Calculator, Upload, Table, User, Tag } from 'lucide-react';
+import { Trash2, Edit2, Plus, Layout, Palette, Code, Smartphone, Clipboard, DollarSign, Receipt, Mail, Send, Calendar, Clock, Bell, Search, Mic, ChevronRight, Square, Play, Bot, Briefcase, FileText, Gavel, Archive, Check, Lock, Calculator, Upload, Table, User, Tag, X } from 'lucide-react';
 
 
 const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocked, unlockManagement, AUTHORIZED_EMAILS }) => {
@@ -19,6 +19,7 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
     const filterOptions = useMemo(() => {
         const options = new Set();
         allCards.forEach(c => {
+            if (!c) return;
             const clientName = c.economic?.client || c.client;
             if (clientName) options.add(clientName);
             if (c.labels && Array.isArray(c.labels)) {
@@ -83,7 +84,7 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
         try {
             const db = await api.getData();
             setBoards(db.boards || []);
-            setAllCards((db.cards || []).sort((a, b) => (a.order || 0) - (b.order || 0)));
+            setAllCards((db.cards || []).filter(Boolean).sort((a, b) => (a.order || 0) - (b.order || 0)));
         } catch (error) {
             console.error("Error loading boards/cards", error);
         }
@@ -519,12 +520,19 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
                                             <div className="mb-4">
                                                 <div className="px-4 py-2 text-[10px] font-black text-brand-orange uppercase">Proyectos</div>
                                                 {searchResults.cards.map(c => (
-                                                    <div key={c.id} onClick={() => { navigate(`/board/${c.boardId}`); setIsSearchOpen(false); }} className="p-4 hover:bg-orange-50 cursor-pointer rounded-2xl transition-all flex items-center gap-3">
-                                                        <div className="p-2 bg-white rounded-xl shadow-sm"><Briefcase size={16} className="text-brand-orange" /></div>
-                                                        <div>
-                                                            <div className="text-sm font-bold text-slate-800">{c.title}</div>
-                                                            <div className="text-[10px] text-slate-400 font-bold uppercase">{c.economic?.client || c.client || 'Sin cliente'}</div>
+                                                    <div key={c.id} onClick={() => { navigate(`/board/${c.boardId}`); setIsSearchOpen(false); }} className="p-4 hover:bg-orange-50 cursor-pointer rounded-2xl transition-all flex items-center justify-between group">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="p-2 bg-white rounded-xl shadow-sm"><Briefcase size={16} className="text-brand-orange" /></div>
+                                                            <div>
+                                                                <div className="text-sm font-bold text-slate-800">{c.title}</div>
+                                                                <div className="text-[10px] text-slate-400 font-bold uppercase">{c.economic?.client || c.client || 'Sin cliente'}</div>
+                                                            </div>
                                                         </div>
+                                                        {c.sourceEmailDate && (
+                                                            <div className="text-[9px] font-black text-orange-400 bg-orange-50 px-2 py-1 rounded-lg uppercase tracking-wider whitespace-nowrap">
+                                                                Mail: {new Date(c.sourceEmailDate).toLocaleDateString(undefined, { day: '2-digit', month: '2-digit' })}
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 ))}
                                             </div>

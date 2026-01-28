@@ -5,7 +5,7 @@ import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSo
 import { CSS } from '@dnd-kit/utilities';
 import { api } from '../api';
 import CardModal from './CardModal';
-import { Plus, ArrowLeft, MoreHorizontal, Calendar, User, Lock, Tag, Layout } from 'lucide-react';
+import { Plus, ArrowLeft, MoreHorizontal, Calendar, User, Lock, Tag, Layout, Search, Link as LinkIcon } from 'lucide-react';
 
 
 const SortableCard = ({ card, onClick, isLocked }) => {
@@ -76,9 +76,22 @@ const SortableCard = ({ card, onClick, isLocked }) => {
             )}
 
             {(card.economic?.client || card.client) && (
-                <div className="flex items-center gap-1.5 mb-2">
-                    <Tag size={10} className="text-blue-400" />
-                    <span className="text-[9px] font-black text-blue-500 uppercase truncate max-w-full">{card.economic?.client || card.client}</span>
+                <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                        <Tag size={10} className="text-blue-400" />
+                        <span className="text-[9px] font-black text-blue-500 uppercase truncate pr-2">{card.economic?.client || card.client}</span>
+                    </div>
+                    {card.links && card.links.length > 0 && (
+                        <a
+                            href={card.links[0].url}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-brand-orange hover:scale-110 transition-transform"
+                        >
+                            <LinkIcon size={12} />
+                        </a>
+                    )}
                 </div>
             )}
 
@@ -98,6 +111,13 @@ const SortableCard = ({ card, onClick, isLocked }) => {
                     )}
                 </div>
                 <div className="flex items-center gap-2">
+                    {(card.sourceEmailDate || card.createdAt) && (
+                        <div className="text-[8px] font-black text-gray-400 uppercase tracking-tighter mr-1 flex items-center gap-1">
+                            <Clock size={8} />
+                            {card.sourceEmailDate ? 'Mail: ' : 'Ficha: '}
+                            {new Date(card.sourceEmailDate || card.createdAt).toLocaleDateString(undefined, { day: '2-digit', month: '2-digit', year: '2-digit' })}
+                        </div>
+                    )}
                     <div className="w-6 h-6 rounded-full bg-brand-orange text-white flex items-center justify-center text-[10px] font-black border border-white shadow-sm overflow-hidden text-center">
                         {responsible ? responsible.charAt(0).toUpperCase() : <User size={10} />}
                     </div>
@@ -150,7 +170,7 @@ const DroppableColumn = ({ col, children, colCards, addCard, isLocked, passwordI
                         {colCards.length === 0 && (
                             <div className="py-12 border-2 border-dashed border-gray-200 rounded-[1.5rem] flex flex-col items-center justify-center text-gray-300 gap-3 opacity-50">
                                 <Layout size={24} />
-                                <span className="text-[9px] font-black uppercase tracking-widest">Sin proyectos</span>
+                                <span className="text-[9px] font-black uppercase tracking-widest text-center px-4">Sin proyectos con los filtros actuales</span>
                             </div>
                         )}
                     </SortableContext>
@@ -169,11 +189,13 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
     const [activeDragCard, setActiveDragCard] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [localSelectedClient, setLocalSelectedClient] = useState(selectedClient || '');
+    const [loading, setLoading] = useState(true);
 
     // Get unique clients & labels for filter
     const filterOptions = useMemo(() => {
         const options = new Set();
         cards.forEach(c => {
+            if (!c) return;
             const clientName = c.economic?.client || c.client;
             if (clientName) options.add(clientName);
             if (c.labels && Array.isArray(c.labels)) {
@@ -183,27 +205,36 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
         return Array.from(options).sort();
     }, [cards]);
 
+    const [cardsSearch, setCardsSearch] = useState('');
+    const [selectedMember, setSelectedMember] = useState('');
+    const [allBoards, setAllBoards] = useState([]);
+
     // Filter cards based on users, CLIENT and Search
     const filteredCards = useMemo(() => {
         let result = cards;
 
-        // Prop filter (App.jsx)
+        // Prop filter (App.jsx) - Only apply if it doesn't empty the board completely for specific users
         if (selectedUsers && selectedUsers.length > 0) {
-            result = result.filter(c => selectedUsers.includes(c.responsibleId));
+            const hasMatches = result.some(c => c && selectedUsers.includes(c.responsibleId));
+            if (hasMatches) {
+                result = result.filter(c => c && selectedUsers.includes(c.responsibleId));
+            }
         }
 
         // Local Member filter
         if (selectedMember) {
-            result = result.filter(c => c.responsibleId === selectedMember);
+            result = result.filter(c => c && c.responsibleId === selectedMember);
         }
 
         // Client/Tag Filter
         const clientFilter = localSelectedClient || selectedClient;
         if (clientFilter) {
             result = result.filter(c =>
-                (c.economic?.client === clientFilter) ||
-                (c.client === clientFilter) ||
-                (c.labels && Array.isArray(c.labels) && c.labels.includes(clientFilter))
+                c && (
+                    (c.economic?.client === clientFilter) ||
+                    (c.client === clientFilter) ||
+                    (c.labels && Array.isArray(c.labels) && c.labels.includes(clientFilter))
+                )
             );
         }
 
@@ -211,17 +242,15 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
         if (cardsSearch.trim()) {
             const q = cardsSearch.toLowerCase();
             result = result.filter(c =>
-                c.title?.toLowerCase().includes(q) ||
-                (c.client || c.economic?.client)?.toLowerCase().includes(q)
+                c && (
+                    c.title?.toLowerCase().includes(q) ||
+                    (c.client || c.economic?.client)?.toLowerCase().includes(q)
+                )
             );
         }
 
         return result;
     }, [cards, selectedUsers, selectedClient, localSelectedClient, cardsSearch, selectedMember]);
-
-    const [cardsSearch, setCardsSearch] = useState('');
-    const [selectedMember, setSelectedMember] = useState('');
-    const [allBoards, setAllBoards] = useState([]);
 
     const [unlockedColumns, setUnlockedColumns] = useState(() => {
         const saved = localStorage.getItem('unlockedColumns');
@@ -254,31 +283,36 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
 
 
     const loadData = async () => {
+        setLoading(true);
         try {
             const data = await api.getData();
             setAllBoards(data.boards || []);
-            const foundBoard = data.boards.find(b => b.id === boardId);
+            const foundBoard = (data.boards || []).find(b => b.id === boardId);
             if (foundBoard) {
                 setBoard(foundBoard);
-                setCards(data.cards.filter(c => c.boardId === boardId).sort((a, b) => (a.order || 0) - (b.order || 0)));
+                setCards((data.cards || []).filter(c => c && c.boardId === boardId).sort((a, b) => (a.order || 0) - (b.order || 0)));
+            } else {
+                setBoard(null);
             }
             const userData = await api.getUsers();
             setUsers(userData || []);
         } catch (err) {
             console.error("Failed to load board data", err);
+        } finally {
+            setLoading(false);
         }
     };
 
     const findContainer = (id) => {
         if (!board) return null;
         if (board.columns.some(col => col.id === id)) return id;
-        const card = cards.find(c => c.id === id);
+        const card = cards.find(c => c && c.id === id);
         return card ? card.columnId : null;
     };
 
     const handleDragStart = (event) => {
         const { active } = event;
-        const card = cards.find(c => c.id === active.id);
+        const card = cards.find(c => c && c.id === active.id);
         setActiveDragCard(card);
     };
 
@@ -297,8 +331,8 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
         }
 
         setCards(prev => {
-            const activeIndex = prev.findIndex(c => c.id === activeId);
-            const overIndex = prev.findIndex(c => c.id === overId);
+            const activeIndex = prev.findIndex(c => c && c.id === activeId);
+            const overIndex = prev.findIndex(c => c && c.id === overId);
 
             let newIndex;
             if (board.columns.some(col => col.id === overId)) {
@@ -326,8 +360,8 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
 
         if (!activeContainer || !overContainer) return;
 
-        const activeIndex = cards.findIndex(c => c.id === activeId);
-        const overIndex = cards.findIndex(c => c.id === overId);
+        const activeIndex = cards.findIndex(c => c && c.id === activeId);
+        const overIndex = cards.findIndex(c => c && c.id === overId);
 
         let newCards = [...cards];
         if (activeContainer === overContainer) {
@@ -337,7 +371,7 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
         } else {
             newCards[activeIndex] = { ...newCards[activeIndex], columnId: overContainer };
             if (overIndex !== -1) {
-                const newOverIndex = newCards.findIndex(c => c.id === overId);
+                const newOverIndex = newCards.findIndex(c => c && c.id === overId);
                 newCards = arrayMove(newCards, activeIndex, newOverIndex);
             }
         }
@@ -345,8 +379,8 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
         setCards(newCards);
 
         try {
-            const cardsInCol = newCards.filter(c => c.columnId === overContainer);
-            const finalIndex = cardsInCol.findIndex(c => c.id === activeId);
+            const cardsInCol = newCards.filter(c => c && c.columnId === overContainer);
+            const finalIndex = cardsInCol.findIndex(c => c && c.id === activeId);
 
             await api.updateCard(activeId, {
                 columnId: overContainer,
@@ -373,12 +407,18 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
         }
     };
 
-    if (!board) return <div className="p-20 text-center font-black uppercase text-gray-300 animate-pulse">Cargando Tablero...</div>;
+    if (loading) return <div className="p-20 text-center font-black uppercase text-gray-300 animate-pulse">Cargando Tablero...</div>;
+
+    if (!board) return (
+        <div className="p-20 text-center flex flex-col items-center gap-6">
+            <h2 className="text-2xl font-black text-gray-400 uppercase tracking-tighter">Tablero no encontrado</h2>
+            <Link to="/" className="px-8 py-4 bg-brand-orange text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl">Volver al Dashboard</Link>
+        </div>
+    );
 
 
     return (
         <div className="flex flex-col h-full animate-in fade-in duration-500">
-            {/* ... header remains same ... */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 px-1">
                 <div className="flex items-center gap-4">
                     <Link to="/" className="p-3 bg-white hover:bg-orange-50 text-gray-400 hover:text-brand-orange rounded-2xl shadow-sm border border-gray-100 transition-all">
@@ -454,7 +494,7 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
             >
                 <div className="flex-1 flex gap-6 overflow-x-auto pb-6 custom-scrollbar no-scrollbar">
                     {board.columns.map(col => {
-                        const colCards = filteredCards.filter(c => c.columnId === col.id);
+                        const colCards = filteredCards.filter(c => c && c.columnId === col.id);
                         const isLocked = col.isLocked && !unlockedColumns.includes(col.id);
 
                         return (

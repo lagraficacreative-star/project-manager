@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { api } from '../api';
-import { Search, Plus, Mail, Phone, MapPin, Globe, Trash2, Edit2, X, Briefcase, ChevronRight, MessageSquare, Send, Sparkles, User, Tag, FileText, LayoutDashboard, Table, Book, Bot } from 'lucide-react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { Search, Plus, Mail, Phone, MapPin, Globe, Trash2, Edit2, X, Briefcase, ChevronRight, MessageSquare, Send, Sparkles, User, Tag, FileText, LayoutDashboard, Table, Book, Bot, ArrowLeft } from 'lucide-react';
+import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
 
 const AgendaGPT = ({ currentUser, setSelectedClient }) => {
     const navigate = useNavigate();
     const location = useLocation();
+    const { filterType } = useParams(); // 'clients' or 'suppliers'
 
     // Data states
     const [contacts, setContacts] = useState([]);
@@ -136,6 +137,17 @@ const AgendaGPT = ({ currentUser, setSelectedClient }) => {
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
     const filteredContacts = contacts.filter(c => {
+        const tag = (c.tag || '').toLowerCase();
+        // First filter by route param (clients or suppliers)
+        if (filterType === 'clients') {
+            if (!tag.includes('client')) return false;
+        }
+        if (filterType === 'suppliers') {
+            // Must have supplier/reference tag AND NOT be a client to avoid duplicates
+            if (tag.includes('client')) return false;
+            if (!tag.includes('prove') && !tag.includes('referencia')) return false;
+        }
+
         const matchesSearch = c.name.toLowerCase().includes(filter.toLowerCase()) ||
             (c.email && c.email.toLowerCase().includes(filter.toLowerCase())) ||
             (c.company && c.company.toLowerCase().includes(filter.toLowerCase()));
@@ -164,8 +176,12 @@ const AgendaGPT = ({ currentUser, setSelectedClient }) => {
                         <Book size={24} />
                     </div>
                     <div>
-                        <h1 className="text-3xl font-black text-brand-black tracking-tighter uppercase leading-none">Orden del Día</h1>
-                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mt-2">Agenda de Contactos Clientes & Proveedores</p>
+                        <h1 className="text-3xl font-black text-brand-black tracking-tighter uppercase leading-none">
+                            {filterType === 'clients' ? 'Agenda de Clientes' : filterType === 'suppliers' ? 'Agenda de Proveedores' : 'Agenda de Contactos'}
+                        </h1>
+                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mt-2">
+                            {filterType === 'clients' ? 'Listado oficial de clientes LaGràfica' : filterType === 'suppliers' ? 'Listado de proveedores y servicios' : 'Gestión integral de contactos'}
+                        </p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-2xl">

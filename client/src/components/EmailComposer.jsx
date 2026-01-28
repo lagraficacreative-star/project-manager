@@ -119,16 +119,18 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
 
                 if (replyToId) {
                     try {
-                        await api.moveEmail(memberId, replyToId, 'INBOX', 'Enviados');
+                        await api.moveEmail(memberId, replyToId, 'INBOX', 'Respondidos');
                     } catch (moveErr) {
                         console.error('Failed to move replied email', moveErr);
                     }
                 }
 
+                console.log('Email sent result:', res);
                 alert('¡Correo enviado correctamente!');
                 onClose();
             } else {
-                alert('Error al enviar el correo: ' + (res.error || 'Desconocido'));
+                console.error('Email send failed:', res);
+                alert('Error al enviar el correo: ' + (JSON.stringify(res.error) || 'Desconocido'));
             }
         } catch (error) {
             console.error('Error sending email:', error);

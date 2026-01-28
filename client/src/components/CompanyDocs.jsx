@@ -4,7 +4,7 @@ import {
     Folder, FileText, Upload, Plus, ChevronRight, Trash2, File,
     ArrowLeft, Save, Table, Link as LinkIcon, MessageSquare,
     ExternalLink, Globe, Send, Search, Calendar, CheckCircle,
-    Circle, X, Bot, Sparkles, TrendingUp, DollarSign, Wallet, RefreshCw
+    Circle, X, Bot, Sparkles, TrendingUp, DollarSign, Wallet, RefreshCw, Lock
 } from 'lucide-react';
 
 const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockManagement }) => {

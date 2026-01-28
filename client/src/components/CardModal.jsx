@@ -30,6 +30,7 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
     const [title, setTitle] = useState('');
     const [priority, setPriority] = useState('medium');
     const [dueDate, setDueDate] = useState('');
+    const [startDate, setStartDate] = useState('');
     const [responsibleId, setResponsibleId] = useState('');
     const [assigneeIds, setAssigneeIds] = useState([]);
 
@@ -125,6 +126,7 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
         setTitle(c.title || '');
         setPriority(c.priority || 'medium');
         setDueDate(c.dueDate || '');
+        setStartDate(c.startDate || c.createdAt || '');
         setResponsibleId(c.responsibleId || c.assignee || '');
         setAssigneeIds(c.assigneeIds || []);
         setLinks(c.links || []);
@@ -144,6 +146,7 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
         setTitle('');
         setPriority('medium');
         setDueDate('');
+        setStartDate('');
         setResponsibleId('');
         setAssigneeIds([]);
         setLinks([]);
@@ -161,6 +164,7 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
         title,
         priority,
         dueDate,
+        startDate,
         responsibleId,
         assigneeIds,
         links,
@@ -332,7 +336,7 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
 
     const saveDescriptionEdit = (id) => {
         const text = descEditorRef.current?.innerHTML;
-        setDescriptionBlocks(prev => prev.map(b => b.id === id ? { ...b, text } : b));
+        setDescriptionBlocks(prev => prev.map(b => b.id === id ? { ...b, text, date: new Date().toISOString() } : b));
         setEditingDescId(null);
         setTempEditText('');
     };
@@ -445,14 +449,30 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
                 {/* Header */}
                 <div className="p-6 border-b border-gray-100 bg-white">
                     <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
-                        <input
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            placeholder="Título de la tarjeta"
-                            className="w-full text-xl md:text-2xl font-bold placeholder-gray-300 border-none focus:ring-0 p-0 text-brand-black bg-transparent"
-                            autoFocus
-                        />
+                        <div className="flex-1">
+                            <input
+                                type="text"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                placeholder="Título de la tarjeta"
+                                className="w-full text-xl md:text-2xl font-bold placeholder-gray-300 border-none focus:ring-0 p-0 text-brand-black bg-transparent"
+                                autoFocus
+                            />
+                            <div className="flex items-center gap-4 mt-1">
+                                {(card?.sourceEmailDate || card?.createdAt) && (
+                                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
+                                        <Clock size={10} />
+                                        {card?.sourceEmailDate ? 'Recibido por mail: ' : 'Ficha creada: '}
+                                        {new Date(card?.sourceEmailDate || card?.createdAt).toLocaleString(undefined, { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                                    </span>
+                                )}
+                                {card?.labels && card.labels.includes('Auto-Multiple') && (
+                                    <span className="text-[10px] font-black text-brand-orange uppercase bg-orange-50 px-2 py-0.5 rounded-full">
+                                        Procesado Automáticamente
+                                    </span>
+                                )}
+                            </div>
+                        </div>
                         <div className="flex items-center justify-between w-full sm:w-auto gap-4">
                             {/* Timer Widget */}
                             <div className={`flex items-center gap-3 px-3 md:px-4 py-2 rounded-full border ${activeTimerStart ? 'border-brand-orange bg-orange-50' : 'border-gray-200 bg-gray-50'}`}>
@@ -472,14 +492,14 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
                             </button>
                         </div>
                     </div>
+                </div>
 
-                    {/* Tabs */}
-                    <div className="flex items-center gap-2 overflow-x-auto pb-2">
-                        <TabButton id="general" icon={User} label="Detalles" />
-                        <TabButton id="docs" icon={MessageSquare} label="Docs & Comentarios" />
+                {/* Tabs */}
+                <div className="flex items-center gap-2 overflow-x-auto pb-2">
+                    <TabButton id="general" icon={User} label="Detalles" />
+                    <TabButton id="docs" icon={MessageSquare} label="Docs & Comentarios" />
 
-                        <TabButton id="economic" icon={Lock} label="Económico" />
-                    </div>
+                    <TabButton id="economic" icon={Lock} label="Económico" />
                 </div>
 
                 {/* Content Area */}
@@ -560,6 +580,17 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
                                             type="date"
                                             value={dueDate}
                                             onChange={(e) => setDueDate(e.target.value)}
+                                            className="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
+                                        />
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label className="text-sm font-bold text-gray-900 flex items-center gap-2">
+                                            <Calendar size={16} className="text-brand-orange" /> Fecha de inicio
+                                        </label>
+                                        <input
+                                            type="date"
+                                            value={startDate ? startDate.split('T')[0] : ''}
+                                            onChange={(e) => setStartDate(e.target.value)}
                                             className="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
                                         />
                                     </div>
@@ -1249,7 +1280,7 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
                 defaultSubject={emailComposerData.subject}
                 defaultBody={emailComposerData.body}
             />
-        </div>
+        </div >
     );
 };
 

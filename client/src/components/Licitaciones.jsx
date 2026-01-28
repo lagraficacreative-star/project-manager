@@ -214,7 +214,7 @@ const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement }) =
 
     const handleArchiveLicitacion = async (emailId) => {
         try {
-            await api.moveEmail('licitacions', emailId, activeMailFolder, 'Gestionados');
+            await api.moveEmail('licitacions', emailId, activeMailFolder, 'Archivados');
             loadEmails();
             if (selectedMail?.messageId === emailId) setSelectedMail(null);
         } catch (error) {
@@ -383,7 +383,7 @@ const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement }) =
                                                                 description: selectedMail.body,
                                                                 status: 'pending'
                                                             });
-                                                            await api.moveEmail('licitacions', selectedMail.messageId, activeMailFolder, 'Gestionados');
+                                                            await api.moveEmail('licitacions', selectedMail.messageId, activeMailFolder, 'Archivados');
                                                             alert('✅ Licitación creada y movida a Archivados');
                                                             loadData();
                                                             loadEmails();
