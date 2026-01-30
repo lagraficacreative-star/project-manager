@@ -325,7 +325,9 @@ const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement, AUT
                                 <DriveFolderLink label="Drive" url={config.drive_links.main} />
                                 <DriveFolderLink label="Per Presentar" url={config.drive_links.per_presentar} />
                                 <DriveFolderLink label="Presentades" url={config.drive_links.presentades} />
-                                <DriveFolderLink label="Documentació" url={config.drive_links.documentacio} />
+                                <DriveFolderLink label="Guanyades 2026" url={config.drive_links.guanyades_2026} />
+                                <DriveFolderLink label="Requeriments" url={config.drive_links.requeriments} />
+                                <DriveFolderLink label="Doc. Licitacions" url={config.drive_links.documentacio} />
                             </div>
                         </div>
                     </div>
