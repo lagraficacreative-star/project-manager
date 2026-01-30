@@ -5,32 +5,51 @@ import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSo
 import { CSS } from '@dnd-kit/utilities';
 import { api } from '../api';
 import CardModal from './CardModal';
-import { Plus, ArrowLeft, MoreHorizontal, Calendar, User, Lock, Tag, Layout, Search, Link as LinkIcon } from 'lucide-react';
+import { Plus, ArrowLeft, MoreHorizontal, Calendar, User, Lock, Tag, Layout, Search, Link as LinkIcon, Clock, Trash2, Edit2 } from 'lucide-react';
 
 
-const SortableCard = ({ card, onClick, isLocked }) => {
-    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: card.id });
+const SortableCard = ({ card, onClick, onDelete, isLocked }) => {
+    // Force a valid string ID for dnd-kit
+    const safeId = card?.id ? String(card.id) : null;
+
+    // Hooks must be called before conditional returns
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+        id: safeId || 'fallback-id-' + Math.random()
+    });
+
+    if (!card || !safeId) return null;
 
     const style = {
-        transform: CSS.Transform.toString(transform),
+        transform: transform ? CSS.Transform.toString(transform) : undefined,
         transition,
         opacity: isDragging ? 0.3 : 1,
     };
 
     const handleClick = (e) => {
-        onClick(card);
+        if (onClick) onClick(card);
     };
 
-    const totalDuration = (card.timeLogs || []).reduce((acc, log) => acc + log.duration, 0);
+    let totalDuration = 0;
+    try {
+        if (Array.isArray(card.timeLogs)) {
+            totalDuration = card.timeLogs.reduce((acc, log) => acc + (Number(log?.duration) || 0), 0);
+        }
+    } catch (e) {
+        console.error("Error calculating duration", e);
+    }
+
     const formatTime = (ms) => {
-        if (!ms) return null;
-        const hours = Math.floor(ms / (1000 * 60 * 60));
-        const minutes = Math.floor((ms / (1000 * 60)) % 60);
-        return `${hours}h ${minutes}m`;
+        if (!ms || isNaN(ms) || ms < 0) return null;
+        try {
+            const hours = Math.floor(ms / (1000 * 60 * 60));
+            const minutes = Math.floor((ms / (1000 * 60)) % 60);
+            return `${hours}h ${minutes}m`;
+        } catch (e) { return null; }
     };
+
     const timeString = formatTime(totalDuration);
     const isActive = !!card.activeTimerStart;
-    const responsible = card.responsibleId || card.assignee;
+    const responsible = String(card.responsibleId || card.assignee || '');
 
     return (
         <div
@@ -63,7 +82,16 @@ const SortableCard = ({ card, onClick, isLocked }) => {
                 )}
             </div>
 
-            <h4 className="font-bold text-gray-800 text-xs mb-3 line-clamp-2 leading-relaxed">{card.title}</h4>
+            <div className="flex justify-between items-start mb-2 group-hover:pr-6 relative">
+                <h4 className="font-bold text-gray-800 text-xs line-clamp-2 leading-relaxed flex-1">{card.title}</h4>
+                <button
+                    onClick={(e) => { e.stopPropagation(); onDelete(card.id); }}
+                    className="opacity-0 group-hover:opacity-100 p-1 text-gray-300 hover:text-red-500 transition-all absolute -right-1 -top-1"
+                    title="Borrar Tarjeta"
+                >
+                    <Trash2 size={12} />
+                </button>
+            </div>
 
             {card.labels && card.labels.length > 0 && (
                 <div className="flex flex-wrap gap-1 mb-2">
@@ -77,9 +105,9 @@ const SortableCard = ({ card, onClick, isLocked }) => {
 
             {(card.economic?.client || card.client) && (
                 <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-1.5 min-w-0">
-                        <Tag size={10} className="text-blue-400" />
-                        <span className="text-[9px] font-black text-blue-500 uppercase truncate pr-2">{card.economic?.client || card.client}</span>
+                    <div className="flex items-center gap-1.5 min-w-0 bg-blue-50/50 px-2 py-0.5 rounded-md border border-blue-100/50">
+                        <Tag size={10} className="text-blue-500 shrink-0" />
+                        <span className="text-[9px] font-black text-blue-600 uppercase truncate">{card.economic?.client || card.client}</span>
                     </div>
                     {card.links && card.links.length > 0 && (
                         <a
@@ -111,13 +139,16 @@ const SortableCard = ({ card, onClick, isLocked }) => {
                     )}
                 </div>
                 <div className="flex items-center gap-2">
-                    {(card.sourceEmailDate || card.createdAt) && (
-                        <div className="text-[8px] font-black text-gray-400 uppercase tracking-tighter mr-1 flex items-center gap-1">
-                            <Clock size={8} />
-                            {card.sourceEmailDate ? 'Mail: ' : 'Ficha: '}
-                            {new Date(card.sourceEmailDate || card.createdAt).toLocaleDateString(undefined, { day: '2-digit', month: '2-digit', year: '2-digit' })}
-                        </div>
-                    )}
+                    <div className="text-[8px] font-black text-gray-400 uppercase tracking-tighter mr-1 flex items-center gap-1">
+                        <Clock size={8} />
+                        {card.sourceEmailDate ? 'Mail: ' : 'Ficha: '}
+                        {(() => {
+                            try {
+                                const date = new Date(card.sourceEmailDate || card.createdAt);
+                                return isNaN(date.getTime()) ? '---' : date.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit', year: '2-digit' });
+                            } catch (e) { return '---'; }
+                        })()}
+                    </div>
                     <div className="w-6 h-6 rounded-full bg-brand-orange text-white flex items-center justify-center text-[10px] font-black border border-white shadow-sm overflow-hidden text-center">
                         {responsible ? responsible.charAt(0).toUpperCase() : <User size={10} />}
                     </div>
@@ -128,7 +159,7 @@ const SortableCard = ({ card, onClick, isLocked }) => {
 };
 
 
-const DroppableColumn = ({ col, children, colCards, addCard, isLocked, passwordInput, setPasswordInput, handleUnlockColumn }) => {
+const DroppableColumn = ({ col, children, colCards, addCard, onRename, onDelete, isLocked, passwordInput, setPasswordInput, handleUnlockColumn }) => {
     const { setNodeRef } = useDroppable({
         id: col.id,
     });
@@ -143,9 +174,17 @@ const DroppableColumn = ({ col, children, colCards, addCard, isLocked, passwordI
                     <h3 className="font-black text-xs uppercase text-gray-500 tracking-widest">{col.title}</h3>
                     <span className="bg-white border border-gray-100 text-[10px] font-black text-gray-400 px-2.5 py-0.5 rounded-full">{colCards.length}</span>
                 </div>
-                <button onClick={() => addCard(col.id)} className="p-2 hover:bg-brand-orange hover:text-white text-gray-400 rounded-xl transition-all">
-                    <Plus size={16} />
-                </button>
+                <div className="flex items-center gap-2">
+                    <button onClick={() => onRename(col.id, col.title)} className="p-1.5 hover:bg-white text-gray-300 hover:text-brand-orange rounded-lg transition-all" title="Renombrar Columna">
+                        <Edit2 size={12} />
+                    </button>
+                    <button onClick={() => onDelete(col.id)} className="p-1.5 hover:bg-white text-gray-300 hover:text-red-500 rounded-lg transition-all" title="Borrar Columna">
+                        <Trash2 size={12} />
+                    </button>
+                    <button onClick={() => addCard(col.id)} className="p-2 hover:bg-brand-orange hover:text-white text-gray-400 rounded-xl transition-all ml-1">
+                        <Plus size={16} />
+                    </button>
+                </div>
             </div>
 
             <div className="flex-1 flex flex-col gap-3 overflow-y-auto no-scrollbar pr-1 pb-4">
@@ -391,6 +430,44 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
             loadData();
         }
     };
+    const handleDeleteCard = async (cardId) => {
+        if (!window.confirm("¿Seguro que quieres borrar esta tarjeta?")) return;
+        try {
+            await api.deleteCard(cardId);
+            await loadData();
+            setIsModalOpen(false);
+        } catch (err) {
+            console.error("Delete card failed", err);
+            alert("Error al borrar la tarjeta");
+        }
+    };
+
+    const handleDeleteColumn = async (colId) => {
+        if (!window.confirm("¿Seguro que quieres borrar esta columna?")) return;
+        try {
+            const newColumns = board.columns.filter(c => c.id !== colId);
+            await api.updateBoard(board.id, { columns: newColumns });
+            setBoard({ ...board, columns: newColumns });
+        } catch (err) {
+            console.error("Delete column failed", err);
+            alert("Error al borrar la columna");
+        }
+    };
+
+    const handleRenameColumn = async (colId, currentTitle) => {
+        const newTitle = window.prompt("Nuevo nombre de la columna:", currentTitle);
+        if (!newTitle || newTitle === currentTitle) return;
+        try {
+            const newColumns = board.columns.map(c =>
+                c.id === colId ? { ...c, title: newTitle } : c
+            );
+            await api.updateBoard(board.id, { columns: newColumns });
+            setBoard({ ...board, columns: newColumns });
+        } catch (err) {
+            console.error("Rename column failed", err);
+            alert("Error al renombrar la columna");
+        }
+    };
 
     const handleCardSave = async (cardData) => {
         try {
@@ -494,7 +571,7 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
             >
                 <div className="flex-1 flex gap-6 overflow-x-auto pb-6 custom-scrollbar no-scrollbar">
                     {board.columns.map(col => {
-                        const colCards = filteredCards.filter(c => c && c.columnId === col.id);
+                        const colCards = filteredCards.filter(c => c && c.id && c.columnId === col.id);
                         const isLocked = col.isLocked && !unlockedColumns.includes(col.id);
 
                         return (
@@ -504,6 +581,8 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
                                 colCards={colCards}
                                 isLocked={isLocked}
                                 addCard={(cid) => { setTargetColumnId(cid); setActiveCard(null); setIsModalOpen(true); }}
+                                onRename={handleRenameColumn}
+                                onDelete={handleDeleteColumn}
                                 passwordInput={passwordInput}
                                 setPasswordInput={setPasswordInput}
                                 handleUnlockColumn={handleUnlockColumn}
@@ -514,6 +593,7 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
                                         card={card}
                                         isLocked={col.isLocked}
                                         onClick={c => { setActiveCard(c); setIsModalOpen(true); }}
+                                        onDelete={handleDeleteCard}
                                     />
                                 ))}
                             </DroppableColumn>
@@ -538,11 +618,13 @@ const Board = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocke
                     columnId={targetColumnId}
                     boardId={boardId}
                     onSave={handleCardSave}
+                    onDelete={handleDeleteCard}
                     currentUser={currentUser}
                     allBoards={allBoards}
                     allClients={filterOptions}
                     isManagementUnlocked={isManagementUnlocked}
                     unlockManagement={unlockManagement}
+                    AUTHORIZED_EMAILS={AUTHORIZED_EMAILS}
                 />
             )}
         </div>

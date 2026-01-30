@@ -3,7 +3,7 @@ import { api } from '../api';
 import { X, Calendar, User, AlignLeft, Flag, CheckSquare, MessageSquare, Plus, Clock, FileText, Trash2, ChevronRight, Link as LinkIcon, Paperclip, Lock, ShieldCheck, DollarSign, Play, Square, History, Cloud, FileDown, Mail, Edit2 } from 'lucide-react';
 import EmailComposer from './EmailComposer';
 
-const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete, currentUser, allBoards = [], allClients = [], isManagementUnlocked, unlockManagement }) => {
+const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete, currentUser, allBoards = [], allClients = [], isManagementUnlocked, unlockManagement, AUTHORIZED_EMAILS }) => {
     if (!isOpen) return null;
 
     // Movement
@@ -1120,13 +1120,12 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
                                             className="w-full p-4 border border-gray-200 rounded-2xl text-sm font-bold text-center outline-none focus:ring-2 focus:ring-brand-orange/20 transition-all"
                                             onKeyDown={(e) => {
                                                 if (e.key === 'Enter') {
-                                                    const AUTHORIZED_EMAILS = ['montse@lagrafica.com', 'admin@lagrafica.com', 'alba@lagrafica.com'];
                                                     if (economicPassword === 'lagrafica2025') {
-                                                        if (AUTHORIZED_EMAILS.includes(currentUser.email)) {
-                                                            unlockManagement(true);
-                                                        } else {
+                                                        if (!AUTHORIZED_EMAILS || !AUTHORIZED_EMAILS.includes(currentUser.email)) {
                                                             alert('Acceso denegado: Tu usuario no tiene permisos.');
+                                                            return;
                                                         }
+                                                        unlockManagement(true);
                                                     } else {
                                                         alert('Contraseña incorrecta');
                                                     }
@@ -1135,13 +1134,12 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
                                         />
                                         <button
                                             onClick={() => {
-                                                const AUTHORIZED_EMAILS = ['montse@lagrafica.com', 'admin@lagrafica.com', 'alba@lagrafica.com'];
                                                 if (economicPassword === 'lagrafica2025') {
-                                                    if (AUTHORIZED_EMAILS.includes(currentUser.email)) {
-                                                        unlockManagement(true);
-                                                    } else {
+                                                    if (!AUTHORIZED_EMAILS || !AUTHORIZED_EMAILS.includes(currentUser.email)) {
                                                         alert('Acceso denegado: Tu usuario no tiene permisos.');
+                                                        return;
                                                     }
+                                                    unlockManagement(true);
                                                 } else {
                                                     alert('Contraseña incorrecta');
                                                 }

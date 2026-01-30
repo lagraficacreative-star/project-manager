@@ -90,8 +90,11 @@ const AgendaGPT = ({ currentUser, setSelectedClient }) => {
 
         try {
             const lowerInput = userMsg.toLowerCase();
-            const db = await api.getData();
-            const users = await api.getUsers();
+            const [db, users] = await Promise.all([
+                api.getData().catch(() => ({})),
+                api.getUsers().catch(() => [])
+            ]);
+
             let response = "";
 
             if (lowerInput.includes('suma') || lowerInput.includes('total') || lowerInput.includes('cuanto') || lowerInput.includes('presupuesto') || lowerInput.includes('facturaci') || lowerInput.includes('balance') || lowerInput.includes('cuenta') || lowerInput.includes('dinero') || lowerInput.includes('€') || lowerInput.includes('pago')) {
@@ -101,9 +104,9 @@ const AgendaGPT = ({ currentUser, setSelectedClient }) => {
                 response = "Hola! Com puc ajudar-te avui amb l'Orden del Día?";
             }
             else if (lowerInput.includes('que fa') || lowerInput.includes('treball de') || lowerInput.includes('tasques de')) {
-                const foundUser = users.find(u => lowerInput.includes(u.name.toLowerCase()));
+                const foundUser = (users || []).find(u => u.name && lowerInput.includes(u.name.toLowerCase()));
                 if (foundUser) {
-                    const userCards = (db.cards || []).filter(c => c.responsibleId === foundUser.id && !c.columnId?.includes('done'));
+                    const userCards = (db.cards || []).filter(c => c && c.responsibleId === foundUser.id && !c.columnId?.includes('done'));
                     if (userCards.length > 0) {
                         response = `**${foundUser.name}** té **${userCards.length} tasques** actives ara mateix:\n\n` +
                             userCards.slice(0, 5).map(c => `• ${c.title}`).join('\n');
@@ -130,6 +133,8 @@ const AgendaGPT = ({ currentUser, setSelectedClient }) => {
                 setIsAiTyping(false);
             }, 800);
         } catch (err) {
+            console.error(err);
+            setAiMessages(prev => [...prev, { role: 'assistant', text: "Ho sento, s'ha produït un error al connectar amb el servidor." }]);
             setIsAiTyping(false);
         }
     };

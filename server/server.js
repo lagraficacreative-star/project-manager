@@ -20,8 +20,12 @@ const loadEnv = () => {
     const content = fs.readFileSync(envPath, 'utf8');
     const config = {};
     content.split('\n').forEach(line => {
-        const [key, value] = line.split('=');
-        if (key && value) config[key.trim()] = value.trim();
+        const parts = line.split('=');
+        if (parts.length >= 2) {
+            const key = parts[0].trim();
+            const value = parts.slice(1).join('=').trim();
+            if (key) config[key] = value;
+        }
     });
     return config;
 };
@@ -74,7 +78,7 @@ const logToGoogleSheet = async (emailData) => {
     }
 };
 
-const processAutomations = (userId, emails) => {
+const processAutomations = async (userId, emails, folder = 'INBOX') => {
     if (!emails || !Array.isArray(emails)) return;
 
     const db = readDB();
@@ -88,7 +92,7 @@ const processAutomations = (userId, emails) => {
         'albap': { boardId: 'b_design', name: 'Alba' },
         'albat': { boardId: 'b_social', name: 'A. Teixidó' },
         'web': { boardId: 'b_web', name: 'Web' },
-        'licitacions': { boardId: 'b_licitaciones', name: 'Licitaciones' }
+        'licitacions': { boardId: 'b_tenders', name: 'Licitaciones' }
     };
 
     const SPAM_WORDS = ['newsletter', 'publicitat', 'publi', 'promoció', 'oferta exclusiva', 'guanya diners', 'unsubscription', 'donar-se de baixa', 'poker', 'casino', 'viagra'];
@@ -100,13 +104,13 @@ const processAutomations = (userId, emails) => {
 
     let changes = false;
 
-    emails.forEach(email => {
-        const emailUid = `auto_rule_${email.id}`;
-        if (db.automated_email_uids.includes(emailUid)) return;
+    for (const email of emails) {
+        const emailUid = `auto_rule_${email.id || email.messageId}`;
+        if (db.automated_email_uids.includes(emailUid)) continue;
         if (isSpam(email)) {
             db.automated_email_uids.push(emailUid);
             changes = true;
-            return;
+            continue;
         }
 
         const subject = (email.subject || "").toLowerCase();
@@ -115,24 +119,45 @@ const processAutomations = (userId, emails) => {
         let automationTag = "Auto-Filtre";
 
         // --- RULE: LICITACIONS ---
-        const licitacionSenders = ['plataforma.contractacio@gencat.cat', 'noreply@bcn.cat', 'norespongueu@enotum.cat', '@enotum.cat', 'mailcontrataciondelestado@contrataciondelsectorpublico.gob.es', 'admin@lagrafica.com'];
-        const licitacionSubjects = ['important: avís de notificació', 'notificació enviada', 'recordatori: avís de notificació'];
+        const licitacionSenders = [
+            'plataforma.contractacio@gencat.cat',
+            'noreply@bcn.cat',
+            'norespongueu@enotum.cat',
+            '@enotum.cat',
+            'mailcontrataciondelestado@contrataciondelsectorpublico.gob.es',
+            'licitaciones'
+        ];
+        const licitacionSubjects = [
+            'important: avís de notificació',
+            'notificació enviada',
+            'recordatori: avís de notificació',
+            'avís de licitacions',
+            'suscriptores',
+            'suscriptors'
+        ];
 
         if (licitacionSenders.some(s => from.includes(s)) || licitacionSubjects.some(s => subject.includes(s))) {
-            targetBoardId = 'b_licitaciones';
+            targetBoardId = 'b_tenders';
             automationTag = "Licitacions";
         }
 
         // --- RULE: IMO ---
-        const imoSenders = ['elpascual@paeria.es', 'npijuan@paeria.es', 'cmolinero@paeria.es', 'mapujol@paeria.cat', 'maldabo@paeria.es', 'eclosa@paeria.es', 'oarnau@paeria.es', 'mribera@paeria.es', 'csorribas@paeria.cat', 'gdsantos@paeria.es', 'mgs@paeria.es', 'dortin@paeria.cat', 'dmontagut@paeria.es', 'mpaz@paeria.es', 'vgracia@paeria.cat', 'fcos@paeria.es', 'cvilarasau@paeria.es', 'lmasana@paeria.es', 'lbea@paeria.cat', 'agaddour@paeria.cat', 'mjbadia@paeria.es', 'imo@lagrafica.com'];
-        if (imoSenders.some(s => from.includes(s))) {
+        const imoSenders = [
+            'elpascual@paeria.es', 'npijuan@paeria.es', 'cmolinero@paeria.es', 'mapujol@paeria.cat',
+            'maldabo@paeria.es', 'eclosa@paeria.es', 'oarnau@paeria.es', 'mribera@paeria.es',
+            'csorribas@paeria.cat', 'gdsantos@paeria.es', 'mgs@paeria.es', 'dortin@paeria.cat',
+            'dmontagut@paeria.es', 'mpaz@paeria.es', 'vgracia@paeria.cat', 'fcos@paeria.es',
+            'cvilarasau@paeria.es', 'lmasana@paeria.es', 'lbea@paeria.cat', 'agaddour@paeria.cat',
+            'mjbadia@paeria.es', 'imo@lagrafica.com', 'imo@paeria.es', 'paeria.es', 'paeria.cat'
+        ];
+        if (imoSenders.some(s => from.includes(s)) || subject.includes("imo")) {
             targetBoardId = 'b_imo';
             automationTag = "IMO";
         }
 
         // --- RULE: ANIMAC ---
-        const animacSenders = ['aaguila@paeria.cat', 'mdomenech@paeria.cat', 'lmcruz@radixanimacion.com'];
-        if (animacSenders.some(s => from.includes(s))) {
+        const animacSenders = ['aaguila@paeria.cat', 'mdomenech@paeria.cat', 'lmcruz@radixanimacion.com', 'animac'];
+        if (animacSenders.some(s => from.includes(s)) || subject.includes("animac")) {
             targetBoardId = 'b_animac';
             automationTag = "Animac";
         }
@@ -150,62 +175,92 @@ const processAutomations = (userId, emails) => {
             automationTag = "Kit Digital";
         }
 
-        // --- GENERIC MEMBER ROUTING (fallback) ---
-        if (!targetBoardId && MEMBER_MAP[userId]) {
-            targetBoardId = MEMBER_MAP[userId].boardId;
-            automationTag = MEMBER_MAP[userId].name;
-        }
-
         // --- SPECIAL MULTI-ITEM RULE FOR LICITACIONES SUBSCRIPTIONS ---
-        const isSubscriptionEmail = subject.includes("suscriptores") || subject.includes("suscriptors") || from.includes("licitaciones") || subject.includes("avís de licitacions");
+        const isSubscriptionEmail = subject.includes("suscriptores") || subject.includes("suscriptors") || from.includes("licitaciones") || subject.includes("avís de licitacions") || licitacionSenders.some(s => from.includes(s));
 
         if (isSubscriptionEmail) {
-            targetBoardId = 'b_licitaciones';
+            targetBoardId = 'b_tenders';
             automationTag = "Subscripcions";
-        }
 
-        if (isSubscriptionEmail && targetBoardId === 'b_licitaciones') {
             const body = email.body || "";
             const lines = body.split('\n');
             let currentTitle = "";
             let itemsFound = 0;
 
-            lines.forEach(line => {
+            lines.forEach((line, index) => {
                 const urlMatch = line.match(/https?:\/\/[^\s<>"]+/);
-                const dateMatch = line.match(/(\d{2}[\/\.\-]\d{2}[\/\.\-]\d{4})/);
+                // Robust date matching for dd/mm/aaaa
+                const dateMatch = line.match(/(\d{1,2}[\/\.\-]\d{1,2}[\/\.\-]\d{4})/);
 
                 if (urlMatch) {
+                    const url = urlMatch[0];
+                    // Clean up URL if it has trailing punctuation
+                    const cleanUrl = url.replace(/[.,;)]+$/, '');
+
+                    // Try to find title in previous lines if currentTitle is empty
+                    if (!currentTitle) {
+                        for (let j = 1; j <= 5; j++) {
+                            const prevLine = lines[index - j]?.trim();
+                            if (prevLine && prevLine.length > 5 && !prevLine.match(/https?:\/\//)) {
+                                currentTitle = prevLine;
+                                break;
+                            }
+                        }
+                    }
+
                     const title = currentTitle || (email.subject + " - Licitació " + (itemsFound + 1));
-                    const dueDate = dateMatch ? dateMatch[0].split(/[.\/-]/).reverse().join('-') : null;
+                    const dueDate = dateMatch ? dateMatch[0].split(/[.\/-]/).reverse().map(p => p.padStart(2, '0')).join('-').replace(/(\d{4})-(\d{2})-(\d{2})/, '$1-$2-$3') : null;
+
+                    // Specific fix for dd/mm/yyyy to yyyy-mm-dd
+                    let finalDueDate = null;
+                    if (dateMatch) {
+                        const d = dateMatch[0].match(/(\d{1,2})[\/\.\-](\d{1,2})[\/\.\-](\d{4})/);
+                        if (d) {
+                            finalDueDate = `${d[3]}-${d[2].padStart(2, '0')}-${d[1].padStart(2, '0')}`;
+                        }
+                    }
 
                     const itemCard = {
-                        id: 'card_' + Date.now() + Math.random().toString(36).substr(2, 5),
-                        boardId: 'b_licitaciones',
-                        columnId: (db.boards.find(b => b.id === 'b_licitaciones')?.columns[0]?.id) || 'col_1_b_licitaciones',
-                        title: title.substring(0, 150).trim(),
+                        id: 'card_multi_' + Date.now() + Math.random().toString(36).substr(2, 5),
+                        boardId: 'b_tenders',
+                        columnId: (db.boards.find(b => b.id === 'b_tenders')?.columns[0]?.id) || 'col_1_b_tenders',
+                        title: title.substring(0, 200).trim(),
                         descriptionBlocks: [
-                            { id: 'desc_1', type: 'text', text: `Licitació extreta de correu subscripció.\nEnllaç: ${urlMatch[0]}` }
+                            { id: 'desc_1', type: 'text', text: `Licitació extreta de correu subscripció.\n\nEnllaç: ${cleanUrl}\nData límit detectada: ${finalDueDate || 'No detectada'}` }
                         ],
-                        links: [{ id: Date.now(), type: 'url', url: urlMatch[0], title: 'Enllaç Licitació' }],
+                        links: [{ id: Date.now(), type: 'url', url: cleanUrl, title: 'Enllaç Licitació' }],
                         labels: ['Licitacions', 'Auto-Multiple'],
                         createdAt: new Date().toISOString(),
                         sourceEmailDate: email.date || email.timestamp,
-                        dueDate: dueDate,
+                        dueDate: finalDueDate,
                         responsibleId: 'licitacions'
                     };
+                    if (!db.cards) db.cards = [];
                     db.cards.push(itemCard);
                     itemsFound++;
                     currentTitle = "";
-                } else if (line.trim().length > 15 && line.trim().length < 250) {
-                    currentTitle = line.trim();
+                } else {
+                    const trimmed = line.trim();
+                    // If it looks like a title (not a header or metadata)
+                    if (trimmed.length > 10 && trimmed.length < 300 && !trimmed.match(/https?:\/\//) && !trimmed.includes('@')) {
+                        currentTitle = trimmed;
+                    }
                 }
             });
 
             if (itemsFound > 0) {
                 db.automated_email_uids.push(emailUid);
                 changes = true;
-                return;
+                // Archive the email after processing
+                await moveEmail(userId, email.id, folder, 'Archivados').catch(e => console.error(`❌ Could not archive email ${email.id} for ${userId}`));
+                continue;
             }
+        }
+
+        // --- GENERIC MEMBER ROUTING (fallback) ---
+        if (!targetBoardId && MEMBER_MAP[userId]) {
+            targetBoardId = MEMBER_MAP[userId].boardId;
+            automationTag = MEMBER_MAP[userId].name;
         }
 
         if (targetBoardId) {
@@ -257,8 +312,10 @@ const processAutomations = (userId, emails) => {
 
             db.automated_email_uids.push(emailUid);
             changes = true;
+            // Archive the email after processing
+            await moveEmail(userId, email.id, folder, 'Archivados').catch(e => console.error(`❌ Could not archive email ${email.id} for ${userId}`));
         }
-    });
+    }
 
     if (changes) {
         writeDB(db);
@@ -277,7 +334,7 @@ const updateEmailCache = async (userId, folder = 'INBOX') => {
             console.log(`✅ Cache updated for ${userId} [${folder}]`);
 
             // --- AUTOMATION: KIT DIGITAL ---
-            processAutomations(userId, emails);
+            await processAutomations(userId, emails, folder);
         }
     } catch (err) {
         console.error(`❌ Sync error for ${userId}:`, err);
@@ -339,7 +396,6 @@ const readDB = () => {
             documents: [],
             events: [],
             processed_emails: [],
-            deleted_emails: [],
             deleted_emails: [],
             activity: [],
             contacts: []
@@ -557,7 +613,7 @@ const logActivity = (db, type, text, user = 'Montse') => {
         id: Date.now() + Math.random().toString(36).substr(2, 5),
         type, // 'card', 'doc', 'mail', 'event', 'chat'
         text,
-        user,
+        user: user || 'Montse',
         timestamp: new Date().toISOString()
     };
     db.activity.unshift(entry);
@@ -904,9 +960,11 @@ app.post('/api/emails/send', async (req, res) => {
         'alba': 'ALBA',
         'omar': 'OMAR',
         'albat': 'ATEIXIDO',
+        'ateixido': 'ATEIXIDO',
         'albap': 'ALBA',
         'web': 'WEB',
         'licitacions': 'LICITACIONS',
+        'admin': 'ADMIN',
         'test': 'TEST'
     };
 

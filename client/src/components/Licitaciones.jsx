@@ -9,7 +9,7 @@ import {
 import EmailComposer from './EmailComposer';
 import { api } from '../api';
 
-const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement }) => {
+const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement, AUTHORIZED_EMAILS }) => {
     const [password, setPassword] = useState('');
     const [showError, setShowError] = useState(false);
 
@@ -225,6 +225,11 @@ const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement }) =
     const handleUnlock = (e) => {
         e.preventDefault();
         if (password === 'lagrafica2025') {
+            if (!AUTHORIZED_EMAILS || !AUTHORIZED_EMAILS.includes(currentUser.email)) {
+                alert("Acceso denegado: Tu usuario no tiene permisos para esta sección.");
+                setPassword('');
+                return;
+            }
             unlockManagement(true);
         } else {
             setShowError(true);

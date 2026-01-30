@@ -230,7 +230,7 @@ if __name__ == "__main__":
             try: attachments = json.loads(sys.argv[7])
             except: pass
             
-        smtp_host = os.environ.get('SMTP_HOST', 'mail-es.securemail.pro')
+        smtp_host = os.environ.get('SMTP_HOST', 'smtp.securemail.pro')
         smtp_port = int(os.environ.get('SMTP_PORT', 465))
         if "gmail.com" in username.lower():
             smtp_host, smtp_port = "smtp.gmail.com", 465
@@ -261,25 +261,27 @@ if __name__ == "__main__":
             last_err = ""
             
             try:
-                with smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=30) as server:
+                # SSL timeout increased to 60s
+                with smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=60) as server:
                     # server.set_debuglevel(1)
                     server.login(username, password)
                     server.sendmail(username, to_addr, msg.as_string())
                     success = True
             except Exception as e:
-                last_err = str(e)
+                last_err = f"SSL Error: {str(e)}"
                 
             if not success:
                 # Try fallback to port 587 with STARTTLS
                 try:
-                    with smtplib.SMTP(smtp_host, 587, timeout=30) as server:
-                        server.set_debuglevel(1) # Enable debug during development to catch errors
+                    # STARTTLS timeout increased to 60s
+                    with smtplib.SMTP(smtp_host, 587, timeout=60) as server:
+                        # server.set_debuglevel(1)
                         server.starttls()
                         server.login(username, password)
                         server.sendmail(username, [to_addr], msg.as_string())
                         success = True
                 except Exception as e:
-                    last_err += " | Fallback 587 error: " + str(e)
+                    last_err += f" | STARTTLS (587) Error: {str(e)}"
 
             if success:
                 print(json.dumps({"status": "sent", "to": to_addr}))

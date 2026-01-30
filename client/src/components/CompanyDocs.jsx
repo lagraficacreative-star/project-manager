@@ -7,7 +7,7 @@ import {
     Circle, X, Bot, Sparkles, TrendingUp, DollarSign, Wallet, RefreshCw, Lock
 } from 'lucide-react';
 
-const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockManagement }) => {
+const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockManagement, AUTHORIZED_EMAILS }) => {
     const [password, setPassword] = useState('');
     const [showError, setShowError] = useState(false);
     const [docs, setDocs] = useState([]);
@@ -161,11 +161,11 @@ const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockM
         setViewMode('embed');
     };
 
+
     const handleUnlock = (e) => {
         e.preventDefault();
-        const AUTHORIZED_EMAILS = ['montse@lagrafica.com', 'admin@lagrafica.com', 'alba@lagrafica.com'];
         if (password === 'lagrafica2025') {
-            if (!AUTHORIZED_EMAILS.includes(currentUser.email)) {
+            if (!AUTHORIZED_EMAILS || !AUTHORIZED_EMAILS.includes(currentUser.email)) {
                 alert("Acceso denegado: Tu usuario no tiene permisos para esta sección.");
                 setPassword('');
                 return;

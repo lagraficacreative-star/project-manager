@@ -85,8 +85,9 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
             const db = await api.getData();
             setBoards(db.boards || []);
             setAllCards((db.cards || []).filter(Boolean).sort((a, b) => (a.order || 0) - (b.order || 0)));
+            console.log("✅ Board data loaded:", db.boards?.length, "boards,", db.cards?.length, "cards");
         } catch (error) {
-            console.error("Error loading boards/cards", error);
+            console.error("❌ Error loading boards/cards", error);
         }
 
         try {
@@ -278,20 +279,20 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
 
         // Real-time Search Logic
         const foundCards = allCards.filter(c =>
-            c.title?.toLowerCase().includes(query) ||
-            c.client?.toLowerCase().includes(query) ||
-            (c.economic?.client && c.economic.client.toLowerCase().includes(query))
+            c && (c.title?.toLowerCase().includes(query) ||
+                c.client?.toLowerCase().includes(query) ||
+                (c.economic?.client && c.economic.client.toLowerCase().includes(query)))
         );
 
         const foundDocs = allDocs.filter(d =>
-            d.name?.toLowerCase().includes(query) ||
-            d.description?.toLowerCase().includes(query)
+            d && (d.name?.toLowerCase().includes(query) ||
+                d.description?.toLowerCase().includes(query))
         );
 
         const foundTenders = allTenders.filter(t =>
-            t.title?.toLowerCase().includes(query) ||
-            t.institution?.toLowerCase().includes(query) ||
-            t.source?.toLowerCase().includes(query)
+            t && (t.title?.toLowerCase().includes(query) ||
+                t.institution?.toLowerCase().includes(query) ||
+                t.source?.toLowerCase().includes(query))
         );
 
         setSearchResults({
@@ -306,73 +307,89 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
             let responseText = "";
             let responseDetails = [];
 
-            // 0. Proactive Summary / General Resumen
-            if (query.includes('resumen') || query.includes('dia') || query.includes('hoy')) {
-                const userCards = allCards.filter(c => c.responsibleId === CURRENT_USER_ID && !c.columnId?.includes('done'));
-                const upcomingEvents = (await api.getEvents()).filter(e => new Date(e.start) >= new Date()).sort((a, b) => new Date(a.start) - new Date(b.start));
+            try {
+                // 0. Proactive Summary / General Resumen
+                if (query.includes('resumen') || query.includes('dia') || query.includes('hoy')) {
+                    const userCards = allCards.filter(c => c && c.responsibleId === CURRENT_USER_ID && !c.columnId?.includes('done'));
+                    // No need to fetch events again, we can just fetch once or use a safe call
+                    const events = await api.getEvents().catch(() => []);
+                    const upcomingEvents = events.filter(e => e.start && new Date(e.start) >= new Date()).sort((a, b) => new Date(a.start) - new Date(b.start));
 
-                responseText = `¡Hola ${currentUser.name.split(' ')[0]}! Aquí tienes tu resumen para hoy:`;
-                responseDetails = [
-                    userCards.length > 0 ? `Tienes **${userCards.length} tareas** pendientes asignadas.` : "No tienes tareas pendientes para hoy.",
-                    upcomingEvents.length > 0 ? `Próximo evento: **${upcomingEvents[0].title}** (${new Date(upcomingEvents[0].start).toLocaleDateString()}).` : "Sin eventos próximos en el calendario."
-                ];
-
-                const recentDocs = allDocs.slice(0, 2);
-                if (recentDocs.length > 0) {
-                    responseDetails.push(`Últimos documentos: ${recentDocs.map(d => d.name).join(', ')}.`);
-                }
-            }
-            // 1. Team Tasks ("que hace X?")
-            else if (query.includes('que hace') || query.includes('tareas de') || query.includes('trabajo de')) {
-                const foundUser = users.find(u => query.includes(u.name.toLowerCase()));
-                if (foundUser) {
-                    const userCards = allCards.filter(c => c.responsibleId === foundUser.id && !c.columnId?.includes('done'));
-                    responseText = `Actualmente **${foundUser.name}** tiene ${userCards.length} tareas pendientes asignadas.`;
-                    responseDetails = userCards.slice(0, 5).map(c => `📋 ${c.title}`);
-                    if (userCards.length === 0) responseText = `**${foundUser.name}** no tiene tareas pendientes en este momento.`;
-                }
-            }
-            // 2. Contact Search
-            else if (query.includes('contacto') || query.includes('quien es') || query.includes('telefono') || query.includes('email')) {
-                const contacts = await api.getContacts();
-                const cleanQuery = query.replace(/contacto|quien es|dime el|telefono|email|de/g, '').trim();
-                const foundContact = contacts.find(c => c.name.toLowerCase().includes(cleanQuery) || (c.company && c.company.toLowerCase().includes(cleanQuery)));
-                if (foundContact) {
-                    responseText = `He encontrado el contacto de **${foundContact.name}**.`;
+                    responseText = `¡Hola ${currentUser.name.split(' ')[0]}! Aquí tienes tu resumen para hoy:`;
                     responseDetails = [
-                        foundContact.company ? `🏢 Empresa: ${foundContact.company}` : null,
-                        foundContact.email ? `📧 Email: ${foundContact.email}` : null,
-                        foundContact.phone ? `📞 Tel: ${foundContact.phone}` : null
-                    ].filter(Boolean);
-                }
-            }
-            // 3. Project Status
-            else if (query.includes('como va') || query.includes('estado de')) {
-                const cleanQuery = query.replace(/como va|el proyecto|la tarjeta|estado de/g, '').trim();
-                const card = allCards.find(c => c.title.toLowerCase().includes(cleanQuery));
-                if (card) {
-                    const board = boards.find(b => b.id === card.boardId);
-                    const col = board?.columns.find(cl => cl.id === card.columnId);
-                    responseText = `El proyecto **${card.title}** está en el tablero **${board?.title || 'General'}**, columna **${col?.title || 'Pendiente'}**.`;
-                    if (card.labels?.length) responseDetails = [`Etiquetas: ${card.labels.join(', ')}`];
-                }
-            }
-            // 4. Calendar Search
-            else if (query.includes('calendario') || query.includes('agenda') || query.includes('evento') || query.includes('reunion')) {
-                const events = await api.getEvents();
-                const nextEvents = events.filter(e => new Date(e.start) >= new Date()).sort((a, b) => new Date(a.start) - new Date(b.start));
-                if (nextEvents.length > 0) {
-                    responseText = `He revisado la agenda. Tienes ${nextEvents.length} eventos próximamente.`;
-                    responseDetails = nextEvents.slice(0, 3).map(e => `🗓️ ${new Date(e.start).toLocaleDateString()}: ${e.title}`);
-                } else {
-                    responseText = "No he encontrado eventos próximos en el calendario.";
-                }
-            }
+                        userCards.length > 0 ? `Tienes **${userCards.length} tareas** pendientes asignadas.` : "No tienes tareas pendientes para hoy.",
+                        upcomingEvents.length > 0 ? `Próximo evento: **${upcomingEvents[0].title}** (${new Date(upcomingEvents[0].start).toLocaleDateString()}).` : "Sin eventos próximos en el calendario."
+                    ];
 
-            if (responseText) {
-                setAiAnswer({ text: responseText, details: responseDetails });
+                    const recentDocs = (allDocs || []).slice(0, 2);
+                    if (recentDocs.length > 0) {
+                        responseDetails.push(`Últimos documentos: ${recentDocs.map(d => d.name).join(', ')}.`);
+                    }
+                }
+                // 1. Team Tasks ("que hace X?")
+                else if (query.includes('que hace') || query.includes('tareas de') || query.includes('trabajo de')) {
+                    const foundUser = (users || []).find(u => u.name && query.includes(u.name.toLowerCase()));
+                    if (foundUser) {
+                        const userCards = allCards.filter(c => c && c.responsibleId === foundUser.id && !c.columnId?.includes('done'));
+                        responseText = `Actualmente **${foundUser.name}** tiene ${userCards.length} tareas pendientes asignadas.`;
+                        responseDetails = userCards.slice(0, 5).map(c => `📋 ${c.title}`);
+                        if (userCards.length === 0) responseText = `**${foundUser.name}** no tiene tareas pendientes en este momento.`;
+                    }
+                }
+                // 2. Contact Search
+                else if (query.includes('contacto') || query.includes('quien es') || query.includes('telefono') || query.includes('email')) {
+                    const contacts = await api.getContacts().catch(() => []);
+                    const cleanQuery = query.replace(/contacto|quien es|dime el|telefono|email|de/g, '').trim();
+                    const foundContact = contacts.find(c => c.name && (c.name.toLowerCase().includes(cleanQuery) || (c.company && c.company.toLowerCase().includes(cleanQuery))));
+                    if (foundContact) {
+                        responseText = `He encontrado el contacto de **${foundContact.name}**.`;
+                        responseDetails = [
+                            foundContact.company ? `🏢 Empresa: ${foundContact.company}` : null,
+                            foundContact.email ? `📧 Email: ${foundContact.email}` : null,
+                            foundContact.phone ? `📞 Tel: ${foundContact.phone}` : null
+                        ].filter(Boolean);
+                    }
+                }
+                // 3. Project Status
+                else if (query.includes('como va') || query.includes('estado de')) {
+                    const cleanQuery = query.replace(/como va|el proyecto|la tarjeta|estado de/g, '').trim();
+                    const card = allCards.find(c => c && c.title && c.title.toLowerCase().includes(cleanQuery));
+                    if (card) {
+                        const board = (boards || []).find(b => b.id === card.boardId);
+                        const col = board?.columns?.find(cl => cl.id === card.columnId);
+                        responseText = `El proyecto **${card.title}** está en el tablero **${board?.title || 'General'}**, columna **${col?.title || 'Pendiente'}**.`;
+                        if (card.labels?.length) responseDetails = [`Etiquetas: ${card.labels.join(', ')}`];
+                    }
+                }
+                // 4. Calendar Search
+                else if (query.includes('calendario') || query.includes('agenda') || query.includes('evento') || query.includes('reunion')) {
+                    const events = await api.getEvents().catch(() => []);
+                    const nextEvents = events.filter(e => e.start && new Date(e.start) >= new Date()).sort((a, b) => new Date(a.start) - new Date(b.start));
+                    if (nextEvents.length > 0) {
+                        responseText = `He revisado la agenda. Tienes ${nextEvents.length} eventos próximamente.`;
+                        responseDetails = nextEvents.slice(0, 3).map(e => `🗓️ ${new Date(e.start).toLocaleDateString()}: ${e.title}`);
+                    } else {
+                        responseText = "No he encontrado eventos próximos en el calendario.";
+                    }
+                }
+
+                if (responseText) {
+                    setAiAnswer({ text: responseText, details: responseDetails });
+                } else {
+                    // Default fallback for general queries
+                    if (query.length > 3) {
+                        setAiAnswer({
+                            text: "No he podido encontrar una respuesta específica, pero puedo buscar proyectos, contactos o revisar tu agenda. ¿Quieres que busque algo más concreto?",
+                            details: ["Prueba con: 'que hace Neus'", "Prueba con: 'busca proyecto X'", "Prueba con: 'resumen del dia'"]
+                        });
+                    }
+                }
+            } catch (err) {
+                console.error("AI Search failed", err);
+                setAiAnswer({ text: "Lo siento, ha habido un problema al procesar tu consulta. Por favor, inténtalo de nuevo." });
+            } finally {
+                setIsAiLoading(false);
             }
-            setIsAiLoading(false);
         }
     };
 
@@ -603,7 +620,7 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
                         <DepartmentCard title="LG - Diseño" icon={Palette} count={getCount('b_design')} onClick={() => navigate('/board/b_design')} />
                         <DepartmentCard title="REDES SOCIALES" icon={Smartphone} count={getCount('b_social')} onClick={() => navigate('/board/b_social')} />
                         <DepartmentCard title="WEB laGràfica" icon={Code} count={getCount('b_web')} onClick={() => navigate('/board/b_web')} />
-                        <DepartmentCard title="Proyectos IA" icon={Bot} count={getCount('b_ai')} onClick={() => navigate('/board/b_ai')} />
+                        <DepartmentCard title="Licitaciones" icon={Gavel} count={getCount('b_tenders')} onClick={() => navigate('/licitaciones')} />
                     </div>
                 </div>
 

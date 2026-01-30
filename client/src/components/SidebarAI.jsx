@@ -44,15 +44,22 @@ const SidebarAI = () => {
         setIsTyping(true);
 
         try {
-            const db = await api.getData();
-            const contacts = await api.getContacts();
-            const tenders = await api.getTenders();
-            const docs = await api.getDocuments();
-            const events = await api.getEvents();
-            const users = await api.getUsers();
-            const lowerInput = userMsg.toLowerCase();
+            // Optimization: Fetch all data in parallel to avoid "hanging"
+            const [db, contacts, tenders, docs, events, users] = await Promise.all([
+                api.getData().catch(() => ({})),
+                api.getContacts().catch(() => []),
+                api.getTenders().catch(() => []),
+                api.getDocuments().catch(() => []),
+                api.getEvents().catch(() => []),
+                api.getUsers().catch(() => [])
+            ]);
 
+            const lowerInput = userMsg.toLowerCase();
             let response = "";
+
+            // Safety check for critical data
+            const cards = db.cards || [];
+            const safeUsers = users || [];
 
             // BLOCK: FINANCIAL SENSITIVE DATA
             if (lowerInput.includes('suma') || lowerInput.includes('total') || lowerInput.includes('cuanto') || lowerInput.includes('presupuesto') || lowerInput.includes('facturaci') || lowerInput.includes('balance') || lowerInput.includes('cuenta') || lowerInput.includes('dinero') || lowerInput.includes('€') || lowerInput.includes('pago')) {
@@ -60,9 +67,9 @@ const SidebarAI = () => {
             }
             // FEATURE: TEAM TASKS / JOBS
             else if (lowerInput.includes('que hace') || lowerInput.includes('trabajo de') || lowerInput.includes('encargado') || lowerInput.includes('que tiene') || lowerInput.includes('tareas de') || lowerInput.includes('proyecto') || lowerInput.includes('como va')) {
-                const foundUser = users.find(u => lowerInput.includes(u.name.toLowerCase()));
+                const foundUser = safeUsers.find(u => u.name && lowerInput.includes(u.name.toLowerCase()));
                 if (foundUser) {
-                    const userCards = (db.cards || []).filter(c => c && c.responsibleId === foundUser.id && c.columnId && !c.columnId.includes('done'));
+                    const userCards = cards.filter(c => c && c.responsibleId === foundUser.id && c.columnId && !c.columnId.includes('done'));
                     if (userCards.length > 0) {
                         response = `**${foundUser.name}** tiene actualmente **${userCards.length} tareas** activas:\n\n` +
                             userCards.slice(0, 5).map(c => `• ${c.title}`).join('\n') +
@@ -73,10 +80,10 @@ const SidebarAI = () => {
                 } else if (lowerInput.includes('proyecto') || lowerInput.includes('como va') || lowerInput.includes('busca')) {
                     const query = lowerInput.replace(/proyecto|como va|el|la|busca|encuentra/g, '').trim();
                     if (query.length > 2) {
-                        const found = (db.cards || []).filter(c => c && c.title && c.title.toLowerCase().includes(query));
+                        const found = cards.filter(c => c && c.title && c.title.toLowerCase().includes(query));
                         if (found.length > 0) {
                             const card = found[0];
-                            const board = db.boards.find(b => b.id === card.boardId);
+                            const board = (db.boards || []).find(b => b.id === card.boardId);
                             response = `He encontrado el proyecto **${card.title}**. Está en el tablero **${board?.title || 'General'}**.`;
                         } else {
                             response = `No he encontrado ningún proyecto o tarea con el nombre "${query}".`;
@@ -90,7 +97,7 @@ const SidebarAI = () => {
             }
             // FEATURE: CALENDAR / EVENTS
             else if (lowerInput.includes('calendario') || lowerInput.includes('agenda') || lowerInput.includes('evento') || lowerInput.includes('reunion') || lowerInput.includes('cita')) {
-                const upcoming = events.filter(e => new Date(e.start) >= new Date()).sort((a, b) => new Date(a.start) - new Date(b.start));
+                const upcoming = (events || []).filter(e => e.start && new Date(e.start) >= new Date()).sort((a, b) => new Date(a.start) - new Date(b.start));
                 if (upcoming.length > 0) {
                     response = `He revisado el calendario. Próximos eventos:\n\n` +
                         upcoming.slice(0, 3).map(e => `• **${e.title}**: ${new Date(e.start).toLocaleDateString()} ${!e.allDay ? 'a las ' + new Date(e.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '(Todo el día)'}`).join('\n');
@@ -101,7 +108,7 @@ const SidebarAI = () => {
             // FEATURE: CONTACTS
             else if (lowerInput.includes('busca') || lowerInput.includes('quien es') || lowerInput.includes('contacto') || lowerInput.includes('telf') || lowerInput.includes('mail')) {
                 const searchPart = lowerInput.replace(/busca|quien es|contacto|dime el|pasa el|email de|correo de/g, '').trim();
-                const found = contacts.filter(c => c.name.toLowerCase().includes(searchPart) || (c.company && c.company.toLowerCase().includes(searchPart)));
+                const found = (contacts || []).filter(c => c.name.toLowerCase().includes(searchPart) || (c.company && c.company.toLowerCase().includes(searchPart)));
                 if (found.length > 0) {
                     response = found.slice(0, 3).map(c =>
                         `**${c.name}**${c.company ? ' (' + c.company + ')' : ''}:\n📧 ${c.email || 'No disponible'}\n📞 ${c.phone || 'No disponible'}`
@@ -113,7 +120,7 @@ const SidebarAI = () => {
             // FEATURE: DOCUMENTS
             else if (lowerInput.includes('document') || lowerInput.includes('doc') || lowerInput.includes('fichero') || lowerInput.includes('carpeta')) {
                 const searchPart = lowerInput.replace(/documento|doc|fichero|busca|encuentra|sobre/g, '').trim();
-                const foundDocs = docs.filter(d => d.name.toLowerCase().includes(searchPart) || (d.description && d.description.toLowerCase().includes(searchPart)));
+                const foundDocs = (docs || []).filter(d => d.name && (d.name.toLowerCase().includes(searchPart) || (d.description && d.description.toLowerCase().includes(searchPart))));
                 if (foundDocs.length > 0) {
                     response = `He encontrado **${foundDocs.length} ficheros** relacionados:\n\n` +
                         foundDocs.slice(0, 5).map(d => `• **${d.name}** (${d.type})`).join('\n') +
@@ -134,7 +141,7 @@ const SidebarAI = () => {
 
         } catch (err) {
             console.error(err);
-            setMessages(prev => [...prev, { role: 'assistant', text: "Lo siento, ha habido un error al procesar tu petición." }]);
+            setMessages(prev => [...prev, { role: 'assistant', text: "Lo siento, ha habido un error al conectar con la base de datos." }]);
             setIsTyping(false);
         }
     };

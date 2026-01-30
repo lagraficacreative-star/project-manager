@@ -4,10 +4,9 @@ import { api } from '../api';
 import { ChevronLeft, Clock, Play, Square, Users, Calendar, Download } from 'lucide-react';
 
 
-const HRManagement = ({ selectedUsers }) => {
+const HRManagement = ({ selectedUsers, currentUser }) => {
     const [users, setUsers] = useState([]);
     const [timeEntries, setTimeEntries] = useState([]);
-    const [currentUser] = useState({ id: 999, name: 'Montse' }); // Mock current user
     const [activeEntry, setActiveEntry] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(0);
 

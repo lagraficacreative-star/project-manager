@@ -15,7 +15,7 @@ import ChatWidget from './components/ChatWidget';
 import { LayoutDashboard, Inbox as InboxIcon, Users, Book, Calendar as CalIcon, Folder, Menu, X, Package, Gavel, LogOut, ChevronRight, User as UserIcon, Tag } from 'lucide-react';
 
 // Sub-component to handle page title/context in TopBar
-const AUTHORIZED_EMAILS = ['montse@lagrafica.com', 'admin@lagrafica.com', 'alba@lagrafica.com'];
+const AUTHORIZED_EMAILS = ['montse@lagrafica.com', 'admin@lagrafica.com', 'alba@lagrafica.com', 'neus@lagrafica.com', 'ateixido@lagrafica.com', 'omar@lagrafica.com'];
 
 const PageContext = () => {
     const location = useLocation();
@@ -24,7 +24,7 @@ const PageContext = () => {
     if (path === '/') return "Dashboard Principal";
     if (path.startsWith('/board')) return "Gestión de Tablero";
     if (path === '/inbox') return "Buzón de Comunicaciones";
-    if (path === '/agenda') return "Orden del Día";
+    if (path === '/agenda') return "CONTACTOS";
     if (path === '/calendar') return "Calendario de Trabajo";
     if (path === '/rrhh') return "Gestión de Equipo";
     if (path === '/docs') return "Gestión de Empresa";
@@ -86,7 +86,7 @@ function App() {
         {
             to: "/agenda",
             icon: <Book size={18} />,
-            label: "Orden del Día",
+            label: "CONTACTOS",
             subItems: [
                 { to: "/agenda/clients", label: "Clientes" },
                 { to: "/agenda/suppliers", label: "Proveedores" }
@@ -307,12 +307,12 @@ function App() {
                             <Route path="/board/:boardId" element={<Board selectedUsers={selectedUsers} selectedClient={selectedClient} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} AUTHORIZED_EMAILS={AUTHORIZED_EMAILS} />} />
                             <Route path="/inbox" element={<Inbox selectedUsers={selectedUsers} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} AUTHORIZED_EMAILS={AUTHORIZED_EMAILS} />} />
                             <Route path="/rrhh" element={<HRManagement selectedUsers={selectedUsers} currentUser={currentUser} />} />
-                            <Route path="/docs" element={<CompanyDocs selectedUsers={selectedUsers} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
+                            <Route path="/docs" element={<CompanyDocs selectedUsers={selectedUsers} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} AUTHORIZED_EMAILS={AUTHORIZED_EMAILS} />} />
                             <Route path="/agenda" element={<AgendaGPT selectedUsers={selectedUsers} currentUser={currentUser} setSelectedClient={setSelectedClient} />} />
                             <Route path="/agenda/:filterType" element={<AgendaGPT selectedUsers={selectedUsers} currentUser={currentUser} setSelectedClient={setSelectedClient} />} />
                             <Route path="/calendar" element={<Calendar currentUser={currentUser} />} />
                             <Route path="/resources" element={<Resources currentUser={currentUser} />} />
-                            <Route path="/licitaciones" element={<Licitaciones currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
+                            <Route path="/licitaciones" element={<Licitaciones currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} AUTHORIZED_EMAILS={AUTHORIZED_EMAILS} />} />
                             <Route path="*" element={<Dashboard selectedUsers={selectedUsers} selectedClient={selectedClient} currentUser={currentUser} isManagementUnlocked={isManagementUnlocked} unlockManagement={unlockManagement} />} />
                         </Routes>
 
