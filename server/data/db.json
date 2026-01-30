@@ -3029,6 +3029,215 @@
           "isEmail": true
         }
       ]
+    },
+    {
+      "id": "card_1769786163378ylsz4",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "eat 1 cup every AM to eliminate neuropathy in 4 weeks",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: \"Numb Feet And Fingers\" <numb_ feet_ and_ fingers@energeiamy.sa.com>\n\nhttp://energeiamy.sa.com/dKoQwiL3_tKm5VO_1U5LL9V9i-ahsAkIBo7wdIVQxGXgpebg\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nhttps://energeiamy.sa.com/joMIHMoYFDQOd2VULRCs6sWgW67Y0DPxXQw-4nMU61_KITP1\r\n"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-30T15:16:03.378Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 07:15:37 -0800",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_1769786239373lj8j3",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "Tu código de un solo uso",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Equipo de cuentas Microsoft\r\n\t<account-security-noreply@accountprotection.microsoft.com>\n\nHola, alba@lagrafica.com:\r\n\r\nHemos recibido tu solicitud de un código de un solo uso para usarlo con tu cuenta Microsoft.\r\n\r\nTu código de un solo uso es: 417500\r\n\r\nEscriba solo este código en un sitio web o aplicación oficial. No lo comparta con nadie. Nunca lo pediremos fuera de una plataforma oficial.\r\n\r\nGracias,\r\nEl equipo de cuentas Microsoft\r\nDeclaración de privacidad: https://go.microsoft.com/fwlink/?LinkId=521839\r\nMicrosoft Corporation, One Microsoft Way, Redmond, WA 98052\r\n"
+        }
+      ],
+      "labels": [
+        "Alba",
+        "Email"
+      ],
+      "createdAt": "2026-01-30T15:17:19.373Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 07:14:39 -0800",
+      "responsibleId": "albap"
+    },
+    {
+      "id": "card_1769787161676hznii",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "Hola, neus, hemos detectado un nuevo inicio de sesión en tu cuenta de Dropbox",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Dropbox <no-reply@dropbox.com>\n\nHola, neus:\r\n\r\nUn nuevo dispositivo (navegador web) acaba de iniciar sesión en tu cuenta de Dropbox. Para garantizar la seguridad de tu cuenta, indícanos si has sido tú.\r\n\r\n ¿Realmente has sido tú?    Cuándo: Jan 30, 2026 at 4:31 pm (CET)  Qué: Chrome en Mac OS X    Sí[1] No[2]  \r\n \r\n \r\nNo lo sé[3]\r\n\r\nMás información sobre cómo proteger tu cuenta[4]\r\n\r\nGracias,\r\n- El equipo de Dropbox\r\n\r\n\r\n[1]: <https://www.dropbox.com/login_notification/this_was_me?role=work&request_id=4de3c088769a4a4fb51a1eb8697ccec0&luid=4ed63dbb>\r\n[2]: <https://www.dropbox.com/security_checkup?role=work&from_login_notification=1&request_id=4de3c088769a4a4fb51a1eb8697ccec0&luid=4ed63dbb>\r\n[3]: <https://www.dropbox.com/login_notification/not_sure?role=work&request_id=4de3c088769a4a4fb51a1eb8697ccec0&luid=4ed63dbb&geo=hide>\r\n[4]: https://www.dropbox.com/help/1973"
+        }
+      ],
+      "labels": [
+        "Neus",
+        "Email"
+      ],
+      "createdAt": "2026-01-30T15:32:41.676Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 15:31:15 +0000",
+      "responsibleId": "neus"
+    },
+    {
+      "id": "card_1769787278941dnilr",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "neus te ha añadido a la carpeta de equipo \"Treballs Ines\".",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Dropbox <no-reply@dropbox.com>\n\nHola, Carme:\r\n neus ha añadido al Todos los miembros de lagrafica grupo, que te incluye, a la Treballs Ines carpeta del equipo. Echa un vistazo a lo que se ha compartido con el equipo. Más información sobre las carpetas de equipo[1]\r\n\r\nIr a la carpeta de equipo[2]\r\nEl equipo de Dropbox\r\n© 2026 Dropbox\r\n[1]: https://www.dropbox.com/help/business/team-folders\r\n[2]: <https://www.dropbox.com/scl/fo/04xhwjhajn6gsjoor86tp/h?dl=0>"
+        }
+      ],
+      "labels": [
+        "Alba",
+        "Email"
+      ],
+      "createdAt": "2026-01-30T15:34:38.941Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 15:31:50 +0000",
+      "responsibleId": "albap"
+    },
+    {
+      "id": "card_1769787278942jjlre",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "neus lagràfica ha compartido \"Treballs Ines\" contigo",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: neus lagràfica (via Dropbox) <no-reply@dropbox.com>\n\nAñadir a Dropbox[1]\r\n\r\nSaca más partido a tus archivos descargando las aplicaciones para escritorio y para móviles.\r\nDropbox para móviles[2]Dropbox para escritorio[3]\r\n¿Hay algún problema? Informar a Dropbox[4]\r\n[1]: <https://www.dropbox.com/scl/fo/04xhwjhajn6gsjoor86tp/h?r=ACkeM8nzJ_11UU6lIM3yUlZGp9Giwdn6XXdv1F9Xiwlr94Vl9zhPkmFXjnfieB-jO43dgWcY-XnU5h45hTExD79MM0oxjKjk4orQeg5QyfFcgd9yQDomIVCnabZ22OPMbxAUKOtdyhFG8s1eNpre2qwMkQauiIQqzGypHvu4Pix0LbWvOKzkllxreBWXjdZRl7I&sm=1&dl=0>\r\n[2]: https://www.dropbox.com/mobile\r\n[3]: https://www.dropbox.com/install\r\n[4]: <https://www.dropbox.com/report_abuse?>"
+        }
+      ],
+      "labels": [
+        "Alba",
+        "Email"
+      ],
+      "createdAt": "2026-01-30T15:34:38.942Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 15:31:49 +0000",
+      "responsibleId": "albap"
+    },
+    {
+      "id": "card_1769788568310n7xg5",
+      "boardId": "b_design",
+      "columnId": "col_2_b_design",
+      "title": "Submission from Get Help",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: \"Dropbox (Dropbox Support)\" <support@dropbox.zendesk.com>\n\n##- Por favor, escriba su respuesta por encima de esta línea -##\r\n\r\n<a href=\"https://www.dropbox.com/support/ticket/25967658\">Tíquet #25967658: Submission from Get Help</a>\r\n\r\nHola, \r\n<html>\r\nEl equipo de asistencia ha recibido tu pregunta. Nos pondremos en contacto contigo pronto con una solución o si necesitamos más detalles. \r\n\r\nMientras tanto, puedes echar un vistazo a nuestro <b><a href=\"https://help.dropbox.com/\">Centro de ayuda</a></b> en el que encontrarás preguntas frecuentes, artículos de ayuda y mucho más. \r\n\r\n¿Tienes una pregunta sobre una solicitud de asistencia anterior? Puedes verla iniciando sesión en tu <b><a href=\"https://www.dropbox.com/support/\">portal de cliente</a></b>.\r\n\r\nEl equipo de asistencia de Dropbox\r\n</html>\r\n\r\n \r\n<html>\r\n  Evita compartir datos personales identificables en los archivos adjuntos. Este mensaje puede incluir archivos adjuntos. Para ver estos archivos y otras ofertas de asistencia, inicia sesión en <a href=\"https://www.dropbox.com/asistencia\">dropbox.com/support</a>. Dropbox puede usar la IA para mejorar el proceso de asistencia. Obtén más información sobre cómo usamos y protegemos tus datos en nuestra <a href=\"https://www.dropbox.com/privacy\">Política de privacidad</a>.\r\n</html>\r\n\r\n--------------------------------\r\nEste correo electrónico es un servicio de Dropbox Support.\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n[WE7N6M-GD75R]"
+        }
+      ],
+      "labels": [
+        "Alba",
+        "Email"
+      ],
+      "createdAt": "2026-01-30T15:56:08.310Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 15:55:13 +0000",
+      "responsibleId": "albap",
+      "comments": [
+        {
+          "id": "ext_1769789330485",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: \"Dropbox Support (Dropbox Support)\" <support@dropbox.zendesk.com>\nAsunto: Submission from Get Help\n\n##- Por favor, escriba su respuesta por encima de esta línea -##\r\n\r\n<a href=\"https://www.dropbox.com/support/ticket/25967658\">Tíquet #25967658: Submission from Get Help</a>\r\n\r\nPuedes añadir una respuesta contestando a este mensaje Asegúrate de incluir la misma dirección de correo que utilizaste para ponerte en contacto con nosotros.\r\n\r\nTambién puedes responder iniciando sesión en el portal para clientes, desde aquí: https://dropbox.com/support.\r\n\r\n----------------------------------------------\r\n\r\nActualizado por: Dropbox Support, 30 ene 2026, 7:58 a. m. GMT-8\r\n\r\n¡Gracias por contactar con Dropbox!\r\n\r\nPor motivos de seguridad, ¿podría responder a este mensaje directamente desde la bandeja de entrada de su correo electrónico? Esto nos permitirá ayudarle más con su solicitud.\r\n\r\nGracias,\r\n\r\nAtención al cliente de Dropbox\r\n\r\n_Para agilizar el proceso, este correo electrónico fue escrito por el asistente de inteligencia artificial de Dropbox. No te preocupes, una persona real responderá a t...",
+          "date": "2026-01-30T16:08:50.485Z",
+          "isEmail": true
+        }
+      ]
+    },
+    {
+      "id": "card_176978884804269d30",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "ALTRA TREBALLADORA + NOMINES",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: \"alba@lagrafica.com\" <alba@lagrafica.com>\n\nBones Sandra!\r\n\r\nPrimer, necessito sempre rebre les nòmines abans de que acabi el mes. Estem a dia 30 i encara no he rebut res.\r\n\r\nSegon, la nòmina de la neus s’ha de pujar aquest mes 18 hores extra a 12€/hora, un total de 216€ més nets.\r\n\r\nÚltim, donar d’alta la treballadora que t’adjunto el dni, comença dilluns. Sou 1650€ nets. Si necessites algo més em dius!\r\n\r\n\r\n\r\n—\r\n\r\nALBA PUIGGROS\r\nProject Manager\r\n\r\n\r\n\r\n\r\nalba <mailto:alba@lagrafica.com>@lagrafica.com <mailto:alba@lagrafica.com>   \r\n\r\n 973 21 63 63\r\n\r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier información, duda, petición o consulta que precise por esta misma vía. Podrá ejercer sus derechos de acceso, rectificación, limitación de tratamiento, supresión, portab"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-30T16:00:48.042Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 16:59:29 +0100",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_17697892365472cagb",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "prova",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: \"ines@lagrafica.com\" <ines@lagrafica.com>\n\n\r\n—\r\n\r\nINES MARTÍNEZ\r\nDissenyadora gràfica\r\n\r\n\r\n￼ines@lagrafica.com <mailto:maria@lagrafica.com>\r\n￼973 21 63 63\r\n￼Manuel Gaya i Tomàs, 11 baixos, Lleida\r\n\r\n\r\n￼\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier información, duda, petición o consulta que precise por esta misma vía. Podrá ejercer sus derechos de acceso, rectificación, limitación de tratamiento, supresión, portabilidad y oposición al tratamiento de sus datos de carácter personal así como revocar los consentimientos que en su caso haya prestado u obtener más información, dirigiendo su petición ines@lagrafica.com <mailto:maria@lagrafica.com>\r\n"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-30T16:07:16.547Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 17:04:00 +0100",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_176978988785062gtc",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "The Most Important News You'll Get This Year!",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: \"something revolutionary\" <something_revolutionary@brainjavas.sa.com>\n\nhttp://brainjavas.sa.com/w_GTOHhi2waDTFWb2PzqGZ1-AAZ4Wwdrpsx-un8cG_ojwyE\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nhttp://brainjavas.sa.com/cv5Xl8zsP7tx7rukUyrgkF_NxxUCsHZyxH_10bWM33wpebw\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nhttp://[Unsubscribe]]\r\n"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-30T16:18:07.850Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 08:14:47 -0800",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_1769790003581e44om",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "RE: CATÀLEGS",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: mrtorrent@tubs1313.com\n\nHola Montse!\r\n\r\nSobretot! Recordeu-vos-en que els necessitem quan abans millor.\r\n\r\nMerci i bon cap de setmana!\r\n\r\n \r\n\r\n \r\n\r\nMª Rosa Torrent Abella\r\n\r\nGerent\r\n\r\n\r\n\r\n \r\n\r\nDe: Montse Torrelles <montse@lagrafica.com> \r\nEnviado el: martes, 27 de enero de 2026 16:42\r\nPara: mrtorrent@tubs1313.com\r\nAsunto: Re: CATÀLEGS\r\nImportancia: Alta\r\n\r\n \r\n\r\n \r\n\r\nBona tarda Rosa M. El mateix disseny i tot igual que els ultims que van fer?\r\n\r\n \r\n\r\n \r\n\r\n \r\n\r\n\r\n\r\n\r\n\r\nEl 27 gen. 2026, a les 16:40, alba@lagrafica.com <mailto:alba@lagrafica.com>  va escriure:\r\n\r\n \r\n\r\n \r\n\r\n\r\n\r\n\r\n\r\nEl 16 ene 2026, a las 17:25, mrtorrent@tubs1313.com <mailto:mrtorrent@tubs1313.com>  escribió:\r\n\r\n \r\n\r\nHola Alba,\r\n\r\nNecessitaríem catàlegs com els que ens vau fer l´última vegada. Impressos a doble cara, també com les últimes vegades.\r\n\r\nUns 200.\r\n\r\nJa em dius quan els podeu tenir.\r\n\r\nMoltes gràcies!\r\n\r\n \r\n\r\n \r\n\r\nMª Rosa Torrent Abella\r\n\r\nGerent\r\n\r\n<image001.png>\r\n\r\n \r\n\r\n \r\n\r\n"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-30T16:20:03.581Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 17:18:40 +0100",
+      "responsibleId": "montse"
     }
   ],
   "old_cards": [],
@@ -5360,7 +5569,18 @@
     "auto_rule_31254",
     "auto_rule_580839",
     "auto_rule_580841",
-    "auto_rule_580840"
+    "auto_rule_580840",
+    "auto_rule_580842",
+    "auto_rule_18307",
+    "auto_rule_31255",
+    "auto_rule_18309",
+    "auto_rule_18308",
+    "auto_rule_18310",
+    "auto_rule_580843",
+    "auto_rule_580844",
+    "auto_rule_18311",
+    "auto_rule_580845",
+    "auto_rule_580846"
   ],
   "events": [],
   "deleted_emails": [],
@@ -5381,5 +5601,40 @@
       "documentacio": "https://drive.google.com/drive/folders/16ksxmNMLGNJH8j_Gt3e3ElGhivNfBQ8Z?usp=drive_link",
       "requeriments": "https://drive.google.com/drive/folders/1-TAiNFTvI92WAL2VaLY-RTsO1un2znmy?usp=drive_link"
     }
+  },
+  "docs_config": {
+    "sections": [
+      {
+        "id": "f_balanços",
+        "label": "Balanços i Finances",
+        "icon": "DollarSign",
+        "color": "green",
+        "drive_link": ""
+      },
+      {
+        "id": "f_licitacions",
+        "label": "Licitacions i Contractes",
+        "icon": "Table",
+        "color": "blue",
+        "drive_link": ""
+      },
+      {
+        "id": "f_empresa",
+        "label": "Gestió d'Empresa",
+        "icon": "FileText",
+        "color": "orange",
+        "drive_link": ""
+      },
+      {
+        "id": "f_drive",
+        "label": "Recursos Google Drive",
+        "icon": "Globe",
+        "color": "blue",
+        "drive_link": ""
+      }
+    ],
+    "main_drive_link": "https://drive.google.com/drive/folders/1Q54TigoyKycEHJBPxm5Q3R4QRPhNtgFw?usp=drive_link",
+    "notepad": "",
+    "urgent_checklist": []
   }
 }

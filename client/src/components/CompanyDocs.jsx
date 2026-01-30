@@ -4,7 +4,8 @@ import {
     Folder, FileText, Upload, Plus, ChevronRight, Trash2, File,
     ArrowLeft, Save, Table, Link as LinkIcon, MessageSquare,
     ExternalLink, Globe, Send, Search, Calendar, CheckCircle,
-    Circle, X, Bot, Sparkles, TrendingUp, DollarSign, Wallet, RefreshCw, Lock
+    Circle, X, Bot, Sparkles, TrendingUp, DollarSign, Wallet, RefreshCw, Lock,
+    Edit2, PlusCircle, Check, Square
 } from 'lucide-react';
 
 const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockManagement, AUTHORIZED_EMAILS }) => {
@@ -25,11 +26,101 @@ const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockM
     const [showNewFolder, setShowNewFolder] = useState(false);
     const [newFolderName, setNewFolderName] = useState('');
 
+    const [config, setConfig] = useState({
+        sections: [],
+        main_drive_link: "https://drive.google.com",
+        notepad: "",
+        urgent_checklist: []
+    });
+    const [isEditingConfig, setIsEditingConfig] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
+
     const currentFolder = docs.find(d => d.id === currentFolderId);
 
     useEffect(() => {
         loadDocs();
+        loadConfig();
     }, []);
+
+    const loadConfig = async () => {
+        const fullData = await api.getData();
+        if (fullData.docs_config) {
+            setConfig(fullData.docs_config);
+        }
+    };
+
+    const saveConfig = async (newConfig) => {
+        setIsSaving(true);
+        try {
+            await api.updateData({ docs_config: newConfig });
+            setConfig(newConfig);
+        } catch (error) {
+            console.error("Failed to save config", error);
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const getIcon = (iconName) => {
+        const icons = { DollarSign, Table, FileText, Globe, Folder, Wallet };
+        const IconComponent = icons[iconName] || FileText;
+        return <IconComponent size={24} />;
+    };
+
+    const handleAddSection = () => {
+        const newSection = {
+            id: 'f_custom_' + Date.now(),
+            label: 'Nou Apartat',
+            icon: 'Folder',
+            color: 'orange',
+            drive_link: ''
+        };
+        const newSections = [...config.sections, newSection];
+        saveConfig({ ...config, sections: newSections });
+    };
+
+    const handleDeleteSection = (idx) => {
+        if (!confirm("Segur que vols esborrar aquest apartat?")) return;
+        const newSections = config.sections.filter((_, i) => i !== idx);
+        saveConfig({ ...config, sections: newSections });
+    };
+
+    const handleUpdateSection = (idx, field, value) => {
+        const newSections = [...config.sections];
+        newSections[idx][field] = value;
+        // Optimization: debounce or local state if too slow, but here we want persistence
+        saveConfig({ ...config, sections: newSections });
+    };
+
+    const handleUpdateNotepad = (value) => {
+        setConfig(prev => ({ ...prev, notepad: value }));
+        // Debounce actual save to avoid excessive API calls
+        if (window.notepadTimeout) clearTimeout(window.notepadTimeout);
+        window.notepadTimeout = setTimeout(() => {
+            saveConfig({ ...config, notepad: value });
+        }, 1000);
+    };
+
+    const handleAddCheckItem = (e) => {
+        e.preventDefault();
+        const text = e.target.item.value.trim();
+        if (!text) return;
+        const newItem = { text, completed: false };
+        const newChecklist = [...config.urgent_checklist, newItem];
+        saveConfig({ ...config, urgent_checklist: newChecklist });
+        e.target.reset();
+    };
+
+    const handleToggleCheck = (idx) => {
+        const newChecklist = [...config.urgent_checklist];
+        newChecklist[idx].completed = !newChecklist[idx].completed;
+        saveConfig({ ...config, urgent_checklist: newChecklist });
+    };
+
+    const handleDeleteCheckItem = (idx) => {
+        const newChecklist = config.urgent_checklist.filter((_, i) => i !== idx);
+        saveConfig({ ...config, urgent_checklist: newChecklist });
+    };
 
     const loadDocs = async () => {
         setLoading(true);
@@ -249,9 +340,12 @@ const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockM
                     <button onClick={() => setShowNewFolder(true)} className="flex items-center gap-2 px-6 py-3 bg-brand-black text-white rounded-2xl hover:bg-brand-orange font-black text-[10px] uppercase tracking-widest transition-all shadow-lg active:scale-95 whitespace-nowrap">
                         <Plus size={16} /> Nova Carpeta
                     </button>
-                    <a href="https://drive.google.com" target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 bg-white border-2 border-slate-100 text-slate-700 rounded-2xl hover:border-brand-orange font-black text-[10px] uppercase tracking-widest transition-all whitespace-nowrap">
+                    <a href={config.main_drive_link} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 bg-white border-2 border-slate-100 text-slate-700 rounded-2xl hover:border-brand-orange font-black text-[10px] uppercase tracking-widest transition-all whitespace-nowrap">
                         <ExternalLink size={14} /> Google Drive
                     </a>
+                    <button onClick={() => setIsEditingConfig(!isEditingConfig)} className={`p-3 rounded-2xl transition-all ${isEditingConfig ? 'bg-brand-orange text-white' : 'bg-gray-100 text-gray-400 hover:text-brand-orange'}`}>
+                        <Edit2 size={16} />
+                    </button>
                 </div>
             </header>
 
@@ -318,10 +412,87 @@ const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockM
 
                             {/* Main Categories Section */}
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                                <DocCategory label="Balanços i Finances" icon={<DollarSign size={24} />} color="green" onClick={() => navigateTo('f_balanços', 'Balanços')} />
-                                <DocCategory label="Licitacions i Contractes" icon={<Table size={24} />} color="blue" onClick={() => navigateTo('f_licitacions', 'Licitacions')} />
-                                <DocCategory label="Gestió d'Empresa" icon={<FileText size={24} />} color="orange" onClick={() => navigateTo('f_empresa', 'Empresa')} />
-                                <DocCategory label="Recursos Google Drive" icon={<Globe size={24} />} color="blue" onClick={() => navigateTo('f_drive', 'Recursos Drive')} />
+                                {config.sections.map((section, idx) => (
+                                    <div key={section.id} className="relative group/cat">
+                                        <DocCategory
+                                            label={section.label}
+                                            icon={getIcon(section.icon)}
+                                            color={section.color}
+                                            onClick={() => section.drive_link ? window.open(section.drive_link, '_blank') : navigateTo(section.id, section.label)}
+                                        />
+                                        {isEditingConfig && (
+                                            <div className="absolute -top-2 -right-2 flex gap-1">
+                                                <button onClick={() => handleDeleteSection(idx)} className="p-2 bg-red-500 text-white rounded-full shadow-lg hover:scale-110 transition-all"><X size={12} /></button>
+                                            </div>
+                                        )}
+                                        {isEditingConfig && (
+                                            <input
+                                                className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[80%] px-2 py-1 bg-white/90 border border-gray-200 rounded text-[8px] font-bold outline-none"
+                                                placeholder="Link Drive..."
+                                                value={section.drive_link || ''}
+                                                onChange={(e) => handleUpdateSection(idx, 'drive_link', e.target.value)}
+                                            />
+                                        )}
+                                    </div>
+                                ))}
+                                {isEditingConfig && (
+                                    <button onClick={handleAddSection} className="p-8 rounded-[2.5rem] border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-2 text-gray-300 hover:border-brand-orange hover:text-brand-orange transition-all">
+                                        <PlusCircle size={24} />
+                                        <span className="text-[10px] font-black uppercase">Afegir Apartat</span>
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* Notepad and Urgent Checklist */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <section className="md:col-span-2 bg-white rounded-[3rem] border border-gray-100 shadow-sm p-10 flex flex-col min-h-[500px]">
+                                    <div className="flex items-center justify-between mb-6">
+                                        <div className="flex items-center gap-3">
+                                            <div className="p-3 bg-brand-black text-white rounded-2xl">
+                                                <FileText size={20} />
+                                            </div>
+                                            <h3 className="text-lg font-black uppercase tracking-tight">Bloc de Notes (Word)</h3>
+                                        </div>
+                                        {isSaving && <RefreshCw size={16} className="text-brand-orange animate-spin" />}
+                                    </div>
+                                    <textarea
+                                        className="flex-1 w-full p-8 bg-gray-50/50 rounded-[2rem] border-none outline-none text-sm font-medium leading-relaxed resize-none custom-scrollbar"
+                                        placeholder="Comença a escriure les teves notes aquí..."
+                                        value={config.notepad}
+                                        onChange={(e) => handleUpdateNotepad(e.target.value)}
+                                    />
+                                </section>
+
+                                <section className="bg-white rounded-[3rem] border border-gray-100 shadow-sm p-10 flex flex-col">
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <div className="p-3 bg-red-100 text-red-500 rounded-2xl">
+                                            <CheckCircle size={20} />
+                                        </div>
+                                        <h3 className="text-lg font-black uppercase tracking-tight">Notes Urgents</h3>
+                                    </div>
+                                    <div className="flex-1 space-y-3 overflow-y-auto max-h-[400px] pr-2 custom-scrollbar">
+                                        {config.urgent_checklist.map((item, idx) => (
+                                            <div key={idx} className="flex items-center gap-3 p-4 bg-gray-50 rounded-2xl group">
+                                                <button onClick={() => handleToggleCheck(idx)} className="text-gray-300 hover:text-brand-orange transition-colors">
+                                                    {item.completed ? <CheckCircle size={18} className="text-green-500" /> : <Square size={18} />}
+                                                </button>
+                                                <span className={`flex-1 text-xs font-bold ${item.completed ? 'text-gray-300 line-through' : 'text-slate-700'}`}>{item.text}</span>
+                                                <button onClick={() => handleDeleteCheckItem(idx)} className="text-gray-200 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all">
+                                                    <Trash2 size={14} />
+                                                </button>
+                                            </div>
+                                        ))}
+                                        {config.urgent_checklist.length === 0 && <p className="text-[10px] text-gray-300 font-black uppercase text-center py-10">No hi ha notes urgents</p>}
+                                    </div>
+                                    <form onSubmit={handleAddCheckItem} className="mt-6 flex gap-2">
+                                        <input
+                                            name="item"
+                                            placeholder="Nova nota urgent..."
+                                            className="flex-1 px-4 py-3 bg-gray-50 rounded-xl text-xs font-bold outline-none border border-transparent focus:border-brand-orange/20"
+                                        />
+                                        <button className="p-3 bg-brand-black text-white rounded-xl hover:bg-brand-orange transition-all"><Plus size={18} /></button>
+                                    </form>
+                                </section>
                             </div>
 
                             {/* Units Grid */}
@@ -423,7 +594,7 @@ const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockM
                             <h4 className="text-xs font-black uppercase tracking-widest">Google Drive</h4>
                         </div>
                         <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest leading-relaxed">Accedeix a tota la documentació empresarial des d'un sol lloc.</p>
-                        <a href="https://drive.google.com" target="_blank" rel="noreferrer" className="block w-full py-4 bg-brand-orange text-center rounded-2xl font-black text-xs uppercase hover:bg-white hover:text-brand-black transition-all shadow-lg active:scale-95">
+                        <a href={config.main_drive_link} target="_blank" rel="noreferrer" className="block w-full py-4 bg-brand-orange text-center rounded-2xl font-black text-xs uppercase hover:bg-white hover:text-brand-black transition-all shadow-lg active:scale-95">
                             Obrir la Carpeta
                         </a>
                     </div>
