@@ -4,7 +4,7 @@ import {
     Zap, Globe, LayoutDashboard, ShieldCheck, RefreshCw, Plus,
     ListFilter, X, Clock, CheckCircle, AlertCircle, Trophy, Ban,
     ExternalLink, Trash2, Archive, ChevronLeft, Calendar as CalIcon,
-    Bot, MessageSquare, StickyNote, Database, Send, Sparkles, Folder, Mail, Search
+    Bot, MessageSquare, StickyNote, Database, Send, Sparkles, Folder, Mail, Search, Edit2
 } from 'lucide-react';
 import EmailComposer from './EmailComposer';
 import { api } from '../api';
@@ -52,6 +52,13 @@ const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement, AUT
     const [activeMailFolder, setActiveMailFolder] = useState('INBOX');
     const [repliedIds, setRepliedIds] = useState([]);
 
+    const [config, setConfig] = useState({
+        licitauto_url: 'https://licitauto-ybc5zzv8.manus.space',
+        drive_links: {
+            main: '', per_presentar: '', presentades: '', guanyades_2026: '', documentacio: '', requeriments: ''
+        }
+    });
+
     const [newTender, setNewTender] = useState({
         title: '', institution: '', amount: '', deadline: '', link: '', drive_link: '', cpv: '', description: '', checklist: []
     });
@@ -66,6 +73,9 @@ const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement, AUT
 
         const db = await api.getData();
         setNotes(db.licitaciones_notes || '');
+        if (db.licitaciones_config) {
+            setConfig(db.licitaciones_config);
+        }
 
         if (t.length === 0 && a.length === 0) {
             const mockAlerts = [
@@ -74,6 +84,22 @@ const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement, AUT
             ];
             for (const ma of mockAlerts) await api.createAlert(ma);
             loadData();
+        }
+    };
+
+    const handleUpdateConfig = async (newConfig) => {
+        try {
+            await api.updateData({ licitaciones_config: newConfig });
+            setConfig(newConfig);
+        } catch (err) {
+            console.error('Failed to update config', err);
+        }
+    };
+
+    const handleEditLicitauto = () => {
+        const newUrl = prompt('Nueva URL para Licitauto Pro:', config.licitauto_url);
+        if (newUrl && newUrl !== config.licitauto_url) {
+            handleUpdateConfig({ ...config, licitauto_url: newUrl });
         }
     };
 
@@ -281,6 +307,29 @@ const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement, AUT
                         <StatCard label="Gmail" value="Inbox" icon={<Mail size={20} />} color="indigo" active={selectedFilter === 'mailbox'} onClick={() => setSelectedFilter('mailbox')} />
                     </div>
 
+                    {/* ENLACES DESTACADOS */}
+                    <div className="bg-slate-50/50 p-6 rounded-[2.5rem] border border-slate-100 flex flex-wrap gap-4 items-center">
+                        <div className="flex-1 flex gap-4 overflow-x-auto no-scrollbar pb-2 sm:pb-0">
+                            <a
+                                href={config.licitauto_url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="px-6 py-4 bg-brand-orange text-white rounded-2xl flex items-center gap-3 shadow-lg shadow-orange-500/20 hover:scale-105 transition-all shrink-0"
+                            >
+                                <Sparkles size={18} />
+                                <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">Licitauto Pro</span>
+                            </a>
+                            <button onClick={handleEditLicitauto} className="p-2 text-slate-300 hover:text-brand-orange transition-all"><Edit2 size={16} /></button>
+                            <div className="h-10 w-px bg-slate-200 mx-2 hidden sm:block"></div>
+                            <div className="flex gap-2 min-w-0">
+                                <DriveFolderLink label="Drive" url={config.drive_links.main} />
+                                <DriveFolderLink label="Per Presentar" url={config.drive_links.per_presentar} />
+                                <DriveFolderLink label="Presentades" url={config.drive_links.presentades} />
+                                <DriveFolderLink label="Documentació" url={config.drive_links.documentacio} />
+                            </div>
+                        </div>
+                    </div>
+
                     {(selectedFilter && selectedFilter !== 'mailbox') || textSearch ? (
                         <div className="bg-white rounded-[2rem] border border-gray-100 overflow-hidden shadow-xl">
                             <div className="bg-slate-900 p-6 flex justify-between items-center text-white">
@@ -433,7 +482,22 @@ const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement, AUT
                                     <form onSubmit={handleAiSend} className="mt-4 relative"><input value={aiInput} onChange={e => setAiInput(e.target.value)} className="w-full p-3 bg-gray-50 border rounded-xl text-xs outline-none" placeholder="Pregunta..." /></form>
                                 </div>
                             )}
-                            {activePanel === 'drive' && <div className="text-center p-10"><Folder size={40} className="mx-auto mb-4 text-blue-500" /><a href="https://drive.google.com" target="_blank" rel="noreferrer" className="text-xs font-black uppercase text-blue-600">Abrir Drive</a></div>}
+                            {activePanel === 'drive' && (
+                                <div className="space-y-4">
+                                    <div className="bg-blue-50/50 p-6 rounded-[2rem] border border-blue-100/50 text-center">
+                                        <Folder size={40} className="mx-auto mb-4 text-blue-500" />
+                                        <a href={config.drive_links.main} target="_blank" rel="noreferrer" className="text-[10px] font-black uppercase text-blue-600 tracking-widest">Abrir Drive Principal</a>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h4 className="text-[9px] font-black text-slate-400 uppercase tracking-widest px-2">Subcarpetas Drive</h4>
+                                        <DrivePanelLink label="Per Presentar" url={config.drive_links.per_presentar} />
+                                        <DrivePanelLink label="Presentades" url={config.drive_links.presentades} />
+                                        <DrivePanelLink label="Guanyades 2026" url={config.drive_links.guanyades_2026} />
+                                        <DrivePanelLink label="Documentació" url={config.drive_links.documentacio} />
+                                        <DrivePanelLink label="Requeriments" url={config.drive_links.requeriments} />
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
@@ -514,5 +578,19 @@ const StatCard = ({ label, value, icon, color, active, onClick }) => {
         </div>
     );
 };
+
+const DriveFolderLink = ({ label, url }) => (
+    <a href={url} target="_blank" rel="noreferrer" className="px-5 py-3.5 bg-white border border-slate-100 text-slate-600 rounded-[1.2rem] text-[9px] font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all shadow-sm shrink-0 flex items-center gap-2">
+        <Folder size={12} className="text-blue-400" />
+        {label}
+    </a>
+);
+
+const DrivePanelLink = ({ label, url }) => (
+    <a href={url} target="_blank" rel="noreferrer" className="flex items-center justify-between p-4 bg-gray-50 hover:bg-blue-50 rounded-2xl border border-gray-100 transition-all group">
+        <span className="text-[10px] font-black uppercase text-slate-600 group-hover:text-blue-600 transition-colors">{label}</span>
+        <ExternalLink size={14} className="text-slate-300 group-hover:text-blue-400" />
+    </a>
+);
 
 export default Licitaciones;

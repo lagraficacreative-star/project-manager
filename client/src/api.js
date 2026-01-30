@@ -384,5 +384,13 @@ export const api = {
     exportToSheets: async () => {
         const res = await fetch(`${API_URL}/export-sheets`, { method: 'POST' });
         return res.json();
+    },
+    updateData: async (data) => {
+        const res = await fetch(`${API_URL}/data`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        return res.json();
     }
 };

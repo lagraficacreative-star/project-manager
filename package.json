@@ -5,6 +5,7 @@
         "node": "24.12.0"
     },
     "scripts": {
+        "start": "npm run start:server",
         "start:server": "cd server && npm install && node server.js",
         "start:client": "cd client && npm install && npm run dev",
         "setup": "cd server && npm install && cd ../client && npm install"

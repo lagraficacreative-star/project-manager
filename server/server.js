@@ -1093,6 +1093,16 @@ app.get('/api/data', (req, res) => {
     res.json(data);
 });
 
+app.put('/api/data', (req, res) => {
+    const db = readDB();
+    const newData = req.body;
+    for (const key in newData) {
+        db[key] = newData[key];
+    }
+    writeDB(db);
+    res.json({ success: true, data: db });
+});
+
 // Save all data (Global sync)
 app.post('/api/save-data', (req, res) => {
     const data = req.body;
