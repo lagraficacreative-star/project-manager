@@ -68,64 +68,69 @@ def fetch_emails(username, password, folder="INBOX", host="mail-es.securemail.pr
         emails = []
         
         # Get only the last 30
-        for i in range(len(mail_ids)-1, max(-1, len(mail_ids)-31), -1):
+        uids_to_fetch = [mail_ids[i].decode() for i in range(len(mail_ids)-1, max(-1, len(mail_ids)-31), -1)]
+        if not uids_to_fetch:
+            mail.logout()
+            return []
+
+        # Bulk fetch for better performance
+        status, data = mail.uid('fetch', ','.join(uids_to_fetch), '(RFC822 FLAGS)')
+        if status != 'OK':
+            mail.logout()
+            return {"error": "Bulk fetch failed"}
+
+        emails = []
+        # Process each part of the bulk fetch result
+        for part in data:
             try:
-                msg_uid = mail_ids[i]
-                # Fetch RFC822 for content and FLAGS for status
-                status, data = mail.uid('fetch', msg_uid, '(RFC822 FLAGS)')
-                if status != 'OK': continue
+                if not isinstance(part, tuple): continue
                 
-                raw_email = None
-                flags = []
+                header_part = part[0].decode()
+                raw_email = part[1]
                 
-                for part in data:
-                    if isinstance(part, tuple):
-                        raw_email = part[1]
-                        # Extract flags from the first part of the tuple (e.g. '30 (RFC822 {1234} FLAGS (\Answered \Seen))')
-                        header_part = part[0].decode()
-                        flag_match = re.search(r'FLAGS \((.*?)\)', header_part)
-                        if flag_match:
-                            flags = flag_match.group(1).split()
+                # Extract UID and FLAGS from the header part of the tuple
+                uid_match = re.search(r'UID (\d+)', header_part)
+                msg_uid = uid_match.group(1) if uid_match else "unknown"
+                
+                flag_match = re.search(r'FLAGS \((.*?)\)', header_part)
+                flags = flag_match.group(1).split() if flag_match else []
                 
                 if not raw_email: continue
                 
                 msg = email.message_from_bytes(raw_email)
-                
                 subject = decode_mime_words(msg.get("Subject"))
                 from_ = decode_mime_words(msg.get("From"))
                 date_ = msg.get("Date")
-                message_id = msg.get("Message-ID") # Persistent across folders
+                message_id = msg.get("Message-ID")
                 
                 body = ""
                 attachments = []
-                
                 if msg.is_multipart():
-                    for part in msg.walk():
-                        content_type = part.get_content_type()
-                        content_disposition = str(part.get("Content-Disposition"))
-                        
+                    for part_msg in msg.walk():
+                        content_type = part_msg.get_content_type()
+                        content_disposition = str(part_msg.get("Content-Disposition"))
                         if content_type == "text/plain" and "attachment" not in content_disposition:
                             try:
-                                body = part.get_payload(decode=True).decode(errors='replace')
+                                body = part_msg.get_payload(decode=True).decode(errors='replace')
                             except: pass
                         elif "attachment" in content_disposition:
-                            filename = decode_mime_words(part.get_filename())
+                            filename = decode_mime_words(part_msg.get_filename())
                             if filename:
                                 attachments.append({
                                     "filename": filename,
                                     "content_type": content_type,
-                                    "size": len(part.get_payload())
+                                    "size": len(part_msg.get_payload())
                                 })
                 else:
                     body = msg.get_payload(decode=True).decode(errors='replace')
 
                 emails.append({
-                    "messageId": msg_uid.decode(), # This is the IMAP UID (needed for move/delete)
-                    "persistentId": message_id,      # This is the Message-ID header (needed for tracking)
+                    "messageId": msg_uid,
+                    "persistentId": message_id,
                     "subject": subject,
                     "from": from_,
                     "date": date_,
-                    "body": body[:2000], # Truncate for safety
+                    "body": body[:2000],
                     "hasAttachments": len(attachments) > 0,
                     "attachments": attachments,
                     "isAnswered": "\\Answered" in flags

@@ -1129,6 +1129,13 @@
           "text": "📩 NUEVO CORREO RELACIONADO:\nDe: Kit consulting Lleida <email@kitconsultinglleida.com>\nAsunto: Nou missatge desde kitconsultinglleida.com\n\nNom: Vincent Hickman<br>Correu electrònic: hickman.vincent@hotmail.com<br>Tel: 3918421637<br>Missatge : Stop letting the \"big players\" steal your commissions while you rot in affiliate rejection hell because you have no track record. You’re failing because you have no list, no YouTube channel, and no authority—and frankly, the industry doesn't care about your struggle. But for literally one single dollar, we are handing you guaranteed approval on a silver platter and giving you 100% front-end commissions so you can finally be in profit after your very first sale.<br />If you can’t invest the price of a cheap coffee to have a Top 5% affiliate promote your link for you, then quit now and stay broke. This is a completely hands-off, passive system where we do absolutely everything—no tech skills, no website, and zero promoting required from your side. The price is about to skyrocket to a realistic level, so either take fast action or keep watching others get rich.<br />GET ACCESS FOR $1 NO...",
           "date": "2026-01-31T07:17:54.282Z",
           "isEmail": true
+        },
+        {
+          "id": "ext_1769844664100",
+          "author": "SISTEMA",
+          "text": "📩 CORREU ARCHIVAT RELACIONAT:\nDe: Kit consulting Lleida <email@kitconsultinglleida.com>\nAsunto: Nou missatge desde kitconsultinglleida.com\n\nNom: Vincent Hickman<br>Correu electrònic: hickman.vincent@hotmail.com<br>Tel: 3918421637<br>Missatge : Stop letting the \"big players\" steal your commissions while you rot in affiliate rejection hell because you have no track record. You’re failing because you have no list, no YouTube channel, and no authority—and frankly, the industry doesn't care about your struggle. But for literally one single dollar, we are handing you guaranteed approval on a silver platter and giving you 100% front-end commissions so you can finally be in profit after your very first sale.<br />If you can’t invest the price of a cheap coffee to have a Top 5% affiliate promote your link for you, then quit now and stay broke. This is a completely hands-off, passive system where we do absolutely everything—no tech skills, no website, and zero promoting required from your side. The price is about to skyrocket to a realistic level, so either take fast action or keep watching others get rich.<br />GET ACCESS FOR $1 NO...",
+          "date": "2026-01-31T07:31:04.100Z",
+          "isEmail": true
         }
       ]
     },
@@ -3503,7 +3510,16 @@
       ],
       "createdAt": "2026-01-31T07:17:54.279Z",
       "sourceEmailDate": "Sat, 31 Jan 2026 06:24:27 +0000",
-      "responsibleId": "montse"
+      "responsibleId": "montse",
+      "comments": [
+        {
+          "id": "ext_1769844544545",
+          "author": "SISTEMA",
+          "text": "📩 CORREU ARCHIVAT RELACIONAT:\nDe: \"Amazon.es\" <store-news@amazon.es>\nAsunto: Tu cesta te está llamando\n\n\r\n  \r\n https://www.amazon.es/gp/cart/view.html?ref_=cor\r\n\r\n\r\n    \r\n\r\n\r\nApple Magic Keyboard - Español ​​​​​​​\r\n -8 % 109,00 € Precio recomendado: 119,00 €\r\n            \r\nhttps://www.amazon.es/gp/product/B0DL6K76ZT/?ref_=\r\n\r\nVer la cesta\r\nhttps://www.amazon.es/gp/cart/view.html?ref_=cor\r\n\r\n    \r\n\r\nActualiza tus preferencias https://www.amazon.es/gp/cpc/homepage?ref_=pe_ob_ftr_comm_prfs\r\nCancelar suscripción https://www.amazon.es/gp/gss/o/1iHPpODN0PZRL39a8rknGMbBRr-YE4ID4MH.nVhUKgH01iaU2ZMNsC94fRlBkLV37\r\nAmazon.es es un nombre comercial de Amazon EU Sarl, Amazon Europe Core Sarl y Amazon Media EU Sarl, todas con domicilio social en 38 avenue John F. Kennedy, L-1855 Luxemburgo. ©2026 Amazon.com, Inc. o sus filiales. Amazon y todas las marcas relacionadas son marcas comerciales de Amazon.com, Inc. o sus filiales. Se pueden aplicar gastos de envío. Se aplicarán a su compra el precio y la disponibilidad mostrados en amazon.es en el momento de la compra.\r\n\r\nAviso de privacidad https://www.ama...",
+          "date": "2026-01-31T07:29:04.545Z",
+          "isEmail": true
+        }
+      ]
     },
     {
       "id": "card_1769843874282eeuk8",
@@ -6191,7 +6207,9 @@
     "auto_rule_4",
     "auto_rule_3",
     "auto_rule_1",
-    "auto_rule_2"
+    "auto_rule_2",
+    "auto_rule_12",
+    "auto_rule_13"
   ],
   "events": [],
   "deleted_emails": [],

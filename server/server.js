@@ -261,13 +261,25 @@ const updateEmailCache = async (userId, folder = 'INBOX') => {
 
 const startEmailSync = () => {
     const sync = async () => {
-        const DB_CONTENT = fs.readFileSync(DB_FILE, 'utf8');
-        const db_sync = JSON.parse(DB_CONTENT);
-        const users = db_sync.users || [];
-        for (const user of users) {
-            console.log(`🔄 Syncing: ${user.id}...`);
-            await updateEmailCache(user.id, 'INBOX');
-            await updateEmailCache(user.id, 'Archivados');
+        try {
+            const DB_CONTENT = fs.readFileSync(DB_FILE, 'utf8');
+            const db_sync = JSON.parse(DB_CONTENT);
+            const users = db_sync.users || [];
+
+            console.log(`🔄 [SYNC] Starting parallel sync for ${users.length} users...`);
+
+            // Sync all users in parallel
+            await Promise.all(users.map(async (user) => {
+                // Sync both folders in parallel for this user
+                await Promise.all([
+                    updateEmailCache(user.id, 'INBOX'),
+                    updateEmailCache(user.id, 'Archivados')
+                ]);
+            }));
+
+            console.log(`✅ [SYNC] All users synced successfully.`);
+        } catch (err) {
+            console.error("❌ [SYNC] Global sync error:", err);
         }
     };
     setInterval(sync, 120000); // Every 2 minutes
