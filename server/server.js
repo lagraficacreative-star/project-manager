@@ -55,6 +55,65 @@ app.use(express.static(path.join(__dirname, '../client/dist'))); // Serve React 
 
 app.use('/uploads', express.static(UPLOADS_DIR)); // Serve uploaded files
 
+// --- GOOGLE INTEGRATION CONFIG ---
+const DRIVE_FOLDER_ID = '1eJ_8TVeuDEqSGPtH6wIsmLNwe43eerCq';
+const DRIVE_MEMBER_MAPPING = {
+    'montse': ['DISSENY', 'MONTSE-DISSENY'],
+    'ines': ['DISSENY', 'INES-DISSENY'],
+    'neus': ['DISSENY', 'NEUS-DISSENY'],
+    'alba': ['DISSENY', 'ALBA-DISSENY'],
+    'ateixido': ['XARXES', 'ALBA T-XARXES'],
+    'omar': ['WEB'],
+    'web': ['WEB'],
+    'comptabilitat': ['GESTIÓ']
+};
+
+const saveFileToDrive = async (filename, contentBase64, pathArray) => {
+    if (!GOOGLE_SCRIPT_URL) return;
+    try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'Mozilla/5.0 (LaGràfica Project Manager)'
+            },
+            body: JSON.stringify({
+                action: 'upload_file',
+                filename,
+                content: contentBase64,
+                path: pathArray,
+                rootFolderId: DRIVE_FOLDER_ID
+            })
+        });
+        console.log(`✅ File ${filename} uploaded to Drive path: ${pathArray.join('/')}`);
+    } catch (error) {
+        console.error("Error uploading to Drive:", error);
+    }
+};
+
+const syncToGoogleSheets = async () => {
+    if (!GOOGLE_SCRIPT_URL) return;
+    try {
+        const db = readDB();
+        await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'Mozilla/5.0 (LaGràfica Project Manager)'
+            },
+            body: JSON.stringify({
+                action: 'export_all',
+                boards: db.boards || [],
+                cards: db.cards || [],
+                users: db.users || []
+            })
+        });
+        console.log("✅ Google Sheets synchronized.");
+    } catch (error) {
+        console.error("Error syncing Sheets:", error);
+    }
+};
+
 // --- GLOBAL EMAIL CACHE ---
 const emailCache = {}; // { userId: { folder: { timestamp: 0, emails: [] } } }
 
@@ -85,13 +144,14 @@ const processAutomations = async (userId, emails, folder = 'INBOX') => {
     if (!db.automated_email_uids) db.automated_email_uids = [];
 
     const MEMBER_MAP = {
-        'ines': { boardId: 'b_design', name: 'Ines' },
-        'neus': { boardId: 'b_design', name: 'Neus' },
-        'montse': { boardId: 'b_design', name: 'Montse' },
-        'omar': { boardId: 'b_web', name: 'Omar' },
-        'albap': { boardId: 'b_design', name: 'Alba' },
-        'albat': { boardId: 'b_social', name: 'A. Teixidó' },
+        'montse': { boardId: 'b_design_montse', name: 'Montse' },
+        'neus': { boardId: 'b_design_neus', name: 'Neus' },
+        'alba': { boardId: 'b_design_alba', name: 'Alba' },
+        'ateixido': { boardId: 'b_design_ateixido', name: 'A. Teixidó' },
+        'omar': { boardId: 'b_design_omar', name: 'Omar' },
         'web': { boardId: 'b_web', name: 'Web' },
+        'ines': { boardId: 'b_design_ines', name: 'Ines' },
+        'comptabilitat': { boardId: 'b_accounting', name: 'Comptabilitat' },
         'licitacions': { boardId: 'b_tenders', name: 'Licitaciones' }
     };
 
@@ -107,218 +167,76 @@ const processAutomations = async (userId, emails, folder = 'INBOX') => {
     for (const email of emails) {
         const emailUid = `auto_rule_${email.id || email.messageId}`;
         if (db.automated_email_uids.includes(emailUid)) continue;
+
+        // --- RULE: Only create cards if in 'Archivados' folder OR manually requested ---
+        // (In this case, processAutomations is called for folders we want to auto-cardify)
+        if (folder !== 'Archivados') continue;
+
         if (isSpam(email)) {
             db.automated_email_uids.push(emailUid);
             changes = true;
             continue;
         }
 
-        const subject = (email.subject || "").toLowerCase();
-        const from = (email.from || "").toLowerCase();
-        let targetBoardId = null;
-        let automationTag = "Auto-Filtre";
+        const subject = (email.subject || "");
+        const from = (email.from || "");
+        const member = MEMBER_MAP[userId];
+        const targetBoardId = member ? member.boardId : 'b_info';
+        const automationTag = member ? member.name : "Archivat";
 
-        // --- RULE: LICITACIONS ---
-        const licitacionSenders = [
-            'plataforma.contractacio@gencat.cat',
-            'noreply@bcn.cat',
-            'norespongueu@enotum.cat',
-            '@enotum.cat',
-            'mailcontrataciondelestado@contrataciondelsectorpublico.gob.es',
-            'licitaciones'
-        ];
-        const licitacionSubjects = [
-            'important: avís de notificació',
-            'notificació enviada',
-            'recordatori: avís de notificació',
-            'avís de licitacions',
-            'suscriptores',
-            'suscriptors'
-        ];
+        // Check if card already exists for this email
+        const existingCard = (db.cards || []).find(card => {
+            if (!card.title) return false;
+            const cleanSubject = subject.toLowerCase().replace(/re:|fwd:|fw:/g, "").trim();
+            const cleanTitle = card.title.toLowerCase().trim();
+            return cleanSubject.includes(cleanTitle) || cleanTitle.includes(cleanSubject);
+        });
 
-        if (licitacionSenders.some(s => from.includes(s)) || licitacionSubjects.some(s => subject.includes(s))) {
-            targetBoardId = 'b_tenders';
-            automationTag = "Licitacions";
-        }
-
-        // --- RULE: IMO ---
-        const imoSenders = [
-            'elpascual@paeria.es', 'npijuan@paeria.es', 'cmolinero@paeria.es', 'mapujol@paeria.cat',
-            'maldabo@paeria.es', 'eclosa@paeria.es', 'oarnau@paeria.es', 'mribera@paeria.es',
-            'csorribas@paeria.cat', 'gdsantos@paeria.es', 'mgs@paeria.es', 'dortin@paeria.cat',
-            'dmontagut@paeria.es', 'mpaz@paeria.es', 'vgracia@paeria.cat', 'fcos@paeria.es',
-            'cvilarasau@paeria.es', 'lmasana@paeria.es', 'lbea@paeria.cat', 'agaddour@paeria.cat',
-            'mjbadia@paeria.es', 'imo@lagrafica.com', 'imo@paeria.es', 'paeria.es', 'paeria.cat'
-        ];
-        if (imoSenders.some(s => from.includes(s)) || subject.includes("imo")) {
-            targetBoardId = 'b_imo';
-            automationTag = "IMO";
-        }
-
-        // --- RULE: ANIMAC ---
-        const animacSenders = ['aaguila@paeria.cat', 'mdomenech@paeria.cat', 'lmcruz@radixanimacion.com', 'animac'];
-        if (animacSenders.some(s => from.includes(s)) || subject.includes("animac")) {
-            targetBoardId = 'b_animac';
-            automationTag = "Animac";
-        }
-
-        // --- RULE: LLEIDA EN VERD ---
-        const lleidaSenders = ['jmuntane@paeria.es', 'epardell@paeria.es', 'ppizarro@paeria.es', 'mediambient@paeria.cat', 'mjouet@paeria.cat', 'mjmilian@paeria.es', 'lleidaenverd@lagrafica.com'];
-        if (lleidaSenders.some(s => from.includes(s))) {
-            targetBoardId = 'b_lleida';
-            automationTag = "Lleida en Verd";
-        }
-
-        // --- RULE: KIT DIGITAL / CONSULTING ---
-        if (from.includes("no-reply-notifica@correo.gob.es") || from.includes("comptabilitat@lagrafica.com")) {
-            targetBoardId = 'b_kit_digital';
-            automationTag = "Kit Digital";
-        }
-
-        // --- SPECIAL MULTI-ITEM RULE FOR LICITACIONES SUBSCRIPTIONS ---
-        const isSubscriptionEmail = subject.includes("suscriptores") || subject.includes("suscriptors") || from.includes("licitaciones") || subject.includes("avís de licitacions") || licitacionSenders.some(s => from.includes(s));
-
-        if (isSubscriptionEmail) {
-            targetBoardId = 'b_tenders';
-            automationTag = "Subscripcions";
-
-            const body = email.body || "";
-            const lines = body.split('\n');
-            let currentTitle = "";
-            let itemsFound = 0;
-
-            lines.forEach((line, index) => {
-                const urlMatch = line.match(/https?:\/\/[^\s<>"]+/);
-                // Robust date matching for dd/mm/aaaa
-                const dateMatch = line.match(/(\d{1,2}[\/\.\-]\d{1,2}[\/\.\-]\d{4})/);
-
-                if (urlMatch) {
-                    const url = urlMatch[0];
-                    // Clean up URL if it has trailing punctuation
-                    const cleanUrl = url.replace(/[.,;)]+$/, '');
-
-                    // Try to find title in previous lines if currentTitle is empty
-                    if (!currentTitle) {
-                        for (let j = 1; j <= 5; j++) {
-                            const prevLine = lines[index - j]?.trim();
-                            if (prevLine && prevLine.length > 5 && !prevLine.match(/https?:\/\//)) {
-                                currentTitle = prevLine;
-                                break;
-                            }
-                        }
-                    }
-
-                    const title = currentTitle || (email.subject + " - Licitació " + (itemsFound + 1));
-                    const dueDate = dateMatch ? dateMatch[0].split(/[.\/-]/).reverse().map(p => p.padStart(2, '0')).join('-').replace(/(\d{4})-(\d{2})-(\d{2})/, '$1-$2-$3') : null;
-
-                    // Specific fix for dd/mm/yyyy to yyyy-mm-dd
-                    let finalDueDate = null;
-                    if (dateMatch) {
-                        const d = dateMatch[0].match(/(\d{1,2})[\/\.\-](\d{1,2})[\/\.\-](\d{4})/);
-                        if (d) {
-                            finalDueDate = `${d[3]}-${d[2].padStart(2, '0')}-${d[1].padStart(2, '0')}`;
-                        }
-                    }
-
-                    const itemCard = {
-                        id: 'card_multi_' + Date.now() + Math.random().toString(36).substr(2, 5),
-                        boardId: 'b_tenders',
-                        columnId: (db.boards.find(b => b.id === 'b_tenders')?.columns[0]?.id) || 'col_1_b_tenders',
-                        title: title.substring(0, 200).trim(),
-                        descriptionBlocks: [
-                            { id: 'desc_1', type: 'text', text: `Licitació extreta de correu subscripció.\n\nEnllaç: ${cleanUrl}\nData límit detectada: ${finalDueDate || 'No detectada'}` }
-                        ],
-                        links: [{ id: Date.now(), type: 'url', url: cleanUrl, title: 'Enllaç Licitació' }],
-                        labels: ['Licitacions', 'Auto-Multiple'],
-                        createdAt: new Date().toISOString(),
-                        sourceEmailDate: email.date || email.timestamp,
-                        dueDate: finalDueDate,
-                        responsibleId: 'licitacions'
-                    };
-                    if (!db.cards) db.cards = [];
-                    db.cards.push(itemCard);
-                    itemsFound++;
-                    currentTitle = "";
-                } else {
-                    const trimmed = line.trim();
-                    // If it looks like a title (not a header or metadata)
-                    if (trimmed.length > 10 && trimmed.length < 300 && !trimmed.match(/https?:\/\//) && !trimmed.includes('@')) {
-                        currentTitle = trimmed;
-                    }
-                }
+        if (existingCard) {
+            if (!existingCard.comments) existingCard.comments = [];
+            existingCard.comments.push({
+                id: 'ext_' + Date.now(),
+                author: 'SISTEMA',
+                text: `📩 CORREU ARCHIVAT RELACIONAT:\nDe: ${from}\nAsunto: ${subject}\n\n${email.body.substring(0, 1000)}...`,
+                date: new Date().toISOString(),
+                isEmail: true
             });
-
-            if (itemsFound > 0) {
-                db.automated_email_uids.push(emailUid);
-                changes = true;
-                // Archive the email after processing
-                await moveEmail(userId, email.id, folder, 'Archivados').catch(e => console.error(`❌ Could not archive email ${email.id} for ${userId}`));
-                continue;
-            }
-        }
-
-        // --- GENERIC MEMBER ROUTING (fallback) ---
-        if (!targetBoardId && MEMBER_MAP[userId]) {
-            targetBoardId = MEMBER_MAP[userId].boardId;
-            automationTag = MEMBER_MAP[userId].name;
-        }
-
-        if (targetBoardId) {
-            const existingCard = (db.cards || []).find(card => {
-                if (card.boardId !== targetBoardId || !card.title) return false;
-                const cleanSubject = subject.replace(/re:|fwd:|fw:/g, "").trim();
-                const cleanTitle = card.title.toLowerCase().trim();
-                return cleanSubject.includes(cleanTitle) || cleanTitle.includes(cleanSubject);
-            });
-
-            if (existingCard) {
-                if (!existingCard.comments) existingCard.comments = [];
-                existingCard.comments.push({
-                    id: 'ext_' + Date.now(),
-                    author: 'SISTEMA IA',
-                    text: `📩 NUEVO CORREO RELACIONADO:\nDe: ${email.from}\nAsunto: ${email.subject}\n\n${email.body.substring(0, 1000)}...`,
-                    date: new Date().toISOString(),
-                    isEmail: true
-                });
-                const board = (db.boards || []).find(b => b.id === targetBoardId);
-                if (board && board.columns.length > 1) {
-                    existingCard.columnId = board.columns[1].id;
-                }
-            } else {
-                const newCard = {
-                    id: 'card_' + Date.now() + Math.random().toString(36).substr(2, 5),
-                    boardId: targetBoardId,
-                    columnId: (db.boards.find(b => b.id === targetBoardId)?.columns[0]?.id) || `col_1_${targetBoardId}`,
-                    title: email.subject || `Email de ${email.from}`,
-                    descriptionBlocks: [
-                        { id: 'desc_1', type: 'text', text: `Correu automàtic de: ${email.from}\n\n${email.body.substring(0, 1500)}` }
-                    ],
-                    labels: [automationTag, 'Email'],
-                    createdAt: new Date().toISOString(),
-                    sourceEmailDate: email.date || email.timestamp,
-                    responsibleId: userId === 'info' ? null : userId
-                };
-                if (!db.cards) db.cards = [];
-                db.cards.push(newCard);
-            }
-
-            logToGoogleSheet({
-                from: email.from,
-                subject: email.subject,
-                projectPath: automationTag,
-                messageId: email.id,
-                member: 'Sistema Automàtic'
-            });
-
-            db.automated_email_uids.push(emailUid);
+        } else {
+            const newCard = {
+                id: 'card_' + Date.now() + Math.random().toString(36).substr(2, 5),
+                boardId: targetBoardId,
+                columnId: (db.boards.find(b => b.id === targetBoardId)?.columns[0]?.id) || `col_1_${targetBoardId}`,
+                title: subject || `Email de ${from}`,
+                descriptionBlocks: [
+                    { id: 'desc_1', type: 'text', text: `Correu archivat de: ${from}\n\n${email.body.substring(0, 1500)}` }
+                ],
+                labels: [automationTag, 'Email'],
+                createdAt: new Date().toISOString(),
+                sourceEmailDate: email.date || email.timestamp,
+                responsibleId: userId
+            };
+            if (!db.cards) db.cards = [];
+            db.cards.push(newCard);
             changes = true;
-            // Archive the email after processing
-            await moveEmail(userId, email.id, folder, 'Archivados').catch(e => console.error(`❌ Could not archive email ${email.id} for ${userId}`));
+
+            // --- DRIVE INTEGRATION: Save attachments if any ---
+            if (email.hasAttachments) {
+                getEmailAttachments(userId, email.messageId, folder).then(attachments => {
+                    const drivePath = DRIVE_MEMBER_MAPPING[userId] || ['OTROS'];
+                    attachments.forEach(att => {
+                        saveFileToDrive(att.filename, att.content_base64, drivePath);
+                    });
+                }).catch(err => console.error("Error getting attachments for Drive", err));
+            }
         }
+
+        db.automated_email_uids.push(emailUid);
+        changes = true;
     }
 
     if (changes) {
         writeDB(db);
+        syncToGoogleSheets(); // Sync to Sheets after changes
     }
 };
 
@@ -347,7 +265,9 @@ const startEmailSync = () => {
         const db_sync = JSON.parse(DB_CONTENT);
         const users = db_sync.users || [];
         for (const user of users) {
+            console.log(`🔄 Syncing: ${user.id}...`);
             await updateEmailCache(user.id, 'INBOX');
+            await updateEmailCache(user.id, 'Archivados');
         }
     };
     setInterval(sync, 120000); // Every 2 minutes
@@ -363,13 +283,14 @@ const readDB = () => {
     if (!fs.existsSync(DB_FILE)) {
         data = {
             users: [
-                { id: 'montse', name: 'Montse', role: 'admin', avatar: 'M', avatarImage: '/avatars/montse.png' },
+                { id: 'montse', name: 'Montse', role: 'admin', avatar: 'M', avatarImage: '/avatars/montse.jpg' },
                 { id: 'neus', name: 'Neus', role: 'team', avatar: 'N', avatarImage: '/avatars/neus.jpg' },
-                { id: 'omar', name: 'Omar', role: 'team', avatar: 'O', avatarImage: '/avatars/omar.jpg' },
-                { id: 'albat', name: 'Alba T', role: 'team', avatar: 'AT', avatarImage: '/avatars/albat.jpg' },
-                { id: 'albap', name: 'Alba P', role: 'team', avatar: 'AP' }, // No image yet
-                { id: 'ines', name: 'Ines', role: 'team', avatar: 'I' }, // No image yet
-                { id: 'maribel', name: 'Maribel', role: 'team', avatar: 'Ma', avatarImage: '/avatars/maribel.png' }
+                { id: 'alba', name: 'Alba', role: 'team', avatar: 'A', avatarImage: '/avatars/alba.jpg' },
+                { id: 'ateixido', name: 'A. Teixidó', role: 'team', avatar: 'AT', avatarImage: '/avatars/ateixido.jpg' },
+                { id: 'omar', name: 'Omar', role: 'team', avatar: 'O', avatarImage: '/avatars/omar.png' },
+                { id: 'web', name: 'Web', role: 'team', avatar: 'W', avatarImage: '/avatars/web.png' },
+                { id: 'ines', name: 'Ines', role: 'team', avatar: 'I', avatarImage: '/avatars/ines.jpg' },
+                { id: 'comptabilitat', name: 'Comptabilitat', role: 'team', avatar: 'C' }
             ],
             boards: [],
             cards: [],
@@ -483,12 +404,12 @@ const readDB = () => {
     const updatedUsers = [
         { id: 'montse', name: 'Montse', role: 'admin', avatar: 'M', avatarImage: '/avatars/montse.jpg' },
         { id: 'neus', name: 'Neus', role: 'team', avatar: 'N', avatarImage: '/avatars/neus.jpg' },
+        { id: 'alba', name: 'Alba', role: 'team', avatar: 'A', avatarImage: '/avatars/alba.jpg' },
+        { id: 'ateixido', name: 'A. Teixidó', role: 'team', avatar: 'AT', avatarImage: '/avatars/ateixido.jpg' },
         { id: 'omar', name: 'Omar', role: 'team', avatar: 'O', avatarImage: '/avatars/omar.png' },
-        { id: 'albat', name: 'Alba T', role: 'team', avatar: 'AT', avatarImage: '/avatars/albat.jpg' },
-        { id: 'albap', name: 'Alba P', role: 'team', avatar: 'AP', avatarImage: '/avatars/albap.jpg' },
-        { id: 'ines', name: 'Ines', role: 'team', avatar: 'I' },
-        { id: 'maribel', name: 'Maribel', role: 'team', avatar: 'Ma', avatarImage: '/avatars/maribel.jpg' },
-        { id: 'web', name: 'Web', role: 'team', avatar: 'W' }
+        { id: 'web', name: 'Web', role: 'team', avatar: 'W', avatarImage: '/avatars/web.png' },
+        { id: 'ines', name: 'Ines', role: 'team', avatar: 'I', avatarImage: '/avatars/ines.jpg' },
+        { id: 'comptabilitat', name: 'Comptabilitat', role: 'team', avatar: 'C' }
     ];
 
     updatedUsers.forEach(u => {
@@ -629,10 +550,11 @@ async function fetchRealEmails(memberId, folder = 'INBOX') {
         'montse': 'MONTSE',
         'neus': 'NEUS',
         'alba': 'ALBA',
+        'ateixido': 'ATEIXIDO',
         'omar': 'OMAR',
-        'albat': 'ATEIXIDO',
-        'albap': 'ALBA',
         'web': 'WEB',
+        'ines': 'INES',
+        'comptabilitat': 'COMPTABILITAT',
         'licitacions': 'LICITACIONS',
         'test': 'TEST'
     };
@@ -684,14 +606,61 @@ async function fetchRealEmails(memberId, folder = 'INBOX') {
     });
 }
 
-async function moveEmail(memberId, uid, sourceFolder, targetFolder) {
+async function getEmailAttachments(memberId, uid, folder) {
     const config = loadEnv();
-    const CRED_MAP = { 'albat': 'ATEIXIDO', 'albap': 'ALBA', 'web': 'WEB', 'licitacions': 'LICITACIONS' };
+    const CRED_MAP = {
+        'montse': 'MONTSE',
+        'neus': 'NEUS',
+        'alba': 'ALBA',
+        'ateixido': 'ATEIXIDO',
+        'omar': 'OMAR',
+        'web': 'WEB',
+        'ines': 'INES',
+        'comptabilitat': 'COMPTABILITAT',
+        'licitacions': 'LICITACIONS',
+        'test': 'TEST'
+    };
     const envKey = CRED_MAP[memberId] || memberId.toUpperCase();
     const user = process.env[`IMAP_USER_${envKey}`] || config[`IMAP_USER_${envKey}`];
     const pass = process.env[`IMAP_PASS_${envKey}`] || config[`IMAP_PASS_${envKey}`];
 
-    if (!user || !pass) return { error: "No credentials" };
+    if (!user || !pass) return [];
+
+    return new Promise((resolve) => {
+        const env = { ...process.env, IMAP_HOST: process.env.IMAP_HOST || config.IMAP_HOST, IMAP_PORT: process.env.IMAP_PORT || config.IMAP_PORT };
+        const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, '--download-attachments', String(uid), folder], { env });
+        let dataStr = "";
+        pythonProcess.stdout.on('data', (d) => { dataStr += d.toString(); });
+        pythonProcess.on('close', (code) => {
+            try {
+                const res = JSON.parse(dataStr);
+                resolve(res.attachments || []);
+            } catch (err) {
+                resolve([]);
+            }
+        });
+    });
+}
+
+async function moveEmail(memberId, uid, sourceFolder, targetFolder) {
+    const config = loadEnv();
+    const CRED_MAP = {
+        'montse': 'MONTSE',
+        'neus': 'NEUS',
+        'alba': 'ALBA',
+        'ateixido': 'ATEIXIDO',
+        'omar': 'OMAR',
+        'web': 'WEB',
+        'ines': 'INES',
+        'comptabilitat': 'COMPTABILITAT',
+        'licitacions': 'LICITACIONS',
+        'test': 'TEST'
+    };
+    const envKey = CRED_MAP[memberId] || memberId.toUpperCase();
+    const user = process.env[`IMAP_USER_${envKey}`] || config[`IMAP_USER_${envKey}`];
+    const pass = process.env[`IMAP_PASS_${envKey}`] || config[`IMAP_PASS_${envKey}`];
+
+    if (!user || !pass) return { error: "No credentials for " + memberId };
 
     return new Promise((resolve) => {
         const env = { ...process.env, IMAP_HOST: process.env.IMAP_HOST || config.IMAP_HOST, IMAP_PORT: process.env.IMAP_PORT || config.IMAP_PORT };
@@ -743,7 +712,7 @@ app.get('/api/emails/:userId', async (req, res) => {
 
 app.post('/api/emails/archive', async (req, res) => {
     const { memberId, emailId } = req.body;
-    const result = await moveEmail(memberId, emailId, 'INBOX', 'Gestionados');
+    const result = await moveEmail(memberId, emailId, 'INBOX', 'Archivados');
 
     // Invalidate/Update cache
     if (result && !result.error) {
@@ -958,13 +927,12 @@ app.post('/api/emails/send', async (req, res) => {
         'montse': 'MONTSE',
         'neus': 'NEUS',
         'alba': 'ALBA',
-        'omar': 'OMAR',
-        'albat': 'ATEIXIDO',
         'ateixido': 'ATEIXIDO',
-        'albap': 'ALBA',
+        'omar': 'OMAR',
         'web': 'WEB',
+        'ines': 'INES',
+        'comptabilitat': 'COMPTABILITAT',
         'licitacions': 'LICITACIONS',
-        'admin': 'ADMIN',
         'test': 'TEST'
     };
 
@@ -1012,6 +980,19 @@ app.post('/api/emails/send', async (req, res) => {
                 const db = readDB();
                 logActivity(db, 'mail', `Correu enviat a ${to}: ${subject}`, memberId);
 
+                // --- DRIVE INTEGRATION: Save sent attachments ---
+                if (attachmentPaths.length > 0) {
+                    const drivePath = DRIVE_MEMBER_MAPPING[memberId] || ['OTROS'];
+                    attachmentPaths.forEach(fpath => {
+                        try {
+                            const content = fs.readFileSync(fpath);
+                            saveFileToDrive(path.basename(fpath), content.toString('base64'), drivePath);
+                        } catch (e) {
+                            console.error("Error reading sent attachment for Drive", e);
+                        }
+                    });
+                }
+
                 // Track replied status
                 if (replyToId) {
                     if (!db.replied_emails) db.replied_emails = [];
@@ -1019,10 +1000,10 @@ app.post('/api/emails/send', async (req, res) => {
                     if (!db.replied_emails.includes(uniqueUid)) {
                         db.replied_emails.push(uniqueUid);
                     }
-                    // RULE: Move to Respondidos folder in IMAP
-                    moveEmail(memberId, replyToId, 'INBOX', 'Respondidos').catch(err => console.error("Move to Respondidos failed", err));
+                    // RULE: Move to Archivados folder in IMAP after responding
+                    moveEmail(memberId, replyToId, 'INBOX', 'Archivados').catch(err => console.error("Move to Archivados failed", err));
                     updateEmailCache(memberId, 'INBOX');
-                    updateEmailCache(memberId, 'Respondidos');
+                    updateEmailCache(memberId, 'Archivados');
                 }
 
                 writeDB(db);
@@ -1157,6 +1138,7 @@ app.post('/api/boards', (req, res) => {
     };
     db.boards.push(newBoard);
     writeDB(db);
+    syncToGoogleSheets();
     res.json(newBoard);
 });
 
@@ -1172,6 +1154,7 @@ app.put('/api/boards/:id', (req, res) => {
     if (columns) db.boards[boardIndex].columns = columns;
 
     writeDB(db);
+    syncToGoogleSheets();
     res.json(db.boards[boardIndex]);
 });
 
@@ -1187,6 +1170,7 @@ app.delete('/api/boards/:id', (req, res) => {
     if (db.boards.length === initialLength) return res.status(404).json({ error: "Board not found" });
 
     writeDB(db);
+    syncToGoogleSheets();
     res.json({ success: true });
 });
 
@@ -1276,6 +1260,7 @@ app.post('/api/cards', (req, res) => {
     db.cards.push(newCard);
     logActivity(db, 'card', `Nova tarjeta: ${newCard.title}`, newCard.responsibleId || 'Sistema');
     writeDB(db);
+    syncToGoogleSheets();
     res.json(newCard);
 });
 
@@ -1289,6 +1274,7 @@ app.put('/api/cards/:id', (req, res) => {
 
     db.cards[cardIndex] = { ...db.cards[cardIndex], ...updates };
     writeDB(db);
+    syncToGoogleSheets();
     res.json(db.cards[cardIndex]);
 });
 
@@ -1297,6 +1283,7 @@ app.delete('/api/cards/:id', (req, res) => {
     const { id } = req.params;
     db.cards = db.cards.filter(c => c.id !== id);
     writeDB(db);
+    syncToGoogleSheets();
     res.json({ success: true });
 });
 
@@ -1979,6 +1966,8 @@ app.post('/api/export-sheets', async (req, res) => {
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
 });
+
+syncToGoogleSheets();
 
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);

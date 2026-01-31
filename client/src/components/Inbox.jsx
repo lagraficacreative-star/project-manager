@@ -260,7 +260,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             const isGencatNotif = (from.includes('gencat') || from.includes('contractacio')) && (subject.includes('notificació') || subject.includes('notificación'));
             if (activeTab === 'licitaciones' && !isGencatNotif) return false;
 
-            const isReplied = repliedIds.includes(uniqueId);
+            const isReplied = repliedIds.includes(uniqueId) || e.isAnswered;
             if (activeTab === 'replied' && !isReplied) return false;
 
             const isProcessed = processedIds.includes(String(e.messageId)) || (e.persistentId && processedIds.includes(String(e.persistentId)));
@@ -306,14 +306,13 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                         <h3 className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] mb-6">Categorías</h3>
                         <nav className="space-y-1">
                             <NavItem active={activeTab === 'inbox'} icon={<InboxIcon size={18} />} label="Pendientes" onClick={() => { setActiveTab('inbox'); setActiveFolder('INBOX'); }} />
-                            <NavItem active={activeTab === 'licitaciones'} icon={<ShieldCheck size={18} />} label="Licitaciones" onClick={() => { setActiveTab('licitaciones'); setActiveFolder('INBOX'); }} color="orange" />
-                            <NavItem active={activeTab === 'replied'} icon={<Send size={18} />} label="Respondidos" onClick={() => { setActiveTab('replied'); setActiveFolder('Respondidos'); }} color="blue" />
+                            <NavItem active={activeTab === 'replied'} icon={<Send size={18} />} label="Respondidos" onClick={() => { setActiveTab('replied'); setActiveFolder('Archivados'); }} color="blue" />
                             <NavItem active={activeTab === 'managed'} icon={<Archive size={18} />} label="Archivados" onClick={() => { setActiveTab('managed'); setActiveFolder('Archivados'); }} color="green" />
                         </nav>
 
                         <h3 className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] mt-10 mb-6">Sistema</h3>
                         <nav className="space-y-1">
-                            <NavItem active={activeTab === 'all'} icon={<Mail size={18} />} label="Entrada Real" onClick={() => { setActiveTab('all'); setActiveFolder('INBOX'); }} />
+                            <NavItem active={activeTab === 'all'} icon={<Mail size={18} />} label="Bandeja Entrada" onClick={() => { setActiveTab('all'); setActiveFolder('INBOX'); }} />
                             <NavItem active={activeTab === 'sent'} icon={<Send size={18} />} label="Enviados" onClick={() => { setActiveTab('sent'); setActiveFolder('Enviados'); }} />
                             <NavItem active={activeTab === 'spam'} icon={<Ban size={18} />} label="Correo Spam" onClick={() => { setActiveTab('spam'); setActiveFolder('Spam'); }} />
                             <NavItem active={activeTab === 'trash'} icon={<Trash2 size={18} />} label="Papelera" onClick={() => { setActiveTab('trash'); setActiveFolder('Papelera'); }} color="red" />
@@ -388,6 +387,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                             <div className="flex items-center gap-2 mb-0.5">
                                                 <span className="text-[11px] font-black text-brand-black truncate max-w-[150px]">{email.from}</span>
                                                 {isProcessed && <div className="p-1 bg-green-100 text-green-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">Procesado</div>}
+                                                {email.isAnswered && <div className="p-1 bg-blue-100 text-blue-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">Respondido</div>}
                                             </div>
                                             {tag && <div className="flex items-center gap-1.5"><Tag size={10} className="text-blue-500" /><span className="text-[8px] font-black text-blue-500 uppercase tracking-widest">{tag.name}</span></div>}
                                         </div>

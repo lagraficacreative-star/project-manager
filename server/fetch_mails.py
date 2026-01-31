@@ -71,10 +71,24 @@ def fetch_emails(username, password, folder="INBOX", host="mail-es.securemail.pr
         for i in range(len(mail_ids)-1, max(-1, len(mail_ids)-31), -1):
             try:
                 msg_uid = mail_ids[i]
-                status, data = mail.uid('fetch', msg_uid, '(RFC822)')
+                # Fetch RFC822 for content and FLAGS for status
+                status, data = mail.uid('fetch', msg_uid, '(RFC822 FLAGS)')
                 if status != 'OK': continue
                 
-                raw_email = data[0][1]
+                raw_email = None
+                flags = []
+                
+                for part in data:
+                    if isinstance(part, tuple):
+                        raw_email = part[1]
+                        # Extract flags from the first part of the tuple (e.g. '30 (RFC822 {1234} FLAGS (\Answered \Seen))')
+                        header_part = part[0].decode()
+                        flag_match = re.search(r'FLAGS \((.*?)\)', header_part)
+                        if flag_match:
+                            flags = flag_match.group(1).split()
+                
+                if not raw_email: continue
+                
                 msg = email.message_from_bytes(raw_email)
                 
                 subject = decode_mime_words(msg.get("Subject"))
@@ -113,7 +127,8 @@ def fetch_emails(username, password, folder="INBOX", host="mail-es.securemail.pr
                     "date": date_,
                     "body": body[:2000], # Truncate for safety
                     "hasAttachments": len(attachments) > 0,
-                    "attachments": attachments
+                    "attachments": attachments,
+                    "isAnswered": "\\Answered" in flags
                 })
             except Exception as e:
                 continue
@@ -288,6 +303,66 @@ if __name__ == "__main__":
             else:
                 print(json.dumps({"error": f"SMTP Error: {last_err}"}))
                 
+        except Exception as e:
+            print(json.dumps({"error": str(e)}))
+
+    elif len(sys.argv) > 5 and sys.argv[3] == "--download-attachments":
+        uid = sys.argv[4]
+        folder = sys.argv[5]
+        host = os.environ.get('IMAP_HOST', "mail-es.securemail.pro")
+        port = int(os.environ.get('IMAP_PORT', 993))
+        if "gmail.com" in username.lower(): host, port = "imap.gmail.com", 993
+        
+        try:
+            mail = imaplib.IMAP4_SSL(host, port)
+            mail.login(username, password)
+            
+            # Find the actual folder name based on common aliases
+            candidates = [folder, folder.upper()]
+            if folder == 'INBOX': candidates = ['INBOX']
+            elif folder == 'Archivados': candidates = ['Archivados', 'Archivo', 'INBOX.Archive', 'Archive']
+            elif folder == 'Papelera': candidates = ['Papelera', 'Trash', 'INBOX.Trash', 'Deleted']
+            
+            actual_folder = None
+            for cand in candidates:
+                f_q = f'"{cand}"' if " " in cand else cand
+                res, _ = mail.select(f_q)
+                if res == 'OK':
+                    actual_folder = cand
+                    break
+            
+            if not actual_folder:
+                print(json.dumps({"error": f"Folder {folder} not found"}))
+                mail.logout()
+                sys.exit(0)
+
+            res, data = mail.uid('fetch', uid, '(RFC822)')
+            if res != 'OK':
+                print(json.dumps({"error": f"Fetch failed: {res}"}))
+                mail.logout()
+                sys.exit(0)
+
+            raw_email = data[0][1]
+            msg = email.message_from_bytes(raw_email)
+            
+            attachments = []
+            if msg.is_multipart():
+                for part in msg.walk():
+                    content_disposition = str(part.get("Content-Disposition"))
+                    if "attachment" in content_disposition:
+                        filename = decode_mime_words(part.get_filename())
+                        if filename:
+                            payload = part.get_payload(decode=True)
+                            if payload:
+                                import base64
+                                attachments.append({
+                                    "filename": filename,
+                                    "content_type": part.get_content_type(),
+                                    "content_base64": base64.b64encode(payload).decode('utf-8')
+                                })
+            
+            print(json.dumps({"uid": uid, "attachments": attachments}))
+            mail.logout()
         except Exception as e:
             print(json.dumps({"error": str(e)}))
 

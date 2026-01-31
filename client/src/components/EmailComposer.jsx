@@ -119,7 +119,7 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
 
                 if (replyToId) {
                     try {
-                        await api.moveEmail(memberId, replyToId, 'INBOX', 'Respondidos');
+                        await api.moveEmail(memberId, replyToId, 'INBOX', 'Archivados');
                     } catch (moveErr) {
                         console.error('Failed to move replied email', moveErr);
                     }

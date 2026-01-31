@@ -6,15 +6,7 @@
       "email": "montse@lagrafica.com",
       "role": "admin",
       "avatar": "M",
-      "vacationDaysUsed": 1,
       "avatarImage": "/avatars/montse.jpg"
-    },
-    {
-      "id": "admin",
-      "name": "Administrador",
-      "email": "admin@lagrafica.com",
-      "role": "admin",
-      "avatar": "A"
     },
     {
       "id": "neus",
@@ -25,43 +17,51 @@
       "avatarImage": "/avatars/neus.jpg"
     },
     {
-      "id": "omar",
-      "name": "Omar",
-      "email": "omar@lagrafica.com",
-      "role": "team",
-      "avatar": "O",
-      "avatarImage": "/avatars/omar.png",
-      "vacationDaysUsed": 1
-    },
-    {
       "id": "alba",
       "name": "Alba",
       "email": "alba@lagrafica.com",
       "role": "team",
       "avatar": "A",
-      "avatarImage": "/avatars/albat.jpg"
+      "avatarImage": "/avatars/alba.jpg"
     },
     {
-      "id": "ines",
-      "name": "Ines",
-      "email": "ines@lagrafica.com",
+      "id": "ateixido",
+      "name": "A. Teixidó",
+      "email": "ateixido@lagrafica.com",
       "role": "team",
-      "avatar": "I"
+      "avatar": "AT",
+      "avatarImage": "/avatars/ateixido.jpg"
     },
     {
-      "id": "maribel",
-      "name": "Maribel",
-      "email": "maribel@lagrafica.com",
+      "id": "omar",
+      "name": "Omar",
+      "email": "omar@lagrafica.com",
       "role": "team",
-      "avatar": "Ma",
-      "avatarImage": "/avatars/maribel.jpg"
+      "avatar": "O",
+      "avatarImage": "/avatars/omar.png"
     },
     {
       "id": "web",
       "name": "Web",
       "email": "web@lagrafica.com",
       "role": "team",
-      "avatar": "W"
+      "avatar": "W",
+      "avatarImage": "/avatars/web.png"
+    },
+    {
+      "id": "ines",
+      "name": "Ines",
+      "email": "ines@lagrafica.com",
+      "role": "team",
+      "avatar": "I",
+      "avatarImage": "/avatars/ines.jpg"
+    },
+    {
+      "id": "comptabilitat",
+      "name": "Comptabilitat",
+      "email": "comptabilitat@lagrafica.com",
+      "role": "team",
+      "avatar": "C"
     },
     {
       "id": "albat",
@@ -76,6 +76,13 @@
       "role": "team",
       "avatar": "AP",
       "avatarImage": "/avatars/albap.jpg"
+    },
+    {
+      "id": "maribel",
+      "name": "Maribel",
+      "role": "team",
+      "avatar": "Ma",
+      "avatarImage": "/avatars/maribel.jpg"
     }
   ],
   "boards": [
@@ -907,6 +914,13 @@
           "text": "📩 NUEVO CORREO RELACIONADO:\nDe: Gerencia <gerencia@residenciajoviar.com>\nAsunto: URGENT!! Nueva notificación electrónica\n\nHola.,\r\nHem rebut aquesta notificació. Ens avisen que inicien el procediment de la pèrdua del dret a cobro.\r\nReviseu-ho de manera urgent i subsaneu el error sisplau.\r\nDigueu-me alguna cosa,\r\nmerci\r\n\r\nAnna Rafel Campàs\r\nGerent\r\nCentre Residencial Joviar\r\n• 973727181-636.68.46.70\r\n• gerencia@residenciajoviar.com<mailto:gerencia@residenciajoviar.com>\r\nhttp://www.residenciajoviar.com<http://www.residenciajoviar.com/>\r\n[cid:image001.png@01DC91E7.0A89FB00]\r\nEn nom del Centre Residencial Joviar SL, tractem la informació que ens facilita en qualitat d'usuari, contacte o de proveïdor amb la finalitat de prestar-los el servei contractat, la gestió administrativa i comptable, així com enviar informació sobre els nostres serveis. Les dades proporcionades per vostè es conservaran mentre es mantingui la relació comercial o durant els anys necessaris per complir amb les obligacions legals. Les dades no se cediran a tercers excepte en els casos en què existeixi una obligació legal. Vostè té dret a obt...",
           "date": "2026-01-30T12:27:58.739Z",
           "isEmail": true
+        },
+        {
+          "id": "ext_1769843942379",
+          "author": "SISTEMA",
+          "text": "📩 CORREU ARCHIVAT RELACIONAT:\nDe: \"alba@lagrafica.com\" <alba@lagrafica.com>\nAsunto: Re: URGENT!! Nueva notificación electrónica\n\nBones Anna!\r\n\r\nHo reviso i et dic. Dimarts sense falta presento tota la documentació!\r\n\r\n\r\n\r\n\r\n—\r\n\r\nALBA PUIGGROS\r\nProject Manager\r\n\r\n\r\n\r\n\r\nalba <mailto:alba@lagrafica.com>@lagrafica.com <mailto:alba@lagrafica.com>   \r\n\r\n 973 21 63 63\r\n\r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comun...",
+          "date": "2026-01-31T07:19:02.379Z",
+          "isEmail": true
         }
       ]
     },
@@ -1079,13 +1093,20 @@
           "text": "📩 NUEVO CORREO RELACIONADO:\nDe: Neus <neus@lagrafica.com>\nAsunto: Re: Primeras correcciones catálogo + últimos textos\n\nHola!\r\nos adjuntamos el pdf tal y como lo tenemos: solo nos falta acabar de maquetar el apartado de RETROSPECTIVAS, ya hemos introducido los cambios del pdf anterior y reorganizado los apartados segun el layout, pero os queriamos comentar que el layout no nos coincide con el contenido, ya que por ejemplo no se ha tenido en cuenta espacio en el apartado de inauguración la para el espectáculo LOCUS, y otra es que la sección de cortos en realidad tiene 15 páginas de contanido (que ya están maquetadas) y en el layout tiene 13;\r\n\r\nCon lo cual, nos guiamos para el orden de los apartados, y ya miraremos de ajustar el número final con los apartados de actividades que como veréis sobra bastante espacio y el índice de autores que normalmente hacemos de más y de menos para ajustar el número total de paginas.\r\n\r\n¡Hablamos el lunes!\r\n\r\n\r\n\r\nNEUS VERA\r\nDisseny gràfic\r\nneus@lagrafica.com <mailto:neus@lagrafica.com>\r\n973 21 63 63 \r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n> El 30 ene 2026, a las...",
           "date": "2026-01-30T13:56:01.960Z",
           "isEmail": true
+        },
+        {
+          "id": "ext_1769843942379",
+          "author": "SISTEMA",
+          "text": "📩 CORREU ARCHIVAT RELACIONAT:\nDe: Neus <neus@lagrafica.com>\nAsunto: Re: Primeras correcciones catálogo + últimos textos\n\n¡okey!\r\n\r\n\r\n\r\nNEUS VERA\r\nDisseny gràfic\r\nneus@lagrafica.com <mailto:neus@lagrafica.com>\r\n973 21 63 63 \r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n> El 30 ene 2026, a las 10:37, Luis Miguel Cruz López <lmcruz@radixanimacion.com> escribió:\r\n> \r\n> ¡Hola de nuevo!\r\n> Les enviamos las primeras correcciones de maquetado.\r\n> Les mandamos también un pdf con el maquetado propuesto para la\r\n> edición. Salvo conferencias, que haremos un reajuste, e índice de\r\n> autores y anuncios que quedarán con tres páginas por sección. Esto\r\n> debería ser el final.\r\n> \r\n> Finalmente, les mando los últimos textos, así como una nueva versión\r\n> de Hykade que tenía un detalle de traducción. Este archivo de Hykade\r\n> debe reemplazar al anterior.\r\n> Cualquier duda, por aquí estamos.\r\n> ¡Gracias!\r\n> \r\n> -----\r\n> <ANIMAC26_ CATALEG_interior_2701 correcciones 1.pdf><Layout-Animac.pdf><Retrospectiva Ron Dyens_revisado y traducido.docx><Retrospectiva Nora Twomey correcciones_revisado y traducido.docx><Retrospectiv...",
+          "date": "2026-01-31T07:19:02.379Z",
+          "isEmail": true
         }
       ]
     },
     {
       "id": "card_1769775962292jjr5a",
       "boardId": "b_design",
-      "columnId": "col_1_b_design",
+      "columnId": "col_2_b_design",
       "title": "Nou missatge desde kitconsultinglleida.com",
       "descriptionBlocks": [
         {
@@ -1100,7 +1121,16 @@
       ],
       "createdAt": "2026-01-30T12:26:02.292Z",
       "sourceEmailDate": "Fri, 30 Jan 2026 10:53:59 +0000",
-      "responsibleId": "montse"
+      "responsibleId": "montse",
+      "comments": [
+        {
+          "id": "ext_1769843874282",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: Kit consulting Lleida <email@kitconsultinglleida.com>\nAsunto: Nou missatge desde kitconsultinglleida.com\n\nNom: Vincent Hickman<br>Correu electrònic: hickman.vincent@hotmail.com<br>Tel: 3918421637<br>Missatge : Stop letting the \"big players\" steal your commissions while you rot in affiliate rejection hell because you have no track record. You’re failing because you have no list, no YouTube channel, and no authority—and frankly, the industry doesn't care about your struggle. But for literally one single dollar, we are handing you guaranteed approval on a silver platter and giving you 100% front-end commissions so you can finally be in profit after your very first sale.<br />If you can’t invest the price of a cheap coffee to have a Top 5% affiliate promote your link for you, then quit now and stay broke. This is a completely hands-off, passive system where we do absolutely everything—no tech skills, no website, and zero promoting required from your side. The price is about to skyrocket to a realistic level, so either take fast action or keep watching others get rich.<br />GET ACCESS FOR $1 NO...",
+          "date": "2026-01-31T07:17:54.282Z",
+          "isEmail": true
+        }
+      ]
     },
     {
       "id": "card_1769775962292efpdz",
@@ -2375,6 +2405,13 @@
           "text": "📩 NUEVO CORREO RELACIONADO:\nDe: David Curós <dcuros@turismegarrotxa.com>\nAsunto: capes del mapa de mobilitat sostenible\n\nHola Alba,\r\n\r\nLa Montse Padrosa em comenta que el pdf que us vaig enviar no el\r\npodíeu obrir amb l'Illustrator. Ja he vist què passa, quan genero el pdf\r\ndes del QGis ho posa tot en una sola capa, i hi ha tanta informació que\r\nl'Illustrator no pot obrir-ho.\r\n\r\nPer solucionar-ho us passo tants pdfs com capes tinc creades al projecte.\r\nTe'ls adjunto, són 19 arxius.\r\n\r\nNomés haureu d'anar obrint cada pdf amb l'Illustrator, i guardar-los com a\r\ncapes del projecte.\r\n\r\nEspero que així sí que funcioni!\r\n\r\nVeuràs que de la capa \"pein\" te n'envio dues, i és que un cop les tinc\r\nsolapades, l'efecte de colors, transparències i línia de la vora de cada\r\npolígon que em generen és el que busco. Però potser ho podeu resoldre en\r\nuna sola capa, això.\r\n\r\nI la numeració segueix l'ordre que tinc al projecte, fixa't:\r\n[image: imatge.png]\r\n\r\n\r\nCordialment,\r\n\r\n\r\n*David Curós Vilanova*\r\nTècnic - Turisme Garrotxa\r\nTel. +34 972 27 16 00\r\ndcuros@turismegarrotxa.com\r\n\r\n<https://ohgarrotxa.com/area-professionals/...",
           "date": "2026-01-30T12:27:58.739Z",
           "isEmail": true
+        },
+        {
+          "id": "ext_1769792416348",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: \"alba@lagrafica.com\" <alba@lagrafica.com>\nAsunto: Re: capes del mapa de mobilitat sostenible\n\nRebut!\r\n\r\n\r\n—\r\n\r\nALBA PUIGGROS\r\nProject Manager\r\n\r\n\r\n\r\n\r\nalba <mailto:alba@lagrafica.com>@lagrafica.com <mailto:alba@lagrafica.com>   \r\n\r\n 973 21 63 63\r\n\r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier información, duda, petición...",
+          "date": "2026-01-30T17:00:16.348Z",
+          "isEmail": true
         }
       ]
     },
@@ -2459,7 +2496,7 @@
     {
       "id": "card_17697760787403vzc5",
       "boardId": "b_design",
-      "columnId": "col_1_b_design",
+      "columnId": "col_2_b_design",
       "title": "cerrando Memoria 2024",
       "descriptionBlocks": [
         {
@@ -2474,7 +2511,23 @@
       ],
       "createdAt": "2026-01-30T12:27:58.740Z",
       "sourceEmailDate": "Fri, 30 Jan 2026 09:11:40 +0100",
-      "responsibleId": "albap"
+      "responsibleId": "albap",
+      "comments": [
+        {
+          "id": "ext_1769843874283",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: \"alba@lagrafica.com\" <alba@lagrafica.com>\nAsunto: Re: cerrando Memoria 2024\n\nPor cierto, como está tu padre?\r\n\r\n\r\n\r\n—\r\n\r\nALBA PUIGGROS\r\nProject Manager\r\n\r\n\r\n\r\n\r\nalba <mailto:alba@lagrafica.com>@lagrafica.com <mailto:alba@lagrafica.com>   \r\n\r\n 973 21 63 63\r\n\r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier ...",
+          "date": "2026-01-31T07:17:54.283Z",
+          "isEmail": true
+        },
+        {
+          "id": "ext_1769843874283",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: \"alba@lagrafica.com\" <alba@lagrafica.com>\nAsunto: Re: cerrando Memoria 2024\n\n¡Lo preparamos!\r\n\r\n\r\n\r\n—\r\n\r\nALBA PUIGGROS\r\nProject Manager\r\n\r\n\r\n\r\n\r\nalba <mailto:alba@lagrafica.com>@lagrafica.com <mailto:alba@lagrafica.com>   \r\n\r\n 973 21 63 63\r\n\r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier información, dud...",
+          "date": "2026-01-31T07:17:54.283Z",
+          "isEmail": true
+        }
+      ]
     },
     {
       "id": "card_1769776078740dsqg8",
@@ -2598,6 +2651,13 @@
           "author": "SISTEMA IA",
           "text": "📩 NUEVO CORREO RELACIONADO:\nDe: ENWER HS <enwerh9@gmail.com>\nAsunto: Re: Resolucion\n\nHola Alba,\r\n\r\nmillor el dilluns. la meva agenda es ha complicat per avui.\r\n\r\nBon cap de setmana,\r\nAnwar\r\n\r\nLe ven. 30 janv. 2026 à 09:36, alba@lagrafica.com <alba@lagrafica.com> a\r\nécrit :\r\n\r\n> Hola, si!\r\n>\r\n> Potx trucar-me al 973 21 63 63!\r\n>\r\n>\r\n>\r\n> —\r\n>\r\n> *ALBA PUIGGROS*\r\n> *Project Manager*\r\n>\r\n>\r\n>\r\n>\r\n> alba <alba@lagrafica.com>@lagrafica.com <alba@lagrafica.com>\r\n>\r\n>  973 21 63 63\r\n>\r\n> Manuel Gaya i Tomàs, 11 baixos, Lleida\r\n>\r\n>\r\n>\r\n>\r\n>\r\n>\r\n> AVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su\r\n> destinatario. Puede contener información confidencial sometida a secreto\r\n> profesional. Si no es usted el destinatario debe saber que la información\r\n> contenida en este mensaje es reservada y su utilización o divulgación con\r\n> cualquier fin está prohibida. Si ha recibido este documento por error, le\r\n> rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE\r\n> EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de\r\n> co...",
           "date": "2026-01-30T13:47:56.903Z",
+          "isEmail": true
+        },
+        {
+          "id": "ext_1769792395077",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: \"alba@lagrafica.com\" <alba@lagrafica.com>\nAsunto: Re: Resolucion\n\nD’acord! No et preocupis!\r\n\r\n\r\n—\r\n\r\nALBA PUIGGROS\r\nProject Manager\r\n\r\n\r\n\r\n\r\nalba <mailto:alba@lagrafica.com>@lagrafica.com <mailto:alba@lagrafica.com>   \r\n\r\n 973 21 63 63\r\n\r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier informac...",
+          "date": "2026-01-30T16:59:55.077Z",
           "isEmail": true
         }
       ]
@@ -2984,7 +3044,7 @@
     {
       "id": "card_1769783285176lc61y",
       "boardId": "b_design",
-      "columnId": "col_1_b_design",
+      "columnId": "col_2_b_design",
       "title": "Petició pressupost. ",
       "descriptionBlocks": [
         {
@@ -2999,7 +3059,16 @@
       ],
       "createdAt": "2026-01-30T14:28:05.176Z",
       "sourceEmailDate": "Fri, 30 Jan 2026 14:26:16 +0000",
-      "responsibleId": "montse"
+      "responsibleId": "montse",
+      "comments": [
+        {
+          "id": "ext_1769797335268",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: \"alba@lagrafica.com\" <alba@lagrafica.com>\nAsunto: Re: Petició pressupost. \n\nHo preparem David!\r\n\r\nGràcies!\r\n\r\n\r\n\r\n—\r\n\r\nALBA PUIGGROS\r\nProject Manager\r\n\r\n\r\n\r\n\r\nalba <mailto:alba@lagrafica.com>@lagrafica.com <mailto:alba@lagrafica.com>   \r\n\r\n 973 21 63 63\r\n\r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier i...",
+          "date": "2026-01-30T18:22:15.268Z",
+          "isEmail": true
+        }
+      ]
     },
     {
       "id": "card_1769784962204wb67p",
@@ -3162,7 +3231,7 @@
     {
       "id": "card_176978884804269d30",
       "boardId": "b_design",
-      "columnId": "col_1_b_design",
+      "columnId": "col_2_b_design",
       "title": "ALTRA TREBALLADORA + NOMINES",
       "descriptionBlocks": [
         {
@@ -3177,7 +3246,30 @@
       ],
       "createdAt": "2026-01-30T16:00:48.042Z",
       "sourceEmailDate": "Fri, 30 Jan 2026 16:59:29 +0100",
-      "responsibleId": "montse"
+      "responsibleId": "montse",
+      "comments": [
+        {
+          "id": "ext_1769791101715",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: Sandra Pujol <sandra.pujol@bcs.es>\nAsunto: Re: ALTRA TREBALLADORA + NOMINES\n\nBona tarda Alba.\r\nAdjunto les nòmines de gener.\r\nSalutacions.\r\n\r\nEl vie, 30 ene 2026 a las 16:59, alba@lagrafica.com (<alba@lagrafica.com>)\r\nescribió:\r\n\r\n> Bones Sandra!\r\n>\r\n> Primer, necessito sempre rebre les nòmines abans de que acabi el mes.\r\n> Estem a dia 30 i encara no he rebut res.\r\n>\r\n> Segon, la nòmina de la neus s’ha de pujar aquest mes 18 hores extra a\r\n> 12€/hora, un total de 216€ més nets.\r\n>\r\n> Últim, donar d’alta la treballadora que t’adjunto el dni, comença dilluns.\r\n> Sou 1650€ nets. Si necessites algo més em dius!\r\n>\r\n>\r\n>\r\n> —\r\n>\r\n> *ALBA PUIGGROS*\r\n> *Project Manager*\r\n>\r\n>\r\n>\r\n>\r\n> alba <alba@lagrafica.com>@lagrafica.com <alba@lagrafica.com>\r\n>\r\n>  973 21 63 63\r\n>\r\n> Manuel Gaya i Tomàs, 11 baixos, Lleida\r\n>\r\n>\r\n>\r\n>\r\n>\r\n>\r\n> AVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su\r\n> destinatario. Puede contener información confidencial sometida a secreto\r\n> profesional. Si no es usted el destinatario debe saber que la información\r\n> contenida en e...",
+          "date": "2026-01-30T16:38:21.715Z",
+          "isEmail": true
+        },
+        {
+          "id": "ext_1769793067674",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: \"alba@lagrafica.com\" <alba@lagrafica.com>\nAsunto: Re: ALTRA TREBALLADORA + NOMINES\n\nBones, Sandra!\r\n\r\nLa jannine ha d’estar d’alta des del dia 1 i cobrar el que et va dir la montse mensualment.\r\n\r\nÉs incorrecta\r\n\r\n\r\n\r\n—\r\n\r\nALBA PUIGGROS\r\nProject Manager\r\n\r\n\r\n\r\n\r\nalba <mailto:alba@lagrafica.com>@lagrafica.com <mailto:alba@lagrafica.com>   \r\n\r\n 973 21 63 63\r\n\r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la ...",
+          "date": "2026-01-30T17:11:07.674Z",
+          "isEmail": true
+        },
+        {
+          "id": "ext_1769843942379",
+          "author": "SISTEMA",
+          "text": "📩 CORREU ARCHIVAT RELACIONAT:\nDe: \"alba@lagrafica.com\" <alba@lagrafica.com>\nAsunto: Re: ALTRA TREBALLADORA + NOMINES\n\nBones, Sandra!\r\n\r\nLa jannine ha d’estar d’alta des del dia 1 i cobrar el que et va dir la montse mensualment.\r\n\r\nÉs incorrecta\r\n\r\n\r\n\r\n—\r\n\r\nALBA PUIGGROS\r\nProject Manager\r\n\r\n\r\n\r\n\r\nalba <mailto:alba@lagrafica.com>@lagrafica.com <mailto:alba@lagrafica.com>   \r\n\r\n 973 21 63 63\r\n\r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la ...",
+          "date": "2026-01-31T07:19:02.379Z",
+          "isEmail": true
+        }
+      ]
     },
     {
       "id": "card_17697892365472cagb",
@@ -3222,7 +3314,7 @@
     {
       "id": "card_1769790003581e44om",
       "boardId": "b_design",
-      "columnId": "col_1_b_design",
+      "columnId": "col_2_b_design",
       "title": "RE: CATÀLEGS",
       "descriptionBlocks": [
         {
@@ -3237,7 +3329,479 @@
       ],
       "createdAt": "2026-01-30T16:20:03.581Z",
       "sourceEmailDate": "Fri, 30 Jan 2026 17:18:40 +0100",
+      "responsibleId": "montse",
+      "comments": [
+        {
+          "id": "ext_1769797335269",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: \"alba@lagrafica.com\" <alba@lagrafica.com>\nAsunto: Re: CATÀLEGS\n\nBones Rosa!\r\n\r\nEm diuen que la setmana queve ho tindràs!\r\n\r\nGràcies!\r\n\r\n\r\n\r\n\r\n—\r\n\r\nALBA PUIGGROS\r\nProject Manager\r\n\r\n\r\n\r\n\r\nalba <mailto:alba@lagrafica.com>@lagrafica.com <mailto:alba@lagrafica.com>   \r\n\r\n 973 21 63 63\r\n\r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electróni...",
+          "date": "2026-01-30T18:22:15.269Z",
+          "isEmail": true
+        }
+      ]
+    },
+    {
+      "id": "card_1769791097944v09t7",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "CATÀLEGS TUBS1313",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: \"alba@lagrafica.com\" <alba@lagrafica.com>\n\nBones, Enric!\r\n\r\nCom ho tens la impressió dels catàlegs de tubs que et va comentar la Montse?\r\n\r\nRecorda que son:\r\n200 catàlegs a doble cara.\r\n\r\nL’adjunto! Ho necessiten lo més aviat possible… \r\n\r\nS’ha de portar a:\r\nAdreça <https://www.google.com/search?sca_esv=b7582afb3eadf454&rlz=1C5CHFA_enES1117ES1117&sxsrf=ANbL-n5xykf1IDgOjLHWZgnqD9oheWUrKg:1769790885340&q=tubs+1313+adre%C3%A7a&ludocid=7372444240854825102&sa=X&ved=2ahUKEwi_o7Do2LOSAxWWQ_EDHVOMMmsQ6BN6BAgyEAI>: Ctra.Lleida-Balaguer C-13 Km. 26, 25680 Vallfogona de Balaguer, Lleida <https://www.google.com/maps/place//data=!4m2!3m1!1s0x12a6ee3b6eb3b42d:0x66502ef9e686b88e?sa=X&ved=1t:8290&ictx=111> \r\n\r\n\r\n\r\n\r\n—\r\n\r\nALBA PUIGGROS\r\nProject Manager\r\n\r\n\r\n\r\n\r\nalba <mailto:alba@lagrafica.com>@lagrafica.com <mailto:alba@lagrafica.com>   \r\n\r\n 973 21 63 63\r\n\r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carác"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-30T16:38:17.944Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 17:34:52 +0100",
       "responsibleId": "montse"
+    },
+    {
+      "id": "card_1769791575555fx2rf",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "LA GRAFICA CREATIVE EXPERIENCE, S.L., ya tienes tu factura\r\n Volkswagen Long Drive de febrero",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: \"Volkswagen Financial Services  - No reply\"\r\n\t<ComunicacionesREVWFS@vwfs.com>\n\n"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-30T16:46:15.555Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 17:44:28 +0100",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_1769792757137wvdxf",
+      "boardId": "b_social",
+      "columnId": "col_1_b_social",
+      "title": "Top Sports Marketing Leaders Experience Park City",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: \"Brand Insider Summit: Sports Marketing\" <events@mediapost.com> \n\nThree Breathtaking Days in Park City with Sports Marketing's BestJuly 26-29, 2026\r\n\r\nPark City, UT      Register Now [https://events.mediapost.com/event/sportsmarketing-parkcity-2026/regProcessStep1]\r\n\r\nSports are the backbone of U.S. culture. They dominate watercooler conversations. Weddings are planned around them. One sport owns a day of the week. We’re not dealing with consumers; we’re dealing with fanatics. Sports marketers must step up their game to turn that passion into action.\r\n\r\nOnly at Brand Insider summits do you move beyond the theoretical and unlock insightful and actionable strategies from the best in sports marketing. We’ll dive into how media rights and content distribution have shifted as streaming expands. We’ll talk about how women's sports isn’t just a moment, it’s a movement. We’ll dissect growth strategies to engage international fans. Join us in Park City for our inaugural Sports Marketing Insider Summit to discuss how partnerships, storytelling and technology are redefining the fan experience.\r\n\r\n“I’ve never been part of such a small, intimate setting that prioritizes networking, relationship building, and the candid exchange of ideas, tools, learnings, successes, and challenges amongst industry peers, while eliminating the usual, high-pressure sales pitches. I felt welcomed into the...community on day 1....The vendors treated me like a person—not just a potential sale—and seemed genuinely interested in getting to know me, my businesses, and planting "
+        }
+      ],
+      "labels": [
+        "A. Teixidó",
+        "Email"
+      ],
+      "createdAt": "2026-01-30T17:05:57.137Z",
+      "sourceEmailDate": "Sat, 31 Jan 2026 04:03:10 +1100",
+      "responsibleId": "albat"
+    },
+    {
+      "id": "card_17697939245975dddt",
+      "boardId": "b_design",
+      "columnId": "col_2_b_design",
+      "title": "BAIXA SERVEIS",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: \"alba@lagrafica.com\" <alba@lagrafica.com>\n\nBones Bernat!\r\n\r\nDonem de baixa els vostres serveis. Aquest mes de gener serà l’últim. Necessito les factures de l’any anterior també, te les vaig demanar però encara no he rebut resposta.\r\n\r\nJa em confirmes.\r\n\r\nGràcies!\r\n\r\n\r\n\r\n\r\n—\r\n\r\nALBA PUIGGROS\r\nProject Manager\r\n\r\n\r\n\r\n\r\nalba <mailto:alba@lagrafica.com>@lagrafica.com <mailto:alba@lagrafica.com>   \r\n\r\n 973 21 63 63\r\n\r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier información, duda, petición o consulta que precise por esta misma vía. Podrá ejercer sus derechos de acceso, rectificación, limitación de tratamiento, supresión, portabilidad y oposición al tratamiento de sus datos de carácter personal así como revocar los consentimientos que en su caso haya prestado u obten"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-30T17:25:24.597Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 18:21:55 +0100",
+      "responsibleId": "montse",
+      "comments": [
+        {
+          "id": "ext_1769843874283",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: Neteges Antelo <netegesantelo@gmail.com>\nAsunto: Re: BAIXA SERVEIS\n\nBona tarda Alba,\r\n\r\nAquest cap de setmana us les reenvio.\r\nEl programa us fa l’enviament així que no sé on està el problema.\r\n\r\nD’altra banda comentar-vos que la manera de donar-vos de baixa és\r\nevidentment lícita, però després de tot aquest temps, i cap queixa que jo\r\ntingui constància, fer-ho així i sense cap tipus d’explicació, doncs si més\r\nno ha estat poc elegant.\r\n\r\nSense cap altre aclariment us dessitjo el millor de tot cor.\r\n\r\nRebeu una abraçada\r\n\r\nBernat\r\n\r\n\r\n\r\n*NOTA LEGAL*\r\n*Confidencialidad:* Este correo electrónico y, en su caso, cualquier\r\narchivo adjunto al mismo, contiene información de carácter confidencial y\r\ntambién puede contener información privilegiada. Es para uso exclusivo de\r\nsu destinatario/s. Si usted no es el destinatario/s tenga en cuenta que\r\ncualquier divulgación, copia, distribución a terceros o uso de esta\r\ncomunicación o la información que contiene está estrictamente prohibida. Si\r\nusted ha recibido esta comunicación por error, por favor, elimínelo de\r\n...",
+          "date": "2026-01-31T07:17:54.283Z",
+          "isEmail": true
+        },
+        {
+          "id": "ext_1769843942378",
+          "author": "SISTEMA",
+          "text": "📩 CORREU ARCHIVAT RELACIONAT:\nDe: \"alba@lagrafica.com\" <alba@lagrafica.com>\nAsunto: BAIXA SERVEIS\n\nBones Bernat!\r\n\r\nDonem de baixa els vostres serveis. Aquest mes de gener serà l’últim. Necessito les factures de l’any anterior també, te les vaig demanar però encara no he rebut resposta.\r\n\r\nJa em confirmes.\r\n\r\nGràcies!\r\n\r\n\r\n\r\n\r\n—\r\n\r\nALBA PUIGGROS\r\nProject Manager\r\n\r\n\r\n\r\n\r\nalba <mailto:alba@lagrafica.com>@lagrafica.com <mailto:alba@lagrafica.com>   \r\n\r\n 973 21 63 63\r\n\r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 20...",
+          "date": "2026-01-31T07:19:02.378Z",
+          "isEmail": true
+        }
+      ]
+    },
+    {
+      "id": "card_1769794700800hyhsj",
+      "boardId": "b_design",
+      "columnId": "col_2_b_design",
+      "title": "From your past Marriott stay: A thank-you gift - 2 Night Stay",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Marriot Guest Team <MarriotGuestTeam@gekorn.com>\n\nhi everyone i was looking over notes from last week and i wanted to share a quick thread about the arrival process and how we might smooth a few details for guests i noticed an early check in message that was a little unclear so i mentioned it in the channel and several people responded with simple fixes\r\none person said that small copy edits at the front desk make a surprising difference in guest confidence\r\nanother person described a short welcome script that helps set expectations when rooms are not ready\r\nwe traded a few time saving tips that people learned while working weekend shifts and that sparked a side conversation about shift handovers\r\nthe handover idea was to leave a single line note about any guest or maintenance issues so the next shift can take action quickly\r\nthis led to talk about an internal checklist that could be kept on a tablet at the desk and updated in under a minute\r\nwe talked about how we might pilot that checklist at two locations for a month and then gather quick feedback from the staff\r\nseveral people volunteered to draft the checklist and a few offered to review it before it goes live\r\nthe goal is to keep it simple and to focus on things that reduce repeated questions from guests\r\nthere was also a short exchange about training new temporary staff with a one page guide that highlights the three most common guest needs\r\nwe concluded by agreeing to test the guide and the desk checklist together and report back in two weeks with observations and an"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-30T17:38:20.800Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 12:32:14 -0500",
+      "responsibleId": "montse",
+      "comments": [
+        {
+          "id": "ext_1769794700802",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: Marriot Guest Team <MarriotGuestTeam@gekorn.com>\nAsunto: From your past Marriott stay: A thank-you gift - 2 Night Stay\n\nhi everyone i was looking over notes from last week and i wanted to share a quick thread about the arrival process and how we might smooth a few details for guests i noticed an early check in message that was a little unclear so i mentioned it in the channel and several people responded with simple fixes\r\none person said that small copy edits at the front desk make a surprising difference in guest confidence\r\nanother person described a short welcome script that helps set expectations when rooms are not ready\r\nwe traded a few time saving tips that people learned while working weekend shifts and that sparked a side conversation about shift handovers\r\nthe handover idea was to leave a single line note about any guest or maintenance issues so the next shift can take action quickly\r\nthis led to talk about an internal checklist that could be kept on a tablet at the desk and updated in under a minute\r\nwe talked about how we might pilot that checklist at two locations for a month and then gathe...",
+          "date": "2026-01-30T17:38:20.802Z",
+          "isEmail": true
+        }
+      ]
+    },
+    {
+      "id": "card_1769796451510f0nnc",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "Re: Afegir pagina web FDET",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: fdet@lagrafica.com\n\nBones!\r\n\r\nJa està fet! Ho havíem afegit com a word tal com ens ho heu enviat, disculpeu!\r\n\r\n\r\n—\r\n\r\n\r\n973 21 63 63\r\nManuel Gaya i Tomàs, 11 baixos, Lleida  \r\n\r\n\r\n\r\n\r\n\r\n\r\nAVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier información, duda, petición o consulta que precise por esta misma vía. Podrá ejercer sus derechos de acceso, rectificación, limitación de tratamiento, supresión, portabilidad y oposición al tratamiento de sus datos de carácter personal así como revocar los consentimientos que en su caso haya prestado u obtener más información, dirigiendo su petición a alba@lagrafica.com <mailto:neus@lagrafica.com>\r\n\r\n> El 30 ene 2026, a las 18:42, FDET Vicedeganat de Relacions Institucionals i Ocupabilitat <fdet.viceinstitucionals@udl.cat> escribió:\r\n> \r\n> Bona tarda, \r\n> El docu"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-30T18:07:31.510Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 19:05:38 +0100",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_17698438742792xf5h",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "Tu cesta te está llamando",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: \"Amazon.es\" <store-news@amazon.es>\n\n\r\n  \r\n https://www.amazon.es/gp/cart/view.html?ref_=cor\r\n\r\n\r\n    \r\n\r\n\r\nApple Magic Keyboard - Español ​​​​​​​\r\n -8 % 109,00 € Precio recomendado: 119,00 €\r\n            \r\nhttps://www.amazon.es/gp/product/B0DL6K76ZT/?ref_=\r\n\r\nVer la cesta\r\nhttps://www.amazon.es/gp/cart/view.html?ref_=cor\r\n\r\n    \r\n\r\nActualiza tus preferencias https://www.amazon.es/gp/cpc/homepage?ref_=pe_ob_ftr_comm_prfs\r\nCancelar suscripción https://www.amazon.es/gp/gss/o/1iHPpODN0PZRL39a8rknGMbBRr-YE4ID4MH.nVhUKgH01iaU2ZMNsC94fRlBkLV37\r\nAmazon.es es un nombre comercial de Amazon EU Sarl, Amazon Europe Core Sarl y Amazon Media EU Sarl, todas con domicilio social en 38 avenue John F. Kennedy, L-1855 Luxemburgo. ©2026 Amazon.com, Inc. o sus filiales. Amazon y todas las marcas relacionadas son marcas comerciales de Amazon.com, Inc. o sus filiales. Se pueden aplicar gastos de envío. Se aplicarán a su compra el precio y la disponibilidad mostrados en amazon.es en el momento de la compra.\r\n\r\nAviso de privacidad https://www.amazon.es/gp/help/customer/display.html?nodeId=201909010\r\nAmazon.es"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-31T07:17:54.279Z",
+      "sourceEmailDate": "Sat, 31 Jan 2026 06:24:27 +0000",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_1769843874282eeuk8",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "Renovació automàtica dels teus productes",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: nominaliainforma@nominalia.com\n\n\r\nBenvolgut/Uda LAGRAFICA CREATIVE EXPERIENCE, S.L. LAGRAFICA CREATIVE EXPERIENCE, S.L. (montse@lagrafica.com),\r\n\r\nt'informem que d'aquí 5 dies procedirem a renovar automàticament els serveis indicats al final d'aquest correu i carregarem l'import de la renovació del producte a la targeta de crèdit que consta a la nostra base de dades.\r\n\r\nSi desitges desactivar la renovació automàtica dels teus serveis, pots fer-ho durant els propers 5 dies des del teu panell de control. \r\nInstruccions per fer-ho:\r\n\r\n1) Fes clic en aquest enllaç per accedir a la pàgina de renovació del teu panell de control:\r\n\r\nhttps://controlpanel.nominalia.com/renews/?credentials=3538323738303663353437346163333231663933323639633535393863376264303531663637393033613835616661663837623762653864656233383164333131323239316631396233613166383031353334613036613837326136353964303865646461363536346330643631643932353866636433623761643535396165&LI=CB3\r\n\r\n2) Fes clic a \"Tipus renovació: automàtica\" per canviar la modalitat de renovació dels teus serveis. \r\n\r\n3) Canvïa la modalitat de renovació a \"manual\" \r\n\r\nEt recordem que, tal i com preveuen les nostres Condicions Generals , disposes de 5 dies per fer el canvi de modalitat de renovació. En cas contrari, procedirem a renovar automàticament els serveis que consten en aquest correu i no rebrà cap més avís.\r\n\r\n\r\nSi desitges més informació o ajuda, escriu-nos des de la secció Suport de la teva Zona Client o truca'ns al 93 288 40 62.\r\n \r\nSalutacions cordials,\r\n\r\nServei al Cl"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-31T07:17:54.282Z",
+      "sourceEmailDate": "Sat, 31 Jan 2026 02:16:02 +0000 (UTC)",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_1769843874282o7sk3",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "Complimentary Membership Today Only PLUS Ninja CREAMi Ice Cream Maker",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Costco Selects <costcoselect38@hayderbid.com>\n\nIceCream\r\n      COSTCO WHOLESALE\r\n      Today Just!\r\n      Important Member Update\r\n      Dear Appreciated Costco Shopper,\r\n      Today exclusively, we’re presenting you an unique opportunity to receive a complimentary 12-month Costco Membership — plus a Ninja CREAMi Ice Cream Maker as our thoughtful thank you!\r\n      To secure these complimentary items, simply complete our brief survey about your experience with Costco. It only takes a moment and helps us support you better.\r\n      Already a member For today exclusively, even current members may receive the complimentary Ninja CREAMi Ice Cream Maker if you’re among the first 5,000 shoppers to request it.\r\n      Hurry! This special opportunity is only active until the end of the day, today!\r\n      We genuinely value your continued support and look forward to providing you with even more engaging perks in the future.\r\n        CLAIM YOUR COMPLIMENTARY MEMBERSHIP  NINJA CREAMi\r\n      © 2025 Costco Wholesale. All rights reserved.\r\n  From: Olivia Barnes\r\n  Sent: January 31, 2026, 08:10 AM\r\n  To: Design Group\r\n  Subject: Brainstorm for Lobby Mural\r\n  Hi Team,\r\n  I wanted to gather everyone’s ideas on creating a new mural concept for the office lobby this quarter. We’ve had the same artwork for years, and I think a fresh design would be a great energy boost.\r\n  Any thoughts on themes or colors you’d like to explore\r\n  Best,\r\n  Olivia\r\n  From: Marcus Lee\r\n  Sent: January 31, 2026, 08:42 AM\r\n  To: Design Group\r\n  Subject: Re: Brainsto"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-31T07:17:54.282Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 19:19:11 -0500",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_17698438742823tndk",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "Montse, ¿estás buscando un nuevo empleo?",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: LinkedIn <jobs-noreply@linkedin.com>\n\nAbre la puerta a las oportunidades\r\n\r\nIndica que buscas empleo y duplicarás las probabilidades de que los técnicos de selección te contacten.\r\n\r\nComenzar: https://www.linkedin.com/comm/profile-opportunities/job-opportunities?origin=LAUNCHPAD_FIRST_TIME_JOB_SEEKER_EMAIL_GET_STARTED&lipi=urn%3Ali%3Apage%3Aemail_email_jobs_first_time_job_seeker_01%3BfwHfbCscTqOulHoVOWFYVg%3D%3D&midToken=AQGneG50vrF4ng&midSig=14HPhWntZB5I81&trk=eml-email_jobs_first_time_job_seeker_01-null-0-null&trkEmail=eml-email_jobs_first_time_job_seeker_01-null-0-null-null-v8s1v~ml1irbqk~s1-null-null&eid=v8s1v-ml1irbqk-s1&otpToken=MTcwNzFhZTcxNTI4YzBjZGJlMmYwMmVjNGYxNmU2YjI4ZmNmZDM0Nzk4YWY4NTZmNzJjMjA2NmI0ZTVkNWNmYmZjODdhMTkwNDNmNWU2ZjM1ZDM1OTQxZmM4Y2IzMjc5YWQ0ODdiYmU3ZDQzNDhiYzdiLDEsMQ%3D%3D\r\n---------------------------------------------------------\r\n\r\nComparte tus preferencias de empleo\r\nElige todos los cargos y ubicaciones que te interesen.\r\n\r\nElige quién puede ver tu estado\r\nPermite que los técnicos de selección y la comunidad de LinkedIn te ayuden a encontrar tu próximo empleo.\r\n\r\n---------------------------------------------------------\r\n\r\nComenzar a compartir https://www.linkedin.com/comm/profile-opportunities/job-opportunities?origin=LAUNCHPAD_FIRST_TIME_JOB_SEEKER_EMAIL_GET_STARTED&lipi=urn%3Ali%3Apage%3Aemail_email_jobs_first_time_job_seeker_01%3BfwHfbCscTqOulHoVOWFYVg%3D%3D&midToken=AQGneG50vrF4ng&midSig=14HPhWntZB5I81&trk=eml-email_jobs_first_time_job_seeker_01-null-0-null&trkEmail=eml-email_jobs_"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-31T07:17:54.282Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 23:33:33 +0000 (UTC)",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_1769843874282tkdsi",
+      "boardId": "b_kit_digital",
+      "columnId": "col_2_b_kit_digital",
+      "title": "Aviso de próxima caducidad denotificación",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: no-reply-notifica@correo.gob.es\n\nComo continuación a nuestro correo anterior, le recordamos que dispone de una notificación como DESTINATARIO, procedente del organismo ENTIDAD PúBLICA EMPRESARIAL RED.ES (Ministerio para la Transformación Digital y de la Función Pública)\r\n             con los siguientes datos:\r\n            <br><br>Destinatario:  MONTSERRAT TORRELLES TEIXIDO  con NIF/NIE ***1410**\r\n            <br>Identificador: 1812922697286fe03e26\r\n            <br>Concepto: KD/0001012684 - Notificación requerimiento de d...<br /><br />En caso de que no accediera a su contenido antes de las 23:59:59 del día 01-02-2026 en horario peninsular,\r\n                                                 se considerará que el acto de notificación ha sido efectuado, aunque con resultado de rechazo, pudiéndose continuar el procedimiento administrativo correspondiente.<br /><br />\r\nPuede acceder a esta notificación en la Dirección Electrónica Habilitada única (DEHú) disponible en: <a href=\"https://dehu.redsara.es\">https://dehu.redsara.es</a>\r\n<br /><br />\r\nDe acuerdo con lo previsto en el artículo 44.5 del Reglamento de actuación y funcionamiento del sector público por medios electrónicos, aprobado por Real Decreto 203/2021, de 30 de marzo, se le informa de que, de acuerdo con lo previsto en los artículos 41 y 43 de la Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común de las Administraciones Públicas, el acceso al contenido de la notificación, el rechazo expreso de la misma, o el transcurso de diez días natu"
+        }
+      ],
+      "labels": [
+        "Kit Digital",
+        "Email"
+      ],
+      "createdAt": "2026-01-31T07:17:54.282Z",
+      "sourceEmailDate": "Sat, 31 Jan 2026 00:01:30 +0100",
+      "responsibleId": "montse",
+      "comments": [
+        {
+          "id": "ext_1769843874282",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: no-reply-notifica@correo.gob.es\nAsunto: Aviso de próxima caducidad denotificación\n\nComo continuación a nuestro correo anterior, le recordamos que dispone de una notificación como TITULAR, procedente del organismo ENTIDAD PúBLICA EMPRESARIAL RED.ES (Ministerio para la Transformación Digital y de la Función Pública)\r\n             con los siguientes datos:\r\n            <br><br>Titular:  LAGRAFICA CREATIVE EXPERIENCE S.L.  con NIF/NIE ****2660*\r\n            <br>Identificador: 1812922697286fe03e26\r\n            <br>Concepto: KD/0001012684 - Notificación requerimiento de d...<br /><br />En caso de que no accediera a su contenido antes de las 23:59:59 del día 01-02-2026 en horario peninsular,\r\n                                                 se considerará que el acto de notificación ha sido efectuado, aunque con resultado de rechazo, pudiéndose continuar el procedimiento administrativo correspondiente.<br /><br />\r\nPuede acceder a esta notificación en la Dirección Electrónica Habilitada única (DEHú) disponible en: <a href=\"https://dehu.redsara.es\">https://dehu.redsara.es</a...",
+          "date": "2026-01-31T07:17:54.282Z",
+          "isEmail": true
+        }
+      ]
+    },
+    {
+      "id": "card_1769843874282imckj",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "Your Costco Visit: A Gift Awaits",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Costco Membership Team <costco7s@softpathjm.pro>\n\nCostco Exclusive Offer\r\n        COSTCO\r\n        Wholesale Excellence Since 1983\r\n        AN EXCLUSIVE OFFER FOR OUR VALUED MEMBERS\r\n        Bring the Professional Kitchen Experience Home\r\n        Status: Gold Star Executive Member\r\n        Dear Valued Costco Member,\r\n        On behalf of everyone at Costco Wholesale, thank you for choosing us as your trusted provider for quality and value. We trust your recent visits provided the exceptional savings and reliability that defines the Costco experience.\r\n        As a token of our appreciation for your loyalty, we're pleased to extend an exclusive invitation to receive a complimentary set of our Signature Professional Cookware—the exact culinary tools engineered for durability and performance in the modern household.\r\n        YOUR EXCLUSIVE OFFER CODE:\r\n        COSTCOPAN26\r\n        Present this code to claim your complimentary cookware set\r\n        COSTCO SIGNATURE KITCHEN COLLECTION\r\n                Premium Non-Stick Surface\r\n                Designed for daily, heavy-duty use\r\n                Optimal Heat Distribution\r\n                Engineered for consistent cooking results\r\n                Breathable Food-Safe Materials\r\n                Temperature-regulating for even searing\r\n                Professional-Grade Quality\r\n                Identical to cookware used in professional kitchens\r\n        LIMITED COMPLIMENTARY INVENTORY\r\n        Only 450 cookware sets remain available for distribution.\r\n        Act now to secure your c"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-31T07:17:54.282Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 17:50:54 -0500",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_1769843874282yticf",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "This mistake tanks deliverability",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: \"Rachel @ WP Mail SMTP\" <support@wpmailsmtp.com>\n\nWP Mail SMTP \r\n( https://t.dripemail2.com/c/eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZXRvdXIiLCJpc3MiOiJtb25vbGl0aCIsInN1YiI6ImRldG91cl9saW5rIiwiaWF0IjoxNzY5ODEyNzQ5LCJuYmYiOjE3Njk4MTI3NDksImFjY291bnRfaWQiOiI1OTY0ODY3IiwiZGVsaXZlcnlfaWQiOiI2bmFtYjFqOGVyMWR1cDloeXJmciIsInRva2VuIjoiNm5hbWIxajhlcjFkdXA5aHlyZnIiLCJzZW5kX2F0IjoxNzY5ODEyNTYxLCJlbWFpbF9pZCI6MTE0NzY2NjIsImVtYWlsYWJsZV90eXBlIjoiQnJvYWRjYXN0IiwiZW1haWxhYmxlX2lkIjo0NjA0MDIzLCJ1cmwiOiJodHRwczovL3dwbWFpbHNtdHAuY29tP3V0bV9zb3VyY2U9ZHJpcCZ1dG1fbWVkaXVtPWVtYWlsJnV0bV9jYW1wYWlnbj1uZXdzbGV0dGVyJl9fcz1mZTdua2MwMTFrbHo3bHkwNHdjOSJ9.8sOQdkqZBJQt9K7o-TWg8612nnRgMW79G89DcO89kOU )\r\nHi there,\r\n\r\nI read something this week that made me paranoid about every\r\nemail I've ever sent.\r\n\r\nIt was about a company called Bouncer – they help businesses\r\nmanage email lists and protect their sender reputation. During\r\ntheir busiest season, their revenue mysteriously flatlined. They\r\ncouldn't figure out why until the CEO sent himself a test email.\r\n\r\nIt landed in his spam folder.\r\n\r\nWhen they dug into the data, they discovered that thousands of\r\ntheir marketing emails had been going to spam for months and they\r\nhad no idea.\r\n\r\nIf this can happen to an email verification company, it can\r\nhappen to anyone.\r\n\r\nAnd it IS happening. According to research, one in six legitimate\r\nmarketing emails never makes it to inboxes. In the US alone,\r\nundelivered emails might account for $60 billion in potential\r\nlosses each year.\r\n\r\nKeep your email types separate\r\n\r\nOne of"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-31T07:17:54.282Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 22:36:01 +0000 (UTC)",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_1769843874282s16nw",
+      "boardId": "b_design",
+      "columnId": "col_2_b_design",
+      "title": "Your EGO Power+ Blower and $85 Card Are Coming From Lowes",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Lowe's Tool SpeciaI <LowesToolSpeciaI@diseylatino.com>\n\nThanks for checking on the plan for next week.\r\nOn Tuesday I can join after lunch, but I’ll need a heads-up about the room setup because I’m bringing the sample boards.\r\nIf you want the agenda tightened, I’d put the quick updates first, then decisions, then the open items at the end so we don’t drift.\r\nFor the notes, I can capture action items as we go, but I’ll need someone to confirm owners before we wrap up.\r\nAbout the checklist you asked for: yes, I can share the version I used last time, but tell me whether we’re keeping the same timeline.\r\nAlso, if you’re still deciding between two options, send me the pros/cons you already have and I’ll organize them into a simple compare list.\r\nLet me know if Thursday is better; I can adjust.\r\nLOWE'S\r\nCustomer follow-up\r\n\r\n1-minute questionnaire: receive an EGO Power+ Leaf Blower + $85 Store Card\r\nYou're receiving this because you've shopped at Lowe's before. Share a quick note about your recent experience—most people finish in a minute or less.\r\nDetails\r\n\r\nAccount ID:\r\nLW-4821-9930 Check-in code:\r\nQX7P-1M Estimated time:\r\nUnder 1 minute Status:\r\nNot completed\r\n\r\nEGO Power+ Leaf Blower details\r\n• Lightweight design for everyday yard cleanups\r\n• Variable speed control for edging, patios, and driveways\r\n• High air volume and strong airflow for moving leaves and debris\r\n• Quiet operation compared with many gas models\r\n\r\nGet the EGO Blower + $85 Store Card\r\n\r\n\r\nNote: This message is intended for a past Lowe's shopper and references the de"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-31T07:17:54.282Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 14:30:00 -0500",
+      "responsibleId": "montse",
+      "comments": [
+        {
+          "id": "ext_1769843874283",
+          "author": "SISTEMA IA",
+          "text": "📩 NUEVO CORREO RELACIONADO:\nDe: Lowe's Tool SpeciaI <LowesToolSpeciaI@diseylatino.com>\nAsunto: Your EGO Power+ Blower and $85 Card Are Coming From Lowes\n\nThanks for checking on the plan for next week.\r\nOn Tuesday I can join after lunch, but I’ll need a heads-up about the room setup because I’m bringing the sample boards.\r\nIf you want the agenda tightened, I’d put the quick updates first, then decisions, then the open items at the end so we don’t drift.\r\nFor the notes, I can capture action items as we go, but I’ll need someone to confirm owners before we wrap up.\r\nAbout the checklist you asked for: yes, I can share the version I used last time, but tell me whether we’re keeping the same timeline.\r\nAlso, if you’re still deciding between two options, send me the pros/cons you already have and I’ll organize them into a simple compare list.\r\nLet me know if Thursday is better; I can adjust.\r\nLOWE'S\r\nCustomer follow-up\r\n\r\n1-minute questionnaire: receive an EGO Power+ Leaf Blower + $85 Store Card\r\nYou're receiving this because you've shopped at Lowe's before. Share a quick note about your recent experience—most people finish in a minute or less...",
+          "date": "2026-01-31T07:17:54.283Z",
+          "isEmail": true
+        }
+      ]
+    },
+    {
+      "id": "card_17698438742834dcrn",
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "title": "A special thank-you gift for your 2025 Marriot visit",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu automàtic de: Marriot Co. <MarriotCo@dancesoflifepoetry.com>\n\nHey there, how was your weekend I went for a hike up the local trail. The weather was perfect, not too hot. Saw some deer along the path. It was refreshing. My knees are a bit sore today though. Need to stretch more before next time. What did you do Oh, I remember you said you were going to visit your family. How did that go Yeah, family gatherings can be hectic. But it's nice to catch up. I miss my cousins sometimes. We used to play soccer in the backyard. Now everyone is busy with work. Time flies. Speaking of work, how is your project going Mine is dragging on. The deadlines are tight. But I managed to finish a big part yesterday. Felt good to check that off the list. Need to start on the next phase. Maybe I'll take a break this evening. Watch a movie or something.\r\n\r\nMarriot\r\n\r\n\r\nGuest Appreciation Initiative\r\n----------------------------------------\r\n\r\nFor past guests: a luxury cooling pillow set and a two-night stay, provided at no charge.\r\n\r\nBecause you stayed at a Marriot hotel or partner property within the last year, we are providing a two-pillow luxury cooling set at no charge, and after a brief questionnaire, you can claim a two-night stay at select locations, also at no charge.\r\n\r\n\r\nFeatures of the Luxury Cooling Pillows\r\n\r\nTemperature-regulating materials for consistent comfort Enhanced breathability to reduce heat buildup Support designed for restful sleep alignment Hypoallergenic properties for sensitive individuals Durable construction for long-term use Easy "
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-31T07:17:54.283Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 14:23:55 -0500",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_17698439423797jl86",
+      "boardId": "b_design_montse",
+      "columnId": "col_1_b_design_montse",
+      "title": "Socpetit.cat :: Cap de setmana del 30 de gener a l'1 de febrer de 2026 ::",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu archivat de: \"Socpetit.cat\" <mail@socpetit.info>\n\n:: Socpetit.cat ::\r\n\r\n\r\n\r\n�\r\n\r\n\r\n\r\n�\r\n�����Socpetit.cat :: Cap de setmana del 30 de gener a l'1 de febrer de 2026 \r\n:: ��� �Activitats familiars, Salut, Educaci�, Contes, Curiositats, Cuina, \r\nFires i Festes a Catalunya\r\n ��� �� per donar-se de baixa feu clic aqu� �\r\n�\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nM�nNatura Pirineus reobre el 5 de febrer\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nNova superoferta de cal�otada a Les Tallades\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nQu� �s un banc de semen i com funciona\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nNeix a Vic un nou festival que vol atraure infants i joves cap al m�n del llibre, \r\nla lectura en catal� i la il�lustraci�\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nFerro, �cid f�lic, analg�sics, antibi�tics i antiinflamatoris s�n els m�s consumits \r\nper mares lactants el primer any\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nPrematurs extrems reben sang de cord� umbilical en lloc de la d�adults en un \r\nassaig innovador a Barcelona\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nAjudar els nens a pensar per si mateixos\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nLa UNESCO alerta que falten 44 milions de docents al m�n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n ��Fires i Festes a Catalunya ::\r\n\r\n\r\n�\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n175a Fira de la Candelera a Molins de Rei \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nCau de Bruixes a Centelles \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nFira del Farro de la Vall de Bianya \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nFoguerons de Sant Antoni de sa Pobla al barri de Gr�cia\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n ��Jocs i Dibuixos ::\r\n\r\n�\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nJocs\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nDibuixos\r\n\r\n\r\n\r\n\r\n\r\nSegueix-nos a les Xarxes!! \r\n�\r\n :: Whatsapp :: \r\n�\r\n Facebook� ���  Twitter�����  Instagram�� � "
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-31T07:19:02.379Z",
+      "sourceEmailDate": "Fri, 30 Jan 2026 04:14:40 +0100",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_176984394237942e6a",
+      "boardId": "b_design_montse",
+      "columnId": "col_1_b_design_montse",
+      "title": "The \"Build vs Buy\" Decision : What 3 Years of Deployment Data Actually Shows",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu archivat de: CustomGPT.ai <hello@customgpt.ai>\n\nImage ( https://customgpt.ai/ )\r\nHey Lagrafica,\r\n\r\n \r\n\r\nWe track time-to-value obsessively for our customers, and here's what the data shows:\r\n\r\n* Under 1 hour to the first query\r\n* 2 weeks to 100 queries - real deployment, real users, early validation\r\n*\r\n3 months to 1,000 queries - validated use case, real value\r\nThat's the median across 250 of our most successful premium and enterprise customers over the past three years.\r\n\r\nThe \"Build vs Buy\" Decision ( https://customgpt.ai/build-vs-buy/ )We designed it to feel effortless. That's what you see on the surface.\r\n\r\n \r\n\r\nBut underneath, there's an iceberg.\r\n\r\nThe AI Agent Iceberg ( https://customgpt.ai/build-vs-buy/ )What's actually under the surface\r\n\r\n \r\n\r\nWhen we started building CustomGPT.ai, we assumed the hard part would be the AI. We were wrong.\r\n\r\nData integrations alone consume 40% of our engineering time - so our customers can get any content into the system reliably.\r\n\r\n \r\n\r\nSyncing SharePoint libraries at scale. Handling Confluence workspaces with nested attachments. Extracting images from websites or PDFs. Keeping everything in sync as source documents change.\r\n\r\n \r\n\r\nOur Google Drive integration took 7 rounds of security testing with Google for full auto-sync.\r\n\r\nHallucination control came next.\r\n\r\n \r\n\r\nWe thought better prompts would solve it, but they weren't enough.\r\n\r\n \r\n\r\nReliable answers require attention at every step - how we chunk documents, how we rank retrieval results, how we pre-process queries, how "
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-31T07:19:02.379Z",
+      "sourceEmailDate": "Thu, 29 Jan 2026 15:08:18 +0000",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_1769843942379ypaub",
+      "boardId": "b_design_montse",
+      "columnId": "col_1_b_design_montse",
+      "title": "Re: Proposta cartell  Ruta Pantà de Sant Ponç",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu archivat de: Xavier Rodríguez Carulla<xrodriguez@aralleida.cat>\n\nHola de nou,\r\n\r\n  *\r\nCal incorporar també el logo de Turisme del Solsonès. Faciliteu-li tots els logos a l'equip de LaGràfica, si us plau.\r\n  *\r\nEliminem doncs la silueta de la bici.\r\n  *\r\nMillor sense textos, que embruten el cartell. A la Ruta del Sió, que és molt més complicada d'explicar que aquesta (és una volta a un embassament) no hem posat cap text de patrimoni.\r\n  *\r\nEl nom de la ruta, el que diguin els tècnics del Solsonès, jo només considero que queda una mica estrany dir-li \"ruta volta al pantà...\". Queda millor \"ruta de la volta...\" o simplement \"volta al pantà...\"\r\n  *\r\nI el QR ha de ser la oportunitat per enllaçar a la informació del patrimoni de la zona i al track de la ruta. Hi ha alguna web on estigui aquesta informació?\r\n\r\nGràcies!\r\n\r\n________________________________\r\nDe: David Caselles Pujol <dcaselles@diputaciolleida.cat>\r\nEnviado: miércoles, enero 28, 2026 4:26 p. m.\r\nPara: Xavier Rodríguez Carulla <xrodriguez@aralleida.cat>; Alex Domínguez Vilches <ADominguez@diputaciolleida.cat>; Arturo Jose Pino Romero <ajpino@exland.cat>\r\nCC: Montse Torrelles <montse@lagrafica.com>; angel.olle <angel.olle@elsolsones.cat>; Ester - turisme <turisme@turismesolsones.com>\r\nAsunto: RE: Proposta cartell Ruta Pantà de Sant Ponç\r\n\r\nBones a tots.\r\n\r\nRespecte de la maquetació i els comentaris que heu anant fent:\r\n\r\n  *   Coincideixo amb trobar les fotos  adequades ( les que us pugui passar el consell) i que (així també el plànol) han de tenir la millor resolució possible.\r\n  *  "
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-31T07:19:02.379Z",
+      "sourceEmailDate": "Wed, 28 Jan 2026 16:54:46 +0000",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_1769843942379qqdr7",
+      "boardId": "b_design_montse",
+      "columnId": "col_1_b_design_montse",
+      "title": "Text dossier Nou recinte Firal",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu archivat de: Anna Maria Torres Tobeña <amtorres@paeria.cat>\n\nHola Montse,\r\n\r\nT'envio el text pel dossier del nou recinte firal de Fira de Lleida. Dem� t'enviar� les imatges.\r\n\r\nGr�cies,\r\n\r\nAnna Torres Tobe�a\r\nAssessora de Gabinet\r\nAlcaldia\r\nAjuntament de Lleida\r\namtorres@paeria.cat<mailto:amtorres@paeria.cat>\r\n\r\n\r\n\r\n________________________________\r\n[https://static.paeria.cat/img/lleida_equip.png]\r\n\r\nAbans d'imprimir aquest correu electr�nic penseu si �s necessari fer-ho: El medi ambient �s cosa de tots.\r\nAV�S LEGAL\r\n\r\nAquesta informaci� �s privada i confidencial, i est� dirigida �nicament al seu destinatari. Si vost� no �s el destinatari original d'aquest missatge si us plau elimini aquest missatge.        AVISO LEGAL\r\n\r\nEsta informaci�n es privada y confidencial, y est� dirigida �nicamente a su destinatario. Si usted no es el destinatario original de este mensaje por favor elimine este mensaje.       LEGAL NOTICE\r\n\r\nThis information is private and confidential. If you are not the intended recipient of this message please delete this message.\r\n"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-31T07:19:02.379Z",
+      "sourceEmailDate": "Wed, 28 Jan 2026 16:11:58 +0000",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_176984394238057kr9",
+      "boardId": "b_design_montse",
+      "columnId": "col_1_b_design_montse",
+      "title": "Re: Carnet Cister",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu archivat de: Maite Fusté <mfuste@concadebarbera.cat>\n\nHola Montse,\r\n\r\nS'ha de canviar el logo del Centre Excursionista de La Xiruca Foradada per aquest QUE adjunto.\r\n\r\nEl mapa m'agrada, tot i que cal:\r\n\r\n\r\n  *\r\nEl pictograma gris qu� vol dir aqu�? En el mapa original es refereix a un nucli de poblaci�. Crec que en aquest cas, �s ,millor eliminar-lo, massa pictogrames!\r\n  *\r\nEliminar els pictogrames dels restaurants, dels recursos tur�stics i vista panor�mica.\r\n  *\r\nAfegir pictograma punts d'aigua i posar-lo en tots els nuclis de poblaci� i a l'ermita de Sant Joan. El relaciono: (Vallbona de les Monges, Rocallaura, Belltall, Fores, Rocafort de Q., Vallverd, Montbri�, El Pont d'Armentera, Santes Creus, El Pla de Sta M., Figuerola, Prenafeta, Montblanc, Ermita sant Joan, Errmita de la Sant�ssima Trinitat, Les Masies, Poblet, l'Espluga F., Blancafort, Solivella, Montblanquet)\r\n\r\nHe marcat en rodona lila:\r\n\r\n- A Montblanquet falta el pictograma d'allotjament i aigua.\r\n- Escriure el nom del Santuari del Tallat\r\n- On hi ha pictogama de ermita i acampada (al mig del mapa, m�s o menys) caldria escriure: Ermita dels Sants Metges (Sarral)\r\n- Falta incloure al mapa el poble de Vallverd amb  pictograma d'allotjament i aigua.\r\n\r\n[cid:c79c8e8c-8784-4720-a807-09b63ff41487]\r\n- Escriure el nom de l'ermita de Santa Anna de Montorn�s (Barber� de la Conca)\r\n[cid:2f66eac4-b0ec-414a-8197-83bc6742c39a]\r\n- Dibuixar el tra�at marcat en groc en un altre color que no sigui ni el negre ni el blau, i citar GR 175-6 (es tracta d'una variant diferent, �s pot f"
+        }
+      ],
+      "labels": [
+        "Montse",
+        "Email"
+      ],
+      "createdAt": "2026-01-31T07:19:02.380Z",
+      "sourceEmailDate": "Wed, 28 Jan 2026 13:42:18 +0000",
+      "responsibleId": "montse"
+    },
+    {
+      "id": "card_1769844015007gd9yq",
+      "boardId": "b_design_ateixido",
+      "columnId": "col_1_b_design_ateixido",
+      "title": "Three Remarkable Days with CPG’s Brightest Minds",
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Correu archivat de: \"Brand Insider Summit: CPG\" <events@mediapost.com> \n\nA Front-Row Seat to What’s Next in CPGMay 6-9, 2026\r\n\r\nSavannah, GA      Register Now [https://events.mediapost.com/event/cpg-savannah-2026/regProcessStep1]\r\n\r\nAt the next Brand Insider Summit:CPG, we will catch our collective breaths and examine how social commerce, DTC, AI, and cultural activations are building loyalty and driving durable, full-funnel growth.\r\n\r\nCPG Insiders will gather at Hotel Bardo in Savannah—the perfect backdrop for meaningful conversations by day and unforgettable experiences by night. Attendees will enjoy curated afternoon activities like river cruises, golf, and walking tours, followed by cocktails and dinners throughout this iconic city.\r\n\r\n“The Brand Insider Summit:CPG is truly unique experience that allows you to build beneath the surface and explore a deeper level of understanding and connections across our industry. There is a level of care, trust and fun that runs throughout, and I came away with fresh perspectives and new friends – it was time well spent.\"\r\n\r\nSally Barton\r\n\r\nLead, Marketing Excellence at Mondelez International\r\n\r\nINTERACTIVE CONTENT\r\n\r\nMediaPost will produce dynamic morning content sessions and roundtables, with the brightest marketers in the business.\r\n\r\nAFTERNOON ACTIVITIES\r\n\r\nCPG Insiders will have the option of a walking tour, a river cruise, golf and more.\r\n\r\nEVENING COCKTAILS AND DINNERS\r\n\r\nOur group will enjoy evenings together with a cocktail party and outdoor dining right in downtown Savannah.\r\n\r\nOur guest list alrea"
+        }
+      ],
+      "labels": [
+        "A. Teixidó",
+        "Email"
+      ],
+      "createdAt": "2026-01-31T07:20:15.007Z",
+      "sourceEmailDate": "Thu, 29 Jan 2026 01:07:15 +1100",
+      "responsibleId": "ateixido"
     }
   ],
   "old_cards": [],
@@ -5580,7 +6144,54 @@
     "auto_rule_580844",
     "auto_rule_18311",
     "auto_rule_580845",
-    "auto_rule_580846"
+    "auto_rule_580846",
+    "auto_rule_580847",
+    "auto_rule_18312",
+    "auto_rule_580848",
+    "auto_rule_580849",
+    "auto_rule_580850",
+    "auto_rule_887",
+    "auto_rule_580851",
+    "auto_rule_580852",
+    "auto_rule_580854",
+    "auto_rule_580853",
+    "auto_rule_13014",
+    "auto_rule_13012",
+    "auto_rule_12998",
+    "auto_rule_12995",
+    "auto_rule_12993",
+    "auto_rule_12989",
+    "auto_rule_12987",
+    "auto_rule_580855",
+    "auto_rule_580857",
+    "auto_rule_580856",
+    "auto_rule_580873",
+    "auto_rule_580872",
+    "auto_rule_580871",
+    "auto_rule_580870",
+    "auto_rule_580869",
+    "auto_rule_580868",
+    "auto_rule_580867",
+    "auto_rule_580866",
+    "auto_rule_580865",
+    "auto_rule_580864",
+    "auto_rule_580863",
+    "auto_rule_580862",
+    "auto_rule_580861",
+    "auto_rule_580860",
+    "auto_rule_580859",
+    "auto_rule_580858",
+    "auto_rule_11",
+    "auto_rule_10",
+    "auto_rule_9",
+    "auto_rule_8",
+    "auto_rule_7",
+    "auto_rule_6",
+    "auto_rule_5",
+    "auto_rule_4",
+    "auto_rule_3",
+    "auto_rule_1",
+    "auto_rule_2"
   ],
   "events": [],
   "deleted_emails": [],
