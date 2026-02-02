@@ -5,12 +5,23 @@ services:
     plan: free
     branch: main
     envVars:
+      - key: PORT
+        value: 3000
+      - key: BOARD_TENDERS
+        value: b_tenders
       - key: IMAP_HOST
         sync: false
       - key: IMAP_PORT
         sync: false
       - key: IMAP_SECURE
         sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: GOOGLE_SCRIPT_URL
+        sync: false
+      # Members
       - key: IMAP_USER_MONTSE
         sync: false
       - key: IMAP_PASS_MONTSE
@@ -35,13 +46,15 @@ services:
         sync: false
       - key: IMAP_PASS_WEB
         sync: false
-      - key: GOOGLE_SCRIPT_URL
+      - key: IMAP_USER_INES
         sync: false
-      - key: IMAP_HOST
+      - key: IMAP_PASS_INES
         sync: false
-      - key: IMAP_PORT
+      - key: IMAP_USER_COMPTABILITAT
         sync: false
-      - key: IMAP_SECURE
+      - key: IMAP_PASS_COMPTABILITAT
         sync: false
-      - key: PORT
-        value: 3000
+      - key: IMAP_USER_LICITACIONS
+        sync: false
+      - key: IMAP_PASS_LICITACIONS
+        sync: false
