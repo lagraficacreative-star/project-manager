@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Bot, Sparkles, Search, X } from 'lucide-react';
+import { Send, Bot, Sparkles, Search, X, Paperclip, Cloud } from 'lucide-react';
 import { api } from '../api';
 
 const SidebarAI = () => {
@@ -141,8 +141,48 @@ const SidebarAI = () => {
 
         } catch (err) {
             console.error(err);
-            setMessages(prev => [...prev, { role: 'assistant', text: "Lo siento, ha habido un error al conectar con la base de datos." }]);
+            setMessages(prev => [...prev, { role: "assistant", text: "Lo siento, ha habido un error al conectar con la base de datos." }]);
             setIsTyping(false);
+        }
+    };
+    const [isDragging, setIsDragging] = useState(false);
+    const fileInputRef = useRef(null);
+
+    const handleFileChange = async (e) => {
+        const files = Array.from(e.target.files);
+        for (const file of files) {
+            await uploadAIFile(file);
+        }
+        e.target.value = null;
+    };
+
+    const uploadAIFile = async (file) => {
+        try {
+            const result = await api.uploadFile(file);
+            const fileLink = `[Archivo: ${result.filename}](${result.url})`;
+            setInput(prev => prev ? `${prev} ${fileLink}` : fileLink);
+        } catch (error) {
+            console.error("Upload failed", error);
+            alert("Error al subir archivo a la IA");
+        }
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        setIsDragging(false);
+    };
+
+    const handleDrop = async (e) => {
+        e.preventDefault();
+        setIsDragging(false);
+        const files = Array.from(e.dataTransfer.files);
+        for (const file of files) {
+            await uploadAIFile(file);
         }
     };
 
@@ -160,7 +200,19 @@ const SidebarAI = () => {
                 </div>
 
                 {isOpen && (
-                    <div className="bg-gray-50 rounded-2xl p-3 border border-gray-100 shadow-inner flex flex-col gap-3 max-h-[400px] overflow-hidden animate-in fade-in slide-in-from-bottom-2">
+                    <div
+                        className="bg-gray-50 rounded-2xl p-3 border border-gray-100 shadow-inner flex flex-col gap-3 max-h-[400px] overflow-hidden animate-in fade-in slide-in-from-bottom-2 relative"
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                    >
+                        {/* Drag Overlay */}
+                        {isDragging && (
+                            <div className="absolute inset-0 z-[60] bg-brand-orange/20 backdrop-blur-sm border-2 border-dashed border-brand-orange flex flex-col items-center justify-center p-4 text-center pointer-events-none">
+                                <Cloud size={32} className="text-brand-orange animate-bounce mb-2" />
+                                <p className="text-[10px] font-bold text-brand-black">Sube archivos a la IA</p>
+                            </div>
+                        )}
                         <div className="flex-1 overflow-y-auto space-y-3 pr-1 custom-scrollbar min-h-[150px]">
                             {messages.map((m, i) => (
                                 <div key={i} className={`flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}>
@@ -179,18 +231,35 @@ const SidebarAI = () => {
                             <div ref={messagesEndRef} />
                         </div>
 
-                        <form onSubmit={handleSend} className="relative">
+                        <form onSubmit={handleSend} className="relative flex items-center gap-1.5">
                             <input
-                                name="msg"
-                                type="text"
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                                placeholder="Busca proyectos, contactos..."
-                                className="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 pr-9 text-[11px] outline-none focus:ring-2 focus:ring-brand-orange/20 transition-all font-medium"
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                                className="hidden"
+                                multiple
                             />
-                            <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-300 hover:text-brand-orange transition-colors">
-                                <Send size={14} />
+                            <button
+                                type="button"
+                                onClick={() => fileInputRef.current?.click()}
+                                className="p-1.5 text-gray-400 hover:text-brand-orange transition-colors"
+                                title="Adjuntar archivo"
+                            >
+                                <Paperclip size={14} />
                             </button>
+                            <div className="relative flex-1">
+                                <input
+                                    name="msg"
+                                    type="text"
+                                    value={input}
+                                    onChange={(e) => setInput(e.target.value)}
+                                    placeholder="Busca proyectos, contactos..."
+                                    className="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 pr-9 text-[11px] outline-none focus:ring-2 focus:ring-brand-orange/20 transition-all font-medium"
+                                />
+                                <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-300 hover:text-brand-orange transition-colors">
+                                    <Send size={14} />
+                                </button>
+                            </div>
                         </form>
                     </div>
                 )}

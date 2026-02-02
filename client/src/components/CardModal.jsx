@@ -70,6 +70,7 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
 
     const [isEconomicAuthenticated, setIsEconomicAuthenticated] = useState(false);
     const [economicPassword, setEconomicPassword] = useState('');
+    const [isDragging, setIsDragging] = useState(false);
 
     // Refs
     const attachmentInputRef = useRef(null);
@@ -229,6 +230,51 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
         await onSave(dataToSave);
     };
 
+    // --- DRAG AND DROP HANDLERS ---
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+    };
+
+    const handleDrop = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+
+        const files = e.dataTransfer.files;
+        if (files && files.length > 0) {
+            for (let i = 0; i < files.length; i++) {
+                await uploadSingleFile(files[i], activeTab === 'economic' ? 'economic' : 'general');
+            }
+        }
+    };
+
+    const uploadSingleFile = async (file, section) => {
+        try {
+            const result = await api.uploadFile(file); // { url, filename }
+            const newAttachment = {
+                id: Date.now() + Math.random(),
+                filename: result.filename,
+                url: result.url
+            };
+            if (section === 'general') {
+                setAttachments(prev => [...prev, newAttachment]);
+            } else if (section === 'economic') {
+                setEconomic(prev => ({ ...prev, attachments: [...prev.attachments, newAttachment] }));
+            }
+        } catch (error) {
+            console.error("Upload failed", error);
+            alert(`Error al subir archivo: ${file.name}`);
+        }
+    };
+
     const formatTime = (ms) => {
         if (!ms) return "00:00:00";
         const seconds = Math.floor((ms / 1000) % 60);
@@ -272,22 +318,9 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
     // --- UPLOAD HANDLER ---
     const handleFileUpload = async (e, section) => {
         if (!e.target.files || e.target.files.length === 0) return;
-        const file = e.target.files[0];
-        try {
-            const result = await api.uploadFile(file); // { url, filename }
-            const newAttachment = {
-                id: Date.now(),
-                filename: result.filename,
-                url: result.url
-            };
-            if (section === 'general') {
-                setAttachments(prev => [...prev, newAttachment]);
-            } else if (section === 'economic') {
-                setEconomic(prev => ({ ...prev, attachments: [...prev.attachments, newAttachment] }));
-            }
-        } catch (error) {
-            console.error("Upload failed", error);
-            alert("Error al subir archivo");
+        const files = Array.from(e.target.files);
+        for (const file of files) {
+            await uploadSingleFile(file, section);
         }
         e.target.value = null; // Reset input
     };
@@ -443,8 +476,24 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
     );
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden overflow-x-hidden">
+        <div
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+        >
+            <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden overflow-x-hidden relative">
+
+                {/* Drag Overlay */}
+                {isDragging && (
+                    <div className="absolute inset-0 z-[110] bg-brand-orange/20 backdrop-blur-sm border-4 border-dashed border-brand-orange flex items-center justify-center pointer-events-none rounded-2xl">
+                        <div className="bg-white p-8 rounded-2xl shadow-2xl flex flex-col items-center gap-4 animate-in zoom-in-50 duration-300">
+                            <Cloud size={64} className="text-brand-orange animate-bounce" />
+                            <p className="text-xl font-bold text-brand-black">Suelta los archivos aquí para subirlos</p>
+                            <p className="text-sm text-gray-500">Se añadirán a la sección de {activeTab === 'economic' ? 'Económico' : 'Detalles'}</p>
+                        </div>
+                    </div>
+                )}
 
                 {/* Header */}
                 <div className="p-6 border-b border-gray-100 bg-white">

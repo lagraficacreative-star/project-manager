@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../api';
-import { Trash2, Edit2, Plus, Layout, Palette, Code, Smartphone, Clipboard, DollarSign, Receipt, Mail, Send, Calendar, Clock, Bell, Search, Mic, ChevronRight, Square, Play, Bot, Briefcase, FileText, Gavel, Archive, Check, Lock, Calculator, Upload, Table, User, Tag, X } from 'lucide-react';
+import { Trash2, Edit2, Plus, Layout, Palette, Code, Smartphone, Clipboard, DollarSign, Receipt, Mail, Send, Calendar, Clock, Bell, Search, Mic, ChevronRight, Square, Play, Bot, Briefcase, FileText, Gavel, Archive, Check, Lock, Calculator, Upload, Table, User, Tag, X, Folder } from 'lucide-react';
+import FolderGrid from './FolderGrid';
 
 
 const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnlocked, unlockManagement, AUTHORIZED_EMAILS }) => {
@@ -50,6 +51,7 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
     const [activity, setActivity] = useState([]);
     const [importingBoardId, setImportingBoardId] = useState(null);
     const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+    const [activeTab, setActiveTab] = useState('overview'); // 'overview' or 'folders'
 
     useEffect(() => {
         loadData();
@@ -611,176 +613,202 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
                 </div>
             </div>
 
-            {/* Boards Grid */}
-            <div className="flex flex-col gap-10">
-                {/* ROW 1: SERVICES */}
-                <div>
-                    <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Servicios</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <DepartmentCard title="LG - Diseño" icon={Palette} count={getCount('b_design')} onClick={() => navigate('/board/b_design')} />
-                        <DepartmentCard title="REDES SOCIALES" icon={Smartphone} count={getCount('b_social')} onClick={() => navigate('/board/b_social')} />
-                        <DepartmentCard title="WEB laGràfica" icon={Code} count={getCount('b_web')} onClick={() => navigate('/board/b_web')} />
-                        <DepartmentCard title="Licitaciones" icon={Gavel} count={getCount('b_tenders')} onClick={() => navigate('/licitaciones')} />
-                    </div>
-                </div>
+            {/* Tabs Header */}
+            <div className="flex items-center gap-8 border-b border-gray-100 px-6">
+                <button
+                    onClick={() => setActiveTab('overview')}
+                    className={`pb-4 text-[10px] font-black uppercase tracking-[0.3em] transition-all relative ${activeTab === 'overview' ? 'text-brand-orange' : 'text-gray-400 hover:text-gray-600'}`}
+                >
+                    Visión General
+                    {activeTab === 'overview' && <div className="absolute bottom-0 left-0 right-0 h-1 bg-brand-orange rounded-full animate-in fade-in slide-in-from-bottom-2 duration-300" />}
+                </button>
+                <button
+                    onClick={() => setActiveTab('folders')}
+                    className={`pb-4 text-[10px] font-black uppercase tracking-[0.3em] transition-all relative ${activeTab === 'folders' ? 'text-brand-orange' : 'text-gray-400 hover:text-gray-600'}`}
+                >
+                    Carpetas Drive
+                    {activeTab === 'folders' && <div className="absolute bottom-0 left-0 right-0 h-1 bg-brand-orange rounded-full animate-in fade-in slide-in-from-bottom-2 duration-300" />}
+                </button>
+            </div>
 
-                {/* ROW 2: CLIENTS */}
-                <div>
-                    <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Clientes del Estudio</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <DepartmentCard title="LLEIDA EN VERD 2025" icon={Layout} count={getCount('b_lleida')} onClick={() => navigate('/board/b_lleida')} />
-                        <DepartmentCard title="ANIMAC26" icon={Play} count={getCount('b_animac')} onClick={() => navigate('/board/b_animac')} />
-                        <DepartmentCard title="Imo" icon={Briefcase} count={getCount('b_imo')} onClick={() => navigate('/board/b_imo')} />
-                        <DepartmentCard title="EXPOSICIÓN DIBA 2026" icon={FileText} count={getCount('b_diba')} onClick={() => navigate('/board/b_diba')} />
-                    </div>
+            {activeTab === 'folders' ? (
+                <div className="px-2">
+                    <FolderGrid mode="general" />
                 </div>
-
-                {/* ROW 3: GESTIÓ (Password Protected) */}
-                <div className="bg-gray-50/50 rounded-[2.5rem] p-8 border border-gray-100 mt-2">
-                    <div className="flex items-center justify-between mb-6">
-                        <div className="flex items-center gap-3">
-                            <div className="p-2 bg-brand-orange/10 rounded-xl text-brand-orange">
-                                <Lock size={18} />
+            ) : (
+                <>
+                    {/* Boards Grid */}
+                    <div className="flex flex-col gap-10">
+                        {/* ROW 1: SERVICES */}
+                        <div>
+                            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Servicios</h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <DepartmentCard title="LG - Diseño" icon={Palette} count={getCount('b_design')} onClick={() => navigate('/board/b_design')} />
+                                <DepartmentCard title="REDES SOCIALES" icon={Smartphone} count={getCount('b_social')} onClick={() => navigate('/board/b_social')} />
+                                <DepartmentCard title="WEB laGràfica" icon={Code} count={getCount('b_web')} onClick={() => navigate('/board/b_web')} />
                             </div>
-                            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider">Gestión Administrativa</h2>
                         </div>
-                        {!isManagementUnlocked && (
-                            <button
-                                onClick={() => setShowPasswordInput(!showPasswordInput)}
-                                className="text-[10px] font-black text-brand-orange uppercase tracking-widest hover:underline"
-                            >
-                                {showPasswordInput ? 'CANCELAR' : 'DESBLOQUEAR ACCESO'}
-                            </button>
-                        )}
-                    </div>
 
-                    {!isManagementUnlocked ? (
-                        <div className="flex flex-col items-center justify-center py-12 text-center">
-                            {showPasswordInput ? (
-                                <form onSubmit={handleUnlockManagement} className="flex flex-col items-center gap-4 w-full max-w-xs">
-                                    <input
-                                        type="password"
-                                        placeholder="Introduce la contraseña..."
-                                        className="w-full px-5 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-orange/20"
-                                        value={managementPassword}
-                                        onChange={(e) => setManagementPassword(e.target.value)}
-                                        autoFocus
-                                    />
-                                    <button type="submit" className="w-full bg-brand-orange text-white py-3 rounded-2xl text-xs font-black tracking-widest uppercase shadow-lg shadow-orange-500/20">
-                                        ENTRAR
-                                    </button>
-                                </form>
-                            ) : (
-                                <>
-                                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm border border-gray-100">
-                                        <Lock size={24} className="text-gray-300" />
+                        {/* ROW 2: CLIENTS */}
+                        <div>
+                            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 ml-1">Clientes del Estudio</h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <DepartmentCard title="LLEIDA EN VERD 2025" icon={Layout} count={getCount('b_lleida')} onClick={() => navigate('/board/b_lleida')} />
+                                <DepartmentCard title="ANIMAC26" icon={Play} count={getCount('b_animac')} onClick={() => navigate('/board/b_animac')} />
+                                <DepartmentCard title="Imo" icon={Briefcase} count={getCount('b_imo')} onClick={() => navigate('/board/b_imo')} />
+                                <DepartmentCard title="EXPOSICIÓN DIBA 2026" icon={FileText} count={getCount('b_diba')} onClick={() => navigate('/board/b_diba')} />
+                            </div>
+                        </div>
+
+                        {/* ROW 3: GESTIÓ (Password Protected) */}
+                        <div className="bg-gray-50/50 rounded-[2.5rem] p-8 border border-gray-100 mt-2">
+                            <div className="flex items-center justify-between mb-6">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-brand-orange/10 rounded-xl text-brand-orange">
+                                        <Lock size={18} />
                                     </div>
-                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Sección Privada</p>
-                                </>
-                            )}
-                        </div>
-                    ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <DepartmentCard title="PRESUPUESTOS" icon={Calculator} count={getCount('b_budget')} onClick={() => navigate('/board/b_budget')} />
-                            <DepartmentCard title="FACTURACIÓN" icon={Receipt} count={getCount('b_billing')} onClick={() => navigate('/board/b_billing')} />
-                            <DepartmentCard title="KIT DIGITAL" icon={Gavel} count={getCount('b_kit_digital')} onClick={() => navigate('/board/b_kit_digital')} />
-                        </div>
-                    )}
-                </div>
-
-                {/* ROW 4: URGENT NOTICES */}
-                <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100 flex flex-col h-full border-l-4 border-l-brand-orange">
-                    <div className="flex items-center justify-between mb-6 md:mb-8">
-                        <div className="flex items-center gap-3">
-                            <Calendar size={20} className="text-brand-orange" />
-                            <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Agenda (Orden del día)</h3>
-                        </div>
-                        <span className="text-[10px] font-black bg-orange-50 text-brand-orange px-3 py-1 rounded-full">{urgentNotes.filter(n => !n.done).length} POR HACER</span>
-                    </div>
-                    <div className="flex gap-2 mb-6">
-                        <input
-                            type="text"
-                            placeholder="¿Qué hay que hacer ahora mismo?..."
-                            className="flex-1 px-5 py-4 bg-gray-50 rounded-2xl text-sm font-bold border border-gray-100 outline-none focus:ring-2 focus:ring-brand-orange/10 transition-all"
-                            value={newNote}
-                            onChange={(e) => setNewNote(e.target.value)}
-                            onKeyDown={(e) => e.key === 'Enter' && addUrgentNote()}
-                        />
-                        <button onClick={addUrgentNote} className="bg-brand-orange text-white px-5 rounded-2xl shadow-lg shadow-orange-500/20 active:scale-90 transition-all">
-                            <Plus size={24} />
-                        </button>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                        {urgentNotes.map(note => (
-                            <div key={note.id} className={`flex items-start gap-4 p-5 rounded-2xl border transition-all ${note.done ? 'bg-gray-50 border-gray-100 opacity-60' : 'bg-white border-orange-100 shadow-sm border-l-4 border-l-brand-orange'}`}>
-                                <button onClick={() => toggleUrgentNoteDone(note.id)} className={`w-6 h-6 shrink-0 rounded-lg border-2 ${note.done ? 'bg-brand-orange border-brand-orange text-white' : 'bg-white border-brand-orange/30 text-transparent'} flex items-center justify-center transition-all mt-0.5`}>
-                                    <Check size={14} strokeWidth={3} />
-                                </button>
-                                <div className="flex-1 min-w-0">
-                                    <p className={`text-sm font-black whitespace-pre-wrap leading-tight ${note.done ? 'line-through text-gray-400' : 'text-gray-800'}`}>
-                                        {note.text}
-                                    </p>
-                                    <p className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-widest">{note.date}</p>
+                                    <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider">Gestión Administrativa</h2>
                                 </div>
-                                {note.done && (
-                                    <button onClick={() => handleArchiveNote(note)} className="p-2 text-gray-300 hover:text-brand-orange transition-colors">
-                                        <Archive size={14} />
+                                {!isManagementUnlocked && (
+                                    <button
+                                        onClick={() => setShowPasswordInput(!showPasswordInput)}
+                                        className="text-[10px] font-black text-brand-orange uppercase tracking-widest hover:underline"
+                                    >
+                                        {showPasswordInput ? 'CANCELAR' : 'DESBLOQUEAR ACCESO'}
                                     </button>
                                 )}
                             </div>
-                        ))}
-                        {urgentNotes.length === 0 && <div className="py-12 text-center text-gray-300 font-bold uppercase tracking-widest text-xs col-span-full italic">No hay avisos urgentes</div>}
-                    </div>
-                </div>
-            </div>
 
-            {/* Widgets Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {/* Calendar */}
-                <div onClick={() => navigate('/calendar')} className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100 cursor-pointer hover:border-brand-orange/30 hover:shadow-xl transition-all group">
-                    <div className="flex items-center gap-3 mb-6">
-                        <Calendar size={20} className="text-brand-orange" />
-                        <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Calendario</h3>
-                    </div>
-                    <div className="h-40 bg-gray-50 rounded-3xl flex flex-col items-center justify-center text-gray-300 text-[10px] font-black uppercase tracking-widest italic group-hover:bg-orange-50 transition-all gap-4">
-                        <Calendar size={32} className="opacity-20" />
-                        <span className="px-6 text-center">Pulsa para ver la agenda completa</span>
-                    </div>
-                </div>
-
-                {/* Time Control */}
-                <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100">
-                    <div className="flex justify-between items-center mb-6">
-                        <div className="flex items-center gap-3">
-                            <Clock size={20} className="text-brand-orange" />
-                            <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Control Horario</h3>
-                        </div>
-                        <button onClick={handleAddTimeLog} className="text-[10px] font-bold text-gray-400 hover:text-brand-orange uppercase tracking-widest flex items-center gap-1">VER TODO <ChevronRight size={12} /></button>
-                    </div>
-                    <div className="p-6 bg-orange-50/50 rounded-3xl border border-brand-orange/10">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-black text-sm shadow-lg ${activeEntry ? 'bg-red-500 animate-pulse' : 'bg-brand-orange'}`}>
-                                    {activeEntry ? <Play size={20} /> : <Square size={20} />}
+                            {!isManagementUnlocked ? (
+                                <div className="flex flex-col items-center justify-center py-12 text-center">
+                                    {showPasswordInput ? (
+                                        <form onSubmit={handleUnlockManagement} className="flex flex-col items-center gap-4 w-full max-w-xs">
+                                            <input
+                                                type="password"
+                                                placeholder="Introduce la contraseña..."
+                                                className="w-full px-5 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-orange/20"
+                                                value={managementPassword}
+                                                onChange={(e) => setManagementPassword(e.target.value)}
+                                                autoFocus
+                                            />
+                                            <button type="submit" className="w-full bg-brand-orange text-white py-3 rounded-2xl text-xs font-black tracking-widest uppercase shadow-lg shadow-orange-500/20">
+                                                ENTRAR
+                                            </button>
+                                        </form>
+                                    ) : (
+                                        <>
+                                            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm border border-gray-100">
+                                                <Lock size={24} className="text-gray-300" />
+                                            </div>
+                                            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Sección Privada</p>
+                                        </>
+                                    )}
                                 </div>
-                                <div>
-                                    <p className="text-xs font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Tu jornada hoy</p>
-                                    <p className="text-2xl font-black text-brand-black tracking-tighter">{formatTime(elapsedTime)}</p>
+                            ) : (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <DepartmentCard title="PRESUPUESTOS" icon={Calculator} count={getCount('b_budget')} onClick={() => navigate('/board/b_budget')} />
+                                    <DepartmentCard title="FACTURACIÓN" icon={Receipt} count={getCount('b_billing')} onClick={() => navigate('/board/b_billing')} />
+                                    <DepartmentCard title="KIT DIGITAL" icon={Gavel} count={getCount('b_kit_digital')} onClick={() => navigate('/board/b_kit_digital')} />
+                                </div>
+                            )}
+                        </div>
+
+                        {/* ROW 4: URGENT NOTICES */}
+                        <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100 flex flex-col h-full border-l-4 border-l-brand-orange">
+                            <div className="flex items-center justify-between mb-6 md:mb-8">
+                                <div className="flex items-center gap-3">
+                                    <Calendar size={20} className="text-brand-orange" />
+                                    <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Agenda (Orden del día)</h3>
+                                </div>
+                                <span className="text-[10px] font-black bg-orange-50 text-brand-orange px-3 py-1 rounded-full">{urgentNotes.filter(n => !n.done).length} POR HACER</span>
+                            </div>
+                            <div className="flex gap-2 mb-6">
+                                <input
+                                    type="text"
+                                    placeholder="¿Qué hay que hacer ahora mismo?..."
+                                    className="flex-1 px-5 py-4 bg-gray-50 rounded-2xl text-sm font-bold border border-gray-100 outline-none focus:ring-2 focus:ring-brand-orange/10 transition-all"
+                                    value={newNote}
+                                    onChange={(e) => setNewNote(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && addUrgentNote()}
+                                />
+                                <button onClick={addUrgentNote} className="bg-brand-orange text-white px-5 rounded-2xl shadow-lg shadow-orange-500/20 active:scale-90 transition-all">
+                                    <Plus size={24} />
+                                </button>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                                {urgentNotes.map(note => (
+                                    <div key={note.id} className={`flex items-start gap-4 p-5 rounded-2xl border transition-all ${note.done ? 'bg-gray-50 border-gray-100 opacity-60' : 'bg-white border-orange-100 shadow-sm border-l-4 border-l-brand-orange'}`}>
+                                        <button onClick={() => toggleUrgentNoteDone(note.id)} className={`w-6 h-6 shrink-0 rounded-lg border-2 ${note.done ? 'bg-brand-orange border-brand-orange text-white' : 'bg-white border-brand-orange/30 text-transparent'} flex items-center justify-center transition-all mt-0.5`}>
+                                            <Check size={14} strokeWidth={3} />
+                                        </button>
+                                        <div className="flex-1 min-w-0">
+                                            <p className={`text-sm font-black whitespace-pre-wrap leading-tight ${note.done ? 'line-through text-gray-400' : 'text-gray-800'}`}>
+                                                {note.text}
+                                            </p>
+                                            <p className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-widest">{note.date}</p>
+                                        </div>
+                                        {note.done && (
+                                            <button onClick={() => handleArchiveNote(note)} className="p-2 text-gray-300 hover:text-brand-orange transition-colors">
+                                                <Archive size={14} />
+                                            </button>
+                                        )}
+                                    </div>
+                                ))}
+                                {urgentNotes.length === 0 && <div className="py-12 text-center text-gray-300 font-bold uppercase tracking-widest text-xs col-span-full italic">No hay avisos urgentes</div>}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Widgets Section */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        {/* Calendar */}
+                        <div onClick={() => navigate('/calendar')} className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100 cursor-pointer hover:border-brand-orange/30 hover:shadow-xl transition-all group">
+                            <div className="flex items-center gap-3 mb-6">
+                                <Calendar size={20} className="text-brand-orange" />
+                                <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Calendario</h3>
+                            </div>
+                            <div className="h-40 bg-gray-50 rounded-3xl flex flex-col items-center justify-center text-gray-300 text-[10px] font-black uppercase tracking-widest italic group-hover:bg-orange-50 transition-all gap-4">
+                                <Calendar size={32} className="opacity-20" />
+                                <span className="px-6 text-center">Pulsa para ver la agenda completa</span>
+                            </div>
+                        </div>
+
+                        {/* Time Control */}
+                        <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-gray-100">
+                            <div className="flex justify-between items-center mb-6">
+                                <div className="flex items-center gap-3">
+                                    <Clock size={20} className="text-brand-orange" />
+                                    <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight">Control Horario</h3>
+                                </div>
+                                <button onClick={handleAddTimeLog} className="text-[10px] font-bold text-gray-400 hover:text-brand-orange uppercase tracking-widest flex items-center gap-1">VER TODO <ChevronRight size={12} /></button>
+                            </div>
+                            <div className="p-6 bg-orange-50/50 rounded-3xl border border-brand-orange/10">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-4">
+                                        <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-black text-sm shadow-lg ${activeEntry ? 'bg-red-500 animate-pulse' : 'bg-brand-orange'}`}>
+                                            {activeEntry ? <Play size={20} /> : <Square size={20} />}
+                                        </div>
+                                        <div>
+                                            <p className="text-xs font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Tu jornada hoy</p>
+                                            <p className="text-2xl font-black text-brand-black tracking-tighter">{formatTime(elapsedTime)}</p>
+                                        </div>
+                                    </div>
+                                    <button
+                                        onClick={activeEntry ? handleClockOut : handleClockIn}
+                                        className={`px-6 py-3 rounded-2xl text-[10px] font-black tracking-widest uppercase transition-all shadow-lg ${activeEntry
+                                            ? 'bg-red-50 text-red-600 hover:bg-red-100 shadow-red-200'
+                                            : 'bg-brand-orange text-white hover:bg-orange-600 shadow-orange-200'
+                                            }`}
+                                    >
+                                        {activeEntry ? 'Detener' : 'Comenzar'}
+                                    </button>
                                 </div>
                             </div>
-                            <button
-                                onClick={activeEntry ? handleClockOut : handleClockIn}
-                                className={`px-6 py-3 rounded-2xl text-[10px] font-black tracking-widest uppercase transition-all shadow-lg ${activeEntry
-                                    ? 'bg-red-50 text-red-600 hover:bg-red-100 shadow-red-200'
-                                    : 'bg-brand-orange text-white hover:bg-orange-600 shadow-orange-200'
-                                    }`}
-                            >
-                                {activeEntry ? 'Detener' : 'Comenzar'}
-                            </button>
                         </div>
                     </div>
-                </div>
-            </div>
+                </>
+            )
+            }
         </div>
     );
 };

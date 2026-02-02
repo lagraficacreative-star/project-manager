@@ -15,7 +15,7 @@ import ChatWidget from './components/ChatWidget';
 import { LayoutDashboard, Inbox as InboxIcon, Users, Book, Calendar as CalIcon, Folder, Menu, X, Package, Gavel, LogOut, ChevronRight, User as UserIcon, Tag } from 'lucide-react';
 
 // Sub-component to handle page title/context in TopBar
-const AUTHORIZED_EMAILS = ['montse@lagrafica.com', 'admin@lagrafica.com', 'alba@lagrafica.com', 'neus@lagrafica.com', 'ateixido@lagrafica.com', 'omar@lagrafica.com'];
+const AUTHORIZED_EMAILS = ['montse@lagrafica.com', 'admin@lagrafica.com', 'alba@lagrafica.com', 'neus@lagrafica.com', 'ateixido@lagrafica.com', 'omar@lagrafica.com', 'gestiolagrafica@gmail.com'];
 
 const PageContext = () => {
     const location = useLocation();
@@ -24,7 +24,7 @@ const PageContext = () => {
     if (path === '/') return "Dashboard Principal";
     if (path.startsWith('/board')) return "Gestión de Tablero";
     if (path === '/inbox') return "Buzón de Comunicaciones";
-    if (path === '/agenda') return "CONTACTOS";
+    if (path === '/agenda') return "AGENDAestudi";
     if (path === '/calendar') return "Calendario de Trabajo";
     if (path === '/rrhh') return "Gestión de Equipo";
     if (path === '/docs') return "Gestión de Empresa";

@@ -65,7 +65,9 @@ const DRIVE_MEMBER_MAPPING = {
     'ateixido': ['XARXES', 'ALBA T-XARXES'],
     'omar': ['WEB'],
     'web': ['WEB'],
-    'comptabilitat': ['GESTIÓ']
+    'licitacions': ['LICITACIONS 2026'],
+    'comptabilitat': ['DOCUMETACIÓ GESTIÓ LAGRAFICA'],
+    'gestio': ['DOCUMETACIÓ GESTIÓ LAGRAFICA']
 };
 
 const saveFileToDrive = async (filename, contentBase64, pathArray) => {
@@ -142,6 +144,7 @@ const processAutomations = async (userId, emails, folder = 'INBOX') => {
 
     const db = readDB();
     if (!db.automated_email_uids) db.automated_email_uids = [];
+    if (!db.drive_uploaded_uids) db.drive_uploaded_uids = [];
 
     const MEMBER_MAP = {
         'montse': { boardId: 'b_design_montse', name: 'Montse' },
@@ -152,7 +155,8 @@ const processAutomations = async (userId, emails, folder = 'INBOX') => {
         'web': { boardId: 'b_web', name: 'Web' },
         'ines': { boardId: 'b_design_ines', name: 'Ines' },
         'comptabilitat': { boardId: 'b_accounting', name: 'Comptabilitat' },
-        'licitacions': { boardId: 'b_tenders', name: 'Licitaciones' }
+        'licitacions': { boardId: 'b_tenders', name: 'Licitaciones' },
+        'gestio': { boardId: 'b_accounting', name: 'Gestió' }
     };
 
     const SPAM_WORDS = ['newsletter', 'publicitat', 'publi', 'promoció', 'oferta exclusiva', 'guanya diners', 'unsubscription', 'donar-se de baixa', 'poker', 'casino', 'viagra'];
@@ -165,12 +169,35 @@ const processAutomations = async (userId, emails, folder = 'INBOX') => {
     let changes = false;
 
     for (const email of emails) {
-        const emailUid = `auto_rule_${email.id || email.messageId}`;
+        const msgId = email.id || email.messageId;
+        const emailUid = `auto_rule_${msgId}`;
+        const driveUid = `drive_${msgId}`;
+
+        // --- DRIVE INTEGRATION: Save attachments for ALL emails (Received) ---
+        if (email.hasAttachments) {
+            if (!db.drive_uploaded_uids.includes(driveUid)) {
+                getEmailAttachments(userId, msgId, folder).then(attachments => {
+                    const drivePath = DRIVE_MEMBER_MAPPING[userId] || ['OTROS'];
+                    attachments.forEach(att => {
+                        saveFileToDrive(att.filename, att.content_base64, drivePath);
+                    });
+
+                    // Track as uploaded
+                    const d = readDB(); // Re-read DB to ensure latest state for writing
+                    if (!d.drive_uploaded_uids) d.drive_uploaded_uids = [];
+                    if (!d.drive_uploaded_uids.includes(driveUid)) {
+                        d.drive_uploaded_uids.push(driveUid);
+                        writeDB(d);
+                    }
+                }).catch(err => console.error("❌ [DRIVE] Error getting attachments", err));
+            }
+        }
+
         if (db.automated_email_uids.includes(emailUid)) continue;
 
-        // --- RULE: Only create cards if in 'Archivados' folder OR manually requested ---
-        // (In this case, processAutomations is called for folders we want to auto-cardify)
-        if (folder !== 'Archivados') continue;
+        // --- RULE: ONLY MANUAL WORKFLOW ---
+        // For now, we disable automatic creation.
+        continue;
 
         if (isSpam(email)) {
             db.automated_email_uids.push(emailUid);
@@ -218,16 +245,6 @@ const processAutomations = async (userId, emails, folder = 'INBOX') => {
             if (!db.cards) db.cards = [];
             db.cards.push(newCard);
             changes = true;
-
-            // --- DRIVE INTEGRATION: Save attachments if any ---
-            if (email.hasAttachments) {
-                getEmailAttachments(userId, email.messageId, folder).then(attachments => {
-                    const drivePath = DRIVE_MEMBER_MAPPING[userId] || ['OTROS'];
-                    attachments.forEach(att => {
-                        saveFileToDrive(att.filename, att.content_base64, drivePath);
-                    });
-                }).catch(err => console.error("Error getting attachments for Drive", err));
-            }
         }
 
         db.automated_email_uids.push(emailUid);
@@ -282,7 +299,7 @@ const startEmailSync = () => {
             console.error("❌ [SYNC] Global sync error:", err);
         }
     };
-    setInterval(sync, 120000); // Every 2 minutes
+    setInterval(sync, 900000); // Every 15 minutes
     sync(); // Start first sync
 };
 
@@ -302,7 +319,8 @@ const readDB = () => {
                 { id: 'omar', name: 'Omar', role: 'team', avatar: 'O', avatarImage: '/avatars/omar.png' },
                 { id: 'web', name: 'Web', role: 'team', avatar: 'W', avatarImage: '/avatars/web.png' },
                 { id: 'ines', name: 'Ines', role: 'team', avatar: 'I', avatarImage: '/avatars/ines.jpg' },
-                { id: 'comptabilitat', name: 'Comptabilitat', role: 'team', avatar: 'C' }
+                { id: 'comptabilitat', name: 'Comptabilitat', role: 'team', avatar: 'C' },
+                { id: 'gestio', name: 'Gestió', role: 'team', avatar: 'G' }
             ],
             boards: [],
             cards: [],
@@ -421,7 +439,8 @@ const readDB = () => {
         { id: 'omar', name: 'Omar', role: 'team', avatar: 'O', avatarImage: '/avatars/omar.png' },
         { id: 'web', name: 'Web', role: 'team', avatar: 'W', avatarImage: '/avatars/web.png' },
         { id: 'ines', name: 'Ines', role: 'team', avatar: 'I', avatarImage: '/avatars/ines.jpg' },
-        { id: 'comptabilitat', name: 'Comptabilitat', role: 'team', avatar: 'C' }
+        { id: 'comptabilitat', name: 'Comptabilitat', role: 'team', avatar: 'C' },
+        { id: 'gestio', name: 'Gestió', role: 'team', avatar: 'G' }
     ];
 
     updatedUsers.forEach(u => {
@@ -568,6 +587,7 @@ async function fetchRealEmails(memberId, folder = 'INBOX') {
         'ines': 'INES',
         'comptabilitat': 'COMPTABILITAT',
         'licitacions': 'LICITACIONS',
+        'gestio': 'GESTIO',
         'test': 'TEST'
     };
 
@@ -582,12 +602,13 @@ async function fetchRealEmails(memberId, folder = 'INBOX') {
 
     return new Promise((resolve) => {
         console.log(`📡 [EMAIL FETCH] Connecting to Nominalia for: ${user} in ${folder}...`);
-        const env = {
-            ...process.env,
-            IMAP_HOST: process.env.IMAP_HOST || config.IMAP_HOST,
-            IMAP_PORT: process.env.IMAP_PORT || config.IMAP_PORT
-        };
-        const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, folder], { env });
+        const pythonArgs = [path.join(__dirname, 'fetch_mails.py'), user, pass];
+
+        // Always use headers-only for background sync and initial lists
+        pythonArgs.push('--headers-only');
+        pythonArgs.push(folder);
+
+        const pythonProcess = spawn('python3', pythonArgs, { env });
         let dataStr = "";
         let errorStr = "";
 
@@ -666,6 +687,7 @@ async function moveEmail(memberId, uid, sourceFolder, targetFolder) {
         'ines': 'INES',
         'comptabilitat': 'COMPTABILITAT',
         'licitacions': 'LICITACIONS',
+        'gestio': 'GESTIO',
         'test': 'TEST'
     };
     const envKey = CRED_MAP[memberId] || memberId.toUpperCase();
@@ -689,6 +711,46 @@ async function moveEmail(memberId, uid, sourceFolder, targetFolder) {
 async function manageEmail(memberId, uid) {
     return moveEmail(memberId, uid, 'INBOX', 'Archivados');
 }
+
+app.get('/api/emails/:userId/:uid/body', async (req, res) => {
+    const { userId, uid } = req.params;
+    const { folder } = req.query;
+    const config = loadEnv();
+
+    const CRED_MAP = {
+        'montse': 'MONTSE', 'neus': 'NEUS', 'alba': 'ALBA', 'ateixido': 'ATEIXIDO',
+        'omar': 'OMAR', 'web': 'WEB', 'ines': 'INES', 'comptabilitat': 'COMPTABILITAT',
+        'licitacions': 'LICITACIONS', 'gestio': 'GESTIO'
+    };
+    const envKey = CRED_MAP[userId] || userId.toUpperCase();
+    const user = process.env[`IMAP_USER_${envKey}`] || config[`IMAP_USER_${envKey}`];
+    const pass = process.env[`IMAP_PASS_${envKey}`] || config[`IMAP_PASS_${envKey}`];
+
+    if (!user || !pass) return res.status(401).json({ error: "No credentials" });
+
+    const pythonProcess = spawn('python3', [
+        path.join(__dirname, 'fetch_mails.py'),
+        user, pass, '--body-only', String(uid), folder || 'INBOX'
+    ]);
+
+    let dataStr = "";
+    pythonProcess.stdout.on('data', (d) => { dataStr += d.toString(); });
+    pythonProcess.on('close', (code) => {
+        try {
+            const bodyData = JSON.parse(dataStr);
+            // Update cache with the body if it exists
+            if (emailCache[userId] && emailCache[userId][folder || 'INBOX']) {
+                const email = emailCache[userId][folder || 'INBOX'].emails.find(e => String(e.messageId) === String(uid));
+                if (email) {
+                    email.body = bodyData.body;
+                    email.htmlBody = bodyData.htmlBody;
+                    email.isPartial = false;
+                }
+            }
+            res.json(bodyData);
+        } catch (err) { res.status(500).json({ error: "Parse error" }); }
+    });
+});
 
 app.get('/api/emails/:userId', async (req, res) => {
     const { userId } = req.params;
@@ -854,6 +916,17 @@ app.post('/api/emails/delete-local', (req, res) => {
     res.json({ success: true });
 });
 
+app.post('/api/emails/restore-local', (req, res) => {
+    const { uid } = req.body;
+    const db = readDB();
+    if (db.deleted_emails) {
+        db.deleted_emails = db.deleted_emails.filter(id => id !== String(uid));
+        if (db.deleted_meta) delete db.deleted_meta[String(uid)];
+        writeDB(db);
+    }
+    res.json({ success: true });
+});
+
 // Auto-cleanup Job: runs every 24h
 setInterval(() => {
     const db = readDB();
@@ -945,6 +1018,7 @@ app.post('/api/emails/send', async (req, res) => {
         'ines': 'INES',
         'comptabilitat': 'COMPTABILITAT',
         'licitacions': 'LICITACIONS',
+        'gestio': 'GESTIO',
         'test': 'TEST'
     };
 
@@ -998,7 +1072,8 @@ app.post('/api/emails/send', async (req, res) => {
                     attachmentPaths.forEach(fpath => {
                         try {
                             const content = fs.readFileSync(fpath);
-                            saveFileToDrive(path.basename(fpath), content.toString('base64'), drivePath);
+                            const filename = path.basename(fpath);
+                            saveFileToDrive(filename, content.toString('base64'), drivePath);
                         } catch (e) {
                             console.error("Error reading sent attachment for Drive", e);
                         }

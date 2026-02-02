@@ -28,7 +28,7 @@ def decode_mime_words(s):
     except:
         return str(s)
 
-def fetch_emails(username, password, folder="INBOX", host="mail-es.securemail.pro", port=993):
+def fetch_emails(username, password, folder="INBOX", host="mail-es.securemail.pro", port=993, headers_only=False):
     try:
         mail = imaplib.IMAP4_SSL(host, port)
         mail.login(username, password)
@@ -74,7 +74,9 @@ def fetch_emails(username, password, folder="INBOX", host="mail-es.securemail.pr
             return []
 
         # Bulk fetch for better performance
-        status, data = mail.uid('fetch', ','.join(uids_to_fetch), '(RFC822 FLAGS)')
+        # If headers_only, we fetch FLAGS and fast headers
+        fetch_query = '(RFC822)' if not headers_only else '(RFC822.HEADER FLAGS)'
+        status, data = mail.uid('fetch', ','.join(uids_to_fetch), fetch_query)
         if status != 'OK':
             mail.logout()
             return {"error": "Bulk fetch failed"}
@@ -85,19 +87,19 @@ def fetch_emails(username, password, folder="INBOX", host="mail-es.securemail.pr
             try:
                 if not isinstance(part, tuple): continue
                 
-                header_part = part[0].decode()
-                raw_email = part[1]
+                header_info = part[0].decode()
+                raw_content = part[1]
                 
                 # Extract UID and FLAGS from the header part of the tuple
-                uid_match = re.search(r'UID (\d+)', header_part)
+                uid_match = re.search(r'UID (\d+)', header_info)
                 msg_uid = uid_match.group(1) if uid_match else "unknown"
                 
-                flag_match = re.search(r'FLAGS \((.*?)\)', header_part)
+                flag_match = re.search(r'FLAGS \((.*?)\)', header_info)
                 flags = flag_match.group(1).split() if flag_match else []
                 
-                if not raw_email: continue
+                if not raw_content: continue
                 
-                msg = email.message_from_bytes(raw_email)
+                msg = email.message_from_bytes(raw_content)
                 subject = decode_mime_words(msg.get("Subject"))
                 from_ = decode_mime_words(msg.get("From"))
                 date_ = msg.get("Date")
@@ -105,24 +107,37 @@ def fetch_emails(username, password, folder="INBOX", host="mail-es.securemail.pr
                 
                 body = ""
                 attachments = []
-                if msg.is_multipart():
-                    for part_msg in msg.walk():
-                        content_type = part_msg.get_content_type()
-                        content_disposition = str(part_msg.get("Content-Disposition"))
-                        if content_type == "text/plain" and "attachment" not in content_disposition:
-                            try:
-                                body = part_msg.get_payload(decode=True).decode(errors='replace')
-                            except: pass
-                        elif "attachment" in content_disposition:
-                            filename = decode_mime_words(part_msg.get_filename())
-                            if filename:
-                                attachments.append({
-                                    "filename": filename,
-                                    "content_type": content_type,
-                                    "size": len(part_msg.get_payload())
-                                })
+                
+                if not headers_only:
+                    if msg.is_multipart():
+                        for part_msg in msg.walk():
+                            content_type = part_msg.get_content_type()
+                            content_disposition = str(part_msg.get("Content-Disposition"))
+                            if content_type == "text/plain" and "attachment" not in content_disposition:
+                                try:
+                                    body = part_msg.get_payload(decode=True).decode(errors='replace')
+                                except: pass
+                            elif "attachment" in content_disposition:
+                                filename = decode_mime_words(part_msg.get_filename())
+                                if filename:
+                                    attachments.append({
+                                        "filename": filename,
+                                        "content_type": content_type,
+                                        "size": len(part_msg.get_payload())
+                                    })
+                    else:
+                        body = msg.get_payload(decode=True).decode(errors='replace')
                 else:
-                    body = msg.get_payload(decode=True).decode(errors='replace')
+                    body = "(Carga el cuerpo para ver el contenido)"
+
+                # Better attachment detection for headers-only
+                ctype = msg.get_content_type()
+                has_attach = len(attachments) > 0
+                if headers_only:
+                    has_attach = ("X-MS-Has-Attach" in msg or 
+                                  "X-Has-Attach" in msg or 
+                                  ctype == "multipart/mixed" or 
+                                  ctype == "multipart/related")
 
                 emails.append({
                     "messageId": msg_uid,
@@ -131,9 +146,10 @@ def fetch_emails(username, password, folder="INBOX", host="mail-es.securemail.pr
                     "from": from_,
                     "date": date_,
                     "body": body[:2000],
-                    "hasAttachments": len(attachments) > 0,
+                    "hasAttachments": has_attach,
                     "attachments": attachments,
-                    "isAnswered": "\\Answered" in flags
+                    "isAnswered": "\\Answered" in flags,
+                    "isPartial": headers_only
                 })
             except Exception as e:
                 continue
@@ -141,6 +157,73 @@ def fetch_emails(username, password, folder="INBOX", host="mail-es.securemail.pr
         mail.close()
         mail.logout()
         return emails
+    except Exception as e:
+        return {"error": str(e)}
+
+def fetch_single_body(username, password, uid, folder="INBOX", host="mail-es.securemail.pro", port=993):
+    try:
+        mail = imaplib.IMAP4_SSL(host, port)
+        mail.login(username, password)
+        
+        # Same folder logic as fetch_emails
+        ALIASES = {
+            'INBOX': ['INBOX'],
+            'Archivados': ['Archivados', 'Archivado', 'Archive', 'INBOX.Archive', 'INBOX.Archivado', 'Gestionados', 'INBOX.Gestionados'],
+            'Respondidos': ['Respondidos', 'Replied', 'INBOX.Respondidos', 'INBOX/Respondidos', 'Processed', 'INBOX.Processed']
+        }
+        target_candidates = ALIASES.get(folder, [folder])
+        selected_folder = None
+        for cand in target_candidates:
+            try:
+                folder_quoted = f'"{cand}"' if (" " in cand or "/" in cand) and not cand.startswith('"') else cand
+                status, _ = mail.select(folder_quoted)
+                if status == 'OK':
+                    selected_folder = cand
+                    break
+            except: continue
+                
+        if not selected_folder:
+            return {"error": f"Folder {folder} not found"}
+
+        status, data = mail.uid('fetch', uid, '(RFC822)')
+        if status != 'OK' or not data or not isinstance(data[0], tuple):
+            mail.logout()
+            return {"error": "Fetch failed"}
+
+        raw_email = data[0][1]
+        msg = email.message_from_bytes(raw_email)
+        
+        body = ""
+        html_body = ""
+        attachments = []
+        
+        if msg.is_multipart():
+            for part in msg.walk():
+                content_type = part.get_content_type()
+                content_disposition = str(part.get("Content-Disposition"))
+                if content_type == "text/plain" and "attachment" not in content_disposition:
+                    try: body = part.get_payload(decode=True).decode(errors='replace')
+                    except: pass
+                elif content_type == "text/html" and "attachment" not in content_disposition:
+                    try: html_body = part.get_payload(decode=True).decode(errors='replace')
+                    except: pass
+                elif "attachment" in content_disposition:
+                    filename = decode_mime_words(part.get_filename())
+                    if filename:
+                        attachments.append({
+                            "filename": filename,
+                            "content_type": content_type,
+                            "size": len(part.get_payload())
+                        })
+        else:
+            body = msg.get_payload(decode=True).decode(errors='replace')
+
+        mail.logout()
+        return {
+            "body": body,
+            "htmlBody": html_body,
+            "attachments": attachments
+        }
     except Exception as e:
         return {"error": str(e)}
 
@@ -408,14 +491,27 @@ if __name__ == "__main__":
         except Exception as e:
             print(json.dumps({"error": str(e)}))
 
+    elif len(sys.argv) > 4 and sys.argv[3] == "--body-only":
+        uid = sys.argv[4]
+        folder = sys.argv[5] if len(sys.argv) > 5 else "INBOX"
+        host = os.environ.get('IMAP_HOST', "mail-es.securemail.pro")
+        port = int(os.environ.get('IMAP_PORT', 993))
+        if "gmail.com" in username.lower(): host, port = "imap.gmail.com", 993
+        print(json.dumps(fetch_single_body(username, password, uid, folder, host, port)))
+
     else:
         folder = "INBOX"
-        if len(sys.argv) > 3 and not sys.argv[3].startswith("--"):
-            folder = sys.argv[3]
+        headers_only = False
+        if len(sys.argv) > 3:
+            if sys.argv[3] == "--headers-only":
+                headers_only = True
+                folder = sys.argv[4] if len(sys.argv) > 4 else "INBOX"
+            else:
+                folder = sys.argv[3]
             
         host = os.environ.get('IMAP_HOST', "mail-es.securemail.pro")
         port = int(os.environ.get('IMAP_PORT', 993))
         if "gmail.com" in username.lower(): host, port = "imap.gmail.com", 993
         
-        res = fetch_emails(username, password, folder, host, port)
+        res = fetch_emails(username, password, folder, host, port, headers_only)
         print(json.dumps(res))

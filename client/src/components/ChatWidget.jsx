@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { api } from '../api';
-import { Send, MessageSquare, X, User } from 'lucide-react';
+import { Send, MessageSquare, X, User, Paperclip, File, Cloud } from 'lucide-react';
 
 const ChatWidget = ({ currentUser, messages, isOpen, onToggle, unreadCount }) => {
     const [newMessage, setNewMessage] = useState('');
@@ -26,6 +26,47 @@ const ChatWidget = ({ currentUser, messages, isOpen, onToggle, unreadCount }) =>
         }
     };
 
+    const [isDragging, setIsDragging] = useState(false);
+    const fileInputRef = useRef(null);
+
+    const handleFileChange = async (e) => {
+        const files = Array.from(e.target.files);
+        for (const file of files) {
+            await uploadChatFile(file);
+        }
+        e.target.value = null;
+    };
+
+    const uploadChatFile = async (file) => {
+        try {
+            const result = await api.uploadFile(file);
+            const fileLink = `[Archivo: ${result.filename}](${result.url})`;
+            await api.sendMessage(fileLink, currentUser.name);
+        } catch (error) {
+            console.error("Upload failed", error);
+            alert("Error al subir archivo al chat");
+        }
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        setIsDragging(false);
+    };
+
+    const handleDrop = async (e) => {
+        e.preventDefault();
+        setIsDragging(false);
+        const files = Array.from(e.dataTransfer.files);
+        for (const file of files) {
+            await uploadChatFile(file);
+        }
+    };
+
     if (!isOpen) {
         return (
             <button
@@ -47,7 +88,19 @@ const ChatWidget = ({ currentUser, messages, isOpen, onToggle, unreadCount }) =>
     }
 
     return (
-        <div className="fixed bottom-6 right-6 w-96 max-h-[600px] h-[500px] bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 flex flex-col overflow-hidden animate-in slide-in-from-bottom-10 fade-in duration-300">
+        <div
+            className="fixed bottom-6 right-6 w-96 max-h-[600px] h-[500px] bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 flex flex-col overflow-hidden animate-in slide-in-from-bottom-10 fade-in duration-300 relative"
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+        >
+            {/* Drag Overlay */}
+            {isDragging && (
+                <div className="absolute inset-0 z-[60] bg-brand-orange/20 backdrop-blur-sm border-2 border-dashed border-brand-orange flex flex-col items-center justify-center p-4 text-center pointer-events-none">
+                    <Cloud size={48} className="text-brand-orange animate-bounce mb-2" />
+                    <p className="text-sm font-bold text-brand-black">Suelta archivos para enviarlos al chat</p>
+                </div>
+            )}
             {/* Header */}
             <div className="bg-brand-black text-white p-4 flex justify-between items-center">
                 <div className="flex items-center gap-3">
@@ -83,7 +136,22 @@ const ChatWidget = ({ currentUser, messages, isOpen, onToggle, unreadCount }) =>
             </div>
 
             {/* Input */}
-            <form onSubmit={handleSendMessage} className="p-3 bg-white border-t border-gray-100 flex gap-2">
+            <form onSubmit={handleSendMessage} className="p-3 bg-white border-t border-gray-100 flex gap-2 items-center">
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    className="hidden"
+                    multiple
+                />
+                <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="p-2 text-gray-400 hover:text-brand-orange transition-colors"
+                    title="Adjuntar archivo"
+                >
+                    <Paperclip size={18} />
+                </button>
                 <input
                     type="text"
                     value={newMessage}

@@ -116,6 +116,10 @@ export const api = {
         });
         return res.json();
     },
+    getEmailBody: async (userId, uid, folder = 'INBOX') => {
+        const res = await fetch(`${API_URL}/emails/${userId}/${uid}/body?folder=${encodeURIComponent(folder)}`);
+        return res.json();
+    },
     getRepliedEmails: async () => {
         const res = await fetch(`${API_URL}/emails/replied`);
         return res.json();
@@ -185,6 +189,14 @@ export const api = {
 
     deleteEmailLocal: async (uid) => {
         const res = await fetch(`${API_URL}/emails/delete-local`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ uid })
+        });
+        return res.json();
+    },
+    restoreEmailLocal: async (uid) => {
+        const res = await fetch(`${API_URL}/emails/restore-local`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ uid })

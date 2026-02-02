@@ -8,6 +8,7 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
     const [sending, setSending] = useState(false);
     const [attachments, setAttachments] = useState([]);
     const [uploading, setUploading] = useState(false);
+    const [isDragging, setIsDragging] = useState(false);
     const editorRef = useRef(null);
     const fileInputRef = useRef(null);
 
@@ -81,6 +82,47 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
         }
     };
 
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+    };
+
+    const handleDrop = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+
+        const files = Array.from(e.dataTransfer.files);
+        if (files.length === 0) return;
+
+        setUploading(true);
+        try {
+            for (const file of files) {
+                const res = await api.uploadFile(file);
+                if (res.url) {
+                    setAttachments(prev => [...prev, {
+                        name: file.name,
+                        path: res.url.replace('/uploads/', 'server/uploads/'),
+                        url: res.url,
+                        size: (file.size / 1024).toFixed(1) + ' KB'
+                    }]);
+                }
+            }
+        } catch (err) {
+            console.error('Upload failed', err);
+            alert('Error al cargar el archivo.');
+        } finally {
+            setUploading(false);
+        }
+    };
+
     const removeAttachment = (index) => {
         setAttachments(prev => prev.filter((_, i) => i !== index));
     };
@@ -141,8 +183,19 @@ const EmailComposer = ({ isOpen, onClose, memberId, defaultTo, defaultSubject, d
     };
 
     return (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-brand-black/60 backdrop-blur-md p-4 md:p-6 animate-in fade-in duration-300">
-            <div className="bg-white rounded-[1.5rem] w-full max-w-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-white/20">
+        <div
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-brand-black/60 backdrop-blur-md p-4 md:p-6 animate-in fade-in duration-300"
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+        >
+            <div className={`bg-white rounded-[1.5rem] w-full max-w-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border transition-all duration-300 ${isDragging ? 'border-brand-orange ring-4 ring-brand-orange/20 scale-[1.02]' : 'border-white/20'}`}>
+                {isDragging && (
+                    <div className="absolute inset-0 z-50 bg-brand-orange/10 backdrop-blur-[2px] border-4 border-dashed border-brand-orange m-4 rounded-[1.5rem] flex flex-col items-center justify-center animate-pulse pointer-events-none">
+                        <Paperclip size={48} className="text-brand-orange mb-4" />
+                        <p className="text-xl font-black text-brand-orange uppercase tracking-widest">Suelta para adjuntar</p>
+                    </div>
+                )}
                 <div className="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50/30">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-brand-orange rounded-xl flex items-center justify-center text-white shadow-lg shadow-orange-500/20">

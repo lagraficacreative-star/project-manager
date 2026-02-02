@@ -37,3 +37,11 @@ services:
         sync: false
       - key: GOOGLE_SCRIPT_URL
         sync: false
+      - key: IMAP_HOST
+        sync: false
+      - key: IMAP_PORT
+        sync: false
+      - key: IMAP_SECURE
+        sync: false
+      - key: PORT
+        value: 3000

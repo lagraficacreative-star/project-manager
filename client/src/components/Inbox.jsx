@@ -37,6 +37,12 @@ const Inbox = ({ selectedUsers, currentUser }) => {
     const [emailFilter, setEmailFilter] = useState('');
     const [isSaving, setIsSaving] = useState(false);
 
+    // Phase 2 Picker States
+    const [pickerBoardId, setPickerBoardId] = useState('');
+    const [pickerColumnId, setPickerColumnId] = useState('');
+    const [pickerResponsibleId, setPickerResponsibleId] = useState('');
+    const [selectedPickerCard, setSelectedPickerCard] = useState(null);
+
     useEffect(() => {
         loadUsers();
         loadBoards();
@@ -50,7 +56,9 @@ const Inbox = ({ selectedUsers, currentUser }) => {
 
     useEffect(() => {
         if (users.length > 0) {
-            fetchEmails();
+            // If active folder is Trash, we fetch INBOX to filter locally
+            const folderToFetch = activeFolder === 'Papelera' ? 'INBOX' : activeFolder;
+            fetchEmails(folderToFetch);
         }
     }, [users, selectedUsers, activeFolder]);
 
@@ -98,10 +106,11 @@ const Inbox = ({ selectedUsers, currentUser }) => {
         }
     };
 
-    const fetchEmails = async () => {
+    const fetchEmails = async (folderOverride) => {
         setLoading(true);
         try {
-            const data = await api.getEmails(currentUser.id, activeFolder);
+            const folder = folderOverride || activeFolder;
+            const data = await api.getEmails(currentUser.id, folder);
             if (data && data.error) {
                 console.error('API Error:', data.error);
                 setEmails([]);
@@ -116,8 +125,21 @@ const Inbox = ({ selectedUsers, currentUser }) => {
         }
     };
 
-    const handleSelectEmail = (email) => {
+    const handleSelectEmail = async (email) => {
         setSelectedEmail(email);
+        if (email.isPartial) {
+            try {
+                const bodyData = await api.getEmailBody(currentUser.id, email.messageId, activeFolder);
+                if (bodyData && !bodyData.error) {
+                    const fullEmail = { ...email, body: bodyData.body, htmlBody: bodyData.htmlBody, isPartial: false };
+                    setSelectedEmail(fullEmail);
+                    // Update in list too
+                    setEmails(prev => prev.map(e => e.messageId === email.messageId ? fullEmail : e));
+                }
+            } catch (err) {
+                console.error("Error fetching email body", err);
+            }
+        }
     };
 
     const handleConvertToCard = (email) => {
@@ -165,11 +187,27 @@ const Inbox = ({ selectedUsers, currentUser }) => {
     const handleAddToCard = (email) => {
         setEmailToConvert(email);
         setShowCardPicker(true);
+        setSelectedPickerCard(null);
+        // Reset picker states
+        setPickerBoardId('');
+        setPickerColumnId('');
+        setPickerResponsibleId('');
     };
 
     const handleAddToCardFinish = async (card) => {
         setIsSaving(true);
         try {
+            // Phase 2: Update card location/assignment if changed in picker
+            if (pickerBoardId || pickerColumnId || pickerResponsibleId) {
+                const updatedData = {
+                    ...card,
+                    boardId: pickerBoardId || card.boardId,
+                    columnId: pickerColumnId || card.columnId,
+                    responsibleId: pickerResponsibleId || card.responsibleId
+                };
+                await api.updateCard(card.id, updatedData);
+            }
+
             const commentText = `--- NUEVA ACTUALIZACIÓN POR EMAIL ---\nDe: ${emailToConvert.from}\nAsunto: ${emailToConvert.subject}\n\n${emailToConvert.body}`;
             await api.addCommentToCard(card.id, commentText, currentUser.id);
             await api.markEmailProcessed(emailToConvert.messageId, emailToConvert.subject, currentUser.name, emailToConvert.persistentId);
@@ -180,6 +218,11 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             setSelectedEmail(null);
             setShowCardPicker(false);
             setEmailToConvert(null);
+            // Reset picker states
+            setSelectedPickerCard(null);
+            setPickerBoardId('');
+            setPickerColumnId('');
+            setPickerResponsibleId('');
         } catch (error) {
             console.error('Add to card failed', error);
         } finally {
@@ -188,10 +231,10 @@ const Inbox = ({ selectedUsers, currentUser }) => {
     };
 
     const handleDeleteEmail = async (emailId) => {
-        if (!confirm('¿Mover a papelera?')) return;
+        if (!confirm('¿Mover a papelera local? (No se borrará de Nominalia)')) return;
         try {
-            await api.moveEmail(currentUser.id, emailId, activeFolder, 'Papelera');
-            fetchEmails();
+            await api.deleteEmailLocal(emailId);
+            loadDeleted();
             if (selectedEmail?.messageId === emailId) setSelectedEmail(null);
         } catch (error) {
             console.error('Delete failed', error);
@@ -223,8 +266,8 @@ const Inbox = ({ selectedUsers, currentUser }) => {
 
     const handleRestoreEmail = async (emailId) => {
         try {
-            await api.moveEmail(currentUser.id, emailId, activeFolder, 'INBOX');
-            fetchEmails();
+            await api.restoreEmailLocal(emailId);
+            loadDeleted();
         } catch (error) {
             console.error('Restore failed', error);
         }
@@ -264,6 +307,15 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             if (activeTab === 'replied' && !isReplied) return false;
 
             const isProcessed = processedIds.includes(String(e.messageId)) || (e.persistentId && processedIds.includes(String(e.persistentId)));
+            const isLocalDeleted = deletedIds.includes(String(e.messageId));
+
+            // Virtual Trash Logic
+            if (activeTab === 'trash') {
+                return isLocalDeleted;
+            } else if (isLocalDeleted) {
+                return false;
+            }
+
             if (activeTab === 'managed') {
                 // In managed tab, we show everything in the folder OR things explicitly processed
                 if (activeFolder === 'INBOX' && !isProcessed) return false;
@@ -280,7 +332,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             }
             return true;
         });
-    }, [emails, emailFilter, activeTab, repliedIds, processedIds, currentUser.id]);
+    }, [emails, emailFilter, activeTab, repliedIds, processedIds, deletedIds, currentUser.id]);
 
     const handleEmptyTrash = async () => {
         if (!confirm('¿Borrar permanentemente todos los correos de la papelera?')) return;
@@ -376,17 +428,33 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                             const tag = getContactTag(email.from);
                             const isProcessed = processedIds.includes(String(email.messageId)) || (email.persistentId && processedIds.includes(String(email.persistentId)));
                             const isSelected = selectedEmail?.messageId === email.messageId;
+
+                            // Visual Indicator logic
+                            let statusColor = 'border-l-transparent';
+                            let statusLabel = null;
+
+                            if (activeFolder === 'Archivados') {
+                                statusColor = 'border-l-green-500 bg-green-50/10';
+                                statusLabel = <div className="p-1 bg-green-100 text-green-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">Archivado</div>;
+                            } else if (isProcessed) {
+                                statusColor = 'border-l-yellow-400 bg-yellow-50/10';
+                                statusLabel = <div className="p-1 bg-yellow-100 text-yellow-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">En proceso</div>;
+                            } else {
+                                statusColor = 'border-l-red-400 bg-red-50/10';
+                                statusLabel = <div className="p-1 bg-red-100 text-red-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">No documentado</div>;
+                            }
+
                             return (
                                 <div
                                     key={email.messageId}
                                     onClick={() => handleSelectEmail(email)}
-                                    className={`p-6 cursor-pointer transition-all hover:bg-gray-50 relative group border-l-4 ${isSelected ? 'bg-orange-50/50 border-l-brand-orange' : isProcessed ? 'bg-green-50/30 border-l-green-400' : 'border-l-transparent'}`}
+                                    className={`p-6 cursor-pointer transition-all hover:bg-gray-50 relative group border-l-4 ${isSelected ? 'bg-orange-50/50 border-l-brand-orange' : statusColor}`}
                                 >
                                     <div className="flex justify-between items-start mb-2">
                                         <div className="flex flex-col min-w-0">
                                             <div className="flex items-center gap-2 mb-0.5">
                                                 <span className="text-[11px] font-black text-brand-black truncate max-w-[150px]">{email.from}</span>
-                                                {isProcessed && <div className="p-1 bg-green-100 text-green-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">Procesado</div>}
+                                                {statusLabel}
                                                 {email.isAnswered && <div className="p-1 bg-blue-100 text-blue-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">Respondido</div>}
                                             </div>
                                             {tag && <div className="flex items-center gap-1.5"><Tag size={10} className="text-blue-500" /><span className="text-[8px] font-black text-blue-500 uppercase tracking-widest">{tag.name}</span></div>}
@@ -397,11 +465,20 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                                 {!isProcessed && <button onClick={(e) => { e.stopPropagation(); handleConvertToCard(email); }} className="p-1 px-2 bg-orange-100 text-brand-orange rounded-full text-[8px] font-black uppercase hover:bg-brand-orange hover:text-white transition-colors">+ Ficha</button>}
                                                 {!isProcessed && <button onClick={(e) => { e.stopPropagation(); handleAddToCard(email); }} className="p-1 px-2 bg-blue-100 text-blue-600 rounded-full text-[8px] font-black uppercase hover:bg-blue-600 hover:text-white transition-colors">Vincular</button>}
                                                 <button onClick={(e) => { e.stopPropagation(); setEmailComposerData({ to: email.from, subject: `RE: ${email.subject}`, body: `\n\n--- Mensaje original ---\nDe: ${email.from}\nAsunto: ${email.subject}\n\n${email.body}`, memberId: currentUser.id, replyToId: email.messageId }); setShowEmailComposer(true); }} className="p-1 px-2 bg-gray-100 text-gray-600 rounded-full text-[8px] font-black uppercase hover:bg-brand-black hover:text-white transition-colors">Responder</button>
+                                                {activeTab === 'trash' ? (
+                                                    <button onClick={(e) => { e.stopPropagation(); handleRestoreEmail(email.messageId); }} className="p-1 px-2 bg-green-100 text-green-600 rounded-full text-[8px] font-black uppercase hover:bg-green-600 hover:text-white transition-colors" title="Restaurar">Restaurar</button>
+                                                ) : (
+                                                    <button onClick={(e) => { e.stopPropagation(); handleDeleteEmail(email.messageId); }} className="p-1 px-2 bg-red-100 text-red-600 rounded-full text-[8px] font-black uppercase hover:bg-red-600 hover:text-white transition-colors" title="Eliminar localmente">
+                                                        <Trash2 size={10} />
+                                                    </button>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
                                     <h4 className={`text-sm font-bold truncate mb-2 ${isSelected ? 'text-brand-orange' : 'text-gray-800'}`}>{email.subject}</h4>
-                                    <p className="text-[11px] text-gray-400 line-clamp-2 leading-relaxed mb-3">{email.body}</p>
+                                    <p className="text-[11px] text-gray-400 line-clamp-2 leading-relaxed mb-3">
+                                        {email.isPartial ? <span className="italic opacity-50">{email.body}</span> : email.body}
+                                    </p>
                                 </div>
                             );
                         })}
@@ -437,6 +514,30 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                         <button onClick={() => handleDeleteEmail(selectedEmail.messageId)} className="p-4 hover:bg-red-50 text-gray-300 hover:text-red-500 rounded-2xl transition-all" title="Eliminar"><Trash2 size={20} /></button>
                                     </div>
                                 </div>
+
+                                {/* Threading Suggestion */}
+                                {(() => {
+                                    const cleanSubject = selectedEmail.subject.toLowerCase().replace(/re:|fwd:|fw:/g, "").trim();
+                                    const potentialCards = cards.filter(c => c.title.toLowerCase().includes(cleanSubject) || cleanSubject.includes(c.title.toLowerCase())).slice(0, 1);
+                                    if (potentialCards.length > 0 && !processedIds.includes(String(selectedEmail.messageId))) {
+                                        return (
+                                            <div className="mt-4 p-4 bg-blue-50 border border-blue-100 rounded-2xl flex items-center justify-between animate-in slide-in-from-top-2 duration-500">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="p-2 bg-blue-500 text-white rounded-xl shadow-lg shadow-blue-500/20">
+                                                        <Folder size={16} />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-[9px] font-black text-blue-500 uppercase tracking-widest">Sugerencia de vínculo</p>
+                                                        <p className="text-[11px] font-bold text-gray-700">Parece relacionado con: <span className="text-blue-600 underline cursor-pointer" onClick={() => handleAddToCardFinish(potentialCards[0])}>{potentialCards[0].title}</span></p>
+                                                    </div>
+                                                </div>
+                                                <button onClick={() => handleAddToCardFinish(potentialCards[0])} className="px-4 py-2 bg-blue-600 text-white text-[9px] font-black uppercase rounded-xl hover:bg-blue-700 transition-all">Vincular ahora</button>
+                                            </div>
+                                        );
+                                    }
+                                    return null;
+                                })()}
+
                                 <div className="flex flex-wrap gap-3">
                                     <button
                                         onClick={() => {
@@ -492,21 +593,84 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                             />
                         </div>
 
+                        {/* Enhanced Picker Selectors */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 shrink-0">
+                            <div className="space-y-2">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest pl-1">Mover a Tablero</label>
+                                <select
+                                    className="w-full p-3 bg-gray-50 border border-gray-100 rounded-xl text-[11px] font-bold outline-none focus:ring-2 focus:ring-brand-orange/10"
+                                    value={pickerBoardId}
+                                    onChange={(e) => {
+                                        setPickerBoardId(e.target.value);
+                                        const b = boards.find(x => x.id === e.target.value);
+                                        if (b && b.columns.length > 0) setPickerColumnId(b.columns[0].id);
+                                    }}
+                                >
+                                    <option value="">(Sin cambios)</option>
+                                    {boards.map(b => <option key={b.id} value={b.id}>{b.title}</option>)}
+                                </select>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest pl-1">Columna</label>
+                                <select
+                                    className="w-full p-3 bg-gray-50 border border-gray-100 rounded-xl text-[11px] font-bold outline-none focus:ring-2 focus:ring-brand-orange/10"
+                                    value={pickerColumnId}
+                                    onChange={(e) => setPickerColumnId(e.target.value)}
+                                >
+                                    <option value="">(Sin cambios)</option>
+                                    {boards.find(b => b.id === pickerBoardId)?.columns.map(c => (
+                                        <option key={c.id} value={c.id}>{c.title}</option>
+                                    )) || boards.find(b => b.id === selectedPickerCard?.boardId)?.columns.map(c => (
+                                        <option key={c.id} value={c.id}>{c.title}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest pl-1">Asignar a</label>
+                                <select
+                                    className="w-full p-3 bg-gray-50 border border-gray-100 rounded-xl text-[11px] font-bold outline-none focus:ring-2 focus:ring-brand-orange/10"
+                                    value={pickerResponsibleId}
+                                    onChange={(e) => setPickerResponsibleId(e.target.value)}
+                                >
+                                    <option value="">(Sin cambios)</option>
+                                    {users.map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
+                                </select>
+                            </div>
+                        </div>
+
                         <div className="flex-1 overflow-y-auto space-y-2 custom-scrollbar p-1">
                             {cards
-                                .filter(c => c.title.toLowerCase().includes(searchQuery.toLowerCase()))
+                                .filter(c => {
+                                    const matchesSearch = c.title.toLowerCase().includes(searchQuery.toLowerCase());
+                                    // Búsqueda global: no filtramos por tablero/columna aquí
+                                    return matchesSearch;
+                                })
                                 .slice(0, 10)
                                 .map(card => (
                                     <div
                                         key={card.id}
-                                        onClick={() => handleAddToCardFinish(card)}
-                                        className="p-4 bg-white border border-gray-100 rounded-2xl hover:border-brand-orange hover:bg-orange-50/30 cursor-pointer transition-all flex items-center justify-between group"
+                                        onClick={() => {
+                                            setSelectedPickerCard(card);
+                                            // Pre-fill selectors with current card data if they are empty
+                                            setPickerBoardId(card.boardId);
+                                            setPickerColumnId(card.columnId);
+                                            setPickerResponsibleId(card.responsibleId || '');
+                                        }}
+                                        className={`p-4 border rounded-2xl cursor-pointer transition-all flex items-center justify-between group ${selectedPickerCard?.id === card.id ? 'bg-orange-50 border-brand-orange' : 'bg-white border-gray-100 hover:border-brand-orange hover:bg-orange-50/30'}`}
                                     >
                                         <div>
-                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{boards.find(b => b.id === card.boardId)?.title}</p>
-                                            <h4 className="text-sm font-black text-brand-black group-hover:text-brand-orange transition-colors">{card.title}</h4>
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{boards.find(b => b.id === card.boardId)?.title}</p>
+                                                <div className="w-1 h-1 rounded-full bg-gray-200" />
+                                                <p className="text-[10px] font-black text-brand-orange uppercase tracking-widest">{boards.find(b => b.id === card.boardId)?.columns.find(col => col.id === card.columnId)?.title}</p>
+                                            </div>
+                                            <h4 className={`text-sm font-black transition-colors ${selectedPickerCard?.id === card.id ? 'text-brand-orange' : 'text-brand-black group-hover:text-brand-orange'}`}>{card.title}</h4>
                                         </div>
-                                        <ArrowRight size={18} className="text-gray-300 group-hover:text-brand-orange group-hover:translate-x-1 transition-all" />
+                                        {selectedPickerCard?.id === card.id ? (
+                                            <CheckCircle size={18} className="text-brand-orange" />
+                                        ) : (
+                                            <ArrowRight size={18} className="text-gray-300 group-hover:text-brand-orange group-hover:translate-x-1 transition-all" />
+                                        )}
                                     </div>
                                 ))
                             }
@@ -517,6 +681,18 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                 </div>
                             )}
                         </div>
+
+                        {selectedPickerCard && (
+                            <div className="mt-8 pt-8 border-t border-gray-100 shrink-0">
+                                <button
+                                    onClick={() => handleAddToCardFinish(selectedPickerCard)}
+                                    disabled={isSaving}
+                                    className="w-full py-5 bg-brand-orange text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20 active:scale-95 disabled:opacity-50 disabled:active:scale-100"
+                                >
+                                    {isSaving ? 'Vinculando...' : 'Confirmar Vínculo y Actualizar'}
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

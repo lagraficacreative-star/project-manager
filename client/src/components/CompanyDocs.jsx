@@ -5,8 +5,9 @@ import {
     ArrowLeft, Save, Table, Link as LinkIcon, MessageSquare,
     ExternalLink, Globe, Send, Search, Calendar, CheckCircle,
     Circle, X, Bot, Sparkles, TrendingUp, DollarSign, Wallet, RefreshCw, Lock,
-    Edit2, PlusCircle, Check, Square
+    Edit2, PlusCircle, Check, Square, Calculator, Briefcase, Gavel
 } from 'lucide-react';
+import FolderGrid from './FolderGrid';
 
 const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockManagement, AUTHORIZED_EMAILS }) => {
     const [password, setPassword] = useState('');
@@ -21,6 +22,7 @@ const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockM
     const [aiQuery, setAiQuery] = useState('');
     const [aiResponse, setAiResponse] = useState(null);
     const [isAiLoading, setIsAiLoading] = useState(false);
+    const [activeTab, setActiveTab] = useState('categories'); // 'categories', 'drive', 'docs'
 
     // Folder creation state
     const [showNewFolder, setShowNewFolder] = useState(false);
@@ -28,7 +30,7 @@ const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockM
 
     const [config, setConfig] = useState({
         sections: [],
-        main_drive_link: "https://drive.google.com",
+        main_drive_link: "https://drive.google.com/drive/folders/161cXkl6zy81CcDW-_c6QVgUmcuUsguHF?usp=drive_link",
         notepad: "",
         urgent_checklist: []
     });
@@ -88,13 +90,11 @@ const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockM
     const handleUpdateSection = (idx, field, value) => {
         const newSections = [...config.sections];
         newSections[idx][field] = value;
-        // Optimization: debounce or local state if too slow, but here we want persistence
         saveConfig({ ...config, sections: newSections });
     };
 
     const handleUpdateNotepad = (value) => {
         setConfig(prev => ({ ...prev, notepad: value }));
-        // Debounce actual save to avoid excessive API calls
         if (window.notepadTimeout) clearTimeout(window.notepadTimeout);
         window.notepadTimeout = setTimeout(() => {
             saveConfig({ ...config, notepad: value });
@@ -125,7 +125,7 @@ const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockM
     const loadDocs = async () => {
         setLoading(true);
         try {
-            await api.syncGoogle(); // Trigger real sync from Google Script
+            await api.syncGoogle();
             const data = await api.getDocuments();
             setDocs(data);
         } catch (error) {
@@ -200,7 +200,6 @@ const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockM
                 const totalTenders = tenders.reduce((acc, t) => acc + (parseFloat(t.amount?.replace(/[^0-9.]/g, '')) || 0), 0);
                 const wonTenders = tenders.filter(t => t.result === 'won').reduce((acc, t) => acc + (parseFloat(t.amount?.replace(/[^0-9.]/g, '')) || 0), 0);
 
-                // Get budget info from cards
                 const allCards = db.cards || [];
                 const totalBudgets = allCards.reduce((acc, c) => acc + (parseFloat(c.economic?.budget?.replace(/[^0-9.]/g, '')) || 0), 0);
                 const totalCosts = allCards.reduce((acc, c) => acc + (parseFloat(c.economic?.cost?.replace(/[^0-9.]/g, '')) || 0), 0);
@@ -251,7 +250,6 @@ const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockM
         setEmbedUrl(url);
         setViewMode('embed');
     };
-
 
     const handleUnlock = (e) => {
         e.preventDefault();
@@ -352,8 +350,40 @@ const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockM
             <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
                 {/* Dashboard Area */}
                 <div className="flex-1 overflow-y-auto p-8 custom-scrollbar bg-gray-50/30">
-                    {currentFolderId === null ? (
-                        <div className="space-y-10 max-w-6xl mx-auto">
+
+                    {/* Tabs Header */}
+                    <div className="flex items-center gap-8 border-b border-gray-100 px-6 mb-8 mt-2">
+                        <button
+                            onClick={() => setActiveTab('categories')}
+                            className={`pb-4 text-[10px] font-black uppercase tracking-[0.3em] transition-all relative ${activeTab === 'categories' ? 'text-brand-orange' : 'text-gray-400 hover:text-gray-600'}`}
+                        >
+                            Categorías
+                            {activeTab === 'categories' && <div className="absolute bottom-0 left-0 right-0 h-1 bg-brand-orange rounded-full animate-in fade-in slide-in-from-bottom-2 duration-300" />}
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('drive')}
+                            className={`pb-4 text-[10px] font-black uppercase tracking-[0.3em] transition-all relative ${activeTab === 'drive' ? 'text-brand-orange' : 'text-gray-400 hover:text-gray-600'}`}
+                        >
+                            Carpetas Drive
+                            {activeTab === 'drive' && <div className="absolute bottom-0 left-0 right-0 h-1 bg-brand-orange rounded-full animate-in fade-in slide-in-from-bottom-2 duration-300" />}
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('docs')}
+                            className={`pb-4 text-[10px] font-black uppercase tracking-[0.3em] transition-all relative ${activeTab === 'docs' ? 'text-brand-orange' : 'text-gray-400 hover:text-gray-600'}`}
+                        >
+                            Documentos
+                            {activeTab === 'docs' && <div className="absolute bottom-0 left-0 right-0 h-1 bg-brand-orange rounded-full animate-in fade-in slide-in-from-bottom-2 duration-300" />}
+                        </button>
+                    </div>
+
+                    {activeTab === 'drive' && (
+                        <div className="animate-in fade-in duration-500 min-h-[500px]">
+                            <FolderGrid mode="management" />
+                        </div>
+                    )}
+
+                    {activeTab === 'categories' && (
+                        <div className="space-y-10 max-w-6xl mx-auto animate-in fade-in duration-500">
                             {/* AI Search Section */}
                             <section className="bg-brand-black rounded-[3rem] p-10 text-white shadow-2xl relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-12 opacity-5"><Bot size={200} /></div>
@@ -494,68 +524,73 @@ const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockM
                                     </form>
                                 </section>
                             </div>
-
-                            {/* Units Grid */}
-                            <div className="space-y-6">
-                                <h3 className="text-sm font-black text-brand-black uppercase tracking-widest">Totes les Unitats</h3>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                                    {docs.filter(d => d.parentId === null && d.type === 'folder').map(folder => (
-                                        <div key={folder.id} onClick={() => navigateTo(folder.id, folder.name)} className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-xl hover:border-brand-orange/20 transition-all cursor-pointer group">
-                                            <div className="flex items-start justify-between mb-4">
-                                                <div className="p-3 bg-gray-50 text-gray-400 rounded-2xl group-hover:bg-brand-orange/10 group-hover:text-brand-orange transition-all">
-                                                    <Folder size={24} />
-                                                </div>
-                                                <p className="text-[9px] font-black text-gray-300 uppercase tracking-widest">Unitat</p>
-                                            </div>
-                                            <h4 className="font-black text-brand-black uppercase tracking-tight group-hover:text-brand-orange transition-colors">{folder.name}</h4>
-                                            <p className="text-[10px] text-gray-400 font-bold mt-2">Arxius de gestió i control</p>
-                                        </div>
-                                    ))}
-                                    {showNewFolder && (
-                                        <div className="bg-white p-6 rounded-[2rem] border-2 border-dashed border-brand-orange/30 animate-pulse flex flex-col justify-center">
-                                            <input autoFocus value={newFolderName} onChange={(e) => setNewFolderName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleCreateFolder()} placeholder="Nom de la carpeta..." className="w-full bg-transparent border-none text-sm font-bold focus:ring-0" />
-                                            <div className="flex gap-2 mt-4">
-                                                <button onClick={handleCreateFolder} className="flex-1 py-2 bg-brand-orange text-white rounded-xl font-bold text-[10px] uppercase">Crear</button>
-                                                <button onClick={() => setShowNewFolder(false)} className="flex-1 py-2 bg-gray-100 text-gray-500 rounded-xl font-bold text-[10px] uppercase">No</button>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
                         </div>
-                    ) : (
-                        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                            <div className="flex items-center justify-between mb-8 px-2">
-                                <div className="flex items-center gap-4">
-                                    <button onClick={() => navigateTo(null)} className="p-2 md:p-3 bg-white border border-gray-100 rounded-2xl shadow-sm hover:bg-gray-50 text-brand-black transition-all active:scale-90">
-                                        <ArrowLeft size={20} />
-                                    </button>
-                                    <h2 className="text-xl font-black text-brand-black uppercase tracking-tight">{currentFolder.name}</h2>
-                                </div>
-                                <div className="relative">
-                                    <input type="file" onChange={handleUpload} className="absolute inset-0 opacity-0 cursor-pointer" />
-                                    <button className="flex items-center gap-2 px-6 py-3 bg-brand-orange text-white rounded-2xl hover:bg-orange-600 font-black text-[10px] uppercase tracking-widest transition-all shadow-lg active:scale-95">
-                                        <Upload size={16} /> Pujar Fitxer
-                                    </button>
-                                </div>
-                            </div>
+                    )}
 
-                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
-                                {getCurrentItems().map(item => (
-                                    <div key={item.id} className="group bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-xl hover:border-brand-orange/20 transition-all cursor-pointer relative overflow-hidden" onClick={() => item.type === 'folder' ? navigateTo(item.id, item.name) : handleOpenEmbed(item.url || '#')}>
-                                        <div className="flex items-start justify-between mb-4">
-                                            <div className={`p-3 rounded-2xl transition-all ${item.type === 'folder' ? 'bg-orange-50 text-brand-orange' : 'bg-blue-50 text-blue-500'}`}>
-                                                {item.type === 'folder' ? <Folder size={20} /> : <FileText size={20} />}
+                    {activeTab === 'docs' && (
+                        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                            {currentFolderId === null ? (
+                                <div className="space-y-6">
+                                    <h3 className="text-sm font-black text-brand-black uppercase tracking-widest">Totes les Unitats</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                                        {docs.filter(d => d.parentId === null && d.type === 'folder').map(folder => (
+                                            <div key={folder.id} onClick={() => navigateTo(folder.id, folder.name)} className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-xl hover:border-brand-orange/20 transition-all cursor-pointer group">
+                                                <div className="flex items-start justify-between mb-4">
+                                                    <div className="p-3 bg-gray-50 text-gray-400 rounded-2xl group-hover:bg-brand-orange/10 group-hover:text-brand-orange transition-all">
+                                                        <Folder size={24} />
+                                                    </div>
+                                                    <p className="text-[9px] font-black text-gray-300 uppercase tracking-widest">Unitat</p>
+                                                </div>
+                                                <h4 className="font-black text-brand-black uppercase tracking-tight group-hover:text-brand-orange transition-colors">{folder.name}</h4>
+                                                <p className="text-[10px] text-gray-400 font-bold mt-2">Arxius de gestió i control</p>
                                             </div>
-                                            <button onClick={(e) => handleDelete(item.id, e)} className="p-2 text-gray-200 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all">
-                                                <Trash2 size={16} />
+                                        ))}
+                                        {showNewFolder && (
+                                            <div className="bg-white p-6 rounded-[2rem] border-2 border-dashed border-brand-orange/30 animate-pulse flex flex-col justify-center">
+                                                <input autoFocus value={newFolderName} onChange={(e) => setNewFolderName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleCreateFolder()} placeholder="Nom de la carpeta..." className="w-full bg-transparent border-none text-sm font-bold focus:ring-0" />
+                                                <div className="flex gap-2 mt-4">
+                                                    <button onClick={handleCreateFolder} className="flex-1 py-2 bg-brand-orange text-white rounded-xl font-bold text-[10px] uppercase">Crear</button>
+                                                    <button onClick={() => setShowNewFolder(false)} className="flex-1 py-2 bg-gray-100 text-gray-500 rounded-xl font-bold text-[10px] uppercase">No</button>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            ) : (
+                                <div>
+                                    <div className="flex items-center justify-between mb-8 px-2">
+                                        <div className="flex items-center gap-4">
+                                            <button onClick={() => navigateTo(null)} className="p-2 md:p-3 bg-white border border-gray-100 rounded-2xl shadow-sm hover:bg-gray-50 text-brand-black transition-all active:scale-90">
+                                                <ArrowLeft size={20} />
+                                            </button>
+                                            <h2 className="text-xl font-black text-brand-black uppercase tracking-tight">{currentFolder.name}</h2>
+                                        </div>
+                                        <div className="relative">
+                                            <input type="file" onChange={handleUpload} className="absolute inset-0 opacity-0 cursor-pointer" />
+                                            <button className="flex items-center gap-2 px-6 py-3 bg-brand-orange text-white rounded-2xl hover:bg-orange-600 font-black text-[10px] uppercase tracking-widest transition-all shadow-lg active:scale-95">
+                                                <Upload size={16} /> Pujar Fitxer
                                             </button>
                                         </div>
-                                        <h4 className="font-black text-brand-black text-xs uppercase truncate mb-1">{item.name}</h4>
-                                        <p className="text-[9px] text-gray-300 font-black uppercase tracking-widest">{new Date(item.createdAt).toLocaleDateString()}</p>
                                     </div>
-                                ))}
-                            </div>
+
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+                                        {getCurrentItems().map(item => (
+                                            <div key={item.id} className="group bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-xl hover:border-brand-orange/20 transition-all cursor-pointer relative overflow-hidden" onClick={() => item.type === 'folder' ? navigateTo(item.id, item.name) : handleOpenEmbed(item.url || '#')}>
+                                                <div className="flex items-start justify-between mb-4">
+                                                    <div className={`p-3 rounded-2xl transition-all ${item.type === 'folder' ? 'bg-orange-50 text-brand-orange' : 'bg-blue-50 text-blue-500'}`}>
+                                                        {item.type === 'folder' ? <Folder size={20} /> : <FileText size={20} />}
+                                                    </div>
+                                                    <button onClick={(e) => handleDelete(item.id, e)} className="p-2 text-gray-200 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all">
+                                                        <Trash2 size={16} />
+                                                    </button>
+                                                </div>
+                                                <h4 className="font-black text-brand-black text-xs uppercase truncate mb-1">{item.name}</h4>
+                                                <p className="text-[9px] text-gray-300 font-black uppercase tracking-widest">{new Date(item.createdAt).toLocaleDateString()}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
@@ -635,9 +670,10 @@ const DocCategory = ({ label, icon, color, onClick }) => {
         green: 'bg-green-50 text-green-600 border-green-100 shadow-green-500/5',
         blue: 'bg-blue-50 text-blue-600 border-blue-100 shadow-blue-500/5',
         orange: 'bg-orange-50 text-brand-orange border-orange-100 shadow-orange-500/5',
+        red: 'bg-red-50 text-red-600 border-red-100 shadow-red-500/5',
     };
     return (
-        <div onClick={onClick} className={`p-8 rounded-[2.5rem] border flex flex-col items-center text-center gap-4 cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-xl ${colors[color]}`}>
+        <div onClick={onClick} className={`p-8 rounded-[2.5rem] border flex flex-col items-center text-center gap-4 cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-xl ${colors[color] || colors.orange}`}>
             <div className="p-4 bg-white rounded-2xl shadow-sm">{icon}</div>
             <h4 className="text-xs font-black uppercase tracking-widest">{label}</h4>
         </div>
