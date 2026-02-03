@@ -292,16 +292,14 @@ const startEmailSync = () => {
             const db_sync = JSON.parse(DB_CONTENT);
             const users = db_sync.users || [];
 
-            console.log(`🔄 [SYNC] Starting parallel sync for ${users.length} users...`);
+            console.log(`🔄 [SYNC] Starting sequential sync for ${users.length} users...`);
 
-            // Sync all users in parallel
-            await Promise.all(users.map(async (user) => {
-                // Sync both folders in parallel for this user
-                await Promise.all([
-                    updateEmailCache(user.id, 'INBOX'),
-                    updateEmailCache(user.id, 'Archivados')
-                ]);
-            }));
+            for (const user of users) {
+                // Sync folders one by one for each user
+                console.log(`📡 [SYNC] Syncing user: ${user.id}`);
+                await updateEmailCache(user.id, 'INBOX');
+                await updateEmailCache(user.id, 'Archivados');
+            }
 
             console.log(`✅ [SYNC] All users synced successfully.`);
         } catch (err) {
