@@ -9,6 +9,8 @@ const HRManagement = ({ selectedUsers, currentUser }) => {
     const [timeEntries, setTimeEntries] = useState([]);
     const [activeEntry, setActiveEntry] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(0);
+    const [selectedMemberSummary, setSelectedMemberSummary] = useState(null);
+    const [isExporting, setIsExporting] = useState(false);
 
     useEffect(() => {
         loadData();
@@ -109,22 +111,81 @@ const HRManagement = ({ selectedUsers, currentUser }) => {
     };
 
     // Calculate daily totals for users
-    const getDailyTotal = (userName) => {
-        const today = new Date().toISOString().split('T')[0];
-        const todayEntries = timeEntries.filter(e =>
+    const getDailyTotal = (userName, dateStr = new Date().toISOString().split('T')[0]) => {
+        const dayEntries = timeEntries.filter(e =>
             e.user === userName &&
-            e.start.startsWith(today) &&
-            e.end // Only count finished entries or handle active ones separately? Usually finished.
+            e.start.startsWith(dateStr) &&
+            e.end
         );
 
-        // Add active entry if it's for this user and today
-        let total = todayEntries.reduce((acc, curr) => acc + (curr.duration || 0), 0);
+        let total = dayEntries.reduce((acc, curr) => acc + (curr.duration || 0), 0);
 
-        if (activeEntry && activeEntry.user === userName && activeEntry.start.startsWith(today)) {
-            total += elapsedTime;
+        // Add active entry if it's for this user and this day
+        if (activeEntry && activeEntry.user === userName && activeEntry.start.startsWith(dateStr)) {
+            total += (dateStr === new Date().toISOString().split('T')[0] ? elapsedTime : 0);
         }
 
-        return formatDuration(total);
+        return total;
+    };
+
+    const getStats = (userName) => {
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+        const startOfYear = new Date(now.getFullYear(), 0, 1).toISOString();
+
+        const monthTotal = timeEntries
+            .filter(e => e.user === userName && e.start >= startOfMonth && e.end)
+            .reduce((acc, curr) => acc + (curr.duration || 0), 0);
+
+        const yearTotal = timeEntries
+            .filter(e => e.user === userName && e.start >= startOfYear && e.end)
+            .reduce((acc, curr) => acc + (curr.duration || 0), 0);
+
+        return {
+            today: getDailyTotal(userName),
+            month: monthTotal,
+            year: yearTotal
+        };
+    };
+
+    const handleExportCSV = () => {
+        setIsExporting(true);
+        try {
+            const headers = ['Usuari', 'Data', 'Inici', 'Fi', 'Durada (ms)', 'Durada (format)'];
+            const rows = timeEntries.map(e => [
+                e.user,
+                new Date(e.start).toLocaleDateString(),
+                new Date(e.start).toLocaleTimeString(),
+                e.end ? new Date(e.end).toLocaleTimeString() : 'ACTIU',
+                e.duration || 0,
+                formatDuration(e.duration || 0)
+            ]);
+
+            const csvContent = [headers, ...rows].map(r => r.join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', `registre_rrhh_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (err) {
+            console.error("Export failed", err);
+        } finally {
+            setIsExporting(false);
+        }
+    };
+
+    const handleUpdateVacation = async (userId, days) => {
+        const user = users.find(u => u.id === userId);
+        if (!user) return;
+        try {
+            await api.updateUser(userId, { ...user, vacationDaysUsed: parseInt(days) || 0 });
+            loadData();
+        } catch (err) {
+            console.error("Failed to update vacation", err);
+        }
     };
 
     return (
@@ -213,12 +274,25 @@ const HRManagement = ({ selectedUsers, currentUser }) => {
                                                         </div>
                                                         <div>
                                                             <p className="text-sm font-bold text-gray-800">{user.name}</p>
-                                                            <p className="text-[10px] text-gray-400 font-mono">{getDailyTotal(user.name)} avui</p>
+                                                            <p className="text-[10px] text-gray-400 font-mono">{formatDuration(getDailyTotal(user.name))} avui</p>
                                                         </div>
                                                     </div>
-                                                    <div className="text-right">
-                                                        <span className="text-[10px] font-bold text-brand-orange uppercase">Vacances</span>
-                                                        <p className="text-xs font-bold text-gray-700">{usedVacation} / {totalVacation} <span className="text-[10px] text-gray-400 font-normal">dies</span></p>
+                                                    <div className="text-right flex flex-col items-end gap-1">
+                                                        <button
+                                                            onClick={() => setSelectedMemberSummary(user)}
+                                                            className="text-[9px] font-black text-brand-orange uppercase hover:underline"
+                                                        >
+                                                            Veure detalls
+                                                        </button>
+                                                        <div className="flex items-center gap-2">
+                                                            <input
+                                                                type="number"
+                                                                className="w-10 p-1 text-[10px] bg-white border border-gray-100 rounded text-center font-bold"
+                                                                value={user.vacationDaysUsed || 0}
+                                                                onChange={(e) => handleUpdateVacation(user.id, e.target.value)}
+                                                            />
+                                                            <p className="text-xs font-bold text-gray-700">{user.vacationDaysUsed || 0} / 20 <span className="text-[10px] text-gray-400 font-normal">dies</span></p>
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -243,8 +317,12 @@ const HRManagement = ({ selectedUsers, currentUser }) => {
                                 <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
                                     <Calendar className="text-brand-orange" /> Registre d'Activitat
                                 </h2>
-                                <button className="flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-brand-orange bg-gray-50 px-3 py-1.5 rounded-lg transition-colors w-full sm:w-auto justify-center">
-                                    <Download size={14} /> Exportar CSV
+                                <button
+                                    onClick={handleExportCSV}
+                                    disabled={isExporting}
+                                    className="flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-brand-orange bg-gray-50 px-3 py-1.5 rounded-lg transition-colors w-full sm:w-auto justify-center disabled:opacity-50"
+                                >
+                                    <Download size={14} /> {isExporting ? 'Exportant...' : 'Exportar CSV'}
                                 </button>
                             </div>
 
@@ -346,8 +424,76 @@ const HRManagement = ({ selectedUsers, currentUser }) => {
 
                 </div>
             </div>
+
+            {/* SUMMARY MODAL */}
+            {selectedMemberSummary && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-brand-black/50 backdrop-blur-sm p-4 animate-in fade-in duration-300">
+                    <div className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
+                        <div className="p-8 border-b border-gray-100 flex justify-between items-center bg-brand-black text-white shrink-0">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-brand-orange flex items-center justify-center text-xl font-black">
+                                    {selectedMemberSummary.name[0]}
+                                </div>
+                                <div>
+                                    <h3 className="font-black uppercase tracking-widest text-sm">Resum de Jornada</h3>
+                                    <p className="text-[10px] text-white/60 uppercase font-bold">{selectedMemberSummary.name}</p>
+                                </div>
+                            </div>
+                            <button onClick={() => setSelectedMemberSummary(null)} className="p-2 hover:bg-white/10 rounded-xl transition-colors"><X size={20} /></button>
+                        </div>
+
+                        <div className="p-8 overflow-y-auto custom-scrollbar space-y-8">
+                            {/* Stats Grid */}
+                            <div className="grid grid-cols-3 gap-4">
+                                <StatItem label="AVUI" value={formatDuration(getStats(selectedMemberSummary.name).today)} color="orange" />
+                                <StatItem label="AQUEST MES" value={formatDuration(getStats(selectedMemberSummary.name).month)} color="blue" />
+                                <StatItem label="AQUEST ANY" value={formatDuration(getStats(selectedMemberSummary.name).year)} color="green" />
+                            </div>
+
+                            {/* Recent Entries for this User */}
+                            <div className="space-y-4">
+                                <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2">Darrers Registres</h4>
+                                <div className="space-y-2">
+                                    {timeEntries
+                                        .filter(e => e.user === selectedMemberSummary.name)
+                                        .reverse()
+                                        .slice(0, 10)
+                                        .map(e => (
+                                            <div key={e.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100/50">
+                                                <div>
+                                                    <p className="text-xs font-bold text-gray-700">{new Date(e.start).toLocaleDateString()}</p>
+                                                    <p className="text-[9px] text-gray-400 font-mono">{new Date(e.start).toLocaleTimeString()} - {e.end ? new Date(e.end).toLocaleTimeString() : 'ACTIU'}</p>
+                                                </div>
+                                                <div className="text-right">
+                                                    <p className="text-xs font-black text-brand-black font-mono">{formatDuration(e.duration || (Date.now() - new Date(e.start).getTime()))}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
+
+const StatItem = ({ label, value, color }) => {
+    const colors = {
+        orange: 'text-brand-orange bg-orange-50',
+        blue: 'text-blue-600 bg-blue-50',
+        green: 'text-green-600 bg-green-50'
+    };
+    return (
+        <div className={`p-4 rounded-3xl ${colors[color]} flex flex-col items-center justify-center text-center`}>
+            <span className="text-[8px] font-black uppercase tracking-widest mb-1 opacity-60">{label}</span>
+            <span className="text-sm font-black font-mono">{value}</span>
+        </div>
+    );
+};
+
+// Re-using X from lucide-react (import it if not there)
+import { X } from 'lucide-react';
 
 export default HRManagement;

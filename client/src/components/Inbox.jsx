@@ -154,6 +154,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                 { id: 'desc_1', type: 'text', text: `Email de: ${emailToConvert.from}\n\n${emailToConvert.body}` }
             ],
             labels: ['Email'],
+            responsibleId: currentUser.id, // Auto-assign to the member who received the email
             sourceEmailDate: emailToConvert.date
         });
         setShowSelector(false);
@@ -444,6 +445,9 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                 statusLabel = <div className="p-1 bg-red-100 text-red-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">No documentado</div>;
                             }
 
+                            const isReplied = (repliedIds.includes(String(email.messageId)) || (email.persistentId && repliedIds.includes(String(email.persistentId))) || email.isAnswered);
+                            const repliedLabel = isReplied ? <div className="p-1 bg-blue-100 text-blue-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">Respondido</div> : null;
+
                             return (
                                 <div
                                     key={email.messageId}
@@ -455,7 +459,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                             <div className="flex items-center gap-2 mb-0.5">
                                                 <span className="text-[11px] font-black text-brand-black truncate max-w-[150px]">{email.from}</span>
                                                 {statusLabel}
-                                                {email.isAnswered && <div className="p-1 bg-blue-100 text-blue-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">Respondido</div>}
+                                                {isReplied && <div className="p-1 bg-blue-100 text-blue-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">Respondido</div>}
                                             </div>
                                             {tag && <div className="flex items-center gap-1.5"><Tag size={10} className="text-blue-500" /><span className="text-[8px] font-black text-blue-500 uppercase tracking-widest">{tag.name}</span></div>}
                                         </div>
@@ -503,6 +507,21 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                         </div>
                                     </div>
                                     <div className="flex gap-2">
+                                        <button
+                                            onClick={() => {
+                                                setEmailComposerData({
+                                                    to: selectedEmail.from,
+                                                    subject: `RE: ${selectedEmail.subject}`,
+                                                    body: `\n\n--- Mensaje original ---\n${selectedEmail.body}`,
+                                                    memberId: currentUser.id,
+                                                    replyToId: selectedEmail.messageId
+                                                });
+                                                setShowEmailComposer(true);
+                                            }}
+                                            className="p-4 bg-brand-orange text-white rounded-2xl hover:bg-orange-600 transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-widest px-6"
+                                        >
+                                            <Send size={18} /> Responder
+                                        </button>
                                         <button
                                             onClick={() => (processedIds.includes(String(selectedEmail.messageId)) || (selectedEmail.persistentId && processedIds.includes(String(selectedEmail.persistentId)))) ? handleUnmanageEmail(selectedEmail.messageId, selectedEmail.persistentId) : api.markEmailProcessed(selectedEmail.messageId, selectedEmail.subject, currentUser.name, selectedEmail.persistentId).then(loadProcessed)}
                                             className={`p-4 rounded-2xl transition-all ${(processedIds.includes(String(selectedEmail.messageId)) || (selectedEmail.persistentId && processedIds.includes(String(selectedEmail.persistentId)))) ? 'bg-green-50 text-green-600 hover:bg-green-100' : 'bg-gray-50 text-gray-400 hover:bg-gray-100'}`}
@@ -555,10 +574,45 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                     )}
                                 </div>
                             </div>
-                            <div className="flex-1 overflow-y-auto p-10 custom-scrollbar">
+                            <div className="flex-1 overflow-y-auto p-10 space-y-8 custom-scrollbar">
+                                {/* Current Message */}
                                 <div className="bg-white p-10 rounded-[2.5rem] shadow-xl border border-gray-100 text-gray-600 text-base leading-relaxed whitespace-pre-wrap font-medium">
                                     {selectedEmail.body}
                                 </div>
+
+                                {/* Thread Messages */}
+                                {(() => {
+                                    const thread = emails.filter(e =>
+                                        e.messageId !== selectedEmail.messageId &&
+                                        (
+                                            (e.references && e.references.includes(selectedEmail.persistentId)) ||
+                                            (selectedEmail.references && selectedEmail.references.includes(e.persistentId)) ||
+                                            (e.inReplyTo === selectedEmail.persistentId) ||
+                                            (selectedEmail.inReplyTo === e.persistentId) ||
+                                            (e.subject.replace(/re:|fwd:|fw:/gi, "").trim() === selectedEmail.subject.replace(/re:|fwd:|fw:/gi, "").trim())
+                                        )
+                                    ).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+                                    if (thread.length > 0) {
+                                        return (
+                                            <div className="space-y-6 pt-10 border-t border-gray-100">
+                                                <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">Hilo de la conversación</h4>
+                                                {thread.map(te => (
+                                                    <div key={te.messageId} className="bg-gray-50/50 p-8 rounded-3xl border border-gray-100/50">
+                                                        <div className="flex justify-between items-center mb-4">
+                                                            <div className="flex items-center gap-3">
+                                                                <span className="text-[10px] font-black text-brand-black uppercase">{te.from}</span>
+                                                                <span className="text-[8px] font-bold text-gray-300">{new Date(te.date).toLocaleString()}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="text-xs text-gray-500 whitespace-pre-wrap line-clamp-3">{te.body}</div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        );
+                                    }
+                                    return null;
+                                })()}
                             </div>
                         </>
                     ) : (

@@ -17,7 +17,7 @@ const AgendaGPT = ({ currentUser, setSelectedClient }) => {
     const [viewMode, setViewMode] = useState('list'); // list or chat
 
     const [formData, setFormData] = useState({
-        name: '', email: '', phone: '', address: '', tag: 'Referencia', company: '', notes: ''
+        name: '', email: '', phone: '', address: '', tag: 'Cliente', company: '', notes: ''
     });
 
     // AI Chat states
@@ -47,7 +47,15 @@ const AgendaGPT = ({ currentUser, setSelectedClient }) => {
 
     const handleOpenAdd = () => {
         setEditingContact(null);
-        setFormData({ name: '', email: '', phone: '', address: '', tag: 'Referencia', company: '', notes: '' });
+        setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            address: '',
+            tag: filterType === 'suppliers' ? 'Proveedor' : 'Cliente',
+            company: '',
+            notes: ''
+        });
         setShowModal(true);
     };
 

@@ -295,6 +295,9 @@ const startEmailSync = () => {
             console.log(`🔄 [SYNC] Starting sequential sync for ${users.length} users...`);
 
             for (const user of users) {
+                // Skip Omar as requested
+                if (user.id === 'omar') continue;
+
                 // Sync folders one by one for each user
                 console.log(`📡 [SYNC] Syncing user: ${user.id}`);
                 await updateEmailCache(user.id, 'INBOX');

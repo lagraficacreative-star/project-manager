@@ -104,6 +104,8 @@ def fetch_emails(username, password, folder="INBOX", host="mail-es.securemail.pr
                 from_ = decode_mime_words(msg.get("From"))
                 date_ = msg.get("Date")
                 message_id = msg.get("Message-ID")
+                in_reply_to = msg.get("In-Reply-To")
+                references = msg.get("References")
                 
                 body = ""
                 attachments = []
@@ -142,6 +144,8 @@ def fetch_emails(username, password, folder="INBOX", host="mail-es.securemail.pr
                 emails.append({
                     "messageId": msg_uid,
                     "persistentId": message_id,
+                    "inReplyTo": in_reply_to,
+                    "references": references,
                     "subject": subject,
                     "from": from_,
                     "date": date_,
