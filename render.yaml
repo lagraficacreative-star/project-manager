@@ -58,3 +58,11 @@ services:
         sync: false
       - key: IMAP_PASS_LICITACIONS
         sync: false
+      - key: IMAP_USER_GESTIO
+        sync: false
+      - key: IMAP_PASS_GESTIO
+        sync: false
+      - key: IMAP_USER_TEST
+        sync: false
+      - key: IMAP_PASS_TEST
+        sync: false
