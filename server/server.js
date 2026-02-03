@@ -12,15 +12,24 @@ const DB_FILE = path.join(__dirname, 'data', 'db.json');
 
 // --- HELPER: Manual .env Loader ---
 const loadEnv = () => {
-    let envPath = path.join(__dirname, '.env');
-    if (!fs.existsSync(envPath)) {
-        envPath = path.join(__dirname, '..', '.env');
+    // Priority: Root .env, then server/.env
+    const rootEnv = path.join(__dirname, '..', '.env');
+    const serverEnv = path.join(__dirname, '.env');
+    let envPath = fs.existsSync(rootEnv) ? rootEnv : (fs.existsSync(serverEnv) ? serverEnv : null);
+
+    if (!envPath) {
+        console.log("ℹ️ No local .env file found. Relying solely on process.env.");
+        return {};
     }
-    if (!fs.existsSync(envPath)) return {};
+
+    console.log(`📂 Loading credentials from: ${envPath}`);
     const content = fs.readFileSync(envPath, 'utf8');
     const config = {};
     content.split('\n').forEach(line => {
-        const parts = line.split('=');
+        const trimmedLine = line.trim();
+        if (!trimmedLine || trimmedLine.startsWith('#')) return;
+
+        const parts = trimmedLine.split('=');
         if (parts.length >= 2) {
             const key = parts[0].trim();
             const value = parts.slice(1).join('=').trim();
@@ -592,13 +601,18 @@ async function fetchRealEmails(memberId, folder = 'INBOX') {
     };
 
     const envKey = CRED_MAP[memberId] || memberId.toUpperCase();
-    const user = process.env[`IMAP_USER_${envKey}`] || config[`IMAP_USER_${envKey}`];
-    const pass = process.env[`IMAP_PASS_${envKey}`] || config[`IMAP_PASS_${envKey}`];
+
+    // Check both process.env and our manually loaded config
+    const user = process.env[`IMAP_USER_${envKey}`] || env[`IMAP_USER_${envKey}`];
+    const pass = process.env[`IMAP_PASS_${envKey}`] || env[`IMAP_PASS_${envKey}`];
 
     if (!user || !pass) {
-        console.log(`⚠️ No real credentials for ${memberId} (Key: ${envKey}). Using mock data.`);
+        const source = process.env[`IMAP_USER_${envKey}`] ? 'process.env' : (env[`IMAP_USER_${envKey}`] ? '.env file' : 'NONE');
+        console.log(`⚠️ Missing credentials for ${memberId} (Key: IMAP_USER_${envKey}). Source detected: ${source}. Using mock data.`);
         return null; // Signals fallback to mock data
     }
+
+    console.log(`🔑 Credentials found for ${memberId} (Key: ${envKey}) from ${process.env[`IMAP_USER_${envKey}`] ? 'System Env' : 'Local File'}`);
 
     return new Promise((resolve) => {
         console.log(`📡 [EMAIL FETCH] Connecting to Nominalia for: ${user} in ${folder}...`);
