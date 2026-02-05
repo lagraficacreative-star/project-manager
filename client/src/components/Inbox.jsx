@@ -4,6 +4,25 @@ import { Mail, RefreshCw, ArrowRight, CheckCircle, Search, Archive, Trash2, Plus
 import CardModal from './CardModal';
 import EmailComposer from './EmailComposer';
 
+const stringToColor = (str) => {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const colors = [
+        '#FF5733', '#33FF57', '#3357FF', '#F333FF', '#33FFF3', '#F3FF33',
+        '#FF3385', '#8533FF', '#33FFBD', '#FFBD33', '#75FF33', '#3385FF'
+    ];
+    return colors[Math.abs(hash) % colors.length];
+};
+
+const getInitials = (name) => {
+    if (!name) return '??';
+    const parts = name.split(/[<\s.]+/);
+    const initials = parts.filter(p => p.length > 0 && !p.includes('@')).map(p => p[0].toUpperCase()).join('');
+    return initials.slice(0, 2) || (name[0] ? name[0].toUpperCase() : '??');
+};
+
 const Inbox = ({ selectedUsers, currentUser }) => {
     const [emails, setEmails] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -304,7 +323,7 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             const isGencatNotif = (from.includes('gencat') || from.includes('contractacio')) && (subject.includes('notificació') || subject.includes('notificación'));
             if (activeTab === 'licitaciones' && !isGencatNotif) return false;
 
-            const isReplied = repliedIds.includes(uniqueId) || e.isAnswered;
+            const isReplied = (repliedIds.includes(uniqueId) || e.isAnswered);
             if (activeTab === 'replied' && !isReplied) return false;
 
             const isProcessed = processedIds.includes(String(e.messageId)) || (e.persistentId && processedIds.includes(String(e.persistentId)));
@@ -318,12 +337,12 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             }
 
             if (activeTab === 'managed') {
-                // In managed tab, we show everything in the folder OR things explicitly processed
                 if (activeFolder === 'INBOX' && !isProcessed) return false;
             }
 
-            if (activeTab === 'inbox') {
-                if (isReplied || isGencatNotif || isProcessed) return false;
+            if (activeTab === 'inbox' || activeTab === 'all') {
+                // In 'Pendientes' or 'Bandeja Entrada', we hide things that are processed or replied if it's the pending view
+                if (activeTab === 'inbox' && (isReplied || isGencatNotif || isProcessed)) return false;
             }
 
             if (emailFilter) {
@@ -356,20 +375,22 @@ const Inbox = ({ selectedUsers, currentUser }) => {
             <div className="flex-1 flex overflow-hidden">
                 <div className="w-64 border-r border-gray-100 bg-gray-50/50 flex flex-col shrink-0">
                     <div className="p-8">
-                        <h3 className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] mb-6">Categorías</h3>
+                        <h3 className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] mb-6">Navegación</h3>
                         <nav className="space-y-1">
                             <NavItem active={activeTab === 'inbox'} icon={<InboxIcon size={18} />} label="Pendientes" onClick={() => { setActiveTab('inbox'); setActiveFolder('INBOX'); }} />
-                            <NavItem active={activeTab === 'replied'} icon={<Send size={18} />} label="Respondidos" onClick={() => { setActiveTab('replied'); setActiveFolder('Archivados'); }} color="blue" />
+                            <NavItem active={activeTab === 'replied'} icon={<CheckCircle size={18} />} label="Respondidos" onClick={() => { setActiveTab('replied'); setActiveFolder('INBOX'); }} color="blue" />
                             <NavItem active={activeTab === 'managed'} icon={<Archive size={18} />} label="Archivados" onClick={() => { setActiveTab('managed'); setActiveFolder('Archivados'); }} color="green" />
+                            <NavItem active={selectedEmail === null && activeTab === 'sent'} icon={<Send size={18} />} label="Enviados" onClick={() => { setActiveTab('sent'); setActiveFolder('Enviados'); }} color="blue" />
                         </nav>
 
-                        <h3 className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] mt-10 mb-6">Sistema</h3>
-                        <nav className="space-y-1">
-                            <NavItem active={activeTab === 'all'} icon={<Mail size={18} />} label="Bandeja Entrada" onClick={() => { setActiveTab('all'); setActiveFolder('INBOX'); }} />
-                            <NavItem active={activeTab === 'sent'} icon={<Send size={18} />} label="Enviados" onClick={() => { setActiveTab('sent'); setActiveFolder('Enviados'); }} />
-                            <NavItem active={activeTab === 'spam'} icon={<Ban size={18} />} label="Correo Spam" onClick={() => { setActiveTab('spam'); setActiveFolder('Spam'); }} />
-                            <NavItem active={activeTab === 'trash'} icon={<Trash2 size={18} />} label="Papelera" onClick={() => { setActiveTab('trash'); setActiveFolder('Papelera'); }} color="red" />
-                        </nav>
+                        <div className="mt-10 pt-10 border-t border-gray-100">
+                            <h3 className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] mb-6">Bandejas</h3>
+                            <nav className="space-y-1">
+                                <NavItem active={activeTab === 'all'} icon={<Mail size={18} />} label="Entrada" onClick={() => { setActiveTab('all'); setActiveFolder('INBOX'); }} />
+                                <NavItem active={activeTab === 'spam'} icon={<Ban size={18} />} label="Spam" onClick={() => { setActiveTab('spam'); setActiveFolder('Spam'); }} />
+                                <NavItem active={activeTab === 'trash'} icon={<Trash2 size={18} />} label="Papelera" onClick={() => { setActiveTab('trash'); setActiveFolder('Papelera'); }} color="red" />
+                            </nav>
+                        </div>
 
                         {activeTab === 'trash' && (
                             <button onClick={handleEmptyTrash} className="w-full mt-10 py-3 bg-red-100/50 text-red-600 text-[9px] font-black uppercase rounded-2xl border border-red-200 hover:bg-red-600 hover:text-white transition-all">
@@ -429,6 +450,8 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                             const tag = getContactTag(email.from);
                             const isProcessed = processedIds.includes(String(email.messageId)) || (email.persistentId && processedIds.includes(String(email.persistentId)));
                             const isSelected = selectedEmail?.messageId === email.messageId;
+                            const isSent = activeFolder === 'Enviados';
+                            const displayUser = isSent ? (email.to || 'Desconocido') : (email.from || 'Desconocido');
 
                             // Visual Indicator logic
                             let statusColor = 'border-l-transparent';
@@ -436,53 +459,61 @@ const Inbox = ({ selectedUsers, currentUser }) => {
 
                             if (activeFolder === 'Archivados') {
                                 statusColor = 'border-l-green-500 bg-green-50/10';
-                                statusLabel = <div className="p-1 bg-green-100 text-green-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">Archivado</div>;
+                                statusLabel = <div className="px-2 py-0.5 bg-green-100/80 text-green-700 rounded-full text-[7px] font-black uppercase tracking-tight leading-none shadow-sm border border-green-200/50">Archivado</div>;
                             } else if (isProcessed) {
                                 statusColor = 'border-l-yellow-400 bg-yellow-50/10';
-                                statusLabel = <div className="p-1 bg-yellow-100 text-yellow-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">En proceso</div>;
+                                statusLabel = <div className="px-2 py-0.5 bg-yellow-100/80 text-yellow-700 rounded-full text-[7px] font-black uppercase tracking-tight leading-none shadow-sm border border-yellow-200/50">En proceso</div>;
                             } else {
                                 statusColor = 'border-l-red-400 bg-red-50/10';
-                                statusLabel = <div className="p-1 bg-red-100 text-red-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">No documentado</div>;
+                                statusLabel = <div className="px-2 py-0.5 bg-red-100/80 text-red-700 rounded-full text-[7px] font-black uppercase tracking-tight leading-none shadow-sm border border-red-200/50">Pendiente</div>;
                             }
 
                             const isReplied = (repliedIds.includes(String(email.messageId)) || (email.persistentId && repliedIds.includes(String(email.persistentId))) || email.isAnswered);
-                            const repliedLabel = isReplied ? <div className="p-1 bg-blue-100 text-blue-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">Respondido</div> : null;
 
                             return (
                                 <div
                                     key={email.messageId}
                                     onClick={() => handleSelectEmail(email)}
-                                    className={`p-6 cursor-pointer transition-all hover:bg-gray-50 relative group border-l-4 ${isSelected ? 'bg-orange-50/50 border-l-brand-orange' : statusColor}`}
+                                    className={`p-5 cursor-pointer transition-all hover:bg-gray-50 relative group border-l-4 ${isSelected ? 'bg-orange-50/50 border-l-brand-orange' : statusColor}`}
                                 >
-                                    <div className="flex justify-between items-start mb-2">
-                                        <div className="flex flex-col min-w-0">
-                                            <div className="flex items-center gap-2 mb-0.5">
-                                                <span className="text-[11px] font-black text-brand-black truncate max-w-[150px]">{email.from}</span>
-                                                {statusLabel}
-                                                {isReplied && <div className="p-1 bg-blue-100 text-blue-600 rounded-lg text-[7px] font-black uppercase tracking-widest leading-none">Respondido</div>}
-                                            </div>
-                                            {tag && <div className="flex items-center gap-1.5"><Tag size={10} className="text-blue-500" /><span className="text-[8px] font-black text-blue-500 uppercase tracking-widest">{tag.name}</span></div>}
+                                    <div className="flex gap-4 items-start mb-2">
+                                        <div
+                                            className="w-10 h-10 rounded-2xl flex items-center justify-center text-white font-black text-[10px] shrink-0 shadow-sm"
+                                            style={{ backgroundColor: stringToColor(displayUser) }}
+                                        >
+                                            {getInitials(displayUser)}
                                         </div>
-                                        <div className="flex flex-col items-end gap-1">
-                                            <span className="text-[9px] font-bold text-gray-300 whitespace-nowrap">{new Date(email.date).toLocaleDateString()}</span>
-                                            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
-                                                {!isProcessed && <button onClick={(e) => { e.stopPropagation(); handleConvertToCard(email); }} className="p-1 px-2 bg-orange-100 text-brand-orange rounded-full text-[8px] font-black uppercase hover:bg-brand-orange hover:text-white transition-colors">+ Ficha</button>}
-                                                {!isProcessed && <button onClick={(e) => { e.stopPropagation(); handleAddToCard(email); }} className="p-1 px-2 bg-blue-100 text-blue-600 rounded-full text-[8px] font-black uppercase hover:bg-blue-600 hover:text-white transition-colors">Vincular</button>}
-                                                <button onClick={(e) => { e.stopPropagation(); setEmailComposerData({ to: email.from, subject: `RE: ${email.subject}`, body: `\n\n--- Mensaje original ---\nDe: ${email.from}\nAsunto: ${email.subject}\n\n${email.body}`, memberId: currentUser.id, replyToId: email.messageId }); setShowEmailComposer(true); }} className="p-1 px-2 bg-gray-100 text-gray-600 rounded-full text-[8px] font-black uppercase hover:bg-brand-black hover:text-white transition-colors">Responder</button>
-                                                {activeTab === 'trash' ? (
-                                                    <button onClick={(e) => { e.stopPropagation(); handleRestoreEmail(email.messageId); }} className="p-1 px-2 bg-green-100 text-green-600 rounded-full text-[8px] font-black uppercase hover:bg-green-600 hover:text-white transition-colors" title="Restaurar">Restaurar</button>
-                                                ) : (
-                                                    <button onClick={(e) => { e.stopPropagation(); handleDeleteEmail(email.messageId); }} className="p-1 px-2 bg-red-100 text-red-600 rounded-full text-[8px] font-black uppercase hover:bg-red-600 hover:text-white transition-colors" title="Eliminar localmente">
-                                                        <Trash2 size={10} />
-                                                    </button>
-                                                )}
+                                        <div className="flex flex-col min-w-0 flex-1">
+                                            <div className="flex justify-between items-center mb-0.5 gap-2">
+                                                <span className={`text-[11px] font-black truncate ${isSelected ? 'text-brand-orange' : 'text-brand-black'}`}>
+                                                    {isSent && <Send size={10} className="inline mr-1 mb-0.5 text-blue-500" />}
+                                                    {displayUser}
+                                                </span>
+                                                <span className="text-[9px] font-bold text-gray-300 whitespace-nowrap">{new Date(email.date).toLocaleDateString()}</span>
+                                            </div>
+                                            <div className="flex items-center gap-2 flex-wrap">
+                                                {statusLabel}
+                                                {isReplied && <div className="px-2 py-0.5 bg-blue-100/80 text-blue-700 rounded-full text-[7px] font-black uppercase tracking-tight leading-none shadow-sm border border-blue-200/50">Respondido</div>}
+                                                {tag && <div className="flex items-center gap-1.5"><Tag size={10} className="text-blue-500" /><span className="text-[8px] font-black text-blue-500 uppercase tracking-widest">{tag.name}</span></div>}
                                             </div>
                                         </div>
                                     </div>
-                                    <h4 className={`text-sm font-bold truncate mb-2 ${isSelected ? 'text-brand-orange' : 'text-gray-800'}`}>{email.subject}</h4>
-                                    <p className="text-[11px] text-gray-400 line-clamp-2 leading-relaxed mb-3">
+                                    <h4 className={`text-xs font-bold truncate mb-1 px-1 ${isSelected ? 'text-brand-orange' : 'text-gray-800'}`}>{email.subject}</h4>
+                                    <p className="text-[10px] text-gray-400 line-clamp-2 leading-tight mb-2 px-1">
                                         {email.isPartial ? <span className="italic opacity-50">{email.body}</span> : email.body}
                                     </p>
+                                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all justify-end border-t border-gray-50 pt-2 mt-1 px-1">
+                                        {!isProcessed && <button onClick={(e) => { e.stopPropagation(); handleConvertToCard(email); }} className="p-1 px-2 bg-orange-100 text-brand-orange rounded-full text-[8px] font-black uppercase hover:bg-brand-orange hover:text-white transition-colors">+ Ficha</button>}
+                                        {!isProcessed && <button onClick={(e) => { e.stopPropagation(); handleAddToCard(email); }} className="p-1 px-2 bg-blue-100 text-blue-600 rounded-full text-[8px] font-black uppercase hover:bg-blue-600 hover:text-white transition-colors">Vincular</button>}
+                                        <button onClick={(e) => { e.stopPropagation(); setEmailComposerData({ to: email.from, subject: `RE: ${email.subject}`, body: `\n\n--- Mensaje original ---\nDe: ${email.from}\nAsunto: ${email.subject}\n\n${email.body}`, memberId: currentUser.id, replyToId: email.messageId }); setShowEmailComposer(true); }} className="p-1 px-2 bg-gray-100 text-gray-600 rounded-full text-[8px] font-black uppercase hover:bg-brand-black hover:text-white transition-colors">Responder</button>
+                                        {activeTab === 'trash' ? (
+                                            <button onClick={(e) => { e.stopPropagation(); handleRestoreEmail(email.messageId); }} className="p-1 px-2 bg-green-100 text-green-600 rounded-full text-[8px] font-black uppercase hover:bg-green-600 hover:text-white transition-colors" title="Restaurar">Restaurar</button>
+                                        ) : (
+                                            <button onClick={(e) => { e.stopPropagation(); handleDeleteEmail(email.messageId); }} className="p-1 px-2 bg-red-100 text-red-600 rounded-full text-[8px] font-black uppercase hover:bg-red-600 hover:text-white transition-colors" title="Eliminar localmente">
+                                                <Trash2 size={10} />
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
                             );
                         })}
@@ -495,15 +526,21 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                             <div className="p-8 border-b border-gray-100 flex flex-col gap-8 bg-white shadow-sm">
                                 <div className="flex justify-between items-start">
                                     <div className="flex items-center gap-5">
-                                        <div className={`w-16 h-16 rounded-3xl text-white flex items-center justify-center font-black text-2xl shadow-xl ${processedIds.includes(String(selectedEmail.messageId)) ? 'bg-green-500 shadow-green-500/20' : 'bg-brand-orange shadow-orange-500/20'}`}>{selectedEmail.from[0]}</div>
+                                        <div
+                                            className="w-16 h-16 rounded-3xl text-white flex items-center justify-center font-black text-2xl shadow-xl"
+                                            style={{ backgroundColor: stringToColor(selectedEmail.from) }}
+                                        >
+                                            {getInitials(selectedEmail.from)}
+                                        </div>
                                         <div>
                                             <div className="flex items-center gap-3">
                                                 <h3 className="text-xl font-black text-brand-black leading-tight uppercase tracking-tighter">{selectedEmail.subject}</h3>
                                                 {(processedIds.includes(String(selectedEmail.messageId)) || (selectedEmail.persistentId && processedIds.includes(String(selectedEmail.persistentId)))) && (
-                                                    <span className="px-3 py-1 bg-green-50 text-green-600 rounded-full text-[9px] font-black uppercase tracking-widest border border-green-100 flex items-center gap-1.5"><CheckCircle size={12} /> Procesado</span>
+                                                    <span className="px-3 py-1 bg-green-50 text-green-600 rounded-full text-[9px] font-black uppercase tracking-widest border border-green-100 flex items-center gap-1.5 shadow-sm"><CheckCircle size={12} /> Procesado</span>
                                                 )}
                                             </div>
-                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mt-2">{selectedEmail.from}</p>
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mt-2">De: {selectedEmail.from}</p>
+                                            {selectedEmail.to && <p className="text-[10px] font-black text-gray-300 uppercase tracking-[0.2em] mt-1">Para: {selectedEmail.to}</p>}
                                         </div>
                                     </div>
                                     <div className="flex gap-2">
@@ -597,17 +634,20 @@ const Inbox = ({ selectedUsers, currentUser }) => {
                                         return (
                                             <div className="space-y-6 pt-10 border-t border-gray-100">
                                                 <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">Hilo de la conversación</h4>
-                                                {thread.map(te => (
-                                                    <div key={te.messageId} className="bg-gray-50/50 p-8 rounded-3xl border border-gray-100/50">
-                                                        <div className="flex justify-between items-center mb-4">
-                                                            <div className="flex items-center gap-3">
-                                                                <span className="text-[10px] font-black text-brand-black uppercase">{te.from}</span>
+                                                {thread.map(te => {
+                                                    const isFromMe = te.from && te.from.toLowerCase().includes(currentUser.id.toLowerCase());
+                                                    return (
+                                                        <div key={te.messageId} className={`flex flex-col ${isFromMe ? 'items-end' : 'items-start'}`}>
+                                                            <div className="flex items-center gap-2 mb-2 px-2">
+                                                                <span className="text-[9px] font-black text-brand-black uppercase">{isFromMe ? 'Tú' : te.from.split('<')[0]}</span>
                                                                 <span className="text-[8px] font-bold text-gray-300">{new Date(te.date).toLocaleString()}</span>
                                                             </div>
+                                                            <div className={`p-6 rounded-3xl text-xs max-w-[85%] shadow-sm border ${isFromMe ? 'bg-brand-black text-white border-brand-black' : 'bg-white text-gray-600 border-gray-100'}`}>
+                                                                <div className="whitespace-pre-wrap line-clamp-6">{te.body}</div>
+                                                            </div>
                                                         </div>
-                                                        <div className="text-xs text-gray-500 whitespace-pre-wrap line-clamp-3">{te.body}</div>
-                                                    </div>
-                                                ))}
+                                                    );
+                                                })}
                                             </div>
                                         );
                                     }
@@ -844,9 +884,9 @@ const NavItem = ({ active, icon, label, onClick, color = 'orange' }) => {
     return (
         <button
             onClick={onClick}
-            className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-black text-[11px] uppercase tracking-widest ${active ? activeColors[color] : 'text-gray-400 hover:bg-gray-100/50 hover:text-gray-600'}`}
+            className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-black text-[11px] uppercase tracking-widest ${active ? activeColors[color] : 'text-gray-400 hover:bg-gray-100/10 hover:text-gray-600'}`}
         >
-            <span className={active ? '' : 'opacity-40'}>{icon}</span>
+            <span className={`${active ? 'scale-110' : 'opacity-40'} transition-transform duration-300`}>{icon}</span>
             {label}
         </button>
     );

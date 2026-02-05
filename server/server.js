@@ -79,6 +79,17 @@ const DRIVE_MEMBER_MAPPING = {
     'gestio': ['DOCUMETACIÓ GESTIÓ LAGRAFICA']
 };
 
+const getClientNameFromEmail = (email) => {
+    if (!email) return null;
+    const db = readDB();
+    const cleanEmail = email.toLowerCase().trim();
+    const contact = db.contacts.find(c =>
+        (c.email && c.email.toLowerCase().trim() === cleanEmail) ||
+        (email.toLowerCase().includes(c.email && c.email.toLowerCase().trim() && c.email.length > 3))
+    );
+    return contact ? contact.name.replace(/[/\\?%*:|"<>]/g, '-') : null;
+};
+
 const saveFileToDrive = async (filename, contentBase64, pathArray) => {
     if (!GOOGLE_SCRIPT_URL) return;
     try {
@@ -186,7 +197,14 @@ const processAutomations = async (userId, emails, folder = 'INBOX') => {
         if (email.hasAttachments) {
             if (!db.drive_uploaded_uids.includes(driveUid)) {
                 getEmailAttachments(userId, msgId, folder).then(attachments => {
-                    const drivePath = DRIVE_MEMBER_MAPPING[userId] || ['OTROS'];
+                    let drivePath = DRIVE_MEMBER_MAPPING[userId] || ['OTROS'];
+
+                    // Add Client Name to path if found
+                    const clientName = getClientNameFromEmail(email.from);
+                    if (clientName) {
+                        drivePath = [...drivePath, clientName];
+                    }
+
                     attachments.forEach(att => {
                         saveFileToDrive(att.filename, att.content_base64, drivePath);
                     });
@@ -302,6 +320,7 @@ const startEmailSync = () => {
                 console.log(`📡 [SYNC] Syncing user: ${user.id}`);
                 await updateEmailCache(user.id, 'INBOX');
                 await updateEmailCache(user.id, 'Archivados');
+                await updateEmailCache(user.id, 'Enviados');
             }
 
             console.log(`✅ [SYNC] All users synced successfully.`);
@@ -623,7 +642,13 @@ async function fetchRealEmails(memberId, folder = 'INBOX') {
         pythonArgs.push('--headers-only');
         pythonArgs.push(folder);
 
-        const pythonProcess = spawn('python3', pythonArgs, { env });
+        const combinedEnv = { ...process.env, ...env };
+        const pythonProcess = spawn('python3', pythonArgs, { env: combinedEnv });
+
+        pythonProcess.on('error', (err) => {
+            console.error(`❌ Failed to start Python process for ${memberId}:`, err);
+            resolve({ error: "Failed to start Python process: " + err.message });
+        });
         let dataStr = "";
         let errorStr = "";
 
@@ -675,8 +700,13 @@ async function getEmailAttachments(memberId, uid, folder) {
     if (!user || !pass) return [];
 
     return new Promise((resolve) => {
-        const env = { ...process.env, IMAP_HOST: process.env.IMAP_HOST || config.IMAP_HOST, IMAP_PORT: process.env.IMAP_PORT || config.IMAP_PORT };
-        const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, '--download-attachments', String(uid), folder], { env });
+        const combinedEnv = { ...process.env, IMAP_HOST: process.env.IMAP_HOST || config.IMAP_HOST, IMAP_PORT: process.env.IMAP_PORT || config.IMAP_PORT };
+        const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, '--download-attachments', String(uid), folder], { env: combinedEnv });
+
+        pythonProcess.on('error', (err) => {
+            console.error(`❌ Failed to start Python process for attachments [${memberId}]:`, err);
+            resolve([]);
+        });
         let dataStr = "";
         pythonProcess.stdout.on('data', (d) => { dataStr += d.toString(); });
         pythonProcess.on('close', (code) => {
@@ -712,8 +742,13 @@ async function moveEmail(memberId, uid, sourceFolder, targetFolder) {
     if (!user || !pass) return { error: "No credentials for " + memberId };
 
     return new Promise((resolve) => {
-        const env = { ...process.env, IMAP_HOST: process.env.IMAP_HOST || config.IMAP_HOST, IMAP_PORT: process.env.IMAP_PORT || config.IMAP_PORT };
-        const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, '--move', String(uid), sourceFolder, targetFolder], { env });
+        const combinedEnv = { ...process.env, IMAP_HOST: process.env.IMAP_HOST || config.IMAP_HOST, IMAP_PORT: process.env.IMAP_PORT || config.IMAP_PORT };
+        const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, '--move', String(uid), sourceFolder, targetFolder], { env: combinedEnv });
+
+        pythonProcess.on('error', (err) => {
+            console.error(`❌ Failed to start Python process for move [${memberId}]:`, err);
+            resolve({ error: "Failed to start move process: " + err.message });
+        });
         let dataStr = "";
         pythonProcess.stdout.on('data', (d) => { dataStr += d.toString(); });
         pythonProcess.on('close', (code) => {
@@ -743,10 +778,16 @@ app.get('/api/emails/:userId/:uid/body', async (req, res) => {
 
     if (!user || !pass) return res.status(401).json({ error: "No credentials" });
 
+    const combinedEnv = { ...process.env, ...config };
     const pythonProcess = spawn('python3', [
         path.join(__dirname, 'fetch_mails.py'),
         user, pass, '--body-only', String(uid), folder || 'INBOX'
-    ]);
+    ], { env: combinedEnv });
+
+    pythonProcess.on('error', (err) => {
+        console.error(`❌ Failed to start Python process for body-fetch [${userId}]:`, err);
+        res.status(500).json({ error: "Failed to start body-fetch process: " + err.message });
+    });
 
     let dataStr = "";
     pythonProcess.stdout.on('data', (d) => { dataStr += d.toString(); });
@@ -898,8 +939,13 @@ app.post('/api/emails/empty-trash', async (req, res) => {
 
     const targetFolder = folder || 'Papelera';
 
-    const env = { ...process.env, IMAP_HOST: process.env.IMAP_HOST || config.IMAP_HOST, IMAP_PORT: process.env.IMAP_PORT || config.IMAP_PORT };
-    const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, '--empty-folder', targetFolder], { env });
+    const combinedEnv = { ...process.env, IMAP_HOST: process.env.IMAP_HOST || config.IMAP_HOST, IMAP_PORT: process.env.IMAP_PORT || config.IMAP_PORT };
+    const pythonProcess = spawn('python3', [path.join(__dirname, 'fetch_mails.py'), user, pass, '--empty-folder', targetFolder], { env: combinedEnv });
+
+    pythonProcess.on('error', (err) => {
+        console.error(`❌ Failed to start Python process for empty-trash [${userId}]:`, err);
+        res.status(500).json({ error: "Failed to start empty-trash process: " + err.message });
+    });
 
     let dataStr = "";
     pythonProcess.stdout.on('data', (d) => { dataStr += d.toString(); });
@@ -1046,7 +1092,7 @@ app.post('/api/emails/send', async (req, res) => {
     }
 
     try {
-        const env = {
+        const combinedEnv = {
             ...process.env,
             SMTP_HOST: process.env.SMTP_HOST || config.SMTP_HOST,
             SMTP_PORT: process.env.SMTP_PORT || config.SMTP_PORT
@@ -1061,7 +1107,12 @@ app.post('/api/emails/send', async (req, res) => {
             subject,
             body,
             JSON.stringify(attachmentPaths)
-        ], { env });
+        ], { env: combinedEnv });
+
+        pythonProcess.on('error', (err) => {
+            console.error(`❌ Failed to start Python process for send [${memberId}]:`, err);
+            res.status(500).json({ error: "Failed to start send process: " + err.message });
+        });
 
         let dataStr = "";
         let errorStr = "";
@@ -1083,7 +1134,14 @@ app.post('/api/emails/send', async (req, res) => {
 
                 // --- DRIVE INTEGRATION: Save sent attachments ---
                 if (attachmentPaths.length > 0) {
-                    const drivePath = DRIVE_MEMBER_MAPPING[memberId] || ['OTROS'];
+                    let drivePath = DRIVE_MEMBER_MAPPING[memberId] || ['OTROS'];
+
+                    // Add Client Name to path if found
+                    const clientName = getClientNameFromEmail(to);
+                    if (clientName) {
+                        drivePath = [...drivePath, clientName];
+                    }
+
                     attachmentPaths.forEach(fpath => {
                         try {
                             const content = fs.readFileSync(fpath);
@@ -1130,7 +1188,7 @@ async function sendSummaryEmail(to, subject, body) {
         return;
     }
 
-    const env = {
+    const combinedEnv = {
         ...process.env,
         SMTP_HOST: process.env.SMTP_HOST || config.SMTP_HOST,
         SMTP_PORT: process.env.SMTP_PORT || config.SMTP_PORT
@@ -1145,9 +1203,13 @@ async function sendSummaryEmail(to, subject, body) {
         subject,
         body,
         JSON.stringify([])
-    ], { env });
+    ], { env: combinedEnv });
 
     return new Promise((resolve) => {
+        pythonProcess.on('error', (err) => {
+            console.error(`❌ Failed to start Python process for summary-email:`, err);
+            resolve();
+        });
         pythonProcess.on('close', (code) => {
             if (code === 0) console.log(`📧 Summary email sent to ${to}`);
             else console.error(`❌ Failed to send summary email (Exit code ${code})`);

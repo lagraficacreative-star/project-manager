@@ -55,7 +55,12 @@ const Licitaciones = ({ currentUser, isManagementUnlocked, unlockManagement, AUT
     const [config, setConfig] = useState({
         licitauto_url: 'https://licitauto-ybc5zzv8.manus.space',
         drive_links: {
-            main: '', per_presentar: '', presentades: '', guanyades_2026: '', documentacio: '', requeriments: ''
+            main: 'https://drive.google.com/drive/u/0/folders/1eJ_8TVeuDEqSGPtH6wIsmLNwe43eerCq',
+            per_presentar: 'https://drive.google.com/drive/u/0/folders/1eJ_8TVeuDEqSGPtH6wIsmLNwe43eerCq',
+            presentades: 'https://drive.google.com/drive/u/0/folders/1eJ_8TVeuDEqSGPtH6wIsmLNwe43eerCq',
+            guanyades_2026: 'https://drive.google.com/drive/u/0/folders/1eJ_8TVeuDEqSGPtH6wIsmLNwe43eerCq',
+            documentacio: 'https://drive.google.com/drive/u/0/folders/1eJ_8TVeuDEqSGPtH6wIsmLNwe43eerCq',
+            requeriments: 'https://drive.google.com/drive/u/0/folders/1eJ_8TVeuDEqSGPtH6wIsmLNwe43eerCq'
         }
     });
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Folder, ExternalLink, ShieldCheck, Globe, Smartphone, Palette, Gavel, FileText, Calculator, Briefcase, Lock } from 'lucide-react';
 
-const FolderGrid = ({ mode = 'general' }) => {
-    const folders = mode === 'general' ? [
+const FolderGrid = ({ mode = 'general', customFolders = [] }) => {
+    const hardcodedGeneral = [
         {
             id: 'ia',
             name: 'IA - INTEL·LIGÈNCIA ARTIFICIAL',
@@ -59,7 +59,9 @@ const FolderGrid = ({ mode = 'general' }) => {
             color: 'orange',
             link: 'https://drive.google.com/drive/folders/15d-tNZ2mBNf9gyqT8BbPGfkYhdq9PIAd?usp=drive_link'
         }
-    ] : [
+    ];
+
+    const hardcodedManagement = [
         {
             id: 'pressupostos',
             name: 'PRESSUPOSTOS 2026',
@@ -117,6 +119,20 @@ const FolderGrid = ({ mode = 'general' }) => {
             link: 'https://drive.google.com/drive/u/0/folders/1eJ_8TVeuDEqSGPtH6wIsmLNwe43eerCq'
         }
     ];
+
+    const baseFolders = mode === 'general' ? hardcodedGeneral : hardcodedManagement;
+
+    // Map custom folders from docs_config to FolderGrid format
+    const mappedCustom = (customFolders || []).map(cf => ({
+        id: cf.id,
+        name: cf.label,
+        description: `Accés directe a ${cf.label}`,
+        icon: Folder,
+        color: cf.color || 'orange',
+        link: cf.drive_link
+    }));
+
+    const folders = [...baseFolders, ...mappedCustom];
 
     const getColorClasses = (color) => {
         const classes = {

@@ -378,7 +378,7 @@ const CompanyDocs = ({ selectedUsers, currentUser, isManagementUnlocked, unlockM
 
                     {activeTab === 'drive' && (
                         <div className="animate-in fade-in duration-500 min-h-[500px]">
-                            <FolderGrid mode="management" />
+                            <FolderGrid mode="management" customFolders={docs_config.sections} />
                         </div>
                     )}
 

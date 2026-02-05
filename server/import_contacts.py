@@ -6,82 +6,100 @@ import os
 
 def import_contacts(csv_file):
     """
-    Lee un archivo CSV de contactos e importa los datos al sistema Project Manager.
-    Soportas columnas: Nombre, Email, Teléfono, Empresa (o variantes en inglés/catalán).
+    Lee un archivo CSV de contactos (formato B2Brouter) e importa los datos al sistema.
     """
     if not os.path.exists(csv_file):
         print(f"Error: No se encuentra el archivo '{csv_file}'")
-        print("Uso: python3 import_contacts.py [ruta_al_archivo.csv]")
         return
 
     contacts = []
     print(f"📖 Leyendo archivo: {csv_file}...")
     
     try:
-        # Usamos utf-8-sig para manejar posibles BOM de Excel
         with open(csv_file, mode='r', encoding='utf-8-sig', errors='ignore') as f:
-            # Intentamos detectar el delimitador (coma o punto y coma)
-            content = f.read(2048)
+            # Forzamos el uso de punto y coma como delimitador si detectamos ';' en la primera línea
+            first_line = f.readline()
             f.seek(0)
-            dialect = csv.Sniffer().sniff(content) if ',' in content or ';' in content else None
+            delimiter = ';' if ';' in first_line else ','
             
-            reader = csv.DictReader(f, delimiter=dialect.delimiter if dialect else ',')
+            reader = csv.DictReader(f, delimiter=delimiter)
             
-            # Normalización de cabeceras para facilitar el mapeo
-            headers = [h.strip().lower() for h in reader.fieldnames] if reader.fieldnames else []
-            print(f"Columnas detectadas: {', '.join(reader.fieldnames or [])}")
-
             for row in reader:
-                # Mapeo flexible
-                name = row.get('Nombre') or row.get('Name') or row.get('Client') or row.get('Nom') or row.get('Empresa / Nombre comercial')
-                email = row.get('Email') or row.get('Correo') or row.get('Mail') or row.get('Correo electrónico')
-                phone = row.get('Teléfono') or row.get('Telefono') or row.get('Phone') or row.get('Telèfon')
-                company = row.get('Empresa') or row.get('Company') or row.get('Organización') or row.get('Raó social') or row.get('Compañía')
-
-                if not name and company: # Si no hay nombre pero hay empresa, usamos la empresa como nombre
-                    name = company
+                # Mapeo según clients.csv
+                name = row.get('name', '').strip()
+                email = row.get('email', '').strip()
+                phone = row.get('phone', '').strip()
+                address = row.get('address', '').strip()
+                city = row.get('city', '').strip()
+                province = row.get('province', '').strip()
+                postalcode = row.get('postalcode', '').strip()
+                country = row.get('country', '').strip()
+                notes = row.get('notes', '').strip()
+                
+                is_client = row.get('is_client', '').lower() == 'true'
+                is_provider = row.get('is_provider', '').lower() == 'true'
+                
+                # Determinar etiqueta
+                tag = "Contacto"
+                if is_client and is_provider:
+                    tag = "Cliente/Proveedor"
+                elif is_client:
+                    tag = "Cliente"
+                elif is_provider:
+                    tag = "Proveedor"
 
                 if name:
                     contacts.append({
-                        "name": name.strip(),
-                        "email": email.strip() if email else "",
-                        "phone": phone.strip() if phone else "",
-                        "company": company.strip() if company else ""
+                        "name": name,
+                        "email": email,
+                        "phone": phone,
+                        "address": address,
+                        "city": city,
+                        "province": province,
+                        "postalcode": postalcode,
+                        "country": country,
+                        "tag": tag,
+                        "company": "", # En este formato, name suele ser el nombre comercial
+                        "notes": notes
                     })
     except Exception as e:
         print(f"❌ Error leyendo el CSV: {e}")
         return
 
     if not contacts:
-        print("⚠️ No se encontraron contactos válidos en el archivo (asegúrate de que tenga una columna con 'Nombre' o similar).")
+        print("⚠️ No se encontraron contactos válidos.")
         return
 
-    print(f"🚀 Enviando {len(contacts)} contactos al servidor...")
+    print(f"🚀 Guardando {len(contacts)} contactos en db.json...")
 
-    # Intentamos conectar con el servidor local
+    db_path = '/Users/montsetorrelles/.gemini/antigravity/scratch/project-manager-real/server/data/db.json'
     try:
-        conn = http.client.HTTPConnection("localhost", 3000)
-        headers = {'Content-type': 'application/json'}
-        payload = json.dumps({"contacts": contacts})
+        with open(db_path, 'r') as f:
+            db = json.load(f)
         
-        conn.request("POST", "/api/contacts/bulk", payload, headers)
-        response = conn.getresponse()
-        data = response.read().decode()
-        
-        if response.status == 200:
-            print(f"✅ ÉXITO: Se han importado {len(contacts)} contactos correctamente.")
-            # print(f"Servidor dice: {data}")
-        else:
-            print(f"❌ ERROR en el servidor ({response.status}): {data}")
+        if 'contacts' not in db:
+            db['contacts'] = []
             
-    except ConnectionRefusedError:
-        print("❌ Error: No se pudo conectar con el servidor (localhost:3000). ¿Está arrancado?")
+        import time
+        import random
+        import string
+
+        for c in contacts:
+            # Generar ID similar al que usa el servidor
+            uid = 'contact_' + str(int(time.time() * 1000)) + '_' + ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
+            c['id'] = uid
+            db['contacts'].append(c)
+
+        with open(db_path, 'w') as f:
+            json.dump(db, f, indent=2)
+            
+        print(f"✅ ÉXITO: Se han importado {len(contacts)} contactos correctamente en {db_path}.")
+            
     except Exception as e:
-        print(f"❌ Error inesperado: {e}")
+        print(f"❌ Error al escribir en db.json: {e}")
 
 if __name__ == "__main__":
-    # Si se pasa un archivo por argumento, se usa. Si no, busca 'contactos.csv' por defecto.
-    target_file = 'contactos.csv'
+    target_file = 'clients.csv'
     if len(sys.argv) > 1:
         target_file = sys.argv[1]
     

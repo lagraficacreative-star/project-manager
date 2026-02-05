@@ -54,6 +54,12 @@
       "name": "Comptabilitat",
       "role": "team",
       "avatar": "C"
+    },
+    {
+      "id": "gestio",
+      "name": "Gestió",
+      "role": "team",
+      "avatar": "G"
     }
   ],
   "boards": [
@@ -996,6 +1002,126 @@
       "boardId": "b_design",
       "columnId": "col_1_b_design",
       "createdAt": "2026-02-02T05:42:04.004Z"
+    },
+    {
+      "id": "card_1770195001283",
+      "title": "[CalKika] Pendientes de moderación: «Hello world!»",
+      "priority": "medium",
+      "dueDate": "",
+      "startDate": "2026-02-04T08:50:01.283Z",
+      "responsibleId": "montse",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Email de: CalKika <melmelades@calkika.com>\n\nUn nuevo comentario en la entrada «Hello world!» está esperando tu aprobación\r\nhttps://calkika.com/hello-world/\r\n\r\nAutor: crazy_wumr (dirección IP: 178.20.46.81, host-178-20-46-81.hosted-by-vdsina.ru)\r\nCorreo electrónico: zabzegaedmr@ugaritopari.site\r\nURL: https://crazytimeitaly.com\r\nComentario: \r\nIl Crazy Time Slot e un gioco che ha conquistato il cuore di molti giocatori italiani, grazie alla sua emozionante esperienza di gioco . La sua popolarita e dovuta anche alla facilita di utilizzo e alla possibilita di giocare da casa.  I giocatori italiani possono godere del Crazy Time Slot e di altri giochi d'azzardo dal comfort della propria casa, grazie ai casino online . Inoltre, il Crazy Time Slot offre una vasta gamma di funzionalita e bonus che rendono l'esperienza di gioco ancora piu emozionante.  Le funzionalita speciali del Crazy Time Slot, come i bonus e le ruote della fortuna, offrono ai giocatori un'esperienza unica e emozionante . \r\n \r\ncrazy time stats <a href=\"crazytimeitaly.com\" rel=\"nofollow ugc\">https://crazytimeitaly.com/</a>\r\n\r\nAprobarlo: https://calkika.com/wp-admin/comment.php?action=approve&c=342#wpbody-content\r\nEnviarlo a la papelera: https://calkika.com/wp-admin/comment.php?action=trash&c=342#wpbody-content\r\nMarcarlo como spam: https://calkika.com/wp-admin/comment.php?action=spam&c=342#wpbody-content\r\nActualmente hay 167 comentarios en espera de aprobación. Por favor, visita el panel de moderación:\r\nhttps://calkika.com/wp-admin/edit-comments.php?comment_status=moderated#wpbody-content\r\n\r\n"
+        }
+      ],
+      "checklists": [],
+      "comments": [
+        {
+          "id": 1770195004374,
+          "text": "--- EMAIL IMPORTADO ---\nDe: CalKika <melmelades@calkika.com>\nAsunto: [CalKika] Pendientes de moderación: «Hello world!»\n\nUn nuevo comentario en la entrada «Hello world!» está esperando tu aprobación\r\nhttps://calkika.com/hello-world/\r\n\r\nAutor: crazy_wumr (dirección IP: 178.20.46.81, host-178-20-46-81.hosted-by-vdsina.ru)\r\nCorreo electrónico: zabzegaedmr@ugaritopari.site\r\nURL: https://crazytimeitaly.com\r\nComentario: \r\nIl Crazy Time Slot e un gioco che ha conquistato il cuore di molti giocatori italiani, grazie alla sua emozionante esperienza di gioco . La sua popolarita e dovuta anche alla facilita di utilizzo e alla possibilita di giocare da casa.  I giocatori italiani possono godere del Crazy Time Slot e di altri giochi d'azzardo dal comfort della propria casa, grazie ai casino online . Inoltre, il Crazy Time Slot offre una vasta gamma di funzionalita e bonus che rendono l'esperienza di gioco ancora piu emozionante.  Le funzionalita speciali del Crazy Time Slot, come i bonus e le ruote della fortuna, offrono ai giocatori un'esperienza unica e emozionante . \r\n \r\ncrazy time stats <a href=\"crazytimeitaly.com\" rel=\"nofollow ugc\">https://crazytimeitaly.com/</a>\r\n\r\nAprobarlo: https://calkika.com/wp-admin/comment.php?action=approve&c=342#wpbody-content\r\nEnviarlo a la papelera: https://calkika.com/wp-admin/comment.php?action=trash&c=342#wpbody-content\r\nMarcarlo como spam: https://calkika.com/wp-admin/comment.php?action=spam&c=342#wpbody-content\r\nActualmente hay 167 comentarios en espera de aprobación. Por favor, visita el panel de moderación:\r\nhttps://calkika.com/wp-admin/edit-comments.php?comment_status=moderated#wpbody-content\r\n\r\n",
+          "author": "montse",
+          "date": "2026-02-04T08:50:04.374Z"
+        }
+      ],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "createdAt": "2026-02-04T08:50:01.283Z"
+    },
+    {
+      "id": "card_1770195155495",
+      "title": "Fwd: decèlag cister",
+      "priority": "medium",
+      "dueDate": "",
+      "startDate": "2026-02-04T08:52:35.495Z",
+      "responsibleId": "montse",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Email de: \"ines@lagrafica.com\" <ines@lagrafica.com>\n\nBon dia!\r\n\r\nl’opuscle amb les modificacions\r\n\r\nmerci!￼\r\n\r\n> Inici del missatge reenviat:\r\n> \r\n> De: Montse Torrelles <montse@lagrafica.com>\r\n> Tema: Rv: decèlag cister\r\n> Data: 4 de febrer del 2026, 9:24:08 CET\r\n> Per a: ines@lagrafica.com\r\n> \r\n> \r\n> Salutacions\r\n> \r\n> \r\n>  \r\n> MONTSE TORRELLES\r\n> Dissenyadora gràfica\r\n> \r\n> montse@lagrafica.com\r\n> 973 21 63 63 / 639 087 024\r\n> Manuel Gaya i Tomàs, 11 baixos, Lleida  \r\n> \r\n￼\r\n> \r\n> \r\n> AVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier información, duda, petición o consulta que precise por esta misma vía. Podrá ejercer sus derechos de acceso, rectificación, limitación de tratamiento, supresión, portabilidad y oposición al tratamiento de sus datos de carácter personal así como revocar los consentimientos que en su caso haya prestado u obtener más información, dirigiendo su petición a montse@lagrafica.com\r\n> \r\n>> Inici del missatge reenviat:\r\n>> \r\n>> De: Montse Torrelles <montse@lagrafica.com>\r\n>> Tema: decèlag cister\r\n>> Data: 4 de febrer del 2026, 7:50:44 CET\r\n>> Per a: ines <ines@boschtorrelles.com>\r\n>> \r\n>> Ines, he vist un parel de coses, arreglales i mel tornes a enviar, possat al pdf com a comentaris, merci\r\n>> \r\n>> \r\n>> \r\n￼\r\n>> \r\n>> \r\n>> Salutacions\r\n>> \r\n>> \r\n>>  \r\n>> MONTSE TORRELLES\r\n>> Dissenyadora gràfica\r\n>> \r\n>> montse@lagrafica.com\r\n>> 973 21 63 63 / 639 087 024\r\n>> Manuel Gaya i Tomàs, 11 baixos, Lleida  \r\n>> \r\n￼\r\n>> \r\n>> \r\n>> AVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier información, duda, petición o consulta que precise por esta misma vía. Podrá ejercer sus derechos de acceso, rectificación, limitación de tratamiento, supresión, portabilidad y oposición al tratamiento de sus datos de carácter personal así como revocar los consentimientos que en su caso haya prestado u obtener más información, dirigiendo su petición a montse@lagrafica.com\r\n>> \r\n> \r\n\r\n"
+        }
+      ],
+      "checklists": [],
+      "comments": [
+        {
+          "id": 1770195156681,
+          "text": "--- EMAIL IMPORTADO ---\nDe: \"ines@lagrafica.com\" <ines@lagrafica.com>\nAsunto: Fwd: decèlag cister\n\nBon dia!\r\n\r\nl’opuscle amb les modificacions\r\n\r\nmerci!￼\r\n\r\n> Inici del missatge reenviat:\r\n> \r\n> De: Montse Torrelles <montse@lagrafica.com>\r\n> Tema: Rv: decèlag cister\r\n> Data: 4 de febrer del 2026, 9:24:08 CET\r\n> Per a: ines@lagrafica.com\r\n> \r\n> \r\n> Salutacions\r\n> \r\n> \r\n>  \r\n> MONTSE TORRELLES\r\n> Dissenyadora gràfica\r\n> \r\n> montse@lagrafica.com\r\n> 973 21 63 63 / 639 087 024\r\n> Manuel Gaya i Tomàs, 11 baixos, Lleida  \r\n> \r\n￼\r\n> \r\n> \r\n> AVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier información, duda, petición o consulta que precise por esta misma vía. Podrá ejercer sus derechos de acceso, rectificación, limitación de tratamiento, supresión, portabilidad y oposición al tratamiento de sus datos de carácter personal así como revocar los consentimientos que en su caso haya prestado u obtener más información, dirigiendo su petición a montse@lagrafica.com\r\n> \r\n>> Inici del missatge reenviat:\r\n>> \r\n>> De: Montse Torrelles <montse@lagrafica.com>\r\n>> Tema: decèlag cister\r\n>> Data: 4 de febrer del 2026, 7:50:44 CET\r\n>> Per a: ines <ines@boschtorrelles.com>\r\n>> \r\n>> Ines, he vist un parel de coses, arreglales i mel tornes a enviar, possat al pdf com a comentaris, merci\r\n>> \r\n>> \r\n>> \r\n￼\r\n>> \r\n>> \r\n>> Salutacions\r\n>> \r\n>> \r\n>>  \r\n>> MONTSE TORRELLES\r\n>> Dissenyadora gràfica\r\n>> \r\n>> montse@lagrafica.com\r\n>> 973 21 63 63 / 639 087 024\r\n>> Manuel Gaya i Tomàs, 11 baixos, Lleida  \r\n>> \r\n￼\r\n>> \r\n>> \r\n>> AVISO SOBRE CONFIDENCIALIDAD: Este mensaje se dirige exclusivamente a su destinatario. Puede contener información confidencial sometida a secreto profesional. Si no es usted el destinatario debe saber que la información contenida en este mensaje es reservada y su utilización o divulgación con cualquier fin está prohibida. Si ha recibido este documento por error, le rogamos que nos lo comunique y proceda a su destrucción. LAGRAFICA CREATIVE EXPERIENCE SL CIF/NIF B25826603 responsable del tratamiento informa, de conformidad con lo establecido en el REGLAMENTO (UE) 2016/679, que su correo electrónico así como otros datos de carácter personal son tratados con la finalidad de mantener un canal de comunicación electrónica con usted y poder atender cualquier información, duda, petición o consulta que precise por esta misma vía. Podrá ejercer sus derechos de acceso, rectificación, limitación de tratamiento, supresión, portabilidad y oposición al tratamiento de sus datos de carácter personal así como revocar los consentimientos que en su caso haya prestado u obtener más información, dirigiendo su petición a montse@lagrafica.com\r\n>> \r\n> \r\n\r\n",
+          "author": "montse",
+          "date": "2026-02-04T08:52:36.681Z"
+        }
+      ],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "createdAt": "2026-02-04T08:52:35.495Z"
+    },
+    {
+      "id": "card_1770196164042",
+      "title": "4 new notifications on LG - Disseny since 8:04 AM (January 31,\r\n 2026)",
+      "priority": "medium",
+      "dueDate": "",
+      "startDate": "2026-02-04T09:09:24.042Z",
+      "responsibleId": "ines",
+      "assigneeIds": [],
+      "links": [],
+      "attachments": [],
+      "timeLogs": [],
+      "activeTimerStart": null,
+      "descriptionBlocks": [
+        {
+          "id": "desc_1",
+          "type": "text",
+          "text": "Email de: Trello <do-not-reply@trello.com>\n\nHere's what you missed on Trello.\r\n\r\nmontse added you to the card mapa ruta del cister (https://trello.com/c/8qxCrjqL/5900-mapa-ruta-del-cister) on LG - Disseny (https://trello.com/b/1wXz9eR6/lg-disseny)\r\n\r\n Reply via email: ineslagrafica+35y1pmh9ar6hiu6pujw+35lcsyddheosu079arx+0ofo2810y4@boards.trello.com\r\n\r\nmontse added you to the card OPUSCLE BONES PRÀCTIQUES PELS ALLOTJAMENTS DEL GR 175- 71125 (https://trello.com/c/rRdrlAc7/5898-opuscle-bones-pra%CC%80ctiques-pels-allotjaments-del-gr-175-71125) on LG - Disseny (https://trello.com/b/1wXz9eR6/lg-disseny)\r\n\r\n Reply via email: ineslagrafica+35y1pmh9ar6hiu6pujw+35lcpyj03lvnjztm6o2+2lumk78c2v@boards.trello.com\r\n\r\nmontse added you to the card Nou logo Pedales de Tierra Norte (https://trello.com/c/pQesy0vw/5943-nou-logo-pedales-de-tierra-norte) on LG - Disseny (https://trello.com/b/1wXz9eR6/lg-disseny)\r\n\r\n Reply via email: ineslagrafica+35y1pmh9ar6hiu6pujw+35wkn4kps9s6rbn1pg1+05vkxpafup@boards.trello.com\r\n\r\nmontse added you to the card LLEIDA EN VERD (https://trello.com/c/Q2imVCkI/5951-lleida-en-verd) on LG - Disseny (https://trello.com/b/1wXz9eR6/lg-disseny)\r\n\r\n Reply via email: ineslagrafica+35y1pmh9ar6hiu6pujw+35y6pis209vvrb5vxbo+1na6c4ejzl@boards.trello.com\r\n\r\n-- \r\n\r\nControl how often you receive notification emails on your account page (https://trello.com/u/my/account)\r\n\r\nFollow @trello on Twitter (https://twitter.com/intent/follow?user_id=360831528)\r\n\r\nGet Trello for your iPhone (http://itunes.com/apps/trello) or Trello for your Android (https://play.google.com/store/apps/details?id=com.trello) "
+        }
+      ],
+      "checklists": [],
+      "comments": [
+        {
+          "id": 1770196166495,
+          "text": "--- EMAIL IMPORTADO ---\nDe: Trello <do-not-reply@trello.com>\nAsunto: 4 new notifications on LG - Disseny since 8:04 AM (January 31,\r\n 2026)\n\nHere's what you missed on Trello.\r\n\r\nmontse added you to the card mapa ruta del cister (https://trello.com/c/8qxCrjqL/5900-mapa-ruta-del-cister) on LG - Disseny (https://trello.com/b/1wXz9eR6/lg-disseny)\r\n\r\n Reply via email: ineslagrafica+35y1pmh9ar6hiu6pujw+35lcsyddheosu079arx+0ofo2810y4@boards.trello.com\r\n\r\nmontse added you to the card OPUSCLE BONES PRÀCTIQUES PELS ALLOTJAMENTS DEL GR 175- 71125 (https://trello.com/c/rRdrlAc7/5898-opuscle-bones-pra%CC%80ctiques-pels-allotjaments-del-gr-175-71125) on LG - Disseny (https://trello.com/b/1wXz9eR6/lg-disseny)\r\n\r\n Reply via email: ineslagrafica+35y1pmh9ar6hiu6pujw+35lcpyj03lvnjztm6o2+2lumk78c2v@boards.trello.com\r\n\r\nmontse added you to the card Nou logo Pedales de Tierra Norte (https://trello.com/c/pQesy0vw/5943-nou-logo-pedales-de-tierra-norte) on LG - Disseny (https://trello.com/b/1wXz9eR6/lg-disseny)\r\n\r\n Reply via email: ineslagrafica+35y1pmh9ar6hiu6pujw+35wkn4kps9s6rbn1pg1+05vkxpafup@boards.trello.com\r\n\r\nmontse added you to the card LLEIDA EN VERD (https://trello.com/c/Q2imVCkI/5951-lleida-en-verd) on LG - Disseny (https://trello.com/b/1wXz9eR6/lg-disseny)\r\n\r\n Reply via email: ineslagrafica+35y1pmh9ar6hiu6pujw+35y6pis209vvrb5vxbo+1na6c4ejzl@boards.trello.com\r\n\r\n-- \r\n\r\nControl how often you receive notification emails on your account page (https://trello.com/u/my/account)\r\n\r\nFollow @trello on Twitter (https://twitter.com/intent/follow?user_id=360831528)\r\n\r\nGet Trello for your iPhone (http://itunes.com/apps/trello) or Trello for your Android (https://play.google.com/store/apps/details?id=com.trello) ",
+          "author": "ines",
+          "date": "2026-02-04T09:09:26.495Z"
+        }
+      ],
+      "economic": {
+        "client": "",
+        "budget": "",
+        "cost": "",
+        "provider": "",
+        "description": "",
+        "attachments": []
+      },
+      "boardId": "b_design",
+      "columnId": "col_1_b_design",
+      "createdAt": "2026-02-04T09:09:24.042Z"
     }
   ],
   "emails": [],
@@ -1436,10 +1562,55 @@
     "<71b42d6509b4fba07b55d968f41ecf88@swift.generated>",
     "<ad8c0691f9212653022cbcf03b517a44@swift.generated>",
     "<bab1evcug46857k2-jggy2xt7q556lsmq-af6@tinitrol.sa.com>",
-    "<5sr_USEjWE74_H9f6tjpEhN8xs3Ej_4c5@mjsz.diseylatino.com>"
+    "<5sr_USEjWE74_H9f6tjpEhN8xs3Ej_4c5@mjsz.diseylatino.com>",
+    "<mlojBAvquJuesvJvDYjvXwD4rkCFeRH2KdQhSNZaM@calkika.com>",
+    "<703F6B37-8800-42E6-9920-862615169849@lagrafica.com>",
+    "<0101019c134c1d29-d9ddde3f-5278-4db1-85f1-335100e01d3c-000000@us-west-2.amazonses.com>"
   ],
   "deleted_emails": [],
   "activity": [
+    {
+      "id": "1770196164069n1sbq",
+      "type": "mail",
+      "text": "Correu convertit a fitxa: 4 new notifications on LG - Disseny since 8:04 AM (January 31,\r\n 2026)",
+      "user": "Ines",
+      "timestamp": "2026-02-04T09:09:24.069Z"
+    },
+    {
+      "id": "1770196164042o5rtv",
+      "type": "card",
+      "text": "Nova tarjeta: 4 new notifications on LG - Disseny since 8:04 AM (January 31,\r\n 2026)",
+      "user": "ines",
+      "timestamp": "2026-02-04T09:09:24.042Z"
+    },
+    {
+      "id": "17701951555203hzce",
+      "type": "mail",
+      "text": "Correu convertit a fitxa: Fwd: decèlag cister",
+      "user": "Montse",
+      "timestamp": "2026-02-04T08:52:35.520Z"
+    },
+    {
+      "id": "17701951554956xnwl",
+      "type": "card",
+      "text": "Nova tarjeta: Fwd: decèlag cister",
+      "user": "montse",
+      "timestamp": "2026-02-04T08:52:35.495Z"
+    },
+    {
+      "id": "1770195001296djcm8",
+      "type": "mail",
+      "text": "Correu convertit a fitxa: [CalKika] Pendientes de moderación: «Hello world!»",
+      "user": "Montse",
+      "timestamp": "2026-02-04T08:50:01.296Z"
+    },
+    {
+      "id": "17701950012834dk0i",
+      "type": "card",
+      "text": "Nova tarjeta: [CalKika] Pendientes de moderación: «Hello world!»",
+      "user": "montse",
+      "timestamp": "2026-02-04T08:50:01.283Z"
+    },
     {
       "id": "1770010924020hvhpf",
       "type": "mail",
@@ -1506,10 +1677,9 @@
   ],
   "contacts": [
     {
-      "id": "c_1770099866928e8dl5",
       "name": "ABEL SERRA FONTANET",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ Pere Cabrera 16 3 G",
       "city": "Lleida",
       "province": "Lleida",
@@ -1517,27 +1687,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_tokcm"
     },
     {
-      "id": "c_17700998669283mmes",
       "name": "ACCES VERTICAL SL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ COBALT 87",
       "city": "HOSPITALET DE LLOBREGAT, L'",
       "province": "BARCELONA",
-      "postalcode": "8907",
+      "postalcode": "08907",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_5rqyy"
     },
     {
-      "id": "c_1770099866928tfmb0",
       "name": "Accesorios Guerrero Multi-export,S.L",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "PGIND CAMI DELS FRARES CALLE F PARCELA 53 NAVE 8",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -1545,41 +1715,41 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_9295g"
     },
     {
-      "id": "c_1770099866928cslfz",
       "name": "ACRA - Associació Catalana de Recursos Assistencials",
       "email": "comunicacio@acra.cat",
-      "phone": "true",
+      "phone": "",
       "address": "",
       "city": "",
-      "province": "es",
+      "province": "",
       "postalcode": "",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_bmpa7"
     },
     {
-      "id": "c_1770099866928zol7t",
       "name": "Actius de Muntanya, SA",
       "email": "imas@fgc.cat",
-      "phone": "true",
+      "phone": "",
       "address": "Avinguda Diagonal, 403 1ª Planta",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8008",
+      "postalcode": "08008",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_gra5p"
     },
     {
-      "id": "c_1770099866928h310d",
       "name": "ADV DE PRODUCCION ECOLÓGICA DE PONENT",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Parc Ambiental de Serrallarga, Partida Sant Just s/n",
       "city": "Lleida",
       "province": "Lleida",
@@ -1587,13 +1757,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_sx6ye"
     },
     {
-      "id": "c_1770099866928gjygb",
       "name": "AGENCIA ANDALUZA DE COOPERACIÓN INTERNACIONAL PARA EL DESARROLLO",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "AVENIDA DE LA PALMERA, 24",
       "city": "SEVILLA",
       "province": "SEVILLA",
@@ -1601,41 +1771,41 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_2atuf"
     },
     {
-      "id": "c_17700998669280gjls",
       "name": "Agència Catalana de l'Aigua (ACA)",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer de Provença, 260",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8008",
+      "postalcode": "08008",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_ix0ft"
     },
     {
-      "id": "c_17700998669285ftjh",
       "name": "Agència de Residus de Catalunya (ARC)",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Passeig de la Zona Franca, 107",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8038",
+      "postalcode": "08038",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_dtbu6"
     },
     {
-      "id": "c_1770099866928nvf1j",
       "name": "Agro Codi 0, SCCL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Partida Montcada 75",
       "city": "Lleida",
       "province": "Lleida",
@@ -1643,13 +1813,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_b8mj0"
     },
     {
-      "id": "c_1770099866928wpny3",
       "name": "AGUSTI Y MASOLIVER, S.A.",
       "email": "jbosch@amsa.es",
-      "phone": "true",
+      "phone": "",
       "address": "Av/Paisos Catalans,123",
       "city": "Banyoles",
       "province": "Girona",
@@ -1657,13 +1827,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_4lerb"
     },
     {
-      "id": "c_1770099866928agzjn",
       "name": "Ajuntament de Balaguer",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Pl. Mercadal, 1",
       "city": "Balaguer",
       "province": "LLEIDA",
@@ -1671,41 +1841,41 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_qemca"
     },
     {
-      "id": "c_1770099866928tvpn3",
       "name": "Ajuntament de Barcelona",
       "email": "bi@mail.bcn.es",
-      "phone": "true",
+      "phone": "",
       "address": "Pl. St. Jaume, 1",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8002",
+      "postalcode": "08002",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_8xxgb"
     },
     {
-      "id": "c_17700998669284pjbr",
       "name": "Ajuntament de Castelldefels",
       "email": "e-oac@castelldefels.org",
-      "phone": "true",
+      "phone": "",
       "address": "Pl. Església, 1",
       "city": "Castelldefels",
       "province": "Barcelona",
-      "postalcode": "8860",
+      "postalcode": "08860",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_sbjng"
     },
     {
-      "id": "c_17700998669282iigv",
       "name": "Ajuntament de Girona",
       "email": "ajuntamentinforma@ajgirona.cat",
-      "phone": "true",
+      "phone": "",
       "address": "Pl. del Vi, 1",
       "city": "Girona",
       "province": "Girona",
@@ -1713,13 +1883,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_7lvza"
     },
     {
-      "id": "c_17700998669281lk3k",
       "name": "Ajuntament de Guissona",
       "email": "ajuntament@guissona.cat",
-      "phone": "true",
+      "phone": "",
       "address": "Pl. Bisbe Benlloch, 1",
       "city": "Guissona",
       "province": "Lleida",
@@ -1727,13 +1897,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_hypxj"
     },
     {
-      "id": "c_1770099866928jn44b",
       "name": "Ajuntament de Lleida",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Plaça Paeria, 1",
       "city": "Lleida",
       "province": "Lleida",
@@ -1741,13 +1911,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_fjs2p"
     },
     {
-      "id": "c_1770099866928r0w75",
       "name": "Ajuntament de Riner",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Casa Consistorial",
       "city": "El Miracle (Riner)",
       "province": "Lleida",
@@ -1755,13 +1925,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_cpw0o"
     },
     {
-      "id": "c_1770099866928lpd1w",
       "name": "Ajuntament del Vendrell",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Plaça Vella, 1",
       "city": "El Vendrell",
       "province": "Tarragona",
@@ -1769,41 +1939,41 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_0lnn9"
     },
     {
-      "id": "c_1770099866928mf63m",
       "name": "Ajuntament Sant Vicenç de Castellet",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Pl. Ajuntament, 10",
       "city": "Sant Vicenç de Castellet",
       "province": "Barcelona",
-      "postalcode": "8295",
+      "postalcode": "08295",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_un2nt"
     },
     {
-      "id": "c_177009986692820exu",
       "name": "ALBA PUIGGROS TORRELLES",
       "email": "puiggrosalba@gmail.com",
-      "phone": "true",
+      "phone": "",
       "address": "Franja de Ponent, 25",
       "city": "Lleida",
       "province": "Lleida",
       "postalcode": "25001",
       "country": "es",
-      "tag": "Cliente",
+      "tag": "Cliente/Proveedor",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_drxxc"
     },
     {
-      "id": "c_1770099866928ozyhi",
       "name": "Albert Abadal Niubó",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Bonaire, 8 Altell 6.",
       "city": "Lleida",
       "province": "Lleida",
@@ -1811,13 +1981,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_3xdl4"
     },
     {
-      "id": "c_1770099866928qw778",
       "name": "Albert Domingo Esplugas",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Ctra. Agramunt 19",
       "city": "Preixens",
       "province": "Lleida",
@@ -1825,13 +1995,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_4m5b9"
     },
     {
-      "id": "c_17700998669284lxcr",
       "name": "Amadeu Casals Seres",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ Taquígrafo Martí, 13",
       "city": "Lleida",
       "province": "Lleida",
@@ -1839,13 +2009,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_9620t"
     },
     {
-      "id": "c_1770099866928w0773",
       "name": "AMERICAN ORTHODONTICS SPAIN SL",
       "email": "ifontelles@americanortho.com",
-      "phone": "true",
+      "phone": "",
       "address": "Parc de Gardeny, Edifici TIC, Planta 2, Oficina 9",
       "city": "Lleida",
       "province": "Lleida",
@@ -1853,13 +2023,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_wcc2z"
     },
     {
-      "id": "c_1770099866928hafr6",
       "name": "ANAIS BERANGUER",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Lugar de Patria 34",
       "city": "Vejer de la Frontera",
       "province": "Cádiz",
@@ -1867,13 +2037,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_907ul"
     },
     {
-      "id": "c_17700998669289wf1k",
       "name": "Angie Milagros Rosas Dolorier",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Calle joan burniol 3,",
       "city": "Mollerussa",
       "province": "Lleida",
@@ -1881,13 +2051,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_cv1rt"
     },
     {
-      "id": "c_17700998669283hmqg",
       "name": "ARATRIA ASESORES S.L.",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C. de Jorge Guillén, 3,",
       "city": "Zaragoza",
       "province": "Zaragoza",
@@ -1895,13 +2065,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_wda8d"
     },
     {
-      "id": "c_1770099866928iix6f",
       "name": "ARIDS DANIEL, S.A.",
       "email": "aridsdaniel@aridsdaniel.com",
-      "phone": "true",
+      "phone": "973432199",
       "address": "Calle URGELL 35",
       "city": "BALAGUER",
       "province": "LLEIDA",
@@ -1909,13 +2079,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_0nn2y"
     },
     {
-      "id": "c_1770099866928zhgss",
       "name": "ASOKI S.L.",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Sta. Gemma, 29",
       "city": "VILAC",
       "province": "Lleida",
@@ -1923,13 +2093,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_m6qvx"
     },
     {
-      "id": "c_1770099866928v5bt7",
       "name": "Associació Biciklistes",
       "email": "biciklistes@gmail.com",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer Graó Parc 17",
       "city": "Alpicat",
       "province": "Lleida",
@@ -1937,13 +2107,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_6o0y0"
     },
     {
-      "id": "c_1770099866928c8xbe",
       "name": "ASSOCIACIO DE PARAPLÈGICS I DISCAPACITATS FÍSICS DE LLEIDA (ASPID)",
       "email": "otejedor@aspid.cat",
-      "phone": "true",
+      "phone": "",
       "address": "ROGER DE LLURIA, 6",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -1951,55 +2121,55 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_0093s"
     },
     {
-      "id": "c_1770099866928xvjdb",
       "name": "ATL Ens d'Abastament d'Aigua Ter - Llobregat",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "St. Martí de l'Erm, 2",
       "city": "Sant Joan Despí",
       "province": "Barcelona",
-      "postalcode": "8970",
+      "postalcode": "08970",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_3834l"
     },
     {
-      "id": "c_1770099866928acibh",
       "name": "AUSOLAN RCN S.L.U.",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "PASSEIG DEL FERROCARRIL 339 3º1ª",
       "city": "CASTELLDEFELS",
       "province": "BARCELONA",
-      "postalcode": "8860",
+      "postalcode": "08860",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_whfqo"
     },
     {
-      "id": "c_1770099866928xt6tu",
       "name": "B2Brouter Global, S.L.",
       "email": "factures@b2brouter.net",
-      "phone": "true",
+      "phone": "",
       "address": "Avinguda Diagonal, 433, 1 1",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8036",
+      "postalcode": "08036",
       "country": "es",
-      "tag": "Cliente",
+      "tag": "Cliente/Proveedor",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_frh5k"
     },
     {
-      "id": "c_1770099866928mzkbw",
       "name": "Baix Ebre Innova SL",
       "email": "neus.pons@baixebre.cat",
-      "phone": "true",
+      "phone": "",
       "address": "Polígon Industrial Venta Nova S/N. Carrer l'Aldea, 0",
       "city": "Camarles",
       "province": "Tarragona",
@@ -2007,27 +2177,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_p7ybl"
     },
     {
-      "id": "c_1770099866928fweaw",
       "name": "Banc de Sang i Teixits",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Pg. Taulat 106-116 Edifici Dr. Frederic Duran i Jordà",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8005",
+      "postalcode": "08005",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_87k3s"
     },
     {
-      "id": "c_1770099866928rpjc5",
       "name": "Banda Municipal de Lleida",
       "email": "fembandalleida@gmail.com",
-      "phone": "true",
+      "phone": "",
       "address": "CL PRIORAT 13 2",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -2035,13 +2205,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_0ffvf"
     },
     {
-      "id": "c_1770099866928jdlfq",
       "name": "Basiqgrup Serveis Integrals Sl.",
       "email": "david@basiqgrup.com",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer Bonaire 6",
       "city": "Lleida",
       "province": "Lleida",
@@ -2049,13 +2219,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_wzlmp"
     },
     {
-      "id": "c_177009986692813o41",
       "name": "BCS TRIBUTARIO, S.L.",
       "email": "morobitg@rovirabergua.com",
-      "phone": "true",
+      "phone": "",
       "address": "Prat de la Riba, 34, 2º",
       "city": "Lleida",
       "province": "Lleida",
@@ -2063,27 +2233,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_nn403"
     },
     {
-      "id": "c_17700998669287cwvr",
       "name": "Benito Arnó e Hijos S.A.U.",
       "email": "cgregori@arno.es",
-      "phone": "true",
+      "phone": "",
       "address": "",
       "city": "",
-      "province": "es",
+      "province": "",
       "postalcode": "",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_v4a08"
     },
     {
-      "id": "c_17700998669286dgg8",
       "name": "BUDA SORRA, S.L.",
       "email": "comunicacion@ibersol.es",
-      "phone": "true",
+      "phone": "",
       "address": "CALLE VENDRELL, S/N 2 ESC. 1, PLANTA BAJ, PUERTA 4",
       "city": "SALOU",
       "province": "TARRAGONA",
@@ -2091,13 +2261,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_z0esh"
     },
     {
-      "id": "c_177009986692812gm1",
       "name": "CAFES BATALLA 2000, SL",
       "email": "info@cafesbatalla.com",
-      "phone": "true",
+      "phone": "",
       "address": "CAFES BATALLA 2000, SL Poligono CAMI DELS FRARES, PARC.69 CALLE C, NAU 1",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -2105,13 +2275,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_bvbbu"
     },
     {
-      "id": "c_1770099866928dbilt",
       "name": "Can Antaviana, S.L.",
       "email": "anna.naves@antaviana.cat",
-      "phone": "true",
+      "phone": "",
       "address": "C/. Santa Justina, 29",
       "city": "Les Borges Blanques",
       "province": "Lleida",
@@ -2119,13 +2289,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_ml4gr"
     },
     {
-      "id": "c_1770099866928iyoko",
       "name": "Càritas Diocesana de Lleida",
       "email": "caritasdiocesana@caritaslleida.net",
-      "phone": "true",
+      "phone": "",
       "address": "Plaça Sant Josep 2",
       "city": "Lleida",
       "province": "Lleida",
@@ -2133,27 +2303,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_0rwyl"
     },
     {
-      "id": "c_1770099866928qmrjq",
       "name": "Carlos Hernández Malagón",
       "email": "cfhernandez@economistas.org",
-      "phone": "true",
+      "phone": "",
       "address": "C/Concepción Arenal 111",
       "city": "Elche",
       "province": "Alicante",
-      "postalcode": "3204",
+      "postalcode": "03204",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_v0tah"
     },
     {
-      "id": "c_17700998669289ybeg",
       "name": "Casa Cosialls, S.L.",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Calle la iglesia 2",
       "city": "Benabarre",
       "province": "Huesca",
@@ -2161,27 +2331,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_myngp"
     },
     {
-      "id": "c_1770099866928nc1se",
       "name": "Centre d'Estudis Jurídics i Formació Especialitzada",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C. Pau Claris 158",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8009",
+      "postalcode": "08009",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_o8opq"
     },
     {
-      "id": "c_1770099866928538ol",
       "name": "Centre de Mecanització Agrària",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Avinguda de l'Alcalde Rovira Roure, 191",
       "city": "Lleida",
       "province": "Lleida",
@@ -2189,27 +2359,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_3t4dh"
     },
     {
-      "id": "c_1770099866928nd6w0",
       "name": "Centre de Telecomunicacions i Tecnologia de la Informació CTTI",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C. Salvador Espriu 45-51",
       "city": "L'Hospitalet de Llobregat",
       "province": "Barcelona",
-      "postalcode": "8908",
+      "postalcode": "08908",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_eyf41"
     },
     {
-      "id": "c_17700998669287wymo",
       "name": "CENTRE RESIDENCIAL JOVIAR,SL",
       "email": "comptabilitat@residenciajoviar.com",
-      "phone": "true",
+      "phone": "",
       "address": "Camí de Montcada,90",
       "city": "Lleida",
       "province": "Lleida",
@@ -2217,13 +2387,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_t7r9z"
     },
     {
-      "id": "c_1770099866928x2dgp",
       "name": "CLOUD COOKING SL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Calle De Les Guixeres 13",
       "city": "Alfarras",
       "province": "Lleida",
@@ -2231,13 +2401,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_q7t5r"
     },
     {
-      "id": "c_177009986692852ims",
       "name": "Col·legi Lestonnac L'Ensenyança SCCL",
       "email": "gerencia@lestonnaclleida.cat",
-      "phone": "true",
+      "phone": "",
       "address": "Av. Prat de la Riba, 38",
       "city": "Lleida",
       "province": "Lleida",
@@ -2245,27 +2415,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_j47ed"
     },
     {
-      "id": "c_17700998669285p5c1",
       "name": "Consell Català de l'Esport",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Av. Països Catalans 40-48",
       "city": "Esplugues de Llobregat",
       "province": "Barcelona",
-      "postalcode": "8950",
+      "postalcode": "08950",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_pz73o"
     },
     {
-      "id": "c_17700998669280fkzz",
       "name": "Consell Comarcal d'Osona",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C. de l'Historiador Ramon d'Abadal, 5",
       "city": "Vic",
       "province": "Barcelona",
@@ -2273,13 +2443,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_inezk"
     },
     {
-      "id": "c_1770099866928zrqda",
       "name": "Consell Comarcal de la Garrotxa",
       "email": "ccgarrotxa@garrotxa.cat",
-      "phone": "true",
+      "phone": "",
       "address": "AV. ONZE DE SETEMBRE, 22",
       "city": "OLOT",
       "province": "GIRONA",
@@ -2287,27 +2457,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_39bvg"
     },
     {
-      "id": "c_1770099866928ohumo",
       "name": "Consell Comarcal del Bages",
       "email": "sfinancers@ccbages.cat",
-      "phone": "true",
+      "phone": "",
       "address": "Muralla Sant Domènec, 24",
       "city": "Manresa",
       "province": "Barcelona",
-      "postalcode": "8240",
+      "postalcode": "08240",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_x508z"
     },
     {
-      "id": "c_1770099866928cpfxg",
       "name": "Consell Comarcal del Baix Ebre",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C. Barcelona, 152",
       "city": "Tortosa",
       "province": "Tarragona",
@@ -2315,13 +2485,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_l9p51"
     },
     {
-      "id": "c_1770099866928c7xpl",
       "name": "Consell Comarcal del Pallars Sobirà",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Camí de la Cabanera, 2",
       "city": "Sort",
       "province": "Lleida",
@@ -2329,13 +2499,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_xeof9"
     },
     {
-      "id": "c_17700998669286r2bj",
       "name": "Consell Comarcal del Pla d'Urgell",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Prat de la Riba, 1",
       "city": "Mollerussa",
       "province": "Lleida",
@@ -2343,13 +2513,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_epnak"
     },
     {
-      "id": "c_1770099866928ez84t",
       "name": "Consell Comarcal del Ripollès",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/Progrés,22",
       "city": "Ripoll",
       "province": "Girona",
@@ -2357,13 +2527,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_xinuq"
     },
     {
-      "id": "c_1770099866928c663a",
       "name": "Consell Comarcal del Segrià",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer del Canyeret, 12",
       "city": "Lleida",
       "province": "Lleida",
@@ -2371,69 +2541,69 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_yo0or"
     },
     {
-      "id": "c_17700998669281nn50",
       "name": "Consell Comarcal Vallès Occidental",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Carretera N-150, km. 15",
       "city": "Terrassa",
       "province": "Barcelona",
-      "postalcode": "8227",
+      "postalcode": "08227",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_u0od6"
     },
     {
-      "id": "c_17700998669289ssni",
       "name": "Consorci Catalunya Internacional.",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "La Rambla, 14",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8002",
+      "postalcode": "08002",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_hjpqe"
     },
     {
-      "id": "c_1770099866928xlriw",
       "name": "Consorci de l'Institut Ramon Llull",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Av. Diagonal 373 (Palau Baró de Quadras)",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8008",
+      "postalcode": "08008",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_fcx5g"
     },
     {
-      "id": "c_1770099866928q6y2b",
       "name": "Construccions Alfaro",
       "email": "jalfaro@construccionsalfaro.es",
-      "phone": "true",
+      "phone": "",
       "address": "",
       "city": "",
-      "province": "es",
+      "province": "",
       "postalcode": "",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_yryo6"
     },
     {
-      "id": "c_1770099866928d8iwy",
       "name": "Cristina Maria Fransi Labat",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ Estudi General 21, 3º B",
       "city": "Lleida",
       "province": "Lleida",
@@ -2441,13 +2611,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_8dtcf"
     },
     {
-      "id": "c_1770099866928l6xia",
       "name": "CUINA GESTIÓ, SL",
       "email": "cbaixauli@ausolan.com",
-      "phone": "true",
+      "phone": "",
       "address": "C/ GRATALLOPS, 22",
       "city": "REUS",
       "province": "TARRAGONA",
@@ -2455,13 +2625,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_oozct"
     },
     {
-      "id": "c_1770099866928dz7dv",
       "name": "David Aguilera Fàbrega",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/Montsere, 5",
       "city": "Guimerà",
       "province": "Lleida",
@@ -2469,13 +2639,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_klmnj"
     },
     {
-      "id": "c_1770099866928bfa0w",
       "name": "DAVID ANGEL ORIOL CASTELLO",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ Doctora Castells 11. 4rt 2a",
       "city": "Lleida",
       "province": "Lleida",
@@ -2483,13 +2653,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_ucdyx"
     },
     {
-      "id": "c_1770099866928fb9oh",
       "name": "DAVID SERRANO MORA",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ Les Eres, 6, 3-A",
       "city": "Seròs",
       "province": "Lleida",
@@ -2497,13 +2667,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_ccwss"
     },
     {
-      "id": "c_177009986692875asp",
       "name": "DESARROLLOS INMOBILIARIOS PROHABITAT SL",
       "email": "agonzalez@prohabitat.com.es",
-      "phone": "true",
+      "phone": "",
       "address": "Avenida DEL PILAR 31",
       "city": "Binefar",
       "province": "Huesca",
@@ -2511,27 +2681,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_7rnfi"
     },
     {
-      "id": "c_1770099866928ngley",
       "name": "DIPUTACIÓ DE BARCELONA",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Rambla Catalunya 126",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8008",
+      "postalcode": "08008",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_s7r0e"
     },
     {
-      "id": "c_1770099866928afajj",
       "name": "Diputació de Lleida",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer del Carme, 26",
       "city": "Lleida",
       "province": "Lleida",
@@ -2539,13 +2709,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_wj1eh"
     },
     {
-      "id": "c_1770099866928370i4",
       "name": "Dirección Provincial del SEPE de Lleida",
       "email": "lleida.spges@sepe.es",
-      "phone": "true",
+      "phone": "",
       "address": "Doctor Combelles, 57",
       "city": "Lleida",
       "province": "Lleida",
@@ -2553,41 +2723,41 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_xxgm8"
     },
     {
-      "id": "c_1770099866928izf8r",
       "name": "Electra Homedes S.L.",
-      "email": "es",
+      "email": "",
       "phone": "",
       "address": "Gran, 4, Nau 3",
-      "city": "",
-      "province": "Lleida",
-      "postalcode": "Lleida",
-      "country": "25195",
-      "tag": "Cliente",
-      "company": "",
-      "notes": ""
-    },
-    {
-      "id": "c_1770099866928bz1sm",
-      "name": "Electricidad Industrial Masana Sl",
-      "email": "ester@eimasana.com",
-      "phone": "true",
-      "address": "Calle josep segura farre, 707",
       "city": "Lleida",
       "province": "Lleida",
+      "postalcode": "25195",
+      "country": "es",
+      "tag": "Cliente",
+      "company": "",
+      "notes": "",
+      "id": "contact_1770190431622_m0kxd"
+    },
+    {
+      "name": "Electricidad Industrial Masana Sl",
+      "email": "ester@eimasana.com",
+      "phone": "",
+      "address": "Calle josep segura farre, 707",
+      "city": "Lleida",
+      "province": "Lleida Código postal",
       "postalcode": "25191",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_5e86i"
     },
     {
-      "id": "c_1770099866928celep",
       "name": "Empresa Municipal d’Agenda Urbana de Lleida, SL",
       "email": "annahernandez@paeria.es",
-      "phone": "true",
+      "phone": "",
       "address": "Cavallers, 10-12, 1er",
       "city": "Lleida",
       "province": "Lleida",
@@ -2595,13 +2765,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_o8lxw"
     },
     {
-      "id": "c_1770099866928g52q2",
       "name": "Enric Ribera Gabandé",
       "email": "riberaenric@telefonica.net",
-      "phone": "true",
+      "phone": "",
       "address": "Pompeu Fabra, 1",
       "city": "Alcoletge",
       "province": "Lleida",
@@ -2609,13 +2779,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_t7i91"
     },
     {
-      "id": "c_1770099866928ita4q",
       "name": "Era Agustí SL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Camí de, Carrer Bell-lloc",
       "city": "Vilanova de la Barca",
       "province": "Lleida",
@@ -2623,27 +2793,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_ko6r7"
     },
     {
-      "id": "c_1770099866928p69dk",
       "name": "ESCAPE TRAVEL EQUIPMENT SL",
       "email": "i.sole@naturalopticsgroup.com",
-      "phone": "true",
+      "phone": "",
       "address": "Passeig de Gràcia, 12 - 1er",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8007",
+      "postalcode": "08007",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_3inb6"
     },
     {
-      "id": "c_17700998669288dgt2",
       "name": "Escola Agrària de Tàrrega",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Avinguda de Tarragona, s/n",
       "city": "Tàrrega",
       "province": "Lleida",
@@ -2651,13 +2821,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_rvw96"
     },
     {
-      "id": "c_1770099866928cgyk0",
       "name": "Exem-OLT SL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/Sant Jaume , núm. 11 ,1er",
       "city": "Lleida",
       "province": "Lleida",
@@ -2665,27 +2835,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_ntyjr"
     },
     {
-      "id": "c_1770099866928dl9zz",
       "name": "FARRÉ CONSULTING IMMOBILIARI S.A.",
       "email": "jaldabo@farregrupoinmobiliario.com",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer de ganduxer 44",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8021",
+      "postalcode": "08021",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_toomp"
     },
     {
-      "id": "c_17700998669283vmmq",
       "name": "FARRE LLEIDA CONSULTING IMMOBILIARI, SL",
       "email": "facturas@finquesfarre.com",
-      "phone": "true",
+      "phone": "",
       "address": "Av. Blondel, 11 altell",
       "city": "Lleida",
       "province": "Lleida",
@@ -2693,13 +2863,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_bsq79"
     },
     {
-      "id": "c_177009986692843kgz",
       "name": "Ferran Latorre Quintana",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Passatge Rodamilans num. 3",
       "city": "El Pont de Suert",
       "province": "Lleida",
@@ -2707,27 +2877,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_te6yw"
     },
     {
-      "id": "c_1770099866928yd5ys",
       "name": "Ferrocarrils de la Generalitat de Catalunya",
       "email": "imas@fgc.cat",
-      "phone": "true",
+      "phone": "",
       "address": "Vergos, 44",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8017",
+      "postalcode": "08017",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_ap2dk"
     },
     {
-      "id": "c_1770099866928nfzlq",
       "name": "Figueres Project Management SL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Travessia Vallès 2",
       "city": "Santa Bàrbara",
       "province": "Tarragona",
@@ -2735,13 +2905,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_1mk7o"
     },
     {
-      "id": "c_1770099866928tzns9",
       "name": "Fira de Teatre al Carrer de Tàrrega",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Plaça Sant Antoni, 1",
       "city": "Tàrrega",
       "province": "Lleida",
@@ -2749,13 +2919,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_ehzer"
     },
     {
-      "id": "c_177009986692845boy",
       "name": "Fisiobalans Sl.",
       "email": "info@fisiobalans.com",
-      "phone": "true",
+      "phone": "",
       "address": "Avenida estudi general, 31 - bj",
       "city": "Lleida",
       "province": "Lleida",
@@ -2763,13 +2933,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_y03bq"
     },
     {
-      "id": "c_17700998669289df9q",
       "name": "Fotomecanica Gran Format Sl",
       "email": "enric@granformat.com",
-      "phone": "true",
+      "phone": "",
       "address": "Poligono industrial el segre, par 414 . nav 8",
       "city": "Lleida",
       "province": "Lleida",
@@ -2777,13 +2947,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_vl2is"
     },
     {
-      "id": "c_1770099866928peay1",
       "name": "FRANCISCO CAMPILLO ANTONI",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "CARRER SANT LLUÍS, 23, 3º",
       "city": "CINCTORRES",
       "province": "CASTELLÓ",
@@ -2791,13 +2961,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_tne9z"
     },
     {
-      "id": "c_1770099866928ganmf",
       "name": "Francisco Javier Lobera Lamas",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ Tamarit de Llitera 23, baixos",
       "city": "Lleida",
       "province": "Lleida",
@@ -2805,13 +2975,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_7suas"
     },
     {
-      "id": "c_1770099866928vwz8i",
       "name": "FRESH GOLD QUALITY S.L.",
       "email": "raquel@freshgold.es",
-      "phone": "true",
+      "phone": "",
       "address": "ctra. seros s/n,",
       "city": "Aitona",
       "province": "Lleida",
@@ -2819,27 +2989,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_7f1fs"
     },
     {
-      "id": "c_1770099866928wbhez",
       "name": "Fund. Institut de Recerca de l’Hospital de la S.Creu i S.Pau",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "c. Sant Antoni Maria Claret 167",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8015",
+      "postalcode": "08015",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_goaiq"
     },
     {
-      "id": "c_1770099866928hsocs",
       "name": "FUNDACIÓ ASPAMIS",
       "email": "administracio@aspamis.org",
-      "phone": "true",
+      "phone": "",
       "address": "C/MOSSÈN CINTO VERDAGUER,1",
       "city": "TORREFARRERA",
       "province": "LLEIDA",
@@ -2847,13 +3017,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_pemo0"
     },
     {
-      "id": "c_1770099866928t21sw",
       "name": "FUNDACIO CENTRE RECERCA AGROTECNOLOGIA-AGROTECNIO",
       "email": "jordi.recasens@udl.cat",
-      "phone": "true",
+      "phone": "",
       "address": "Avenida ALCALDE ROVIRA ROURE 191",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -2861,13 +3031,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_sis8t"
     },
     {
-      "id": "c_1770099866928ol8as",
       "name": "FUNDACIÓ LLEIDA 21",
       "email": "jmuntane@paeria.es",
-      "phone": "true",
+      "phone": "",
       "address": "Plaza Paeria 11 PB",
       "city": "Lleida",
       "province": "Lleida",
@@ -2875,27 +3045,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_pwidg"
     },
     {
-      "id": "c_1770099866928ywu02",
       "name": "Fundació Privada Institut de Bioenginyeriade Catalunya (IBEC)",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer de Baldiri Reixac, 10-12 (Parc Científic de Barcelona)",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8028",
+      "postalcode": "08028",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_oktjv"
     },
     {
-      "id": "c_1770099866928ripq2",
       "name": "Fundació Universitat de Lleida",
       "email": "fundacio@udl.cat",
-      "phone": "true",
+      "phone": "",
       "address": "C/ Pere Cabrera, 5",
       "city": "Lleida",
       "province": "Lleida",
@@ -2903,27 +3073,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_910ed"
     },
     {
-      "id": "c_1770099866928cj2h7",
       "name": "Fundación  IL3 - Instituto de Formación Contínua - Universitat de Barcelona",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ Ciutat de Granada 131",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8018",
+      "postalcode": "08018",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_nlm6b"
     },
     {
-      "id": "c_1770099866928r70j4",
       "name": "GENERAL D'ESTUDIS LLEIDA SL",
       "email": "jmfreije@generalestudis.com",
-      "phone": "true",
+      "phone": "",
       "address": "C/ALCALDE COSTA 18",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -2931,27 +3101,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_nlie9"
     },
     {
-      "id": "c_1770099866928degue",
       "name": "Generalitat de Catalunya",
       "email": "info@gencat.cat",
-      "phone": "true",
+      "phone": "",
       "address": "Plaça de Sant Jaume, 4",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8002",
+      "postalcode": "08002",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_7q15t"
     },
     {
-      "id": "c_1770099866928gay0c",
       "name": "GENIS ROTA ACIN",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "AV BARCELONA N35 2C",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -2959,27 +3129,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_wwwnn"
     },
     {
-      "id": "c_17700998669285swmy",
       "name": "Gerardo Baltanás Gordo",
       "email": "cuentas.gbaltanas@gmail.com",
-      "phone": "true",
+      "phone": "",
       "address": "",
       "city": "",
-      "province": "es",
+      "province": "",
       "postalcode": "",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_p6jdf"
     },
     {
-      "id": "c_17700998669282op5s",
       "name": "GERMÁN ABRIL TATO",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ PERPINYÁ, 28, 5È 3A",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -2987,13 +3157,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_wpd7z"
     },
     {
-      "id": "c_17700998669280izwt",
       "name": "GESTION NATURAL OPTICS SL",
       "email": "i.sole@naturalopticsgroup.com",
-      "phone": "true",
+      "phone": "",
       "address": "CALLE DE LA VARIANT (PG INDUSTRIAL TORREFARRERA), 21",
       "city": "TORREFARRERA",
       "province": "LLEIDA",
@@ -3001,27 +3171,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_p5xud"
     },
     {
-      "id": "c_1770099866928m457g",
       "name": "GiC Retail, SL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Passeig Maragall 84, 4r",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8041",
+      "postalcode": "08041",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_qsfqt"
     },
     {
-      "id": "c_1770099866928p8don",
       "name": "GLOXAMAR 2006 S.L.",
       "email": "raquel@freshgold.es",
-      "phone": "true",
+      "phone": "",
       "address": "CTRA SEROS, S/N",
       "city": "AITONA",
       "province": "LLEIDA",
@@ -3029,13 +3199,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_3qpsm"
     },
     {
-      "id": "c_1770099866928o5nd3",
       "name": "Hardnet Systems Informática Profesional S.L.U.",
       "email": "eculleres@hst.cat",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer Baró de Maials, 11 baixos",
       "city": "Lleida",
       "province": "Lleida",
@@ -3043,13 +3213,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_zhi6i"
     },
     {
-      "id": "c_17700998669283kia1",
       "name": "HOTEL ATRIO DEL MAR",
       "email": "comunicacion@ibersol.es",
-      "phone": "true",
+      "phone": "",
       "address": "CALLE LOS LUISOS, NUM. 11",
       "city": "ALCÁZARES",
       "province": "MURCIA",
@@ -3057,13 +3227,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_xvthd"
     },
     {
-      "id": "c_17700998669287e6rl",
       "name": "Ibercity Wien HOTEL COMPANY GMBH",
       "email": "comunicacion@ibersol.es",
-      "phone": "true",
+      "phone": "",
       "address": "Schönbrunner , Schlossstraße 38-40, 1120",
       "city": "Wien",
       "province": "Wien",
@@ -3071,13 +3241,13 @@
       "country": "at",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_fmwu5"
     },
     {
-      "id": "c_1770099866928s8yri",
       "name": "IBERSOL 93 SL",
       "email": "comunicacion@ibersol.es",
-      "phone": "true",
+      "phone": "",
       "address": "C/ VENDRELL 2 – BAJOS",
       "city": "Salou",
       "province": "Tarragona",
@@ -3085,27 +3255,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_aosi3"
     },
     {
-      "id": "c_1770099866928x3cj8",
       "name": "IGMO, SL",
       "email": "cbaixauli@ausolan.com",
-      "phone": "true",
+      "phone": "",
       "address": "CRTA. MADRID - IRUN KM, 244",
       "city": "BURGOS",
       "province": "BURGOS",
-      "postalcode": "9007",
+      "postalcode": "09007",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_vnhn3"
     },
     {
-      "id": "c_177009986692849nlg",
       "name": "ILERDA RESIDENCIAL S.A",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Avinguda Madrid, 25 - Baixos",
       "city": "Lleida",
       "province": "Lleida",
@@ -3113,13 +3283,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_nqjcf"
     },
     {
-      "id": "c_1770099866928k0hwo",
       "name": "ILERFUSTA SL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "LUGAR CAMI LES COMES NAVE 2, NUM 13",
       "city": "TORREFARRERA",
       "province": "LLEIDA",
@@ -3127,13 +3297,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_apjrx"
     },
     {
-      "id": "c_17700998669284canr",
       "name": "ILERLLENGÜES SL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Calle LLUIS COMPANYS 30",
       "city": "Lleida",
       "province": "lleida",
@@ -3141,13 +3311,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_2tjxq"
     },
     {
-      "id": "c_1770099866928u95sb",
       "name": "IMPORTACIONES MM 2015 SL",
       "email": "marta@ingco.es",
-      "phone": "true",
+      "phone": "",
       "address": "Pol. Ind. Camí dels Frares - Calle D, 41 – 43",
       "city": "Lleida",
       "province": "lleida",
@@ -3155,13 +3325,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_kuvno"
     },
     {
-      "id": "c_1770099866928c13fl",
       "name": "IMPRESPLA SL",
       "email": "info@imprespla.com",
-      "phone": "true",
+      "phone": "",
       "address": "Poligono I. PLA D'URGELL, NAU 37",
       "city": "MOLLERUSSA",
       "province": "LLEIDA",
@@ -3169,13 +3339,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_bs7v3"
     },
     {
-      "id": "c_17700998669282vse1",
       "name": "Ingrid Tora Gabarra",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Avinguda Balmes, 14, 6e",
       "city": "Lleida",
       "province": "Lleida",
@@ -3183,13 +3353,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_ejvee"
     },
     {
-      "id": "c_1770099866928uwsaw",
       "name": "INSTALACIONES Y MAQUINARIA AGROALIMENTARIA OLIVA, SL",
       "email": "proveedores@imagosl.com",
-      "phone": "true",
+      "phone": "",
       "address": "Pol. Ind. La Canaleta C. Mas d’en Colom, núm. 1",
       "city": "Tarrega",
       "province": "Lleida",
@@ -3197,27 +3367,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_m7p46"
     },
     {
-      "id": "c_177009986692838uvs",
       "name": "Institut Català de les Dones",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "PLAÇA PERE COROMINES , 1",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8001",
+      "postalcode": "08001",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_mrcrl"
     },
     {
-      "id": "c_1770099866928tw5uo",
       "name": "Institut d'Estudis Ilerdencs",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Plaça Catedral s/n",
       "city": "Lleida",
       "province": "LLEIDA",
@@ -3225,27 +3395,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_rzh78"
     },
     {
-      "id": "c_1770099866928t8pck",
       "name": "Institut de Recerca i Tecnologia Agroalimentàries (IRTA)",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "TORRE MARIMON, CTRA. C-59 KM. 12,1",
       "city": "CALDES DE MONTBUI",
       "province": "Barcelona",
-      "postalcode": "8140",
+      "postalcode": "08140",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_hmkjp"
     },
     {
-      "id": "c_1770099866928dv5mq",
       "name": "Institut Municipal d'Ocupació Salvador Seguí",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ Pare Palau, 5",
       "city": "Lleida",
       "province": "Lleida",
@@ -3253,13 +3423,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431622_vyn56"
     },
     {
-      "id": "c_1770099866928atsdx",
       "name": "Instituto de Salud Carlos III",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Av. de Monforte de Lemos, 5",
       "city": "Madrid",
       "province": "Madrid",
@@ -3267,13 +3437,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_rhadj"
     },
     {
-      "id": "c_1770099866928tg3ms",
       "name": "Isabel Romeu Salvia",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Pl. Mosen Joan Casseny,3",
       "city": "Vielha",
       "province": "Lleida",
@@ -3281,13 +3451,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_6fooj"
     },
     {
-      "id": "c_17700998669289aqu2",
       "name": "Isaura Moyà Francino",
       "email": "info@solpelvialleida.com",
-      "phone": "true",
+      "phone": "650177894",
       "address": "C/Riu Ebre, 35 3r 1a",
       "city": "Lleida",
       "province": "Lleida",
@@ -3295,13 +3465,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_4u5eb"
     },
     {
-      "id": "c_1770099866928t97ay",
       "name": "ISOFRED SL",
       "email": "otomas@isofred.com",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer Pallars Sobirà, 13",
       "city": "Alcoletge",
       "province": "Lleida",
@@ -3309,13 +3479,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_57b05"
     },
     {
-      "id": "c_1770099866928il16f",
       "name": "JOAN MANUEL DOMINGUEZ VILCHEZ",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Sant marti, 20 2C",
       "city": "Lleida",
       "province": "Lleida",
@@ -3323,13 +3493,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_hpz2g"
     },
     {
-      "id": "c_1770099866928txuhm",
       "name": "Joan Marc Craviotto Arnau",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Av. Estudi General 8.",
       "city": "Lleida",
       "province": "Lleida",
@@ -3337,13 +3507,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_b2dli"
     },
     {
-      "id": "c_17700998669282vh5b",
       "name": "José Àngel Bueso Gutiérrez",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Torre Abel S/N,",
       "city": "Sant Llorenç de Montgai",
       "province": "Lleida",
@@ -3351,13 +3521,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_fd5cb"
     },
     {
-      "id": "c_1770099866928dsk4y",
       "name": "JOSEP TORRENT PUIG",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Ctra. Mollerussa-Vinyola, KM 2",
       "city": "Vila-sana",
       "province": "Lleida",
@@ -3365,13 +3535,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_dt8vk"
     },
     {
-      "id": "c_1770099866928g5ca5",
       "name": "JULIAN GARCIA RUIZ I ASSOCIATS SL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Avinguda de lleida, 94",
       "city": "Torrefarrera",
       "province": "Lleida",
@@ -3379,13 +3549,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_6fi2y"
     },
     {
-      "id": "c_1770099866928wpd1d",
       "name": "Junta de Andalucía",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ Juan Antonio de Vizarrón, s/n. Edificio Torretriana. Isla de la Cartuja",
       "city": "Sevilla",
       "province": "Sevilla",
@@ -3393,27 +3563,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_uje3t"
     },
     {
-      "id": "c_1770099866928dwx3l",
       "name": "KAMINS Esports",
       "email": "montse@lagrafica.com",
-      "phone": "true",
+      "phone": "",
       "address": "",
       "city": "",
-      "province": "es",
+      "province": "",
       "postalcode": "",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_37v8x"
     },
     {
-      "id": "c_1770099866928xq1oa",
       "name": "KIRURI LOGISTICA SL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Maria sauret 26 altell 1",
       "city": "Lleida",
       "province": "Lleida",
@@ -3421,13 +3591,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_438th"
     },
     {
-      "id": "c_1770099866928bceic",
       "name": "LA COMA FRUITS SM,SL",
       "email": "fatima.elochchi@lacomafruits.com",
-      "phone": "true",
+      "phone": "",
       "address": "Ctra Seros s/n",
       "city": "Soses",
       "province": "Lleida",
@@ -3435,13 +3605,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_1k0w9"
     },
     {
-      "id": "c_1770099866928vgtpk",
       "name": "Laia Cadens Rubies",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C. Vallcalent, num 1, 3-A",
       "city": "Lleida",
       "province": "Lleida",
@@ -3449,13 +3619,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_le67h"
     },
     {
-      "id": "c_1770099866928chozp",
       "name": "LAURA CALLIZO SANJUAN",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ CANDASNOS, ALTILLO B",
       "city": "FRAGA",
       "province": "HUESCA",
@@ -3463,13 +3633,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_r4vnx"
     },
     {
-      "id": "c_17700998669285oil3",
       "name": "LIDÓN MOLINOS CARCELLER",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "CTRA LA IGLESUELA, 10",
       "city": "CINCTORRES",
       "province": "CASTELLÓ",
@@ -3477,13 +3647,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_81jzf"
     },
     {
-      "id": "c_1770099866928e2pnw",
       "name": "LLEIDOPTICS SL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "AVENIDA ALCALDE PORQUERES, 23",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -3491,13 +3661,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_ccqbp"
     },
     {
-      "id": "c_177009986692817swv",
       "name": "Llorenç Besa Serra",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Calle Sant Sebastià 6",
       "city": "Alpicat",
       "province": "Lleida",
@@ -3505,13 +3675,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_2ksss"
     },
     {
-      "id": "c_1770099866928fqot5",
       "name": "Llorenç Fontanet Sl",
       "email": "vfontanet@fontanetgroup.com",
-      "phone": "true",
+      "phone": "",
       "address": "Poligono industrial fraga este, 7 - parcelas 7 32",
       "city": "fraga",
       "province": "huesca",
@@ -3519,13 +3689,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_cxfty"
     },
     {
-      "id": "c_17700998669280lq3u",
       "name": "LLOTJA BALMES SL",
       "email": "mateublanch@gmail.com",
-      "phone": "true",
+      "phone": "",
       "address": "Avenida balmes, 38 - bj",
       "city": "Lleida",
       "province": "Lleida",
@@ -3533,13 +3703,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_o4b5d"
     },
     {
-      "id": "c_1770099866928fsnt9",
       "name": "Lorena García Salvador",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C. Mayor, 115",
       "city": "Cervera",
       "province": "Lleida",
@@ -3547,13 +3717,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_73ldz"
     },
     {
-      "id": "c_1770099866928hb4n9",
       "name": "LOURDES PARRAMONA MAS",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/Raval 76,",
       "city": "Menàrguens",
       "province": "Lleida",
@@ -3561,13 +3731,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_7ch3t"
     },
     {
-      "id": "c_1770099866928ogzvw",
       "name": "LUIS LAX SL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer de la Vall Fosca, 8.",
       "city": "Lleida",
       "province": "Lleida",
@@ -3575,13 +3745,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_n25d4"
     },
     {
-      "id": "c_1770099866928a6442",
       "name": "MAITE FONT FO",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Pl. Pi i Margall, 3",
       "city": "Corbins",
       "province": "Lleida",
@@ -3589,13 +3759,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_1e63q"
     },
     {
-      "id": "c_1770099866928ebl35",
       "name": "Mancomunitat d'Iniciatives pel Desenvolupament Integral del Territori (MIDIT)",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ Castell 2",
       "city": "Tivissa",
       "province": "Tarragona",
@@ -3603,13 +3773,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_epi1q"
     },
     {
-      "id": "c_1770099866928f1x47",
       "name": "MARC ROCA RUIZ",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Avda. Doctor Fleming, nº 29, 6º 2ª",
       "city": "Lleida",
       "province": "Lleida",
@@ -3617,13 +3787,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_bqais"
     },
     {
-      "id": "c_1770099866928av8kx",
       "name": "MARFONT PACKAGING, S.L.",
       "email": "vfontanet@fontanetgroup.com",
-      "phone": "true",
+      "phone": "",
       "address": "Carretera Ctra. N-II, Km.437",
       "city": "Fraga",
       "province": "Fraga",
@@ -3631,13 +3801,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_np6a4"
     },
     {
-      "id": "c_17700998669281lf66",
       "name": "MARIA DOMINGUEZ DIAZ",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Av Blondel número 21, 1r",
       "city": "Lleida",
       "province": "Lleida",
@@ -3645,13 +3815,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_9m6im"
     },
     {
-      "id": "c_1770099866928rt68j",
       "name": "MARIA JOSEP GONZALEZ GONZALEZ",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "c/ Segrià, 31",
       "city": "Lleida",
       "province": "Lleida",
@@ -3659,13 +3829,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_zztrt"
     },
     {
-      "id": "c_1770099866928e2w79",
       "name": "MARIONA MACIÀ RIVAS",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "CIUTAT DE FRAGA NUM 3 ALT A",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -3673,13 +3843,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_qw757"
     },
     {
-      "id": "c_17700998669284fgjm",
       "name": "Meritxell Casals Brenuy",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Ambaixador Espens 2",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -3687,13 +3857,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_tbe3v"
     },
     {
-      "id": "c_1770099866928ghcd4",
       "name": "MIRÓ AUDIOLOGIA S.L.",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/Torres de Sanui, 19",
       "city": "Lleida",
       "province": "Lleida",
@@ -3701,13 +3871,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_fciuv"
     },
     {
-      "id": "c_1770099866928eir8x",
       "name": "MIRÓ AUTOESCOLES, S.L.",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Avda. Catalunya, 1",
       "city": "Agramunt",
       "province": "Lleida",
@@ -3715,13 +3885,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_awfv4"
     },
     {
-      "id": "c_1770099866928ea31c",
       "name": "MONTSE SABATE ARESTE",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Manuel Carrasco i formiguera 33",
       "city": "Lleida",
       "province": "Lleida",
@@ -3729,13 +3899,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_jcvo4"
     },
     {
-      "id": "c_1770099866928ttaq1",
       "name": "Montserrat Arana i Bernal",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer República del PAraguai, 31",
       "city": "Lleida",
       "province": "Lleida",
@@ -3743,13 +3913,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_b013g"
     },
     {
-      "id": "c_17700998669285u4s2",
       "name": "Museu d'Alcover",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ Costeta, 1-3",
       "city": "Alcover",
       "province": "Tarragona",
@@ -3757,13 +3927,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_ui6y8"
     },
     {
-      "id": "c_1770099866928tw5qh",
       "name": "Natàlia Virgili Riera",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/Ripollès 13 1",
       "city": "Lleida",
       "province": "Lleida",
@@ -3771,13 +3941,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_aa3cd"
     },
     {
-      "id": "c_1770099866928hzy4m",
       "name": "NEODIAGNOSTICA SL",
       "email": "info@myadnlab.com",
-      "phone": "true",
+      "phone": "",
       "address": "TURÓ DE GARDENY S/N EDI H3 2PNT 1OFI",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -3785,13 +3955,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_otmqi"
     },
     {
-      "id": "c_1770099866928nwo8v",
       "name": "Nil Baiget Mateus",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer Prat de la Riba 47",
       "city": "Juneda",
       "province": "Lleida",
@@ -3799,41 +3969,41 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_7872l"
     },
     {
-      "id": "c_177009986692861wub",
       "name": "Núria Andorrà i Serret",
       "email": "",
-      "phone": "true",
-      "address": "C Major 9",
+      "phone": "",
+      "address": "C\\ Major 9",
       "city": "Sant Martí de Maldà",
       "province": "Lleida",
       "postalcode": "25344",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_wpomk"
     },
     {
-      "id": "c_1770099866928nkrg3",
       "name": "Núria Bosch Costafreda",
       "email": "nuria@nuriabosch.com",
-      "phone": "true",
+      "phone": "",
       "address": "Av. Alcalde Porqueres, 49B, 3-3",
       "city": "Lleida",
       "province": "Lleida",
       "postalcode": "25005",
       "country": "es",
-      "tag": "Cliente",
+      "tag": "Cliente/Proveedor",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_ip8ck"
     },
     {
-      "id": "c_1770099866928va6on",
       "name": "NURIA GALLART GENESCA",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Av. Alcalde Rovira Roure, 34, Entresuelo 1A",
       "city": "Lleida",
       "province": "Lleida",
@@ -3841,13 +4011,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_exf2b"
     },
     {
-      "id": "c_1770099866928vrebn",
       "name": "Nuria Gomiz Van De Moosdijk",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Av Estudi General, 3 4-6",
       "city": "Lleida",
       "province": "Lleida",
@@ -3855,13 +4025,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_fjlcy"
     },
     {
-      "id": "c_1770099866928rd304",
       "name": "Olga San Agustín Galera",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "c/ Ballester 19, 1er B",
       "city": "Lleida",
       "province": "Lleida",
@@ -3869,13 +4039,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_yq5ba"
     },
     {
-      "id": "c_1770099866928vug0j",
       "name": "Organisme Autònom de Salut Pública de la Diputació de Girona",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Pujada de Sant Martí, 4-5",
       "city": "Girona",
       "province": "Girona",
@@ -3883,13 +4053,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_yyflb"
     },
     {
-      "id": "c_1770099866928fusum",
       "name": "Oriol Cascon Ruiz",
       "email": "info@oriolcaru.com",
-      "phone": "true",
+      "phone": "665949687",
       "address": "C/Riu Ebre 5",
       "city": "Lleida",
       "province": "Lleida",
@@ -3897,27 +4067,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_hvpam"
     },
     {
-      "id": "c_1770099866928qrpmi",
       "name": "Oriol Clavera Riera",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "c/ Paisley, 26",
       "city": "Sant Vicenç de Torelló",
       "province": "Lleida",
-      "postalcode": "8571",
+      "postalcode": "08571",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_l6540"
     },
     {
-      "id": "c_1770099866928h86mh",
       "name": "ORIOL ROCH DIAZ",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "NUCLI DEL BULLIDOR, MASIA 6",
       "city": "BARBENS",
       "province": "LLEIDA",
@@ -3925,13 +4095,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_frgbh"
     },
     {
-      "id": "c_17700998669289h91q",
       "name": "OSCAR IRANZO BARBECHO",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Rambla d'Aragó, 7,",
       "city": "Lleida",
       "province": "Lleida",
@@ -3939,13 +4109,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_zjmlp"
     },
     {
-      "id": "c_1770099866928ky6xk",
       "name": "Oscar Paulo Bello Molins",
       "email": "oscar@osteopatiaequilibri.cat",
-      "phone": "true",
+      "phone": "653 902 621",
       "address": "Av/ Alcalde Porqueres 49B 3r 3a",
       "city": "Lleida",
       "province": "Lleida",
@@ -3953,13 +4123,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_0h8fi"
     },
     {
-      "id": "c_17700998669285ez9z",
       "name": "Patronat de Promoció Econòmica * Patronat Promoció Econòmica",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Rambla Ferran, 18 1º",
       "city": "Lleida",
       "province": "LLEIDA",
@@ -3967,13 +4137,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_c2fsj"
     },
     {
-      "id": "c_1770099866928qxk1f",
       "name": "Patronat Fires de Mollerussa",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Avinguda del Canal",
       "city": "Mollerussa",
       "province": "LLEIDA",
@@ -3981,13 +4151,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_orzc5"
     },
     {
-      "id": "c_1770099866928ao84z",
       "name": "Patronat Intercomarcal de Turisme de la Diputació de Lleida",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Rambla de Ferran, 18",
       "city": "Lleida",
       "province": "Lleida",
@@ -3995,27 +4165,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_omxz8"
     },
     {
-      "id": "c_17700998669282ownt",
       "name": "Pau de la Calle Argeles",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer Rector Triadó 86, 1 2",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8014",
+      "postalcode": "08014",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_dtc7i"
     },
     {
-      "id": "c_1770099866928qswq7",
       "name": "Paulí Cots Palau",
       "email": "info@soldequip.es",
-      "phone": "true",
+      "phone": "",
       "address": "C/ Prat de la Riba nº 42",
       "city": "Les Borges Blanques",
       "province": "Lleida",
@@ -4023,13 +4193,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_4k8l5"
     },
     {
-      "id": "c_1770099866928ndgo7",
       "name": "PAYPER S.A.",
       "email": "Lone.Buhmann@payper.com",
-      "phone": "true",
+      "phone": "",
       "address": "Pol. Ind. Vinyes del Mig, parc. 12-14",
       "city": "Bell-lloc d’Urgell",
       "province": "Lleida",
@@ -4037,13 +4207,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_ycqtj"
     },
     {
-      "id": "c_1770099866928lwwso",
       "name": "Peritalia 360 S.L.P.",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Avinguda Doctor Fleming 29 6º 2ª",
       "city": "Lleida",
       "province": "Lleida",
@@ -4051,13 +4221,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_i1lsg"
     },
     {
-      "id": "c_177009986692810lbj",
       "name": "PERITOVAL, S.L.",
       "email": "tecnico@peritoval.com",
-      "phone": "true",
+      "phone": "",
       "address": "CALLE BISBE IRURITA, NUM. 6 PLANTA 5, PUERTA 3 25006",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -4065,41 +4235,41 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_v4gt2"
     },
     {
-      "id": "c_1770099866928hdrxw",
       "name": "PREVINTEGRAL, S.L.",
       "email": "lramos@formintegral.com",
-      "phone": "true",
-      "address": "C. Llorenç Agustí Claveria 105 2n",
+      "phone": "",
+      "address": "C.\\ Llorenç Agustí Claveria 105 2n",
       "city": "Lleida",
       "province": "25191",
       "postalcode": "25191",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_remei"
     },
     {
-      "id": "c_177009986692834qy3",
       "name": "Promotora d'Exportacions Catalanes, SA",
       "email": "gmoliner@gencat.cat",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer Dr. Roux nº80",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8017",
+      "postalcode": "08017",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_vi8x2"
     },
     {
-      "id": "c_1770099866928fclu5",
       "name": "PROTECFARMA SL",
       "email": "xavi@naturalopticsgroup.com",
-      "phone": "true",
+      "phone": "",
       "address": "C/ Velázquez 10, 1ª Planta",
       "city": "Madrid",
       "province": "Madrid",
@@ -4107,13 +4277,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_q51xu"
     },
     {
-      "id": "c_17700998669282tjuq",
       "name": "QUERALT CONSULTING IMMOBILIARI SL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "PARTIDA TORRES DE SANUI, 66",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -4121,13 +4291,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_3u050"
     },
     {
-      "id": "c_1770099866928o9437",
       "name": "Rafael Nogueras jove",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Edif.ribagorça e6 4-2",
       "city": "Almenar",
       "province": "Lleida",
@@ -4135,13 +4305,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_845xr"
     },
     {
-      "id": "c_177009986692829q5s",
       "name": "Ramon Oromí Vidal",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Avda. Dr. Iglesias, 18",
       "city": "Torregrossa",
       "province": "Lleida",
@@ -4149,13 +4319,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_w8vjt"
     },
     {
-      "id": "c_17700998669288sode",
       "name": "Raquel Venque Culell",
       "email": "raquelvenquepsicologia@gmail.com",
-      "phone": "true",
+      "phone": "",
       "address": "Passatge del Sindicat Agrícola, 15",
       "city": "Cervera",
       "province": "Lleida",
@@ -4163,13 +4333,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_iuuut"
     },
     {
-      "id": "c_1770099866928jqygy",
       "name": "RENATA FERNÁNDEZ",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Riquer, 3, 3ºb",
       "city": "Lleida",
       "province": "Lleida",
@@ -4177,13 +4347,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_3hgtb"
     },
     {
-      "id": "c_1770099866928mv3ir",
       "name": "Ribeplac Sl.",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Avenida Guillem Graell, 26 - BJ",
       "city": "La Seu d'Urgell",
       "province": "Llerida",
@@ -4191,13 +4361,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_0rqg6"
     },
     {
-      "id": "c_17700998669289bjy5",
       "name": "Ricard Recasens Ribé",
       "email": "ricard.nutricionista@gmail.com",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer enric de carcer nº11",
       "city": "Tàrrega",
       "province": "Lleida",
@@ -4205,13 +4375,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_wmcix"
     },
     {
-      "id": "c_1770099866928y9q1a",
       "name": "Ricard Salamanca Rius",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ NORD 26 BX",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -4219,27 +4389,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_ntvp7"
     },
     {
-      "id": "c_1770099866928iphwb",
       "name": "Roger Llonch Seguí",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Muntaner 378 1er 1a",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8006",
+      "postalcode": "08006",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_p6tln"
     },
     {
-      "id": "c_17700998669282vbsb",
       "name": "ROMINSTAL SEGRIA,S.L",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Pol. Ind. El cami dels Frares c/J",
       "city": "Lleida",
       "province": "Lleida",
@@ -4247,13 +4417,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_78u9r"
     },
     {
-      "id": "c_1770099866928ip7lg",
       "name": "Rosina Guiu Figueras",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer Segria 26 bis, entresol, 1a",
       "city": "Lleida",
       "province": "Lleida",
@@ -4261,13 +4431,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_eb5u8"
     },
     {
-      "id": "c_1770099866928n8lji",
       "name": "ROVIRA BERGUA, S.L.",
       "email": "pperez@rovirabergua.com",
-      "phone": "true",
+      "phone": "",
       "address": "Av. Blondel 21, 25007 Lleida",
       "city": "Lleida",
       "province": "Lleida",
@@ -4275,13 +4445,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_qycil"
     },
     {
-      "id": "c_1770099866928yn2lu",
       "name": "ROVIRA PALAU S.L.",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Av Blondel, 21  1º",
       "city": "Lleida",
       "province": "Lleida",
@@ -4289,13 +4459,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_m4ga4"
     },
     {
-      "id": "c_1770099866928q10pg",
       "name": "Sat Ort Bell",
       "email": "comercial@ortbell.com",
-      "phone": "true",
+      "phone": "",
       "address": "c/ nou, 8",
       "city": "Alpicat",
       "province": "Lleida",
@@ -4303,13 +4473,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_evhyr"
     },
     {
-      "id": "c_1770099866928o42e2",
       "name": "SERENA PAREDES, S.L.",
       "email": "info@napolilasensacio.com",
-      "phone": "true",
+      "phone": "",
       "address": "Calle Esperanza Gonzalez 3",
       "city": "Lleida",
       "province": "Lleida",
@@ -4317,13 +4487,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_v0z3b"
     },
     {
-      "id": "c_1770099866928rhzwg",
-      "name": "Servei Català de la Salud - Regió Sanitària Lleida",
+      "name": "Servei Català de la Salut - Regió Sanitària Lleida",
       "email": "rsegura@catsalut.cat",
-      "phone": "true",
+      "phone": "",
       "address": "Av. Rovira Roure, 2",
       "city": "Lleida",
       "province": "Lleida",
@@ -4331,41 +4501,41 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_rfqg9"
     },
     {
-      "id": "c_1770099866928ds2kx",
       "name": "Servei Català de Trànsit",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C. Diputació 355",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8009",
+      "postalcode": "08009",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_duw0u"
     },
     {
-      "id": "c_17700998669289yaxi",
       "name": "Serveis Ambientals de Castelldefels, S.A",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Plaça de les Caramelles, 2",
       "city": "Castelldefels",
       "province": "Barcelona",
-      "postalcode": "8860",
+      "postalcode": "08860",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_9qoce"
     },
     {
-      "id": "c_1770099866928rhoy8",
       "name": "SERVEIS I MANTENIMENT INDUSTRIAL LLEIDA S.L.",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "P.I CAMP LLONG C/ TORRE BLANCA NUM 3",
       "city": "BALAGUER",
       "province": "LLEIDA",
@@ -4373,27 +4543,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_md2vp"
     },
     {
-      "id": "c_177009986692821ju0",
       "name": "SERVICIO PÚBLICO DE EMPLEO ESTATAL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Parc de l'Estació del Nord s/n",
       "city": "BARCELONA",
       "province": "BARCELONA",
-      "postalcode": "8018",
+      "postalcode": "08018",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_yw2dd"
     },
     {
-      "id": "c_1770099866928sszzt",
       "name": "SIGNUM PROJECTS SL",
       "email": "benet@signumprojects.com",
-      "phone": "true",
+      "phone": "",
       "address": "c/ Segarra s/n",
       "city": "Alcoletge",
       "province": "Lleida",
@@ -4401,13 +4571,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_61ccl"
     },
     {
-      "id": "c_1770099866928c87ns",
       "name": "Sílvia Aresté Mora",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Avinguda Catalunya 8, 1r",
       "city": "Maials",
       "province": "Lleida",
@@ -4415,13 +4585,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_7d8ot"
     },
     {
-      "id": "c_1770099866928s7lge",
       "name": "Sílvia Solano Castarlenas",
       "email": "silvia@scomunicacio.com",
-      "phone": "true",
+      "phone": "",
       "address": "Calle C/ Pere Cavassèquia 23 6 1",
       "city": "Lleida",
       "province": "Lleida",
@@ -4429,27 +4599,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_skcds"
     },
     {
-      "id": "c_1770099866928my2vr",
       "name": "SPELLARTS,S.L.U",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer Mallorca, 18 4 A",
       "city": "Premià de Mar",
       "province": "Barcelona",
-      "postalcode": "8330",
+      "postalcode": "08330",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_2w8ga"
     },
     {
-      "id": "c_17700998669283hr23",
       "name": "SUBDELEGACIÓN DEL GOBIERNO EN LLEIDA",
       "email": "genis.alarcon@correo.gob.es",
-      "phone": "true",
+      "phone": "",
       "address": "Plaça de la Pau, 1.",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -4457,13 +4627,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_ozrxr"
     },
     {
-      "id": "c_1770099866928js6fg",
       "name": "SUNSET PINO ALTO, SL.",
       "email": "agonzalez@prohabitat.com.es",
-      "phone": "true",
+      "phone": "",
       "address": "Avda del Pilar, 31",
       "city": "Binéfar",
       "province": "Huesca",
@@ -4471,13 +4641,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_yfez0"
     },
     {
-      "id": "c_1770099866928fepsu",
       "name": "TERESA MAJORAL BRESCÓ",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "PRAT DE LA RIBA Nº 5",
       "city": "LES PALLARGUES",
       "province": "LLEIDA",
@@ -4485,13 +4655,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_xu6vd"
     },
     {
-      "id": "c_1770099866928ut5a4",
       "name": "Torsitrad, SLU",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Roca Labrador, 29",
       "city": "Lleida",
       "province": "Lleida",
@@ -4499,13 +4669,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_fo4xf"
     },
     {
-      "id": "c_17700998669288vszd",
       "name": "Transports Jaume Gabarrella Berge sl",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ MERCE RODOREDA, 13.",
       "city": "Balaguer",
       "province": "Lleida",
@@ -4513,13 +4683,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_imdbp"
     },
     {
-      "id": "c_177009986692882ani",
       "name": "TRESLLEM SL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer de la Dra. Castells, 10, Altell 1",
       "city": "Lleida",
       "province": "Lleida",
@@ -4527,13 +4697,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_dhwqi"
     },
     {
-      "id": "c_17700998669283txy2",
       "name": "TUBS1313, S.A.",
       "email": "tubs1313@tubs1313.com",
-      "phone": "true",
+      "phone": "",
       "address": "Carretera CTRA. LLEIDA -BALAGUER, C-13 km 26",
       "city": "VALLFOGONA DE BALAGUER",
       "province": "LLEIDA",
@@ -4541,13 +4711,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_f29xq"
     },
     {
-      "id": "c_1770099866928bbixs",
       "name": "Turisme de Lleida",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ Major, 31",
       "city": "Lleida",
       "province": "Lleida",
@@ -4555,41 +4725,41 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_9gmir"
     },
     {
-      "id": "c_1770099866928kjfp0",
       "name": "Universitat Autònoma de Barcelona",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Edificio A. Campus Universitario UAB.",
       "city": "Bellaterra",
       "province": "Barcelona",
-      "postalcode": "8193",
+      "postalcode": "08193",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_yhj21"
     },
     {
-      "id": "c_1770099866928hbkwn",
       "name": "Universitat de Barcelona",
       "email": "digitalitzacio.factures@ub.edu",
-      "phone": "true",
+      "phone": "",
       "address": "Gran Via de les Corts Catalanes, 585",
       "city": "Barcelona",
       "province": "Barcelona",
-      "postalcode": "8007",
+      "postalcode": "08007",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_cgra1"
     },
     {
-      "id": "c_1770099866928h6unb",
       "name": "Universitat de Lleida",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Pl. de Víctor Siurana, 1",
       "city": "Lleida",
       "province": "Lleida",
@@ -4597,27 +4767,27 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_95dv2"
     },
     {
-      "id": "c_17700998669281aaqa",
       "name": "Universitat Ramon Llull",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer de Claravall, 1-3",
       "city": "Barcelona",
       "province": "",
-      "postalcode": "8022",
+      "postalcode": "08022",
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_x1gzi"
     },
     {
-      "id": "c_1770099866928vmj0x",
       "name": "UTE CARRER RIU EBRE (ARNO INFRAESTRUCTURES SLU I BENITO ARNÓ SAU UTE)",
       "email": "cgregori@arno.es",
-      "phone": "true",
+      "phone": "",
       "address": "Plaça l'Ensenyança nº 1",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -4625,13 +4795,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_i4ky2"
     },
     {
-      "id": "c_1770099866928n2jmw",
       "name": "UTE SERVEIS DE COMUNICACIO LA GRAFICA",
       "email": "silvia@scomunicacio.com",
-      "phone": "true",
+      "phone": "",
       "address": "CALLE MANUEL GAYA I TOMAS (BX), 11",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -4639,13 +4809,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_z560s"
     },
     {
-      "id": "c_1770099866928rxp8y",
       "name": "Valèria Macías Pagès",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "C/ Sant Miquel, 52",
       "city": "Cubells",
       "province": "Lleida",
@@ -4653,13 +4823,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_hvo9c"
     },
     {
-      "id": "c_17700998669288mnw6",
       "name": "Vallter, SA",
       "email": "imas@fgc.cat",
-      "phone": "true",
+      "phone": "",
       "address": "ESTACION DE ESQUI VALLER 2000, 2000",
       "city": "Setcases",
       "province": "Girona",
@@ -4667,13 +4837,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_1tzt0"
     },
     {
-      "id": "c_1770099866928m7uz9",
       "name": "Venditec Technologies Sl.",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "Rambla de Ferran, 21 - 7",
       "city": "Lleida",
       "province": "Lleida",
@@ -4681,13 +4851,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_8y0x6"
     },
     {
-      "id": "c_17700998669287l8ep",
       "name": "VERCON LLEIDA, SL",
       "email": "",
-      "phone": "true",
+      "phone": "",
       "address": "CALLE TON SIRERA, 4",
       "city": "LLEIDA",
       "province": "LLEIDA",
@@ -4695,13 +4865,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_olj3v"
     },
     {
-      "id": "c_17700998669284czae",
       "name": "VIVEROS QUALITYPLANT SLU",
       "email": "alicia.p@qualityplant.es",
-      "phone": "true",
+      "phone": "",
       "address": "Pda. de MALGOVERN, 18",
       "city": "Lleida",
       "province": "Lleida",
@@ -4709,13 +4879,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_zz5k3"
     },
     {
-      "id": "c_17700998669287lxim",
       "name": "WHANAU TRAINING SL.",
       "email": "crossfitbalaguer@gmail.com",
-      "phone": "true",
+      "phone": "",
       "address": "Carrer Josep Plà, 10",
       "city": "L'Hostal Nou i la Codosa",
       "province": "Lleida",
@@ -4723,13 +4893,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_gzteq"
     },
     {
-      "id": "c_1770099866928aim64",
       "name": "WOOD4YOU TALARN SL",
       "email": "info@wood4you.net",
-      "phone": "true",
+      "phone": "",
       "address": "C/General Prim 50",
       "city": "Bellvís",
       "province": "lleida",
@@ -4737,13 +4907,13 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_kfvzy"
     },
     {
-      "id": "c_177009986692846mk9",
       "name": "Xavier Veà Escartín",
       "email": "xaviveapintors@gmail.com",
-      "phone": "true",
+      "phone": "",
       "address": "C/Camí de Picos núm 6 1r 1a",
       "city": "Lleida",
       "province": "Lleida",
@@ -4751,7 +4921,8 @@
       "country": "es",
       "tag": "Cliente",
       "company": "",
-      "notes": ""
+      "notes": "",
+      "id": "contact_1770190431623_di3cu"
     }
   ],
   "automated_email_uids": [],
@@ -4871,6 +5042,233 @@
     "drive_18346",
     "drive_31283",
     "drive_31284",
-    "drive_580982"
+    "drive_580982",
+    "drive_581150",
+    "drive_581166",
+    "drive_581172",
+    "drive_581157",
+    "drive_581155",
+    "drive_581176",
+    "drive_581159",
+    "drive_581160",
+    "drive_581161",
+    "drive_581163",
+    "drive_31297",
+    "drive_31315",
+    "drive_31309",
+    "drive_31314",
+    "drive_31304",
+    "drive_31291",
+    "drive_31317",
+    "drive_31294",
+    "drive_31320",
+    "drive_31318",
+    "drive_31293",
+    "drive_31316",
+    "drive_31306",
+    "drive_31303",
+    "drive_31292",
+    "drive_31296",
+    "drive_31301",
+    "drive_31311",
+    "drive_31302",
+    "drive_31299",
+    "drive_18357",
+    "drive_18349",
+    "drive_18350",
+    "drive_18370",
+    "drive_18358",
+    "drive_31313",
+    "drive_18354",
+    "drive_18351",
+    "drive_31298",
+    "drive_18355",
+    "drive_18361",
+    "drive_18369",
+    "drive_894",
+    "drive_895",
+    "drive_31307",
+    "drive_897",
+    "drive_900",
+    "drive_31305",
+    "drive_31312",
+    "drive_899",
+    "drive_581164",
+    "drive_31319",
+    "drive_31308",
+    "drive_13042",
+    "drive_13030",
+    "drive_13041",
+    "drive_18363",
+    "drive_898",
+    "drive_581190",
+    "drive_581196",
+    "drive_581195",
+    "drive_581194",
+    "drive_581192",
+    "drive_581191",
+    "drive_581213",
+    "drive_581211",
+    "drive_581210",
+    "drive_581216",
+    "drive_29",
+    "drive_430",
+    "drive_429",
+    "drive_445",
+    "drive_428",
+    "drive_421",
+    "drive_444",
+    "drive_438",
+    "drive_31321",
+    "drive_31322",
+    "drive_45",
+    "drive_48",
+    "drive_47",
+    "drive_34",
+    "drive_31",
+    "drive_38",
+    "drive_58",
+    "drive_61",
+    "drive_32",
+    "drive_39",
+    "drive_53",
+    "drive_43",
+    "drive_59",
+    "drive_42",
+    "drive_56",
+    "drive_60",
+    "drive_54",
+    "drive_35",
+    "drive_52",
+    "drive_33",
+    "drive_18380",
+    "drive_18377",
+    "drive_18376",
+    "drive_18378",
+    "drive_903",
+    "drive_904",
+    "drive_581217",
+    "drive_31323",
+    "drive_581218",
+    "drive_18381",
+    "drive_581221",
+    "drive_18383",
+    "drive_581228",
+    "drive_18384",
+    "drive_13044",
+    "drive_13045",
+    "drive_581229",
+    "drive_581230",
+    "drive_581231",
+    "drive_31327",
+    "drive_31325",
+    "drive_31326",
+    "drive_18385",
+    "drive_905",
+    "drive_37",
+    "drive_581236",
+    "drive_18387",
+    "drive_581243",
+    "drive_581242",
+    "drive_581245",
+    "drive_18391",
+    "drive_18393",
+    "drive_18390",
+    "drive_18396",
+    "drive_13046",
+    "drive_581258",
+    "drive_581263",
+    "drive_31329",
+    "drive_581262",
+    "drive_31328",
+    "drive_581264",
+    "drive_581266",
+    "drive_18401",
+    "drive_906",
+    "drive_18400",
+    "drive_581269",
+    "drive_581267",
+    "drive_31331",
+    "drive_581273",
+    "drive_31333",
+    "drive_581276",
+    "drive_31334",
+    "drive_581280",
+    "drive_581282",
+    "drive_581283",
+    "drive_31335",
+    "drive_31336",
+    "drive_18403",
+    "drive_581291",
+    "drive_581290",
+    "drive_581292",
+    "drive_18407",
+    "drive_18408",
+    "drive_581293",
+    "drive_31337",
+    "drive_581298",
+    "drive_581301",
+    "drive_581300",
+    "drive_581304",
+    "drive_581299",
+    "drive_31338",
+    "drive_18411",
+    "drive_18413",
+    "drive_581305",
+    "drive_581311",
+    "drive_31339",
+    "drive_581312",
+    "drive_31340",
+    "drive_581315",
+    "drive_581314",
+    "drive_31341",
+    "drive_31342",
+    "drive_581317",
+    "drive_581323",
+    "drive_31344",
+    "drive_31345",
+    "drive_581336",
+    "drive_581335",
+    "drive_31346",
+    "drive_18420",
+    "drive_18421"
+  ],
+  "alerts": [
+    {
+      "title": "Servicio de diseño gráfico para campaña de verano",
+      "source": "Generalitat",
+      "date": "22/02/2026",
+      "link": "#",
+      "isAlert": true,
+      "id": "alert_1770195260154",
+      "createdAt": 1770195260154
+    },
+    {
+      "title": "Servicio de diseño gráfico para campaña de verano",
+      "source": "Generalitat",
+      "date": "22/02/2026",
+      "link": "#",
+      "isAlert": true,
+      "id": "alert_1770195260156",
+      "createdAt": 1770195260156
+    },
+    {
+      "title": "Mantenimiento y diseño web corporativo",
+      "source": "PLACSP",
+      "date": "15/03/2026",
+      "link": "#",
+      "isAlert": true,
+      "id": "alert_1770195260157",
+      "createdAt": 1770195260157
+    },
+    {
+      "title": "Mantenimiento y diseño web corporativo",
+      "source": "PLACSP",
+      "date": "15/03/2026",
+      "link": "#",
+      "isAlert": true,
+      "id": "alert_1770195260158",
+      "createdAt": 1770195260158
+    }
   ]
 }

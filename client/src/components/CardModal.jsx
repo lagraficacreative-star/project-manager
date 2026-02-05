@@ -891,12 +891,28 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
                                             <Paperclip size={16} /> Añadir Adjunto (Real Upload)
                                         </button>
                                         <div className="mt-2 space-y-1">
-                                            {attachments.map(att => (
-                                                <div key={att.id} className="flex items-center gap-2 text-xs bg-gray-50 px-2 py-1 rounded border border-gray-200 shadow-sm">
-                                                    <a href={att.url} target="_blank" rel="noreferrer" className="flex-1 truncate hover:text-brand-orange hover:underline">{att.filename}</a>
-                                                    <button onClick={() => removeAttachment(att.id)} className="text-red-400 hover:text-red-600"><X size={12} /></button>
-                                                </div>
-                                            ))}
+                                            {attachments.map(att => {
+                                                const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(att.filename);
+                                                return (
+                                                    <div key={att.id} className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg border border-gray-200 shadow-sm group">
+                                                        {isImage ? (
+                                                            <div className="w-10 h-10 rounded border border-gray-200 overflow-hidden bg-white shrink-0">
+                                                                <img src={att.url} alt={att.filename} className="w-full h-full object-cover" />
+                                                            </div>
+                                                        ) : (
+                                                            <div className="w-10 h-10 rounded border border-gray-200 bg-white flex items-center justify-center text-gray-400 shrink-0">
+                                                                <FileText size={18} />
+                                                            </div>
+                                                        )}
+                                                        <a href={att.url} target="_blank" rel="noreferrer" className="flex-1 truncate text-xs font-medium hover:text-brand-orange hover:underline">
+                                                            {att.filename}
+                                                        </a>
+                                                        <button onClick={() => removeAttachment(att.id)} className="p-1 opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-600 transition-opacity">
+                                                            <X size={14} />
+                                                        </button>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     </div>
                                 </div>
@@ -1283,12 +1299,28 @@ const CardModal = ({ isOpen, onClose, card, columnId, boardId, onSave, onDelete,
                                             </button>
                                         </div>
                                         <div className="mt-2 space-y-1">
-                                            {economic.attachments && economic.attachments.map(att => (
-                                                <div key={att.id} className="flex items-center gap-2 text-xs bg-gray-50 px-2 py-1 rounded border border-gray-200 shadow-sm">
-                                                    <a href={att.url} target="_blank" rel="noreferrer" className="flex-1 truncate hover:text-brand-orange hover:underline">{att.filename}</a>
-                                                    <button onClick={() => removeEconomicAttachment(att.id)} className="text-red-400 hover:text-red-600"><X size={12} /></button>
-                                                </div>
-                                            ))}
+                                            {economic.attachments && economic.attachments.map(att => {
+                                                const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(att.filename);
+                                                return (
+                                                    <div key={att.id} className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg border border-gray-200 shadow-sm group">
+                                                        {isImage ? (
+                                                            <div className="w-10 h-10 rounded border border-gray-200 overflow-hidden bg-white shrink-0">
+                                                                <img src={att.url} alt={att.filename} className="w-full h-full object-cover" />
+                                                            </div>
+                                                        ) : (
+                                                            <div className="w-10 h-10 rounded border border-gray-200 bg-white flex items-center justify-center text-gray-400 shrink-0">
+                                                                <FileText size={18} />
+                                                            </div>
+                                                        )}
+                                                        <a href={att.url} target="_blank" rel="noreferrer" className="flex-1 truncate text-xs font-medium hover:text-brand-orange hover:underline">
+                                                            {att.filename}
+                                                        </a>
+                                                        <button onClick={() => removeEconomicAttachment(att.id)} className="p-1 opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-600 transition-opacity">
+                                                            <X size={14} />
+                                                        </button>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     </div>
                                 </div>

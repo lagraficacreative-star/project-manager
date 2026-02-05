@@ -13,7 +13,19 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
     const [allCards, setAllCards] = useState([]);
     const [users, setUsers] = useState([]);
     const [stats, setStats] = useState({ active: 0, completed: 0, totalProjects: 0 });
-    const [allTenders, setAllTenders] = useState([]);
+    const [docsConfig, setDocsConfig] = useState({ sections: [] });
+
+    useEffect(() => {
+        const loadDocsConfig = async () => {
+            try {
+                const data = await api.getData();
+                if (data.docs_config) setDocsConfig(data.docs_config);
+            } catch (err) {
+                console.error("Failed to load docs config", err);
+            }
+        };
+        loadDocsConfig();
+    }, []);
     const [allDocs, setAllDocs] = useState([]);
 
     // Get unique clients & labels for filter
@@ -633,7 +645,7 @@ const Dashboard = ({ selectedUsers, selectedClient, currentUser, isManagementUnl
 
             {activeTab === 'folders' ? (
                 <div className="px-2">
-                    <FolderGrid mode="general" />
+                    <FolderGrid mode="general" customFolders={docsConfig.sections} />
                 </div>
             ) : (
                 <>
