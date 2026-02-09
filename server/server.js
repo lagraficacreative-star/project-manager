@@ -136,6 +136,29 @@ const syncToGoogleSheets = async () => {
     }
 };
 
+const backupDatabase = async () => {
+    if (!GOOGLE_SCRIPT_URL) return;
+    try {
+        console.log("💾 Starting Daily Backup...");
+        if (fs.existsSync(DB_FILE)) {
+            const dbContent = fs.readFileSync(DB_FILE, { encoding: 'base64' });
+            const dateStr = new Date().toISOString().split('T')[0];
+            const filename = `db_backup_${dateStr}.json`;
+            await saveFileToDrive(filename, dbContent, ['BACKUPS']);
+            console.log(`✅ Daily Backup Complete: ${filename}`);
+        } else {
+            console.error("❌ DB File not found for backup");
+        }
+    } catch (error) {
+        console.error("❌ Daily Backup Failed:", error);
+    }
+};
+
+// Schedule Daily Backup (every 24 hours)
+setInterval(backupDatabase, 24 * 60 * 60 * 1000);
+// Run one initial backup 5 minutes after start to ensure data is safe
+setTimeout(backupDatabase, 5 * 60 * 1000);
+
 // --- GLOBAL EMAIL CACHE ---
 const emailCache = {}; // { userId: { folder: { timestamp: 0, emails: [] } } }
 
